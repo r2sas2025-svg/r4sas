@@ -1,0 +1,42 @@
+---
+title: "Git in RStudio (Setup & Auth)"
+---
+
+## One-Time Setup
+- Install Git and ensure `git --version` works.
+- In R:
+```{r eval=FALSE}
+usethis::use_git_config(user.name = "Your Name", user.email = "you@example.com")
+```
+
+## Initialize Git for the Current Project
+```{r eval=FALSE}
+usethis::use_git()
+```
+
+## Connect to GitHub
+- Create a GitHub account.
+- In R:
+```{r eval=FALSE}
+usethis::create_github_token()
+gitcreds::gitcreds_set()  # paste token when prompted
+usethis::use_github(protocol = "https")
+```
+Or set up SSH keys via RStudio (`Tools > Global Options > Git/SVN`).
+
+## Typical Workflow
+1. Stage changes (Git pane in RStudio).
+2. Commit with a clear message.
+3. Push to origin (GitHub).
+
+## Remove Git from a Project (macOS/RStudio)
+- In Finder/Terminal, delete the hidden `.git` folder in the project root (careful!).
+- Or from Terminal at project root:
+```
+rm -rf .git
+```
+- Reopen project in RStudio; Git pane will disappear.
+
+**Exercises**
+- Create a new repo for this Quarto course and push it.
+- Branch, make a change, open a Pull Request on GitHub.

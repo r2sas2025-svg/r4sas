@@ -1,0 +1,15 @@
+{
+  "hash": "dfe3de7da6cfa412b17d0ed4fe4b9752",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Custom Functions & Validation\"\n---\n\n# Writing Functions\n\n::: {.cell}\n\n```{.r .cell-code}\nsafe_mean <- function(x, na.rm = TRUE) {\n  stopifnot(is.numeric(x))\n  mean(x, na.rm = na.rm)\n}\nsafe_mean(c(1, 2, NA))\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 1.5\n```\n\n\n:::\n:::\n\n\n# Error Handling\n\n::: {.cell}\n\n```{.r .cell-code}\nrobust_divide <- function(a, b) {\n  tryCatch(a / b,\n           warning = function(w) NA_real_,\n           error   = function(e) NA_real_)\n}\nrobust_divide(10, 0)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] Inf\n```\n\n\n:::\n:::\n\n\n# Unit Testing with testthat\nInstall once: `install.packages(c(\"testthat\",\"devtools\",\"usethis\",\"roxygen2\"))`\n\n\n::: {.cell}\n\n```{.r .cell-code}\nusethis::use_testthat()\nusethis::use_test(\"safe_mean\")\n```\n:::\n\n\nCreate `tests/testthat/test-safe_mean.R`:\n\n::: {.cell}\n\n```{.r .cell-code}\ntestthat::test_that(\"safe_mean works\", {\n  x <- c(1,2,NA)\n  testthat::expect_equal(safe_mean(x), 1.5)\n  testthat::expect_error(safe_mean(\"oops\"))\n})\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\nTest passed 😸\n```\n\n\n:::\n:::\n\n\n# Document with roxygen2\n\n::: {.cell}\n\n```{.r .cell-code}\n#' Compute a safe mean\n#' @param x Numeric vector\n#' @param na.rm Logical; remove NAs\n#' @return Numeric scalar\n#' @examples\n#' safe_mean(c(1,2,NA))\n#' @export\nsafe_mean <- function(x, na.rm = TRUE) {\n  stopifnot(is.numeric(x))\n  mean(x, na.rm = na.rm)\n}\n```\n:::\n\nRun:\n\n::: {.cell}\n\n```{.r .cell-code}\ndevtools::document()\n```\n:::\n\n\n# Exercises\n1. Write `winsorize(x, probs=c(0.05,0.95))` and test it.\n2. Create `validate_columns(df, required=c(\"USUBJID\",\"AGE\"))` and add tests.\n3. Add roxygen docs and build help pages.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "hash": "f38e8372b2528f3d6c2592273f2b0d20",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"R Package Development\"\n---\n\n## Setup\n\n::: {.cell}\n\n```{.r .cell-code}\ninstall.packages(c(\"usethis\",\"devtools\",\"testthat\",\"roxygen2\",\"pkgdown\"))\n```\n:::\n\n\n## Create a Package\n\n::: {.cell}\n\n```{.r .cell-code}\nusethis::create_package(\"mypkg\")\n# In the new project:\nusethis::use_mit_license(\"Your Name\")\nusethis::use_git()\nusethis::use_github()   # optional\nusethis::use_roxygen_md()\nusethis::use_testthat()\nusethis::use_package(\"dplyr\")   # adds to DESCRIPTION\n```\n:::\n\n\n## Add a Function\nCreate `R/safe_mean.R` and its tests (see previous chapter).\n\n## Build, Install, Check\n\n::: {.cell}\n\n```{.r .cell-code}\ndevtools::document()\ndevtools::build()\ndevtools::install()\ndevtools::check()\n```\n:::\n\n\n## Vignette & Website\n\n::: {.cell}\n\n```{.r .cell-code}\nusethis::use_vignette(\"intro\")\nusethis::use_pkgdown()\npkgdown::build_site()\n```\n:::\n\n\n**Exercise:** Package-ize a small utility set (`convert_blanks_to_na`, `validate_columns`, etc.) with docs and tests.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "hash": "3f8a7e9092e0c0d4c861ec3c841d39e8",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Data Types & Data Structures\"\n---\n\n# Atomic Types\n- logical, integer, double (numeric), character, complex, raw\n\n\n::: {.cell}\n\n```{.r .cell-code}\ntypeof(TRUE)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"logical\"\n```\n\n\n:::\n\n```{.r .cell-code}\ntypeof(1L)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"integer\"\n```\n\n\n:::\n\n```{.r .cell-code}\ntypeof(1.0)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"double\"\n```\n\n\n:::\n\n```{.r .cell-code}\ntypeof(\"R\")\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"character\"\n```\n\n\n:::\n:::\n\n\n# Factors, Dates, Date-Times\n\n::: {.cell}\n\n```{.r .cell-code}\nf <- factor(c(\"Placebo\",\"Active\",\"Active\"))\nf\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] Placebo Active  Active \nLevels: Active Placebo\n```\n\n\n:::\n\n```{.r .cell-code}\nas.integer(f)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2 1 1\n```\n\n\n:::\n\n```{.r .cell-code}\nd <- as.Date(\"2025-10-24\")\ndt <- as.POSIXct(\"2025-10-24 09:30:00\", tz = \"Europe/Zurich\")\nstr(list(f=f, d=d, dt=dt))\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\nList of 3\n $ f : Factor w/ 2 levels \"Active\",\"Placebo\": 2 1 1\n $ d : Date[1:1], format: \"2025-10-24\"\n $ dt: POSIXct[1:1], format: \"2025-10-24 09:30:00\"\n```\n\n\n:::\n:::\n\n\n# Core Structures\n- vector, matrix, array, **list**, **data.frame** / tibble\n\n\n::: {.cell}\n\n```{.r .cell-code}\nm <- matrix(1:6, nrow=2)\narr <- array(1:8, dim=c(2,2,2))\nlst <- list(a=1:3, b=c(\"x\",\"y\"))\ndf <- data.frame(id=1:3, val=c(10,20,30))\nstr(list(m=m, arr=arr, lst=lst, df=df))\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\nList of 4\n $ m  : int [1:2, 1:3] 1 2 3 4 5 6\n $ arr: int [1:2, 1:2, 1:2] 1 2 3 4 5 6 7 8\n $ lst:List of 2\n  ..$ a: int [1:3] 1 2 3\n  ..$ b: chr [1:2] \"x\" \"y\"\n $ df :'data.frame':\t3 obs. of  2 variables:\n  ..$ id : int [1:3] 1 2 3\n  ..$ val: num [1:3] 10 20 30\n```\n\n\n:::\n:::\n\n\n# Coercion & Attributes\n\n::: {.cell}\n\n```{.r .cell-code}\nv <- c(1, \"2\", 3)   # coerces to character\nattributes(df)      # names, row.names, class\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n$names\n[1] \"id\"  \"val\"\n\n$class\n[1] \"data.frame\"\n\n$row.names\n[1] 1 2 3\n```\n\n\n:::\n:::\n\n\n# Exercises\n1. Build a 3×3 matrix and extract row 2, col 3.\n2. Convert a character vector `c(\"1\",\"2\",\"3\")` to numeric safely.\n3. Create a factor with levels in a custom order.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

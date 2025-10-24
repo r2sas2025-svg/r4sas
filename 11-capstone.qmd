@@ -1,0 +1,88 @@
+---
+title: "Capstone: End-to-End Mini Workflow"
+---
+
+This chapter ties everything together: **read data → derive ADSL → produce TLFs → render a report.**
+
+## Parameters
+```{r}
+# You could parametrize paths via YAML; here we keep inline defaults.
+dm_path <- "data/sdtm/dm.sas7bdat"
+ex_path <- "data/sdtm/ex.sas7bdat"
+```
+
+## 1) Read (or Synthesize) SDTM
+```{r}
+library(haven); library(dplyr); library(lubridate)
+if (file.exists(dm_path)) {
+  dm <- read_sas(dm_path)
+} else {
+  dm <- tibble::tibble(
+    STUDYID = "XYZ123",
+    USUBJID = sprintf("XYZ-%03d", 1:60),
+    ARM = sample(c("Placebo","Active"), 60, replace=TRUE),
+    AGE = round(rnorm(60, 60, 8)),
+    SEX = sample(c("M","F"), 60, replace=TRUE),
+    RANDDT = as.Date("2025-01-15") + sample(0:40, 60, replace=TRUE)
+  )
+}
+if (file.exists(ex_path)) {
+  ex <- read_sas(ex_path)
+} else {
+  ex <- tibble::tibble(
+    USUBJID = dm$USUBJID,
+    EXSTDTC = dm$RANDDT + sample(0:3, nrow(dm), replace=TRUE)
+  )
+}
+```
+
+## 2) Derive ADSL (Minimal Demo)
+```{r}
+adsl <- dm |>
+  left_join(ex, by="USUBJID") |>
+  mutate(
+    TRT01P = ARM,
+    TRT01PN = as.integer(factor(ARM, levels=c("Placebo","Active"))),
+    TRT01A = TRT01P,
+    TRT01AN = TRT01PN,
+    SAFFL = "Y",          # demo only; define rules in real life
+    FASFL = "Y"
+  ) |>
+  dplyr::select(STUDYID.x, USUBJID, TRT01P, TRT01PN, TRT01A, TRT01AN, AGE, SEX, EXSTDTC, SAFFL, FASFL)
+```
+
+## 3) TLFs
+```{r}
+library(gt); library(ggplot2); library(survival)
+
+tbl1 <- adsl |>
+  group_by(TRT01P) |>
+  summarise(N=n(),
+            mean_age = mean(AGE), sd_age = sd(AGE),
+            pct_female = mean(SEX=="F")*100)
+tbl1_gt <- gt(tbl1) |> tab_header(title="Table 1. Baseline by Treatment")
+tbl1_gt
+```
+
+```{r}
+set.seed(123)
+adsl$time <- rexp(nrow(adsl), rate=ifelse(adsl$TRT01P=="Active", 0.08, 0.1))
+adsl$status <- rbinom(nrow(adsl), 1, 0.7)
+fit <- survfit(Surv(time, status) ~ TRT01P, data=adsl)
+# reuse plotting function from prior chapter
+ggsurv <- function(fit) {
+  ss <- summary(fit)
+  dd <- data.frame(time=ss$time, surv=ss$surv, strata=rep(names(fit$strata), fit$strata))
+  ggplot(dd, aes(x=time, y=surv, linetype=strata)) + geom_step() + theme_minimal() +
+    labs(title="KM Curve (Toy)", x="Time", y="Survival", linetype="Treatment")
+}
+#ggsurv(fit)
+```
+
+## 4) Save Outputs
+```{r}
+# Example: Save Table 1 as PNG
+#gtsave(tbl1_gt, "tlf-table1.png")
+```
+
+**Challenge:** Convert this chapter into a **parameterized report** (e.g., treatment subset or different cohort) and render multiple outputs.

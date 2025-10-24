@@ -1,0 +1,60 @@
+---
+title: "Reading SAS Datasets (+ Cleaning)"
+---
+
+```{r}
+library(haven)
+library(dplyr)
+library(labelled)
+```
+
+We try to read a SAS dataset (e.g., SDTM DM). If not present, we **synthesize** an example.
+
+```{r}
+dm_path <- "data/sdtm/dm.sas7bdat"
+
+if (file.exists(dm_path)) {
+  dm <- read_sas(dm_path)
+} else {
+  dm <- tibble::tibble(
+    STUDYID = "XYZ123",
+    USUBJID = sprintf("XYZ-%03d", 1:10),
+    ARM = rep(c("Placebo","Active"), length.out=10),
+    AGE = c(55, 62, 47, 50, 71, 66, 45, 59, 53, 68),
+    SEX = rep(c("M","F"), length.out=10)
+  )
+  message("Synthesized `dm` since data/sdtm/dm.sas7bdat was not found.")
+}
+str(dm)
+```
+
+## Handling Labels & Missing
+```{r}
+# Example: Convert blank strings "" to NA for character columns
+convert_blanks_to_na <- function(x) {
+  if (is.character(x)) x[x == ""] <- NA_character_
+  x
+}
+dm <- dm |> mutate(across(where(is.character), convert_blanks_to_na))
+```
+
+## Labelled to Factor (if needed)
+```{r}
+if (inherits(dm$SEX, "labelled")) {
+  dm <- dm |> mutate(SEX = to_factor(SEX))
+}
+```
+
+## Common Cleaning
+```{r}
+dm <- dm |>
+  mutate(
+    AGEGR1 = cut(AGE, breaks=c(-Inf, 50, 65, Inf),
+                 labels=c("<50","50-65", "65+"))
+  )
+```
+
+# Exercises
+1. Read another SAS dataset (e.g., `sv.sas7bdat`) if available. If not, create a synthetic tibble.
+2. Write a function to trim character whitespace for all character columns.
+3. Make a clean factor for `ARM` with levels `Placebo < Active`.

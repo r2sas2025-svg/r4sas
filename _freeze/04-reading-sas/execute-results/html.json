@@ -1,0 +1,15 @@
+{
+  "hash": "e9289f0baf13f257acc20c85fab25d4d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Reading SAS Datasets (+ Cleaning)\"\n---\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(haven)\nlibrary(dplyr)\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\n\nAttaching package: 'dplyr'\n```\n\n\n:::\n\n::: {.cell-output .cell-output-stderr}\n\n```\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n```\n\n\n:::\n\n::: {.cell-output .cell-output-stderr}\n\n```\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n```\n\n\n:::\n\n```{.r .cell-code}\nlibrary(labelled)\n```\n:::\n\n\nWe try to read a SAS dataset (e.g., SDTM DM). If not present, we **synthesize** an example.\n\n\n::: {.cell}\n\n```{.r .cell-code}\ndm_path <- \"data/sdtm/dm.sas7bdat\"\n\nif (file.exists(dm_path)) {\n  dm <- read_sas(dm_path)\n} else {\n  dm <- tibble::tibble(\n    STUDYID = \"XYZ123\",\n    USUBJID = sprintf(\"XYZ-%03d\", 1:10),\n    ARM = rep(c(\"Placebo\",\"Active\"), length.out=10),\n    AGE = c(55, 62, 47, 50, 71, 66, 45, 59, 53, 68),\n    SEX = rep(c(\"M\",\"F\"), length.out=10)\n  )\n  message(\"Synthesized `dm` since data/sdtm/dm.sas7bdat was not found.\")\n}\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nSynthesized `dm` since data/sdtm/dm.sas7bdat was not found.\n```\n\n\n:::\n\n```{.r .cell-code}\nstr(dm)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\ntibble [10 × 5] (S3: tbl_df/tbl/data.frame)\n $ STUDYID: chr [1:10] \"XYZ123\" \"XYZ123\" \"XYZ123\" \"XYZ123\" ...\n $ USUBJID: chr [1:10] \"XYZ-001\" \"XYZ-002\" \"XYZ-003\" \"XYZ-004\" ...\n $ ARM    : chr [1:10] \"Placebo\" \"Active\" \"Placebo\" \"Active\" ...\n $ AGE    : num [1:10] 55 62 47 50 71 66 45 59 53 68\n $ SEX    : chr [1:10] \"M\" \"F\" \"M\" \"F\" ...\n```\n\n\n:::\n:::\n\n\n## Handling Labels & Missing\n\n::: {.cell}\n\n```{.r .cell-code}\n# Example: Convert blank strings \"\" to NA for character columns\nconvert_blanks_to_na <- function(x) {\n  if (is.character(x)) x[x == \"\"] <- NA_character_\n  x\n}\ndm <- dm |> mutate(across(where(is.character), convert_blanks_to_na))\n```\n:::\n\n\n## Labelled to Factor (if needed)\n\n::: {.cell}\n\n```{.r .cell-code}\nif (inherits(dm$SEX, \"labelled\")) {\n  dm <- dm |> mutate(SEX = to_factor(SEX))\n}\n```\n:::\n\n\n## Common Cleaning\n\n::: {.cell}\n\n```{.r .cell-code}\ndm <- dm |>\n  mutate(\n    AGEGR1 = cut(AGE, breaks=c(-Inf, 50, 65, Inf),\n                 labels=c(\"<50\",\"50-65\", \"65+\"))\n  )\n```\n:::\n\n\n# Exercises\n1. Read another SAS dataset (e.g., `sv.sas7bdat`) if available. If not, create a synthetic tibble.\n2. Write a function to trim character whitespace for all character columns.\n3. Make a clean factor for `ARM` with levels `Placebo < Active`.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

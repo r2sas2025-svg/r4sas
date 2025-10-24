@@ -1,0 +1,36 @@
+project:
+  type: book
+
+book:
+  title: "R Course: Beginner to Expert "
+  author: "Sri"
+  date: today
+  chapters:
+    - index.qmd
+    - 01-r-basics.qmd
+    - 02-data-types-structures.qmd
+    - 03-manipulating-vectors-dataframes-lists.qmd
+    - 04-reading-sas.qmd
+    - 05-base-functions.qmd
+    - 06-custom-functions-validation.qmd
+    - 07-package-development.qmd
+    - 08-git-rstudio.qmd
+    - 09-adam-adsl.qmd
+    - 10-tlf.qmd
+    - 11-capstone.qmd
+    - 12-appendix.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-tools: true
+    number-sections: true
+  pdf:
+    documentclass: scrreprt
+
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+  message: true

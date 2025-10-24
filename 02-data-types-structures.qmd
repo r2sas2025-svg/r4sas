@@ -1,0 +1,45 @@
+---
+title: "Data Types & Data Structures"
+---
+
+# Atomic Types
+- logical, integer, double (numeric), character, complex, raw
+
+```{r}
+typeof(TRUE)
+typeof(1L)
+typeof(1.0)
+typeof("R")
+```
+
+# Factors, Dates, Date-Times
+```{r}
+f <- factor(c("Placebo","Active","Active"))
+f
+as.integer(f)
+d <- as.Date("2025-10-24")
+dt <- as.POSIXct("2025-10-24 09:30:00", tz = "Europe/Zurich")
+str(list(f=f, d=d, dt=dt))
+```
+
+# Core Structures
+- vector, matrix, array, **list**, **data.frame** / tibble
+
+```{r}
+m <- matrix(1:6, nrow=2)
+arr <- array(1:8, dim=c(2,2,2))
+lst <- list(a=1:3, b=c("x","y"))
+df <- data.frame(id=1:3, val=c(10,20,30))
+str(list(m=m, arr=arr, lst=lst, df=df))
+```
+
+# Coercion & Attributes
+```{r}
+v <- c(1, "2", 3)   # coerces to character
+attributes(df)      # names, row.names, class
+```
+
+# Exercises
+1. Build a 3×3 matrix and extract row 2, col 3.
+2. Convert a character vector `c("1","2","3")` to numeric safely.
+3. Create a factor with levels in a custom order.

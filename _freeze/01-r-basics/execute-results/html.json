@@ -1,0 +1,15 @@
+{
+  "hash": "a792d518b16dfb1141b09b9bc5a8e39f",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"R Basics\"\n---\n\n# R as a Calculator\n\n::: {.cell}\n\n```{.r .cell-code}\n1 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 2\n```\n\n\n:::\n\n```{.r .cell-code}\n3 * (4 + 5)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 27\n```\n\n\n:::\n:::\n\n\n# Objects & Assignment\n\n::: {.cell}\n\n```{.r .cell-code}\nx <- 10\ny <- 3.5\nx + y\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 13.5\n```\n\n\n:::\n:::\n\n\n# Getting Help\n\n::: {.cell}\n\n```{.r .cell-code}\n?mean\n```\n\n::: {.cell-output .cell-output-stderr}\n\n```\nstarting httpd help server ... done\n```\n\n\n:::\n\n```{.r .cell-code}\nhelp(\"lm\")\n```\n:::\n\n\n# Working Directory\n\n::: {.cell}\n\n```{.r .cell-code}\ngetwd()\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"D:/R2SAS/r4sas\"\n```\n\n\n:::\n\n```{.r .cell-code}\n# setwd(\"/path/you/want\") # avoid in reproducible code; prefer here::here() for projects\n```\n:::\n\n\n# Vectors (Atomic)\n\n::: {.cell}\n\n```{.r .cell-code}\nnums <- c(1, 2, 3, 4)\nchars <- c(\"a\", \"b\", \"c\")\nlogical <- c(TRUE, FALSE, TRUE)\ntypeof(nums); typeof(chars); typeof(logical)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"double\"\n```\n\n\n:::\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"character\"\n```\n\n\n:::\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"logical\"\n```\n\n\n:::\n:::\n\n\n# Exercises\n1. Create an object `z` that stores `(5^2 + 7)/3`.\n2. Use `?seq` and create a sequence from 0 to 1 by 0.1.\n3. Inspect `typeof()` for a few objects you create.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

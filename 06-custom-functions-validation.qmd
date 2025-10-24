@@ -1,0 +1,63 @@
+---
+title: "Custom Functions & Validation"
+---
+
+# Writing Functions
+```{r}
+safe_mean <- function(x, na.rm = TRUE) {
+  stopifnot(is.numeric(x))
+  mean(x, na.rm = na.rm)
+}
+safe_mean(c(1, 2, NA))
+```
+
+# Error Handling
+```{r}
+robust_divide <- function(a, b) {
+  tryCatch(a / b,
+           warning = function(w) NA_real_,
+           error   = function(e) NA_real_)
+}
+robust_divide(10, 0)
+```
+
+# Unit Testing with testthat
+Install once: `install.packages(c("testthat","devtools","usethis","roxygen2"))`
+
+```{r eval=FALSE}
+usethis::use_testthat()
+usethis::use_test("safe_mean")
+```
+
+Create `tests/testthat/test-safe_mean.R`:
+```{r}
+testthat::test_that("safe_mean works", {
+  x <- c(1,2,NA)
+  testthat::expect_equal(safe_mean(x), 1.5)
+  testthat::expect_error(safe_mean("oops"))
+})
+```
+
+# Document with roxygen2
+```{r}
+#' Compute a safe mean
+#' @param x Numeric vector
+#' @param na.rm Logical; remove NAs
+#' @return Numeric scalar
+#' @examples
+#' safe_mean(c(1,2,NA))
+#' @export
+safe_mean <- function(x, na.rm = TRUE) {
+  stopifnot(is.numeric(x))
+  mean(x, na.rm = na.rm)
+}
+```
+Run:
+```{r eval=FALSE}
+devtools::document()
+```
+
+# Exercises
+1. Write `winsorize(x, probs=c(0.05,0.95))` and test it.
+2. Create `validate_columns(df, required=c("USUBJID","AGE"))` and add tests.
+3. Add roxygen docs and build help pages.
