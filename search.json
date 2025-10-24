@@ -1,0 +1,412 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "R Course: Beginner to Expert",
+    "section": "",
+    "text": "1 About this Course\nThis Quarto book takes you from R beginner to expert, with a practical focus on clinical programming (CDISC/ADaM and TLFs).\nEach chapter includes step-by-step explanations, runnable code, and short exercises.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "R Course: Beginner to Expert",
+    "section": "1.1 How to Use",
+    "text": "1.1 How to Use\n\nInstall: R (≥4.2), RStudio (or VS Code), and Quarto.\nIn a terminal: quarto render to build the whole book, or click Render in RStudio.\nOpen index.html in the _book/ folder after rendering.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#structure-highlights",
+    "href": "index.html#structure-highlights",
+    "title": "R Course: Beginner to Expert",
+    "section": "1.2 Structure (Highlights)",
+    "text": "1.2 Structure (Highlights)\n\nBasics & Data: R syntax, data types/structures, vectors/data frames/lists.\nI/O: Read SAS datasets (with haven), handle labels, and clean raw data.\nProgramming: Base functions, write your own functions, validate with tests.\nDevOps: Create an R package, connect Git in RStudio/GitHub.\nCDISC: Build ADaM (ADSL) from SDTM-like inputs.\nTLFs: Produce a baseline Table 1, a KM plot, and a listing.\n\n\nTip: If you don’t have sample SDTM/ADaM data yet, the chapters generate small synthetic data as a fallback so everything runs end-to-end.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "01-r-basics.html",
+    "href": "01-r-basics.html",
+    "title": "2  R Basics",
+    "section": "",
+    "text": "3 R as a Calculator\n\n1 + 1\n\n[1] 2\n\n3 * (4 + 5)\n\n[1] 27\n\n\n\n\n4 Objects & Assignment\n\nx &lt;- 10\ny &lt;- 3.5\nx + y\n\n[1] 13.5\n\n\n\n\n5 Getting Help\n\n?mean\n\nstarting httpd help server ... done\n\nhelp(\"lm\")\n\n\n\n6 Working Directory\n\ngetwd()\n\n[1] \"D:/R2SAS/r4sas\"\n\n# setwd(\"/path/you/want\") # avoid in reproducible code; prefer here::here() for projects\n\n\n\n7 Vectors (Atomic)\n\nnums &lt;- c(1, 2, 3, 4)\nchars &lt;- c(\"a\", \"b\", \"c\")\nlogical &lt;- c(TRUE, FALSE, TRUE)\ntypeof(nums); typeof(chars); typeof(logical)\n\n[1] \"double\"\n\n\n[1] \"character\"\n\n\n[1] \"logical\"\n\n\n\n\n8 Exercises\n\nCreate an object z that stores (5^2 + 7)/3.\nUse ?seq and create a sequence from 0 to 1 by 0.1.\nInspect typeof() for a few objects you create.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>R Basics</span>"
+    ]
+  },
+  {
+    "objectID": "02-data-types-structures.html",
+    "href": "02-data-types-structures.html",
+    "title": "3  Data Types & Data Structures",
+    "section": "",
+    "text": "4 Atomic Types\n\nlogical, integer, double (numeric), character, complex, raw\n\n\ntypeof(TRUE)\n\n[1] \"logical\"\n\ntypeof(1L)\n\n[1] \"integer\"\n\ntypeof(1.0)\n\n[1] \"double\"\n\ntypeof(\"R\")\n\n[1] \"character\"\n\n\n\n\n5 Factors, Dates, Date-Times\n\nf &lt;- factor(c(\"Placebo\",\"Active\",\"Active\"))\nf\n\n[1] Placebo Active  Active \nLevels: Active Placebo\n\nas.integer(f)\n\n[1] 2 1 1\n\nd &lt;- as.Date(\"2025-10-24\")\ndt &lt;- as.POSIXct(\"2025-10-24 09:30:00\", tz = \"Europe/Zurich\")\nstr(list(f=f, d=d, dt=dt))\n\nList of 3\n $ f : Factor w/ 2 levels \"Active\",\"Placebo\": 2 1 1\n $ d : Date[1:1], format: \"2025-10-24\"\n $ dt: POSIXct[1:1], format: \"2025-10-24 09:30:00\"\n\n\n\n\n6 Core Structures\n\nvector, matrix, array, list, data.frame / tibble\n\n\nm &lt;- matrix(1:6, nrow=2)\narr &lt;- array(1:8, dim=c(2,2,2))\nlst &lt;- list(a=1:3, b=c(\"x\",\"y\"))\ndf &lt;- data.frame(id=1:3, val=c(10,20,30))\nstr(list(m=m, arr=arr, lst=lst, df=df))\n\nList of 4\n $ m  : int [1:2, 1:3] 1 2 3 4 5 6\n $ arr: int [1:2, 1:2, 1:2] 1 2 3 4 5 6 7 8\n $ lst:List of 2\n  ..$ a: int [1:3] 1 2 3\n  ..$ b: chr [1:2] \"x\" \"y\"\n $ df :'data.frame':    3 obs. of  2 variables:\n  ..$ id : int [1:3] 1 2 3\n  ..$ val: num [1:3] 10 20 30\n\n\n\n\n7 Coercion & Attributes\n\nv &lt;- c(1, \"2\", 3)   # coerces to character\nattributes(df)      # names, row.names, class\n\n$names\n[1] \"id\"  \"val\"\n\n$class\n[1] \"data.frame\"\n\n$row.names\n[1] 1 2 3\n\n\n\n\n8 Exercises\n\nBuild a 3×3 matrix and extract row 2, col 3.\nConvert a character vector c(\"1\",\"2\",\"3\") to numeric safely.\nCreate a factor with levels in a custom order.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Data Types & Data Structures</span>"
+    ]
+  },
+  {
+    "objectID": "03-manipulating-vectors-dataframes-lists.html",
+    "href": "03-manipulating-vectors-dataframes-lists.html",
+    "title": "4  Manipulating Vectors, Data Frames, and Lists",
+    "section": "",
+    "text": "5 Vectors: Indexing & Vectorized Ops\nv &lt;- 1:10\nv[v %% 2 == 0]\n\n[1]  2  4  6  8 10\n\nv * 2\n\n [1]  2  4  6  8 10 12 14 16 18 20",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Manipulating Vectors, Data Frames, and Lists</span>"
+    ]
+  },
+  {
+    "objectID": "03-manipulating-vectors-dataframes-lists.html#mutate-across",
+    "href": "03-manipulating-vectors-dataframes-lists.html#mutate-across",
+    "title": "4  Manipulating Vectors, Data Frames, and Lists",
+    "section": "6.1 mutate() + across()",
+    "text": "6.1 mutate() + across()\n\ndf |&gt;\n  mutate(\n    bmi = wt / (1.70^2),\n    across(c(age, wt), ~ .x - mean(.x), .names = \"{.col}_centered\")\n  )\n\n# A tibble: 6 × 7\n     id grp     age    wt   bmi age_centered wt_centered\n  &lt;int&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;\n1     1 A        35    70  24.2           -7       -8.33\n2     2 A        44    85  29.4            2        6.67\n3     3 B        53    92  31.8           11       13.7 \n4     4 B        51    88  30.4            9        9.67\n5     5 C        29    60  20.8          -13      -18.3 \n6     6 C        40    75  26.0           -2       -3.33",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Manipulating Vectors, Data Frames, and Lists</span>"
+    ]
+  },
+  {
+    "objectID": "03-manipulating-vectors-dataframes-lists.html#row-wise-with-c_across",
+    "href": "03-manipulating-vectors-dataframes-lists.html#row-wise-with-c_across",
+    "title": "4  Manipulating Vectors, Data Frames, and Lists",
+    "section": "6.2 Row-wise with c_across()",
+    "text": "6.2 Row-wise with c_across()\n\nrow_sums &lt;- df |&gt;\n  rowwise() |&gt;\n  mutate(sum_age_wt = sum(c_across(c(age, wt)))) |&gt;\n  ungroup()\nrow_sums\n\n# A tibble: 6 × 5\n     id grp     age    wt sum_age_wt\n  &lt;int&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;\n1     1 A        35    70        105\n2     2 A        44    85        129\n3     3 B        53    92        145\n4     4 B        51    88        139\n5     5 C        29    60         89\n6     6 C        40    75        115",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Manipulating Vectors, Data Frames, and Lists</span>"
+    ]
+  },
+  {
+    "objectID": "04-reading-sas.html",
+    "href": "04-reading-sas.html",
+    "title": "5  Reading SAS Datasets (+ Cleaning)",
+    "section": "",
+    "text": "5.1 Handling Labels & Missing\nWe try to read a SAS dataset (e.g., SDTM DM). If not present, we synthesize an example.\n# Example: Convert blank strings \"\" to NA for character columns\nconvert_blanks_to_na &lt;- function(x) {\n  if (is.character(x)) x[x == \"\"] &lt;- NA_character_\n  x\n}\ndm &lt;- dm |&gt; mutate(across(where(is.character), convert_blanks_to_na))",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Reading SAS Datasets (+ Cleaning)</span>"
+    ]
+  },
+  {
+    "objectID": "04-reading-sas.html#labelled-to-factor-if-needed",
+    "href": "04-reading-sas.html#labelled-to-factor-if-needed",
+    "title": "5  Reading SAS Datasets (+ Cleaning)",
+    "section": "5.2 Labelled to Factor (if needed)",
+    "text": "5.2 Labelled to Factor (if needed)\n\nif (inherits(dm$SEX, \"labelled\")) {\n  dm &lt;- dm |&gt; mutate(SEX = to_factor(SEX))\n}",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Reading SAS Datasets (+ Cleaning)</span>"
+    ]
+  },
+  {
+    "objectID": "04-reading-sas.html#common-cleaning",
+    "href": "04-reading-sas.html#common-cleaning",
+    "title": "5  Reading SAS Datasets (+ Cleaning)",
+    "section": "5.3 Common Cleaning",
+    "text": "5.3 Common Cleaning\n\ndm &lt;- dm |&gt;\n  mutate(\n    AGEGR1 = cut(AGE, breaks=c(-Inf, 50, 65, Inf),\n                 labels=c(\"&lt;50\",\"50-65\", \"65+\"))\n  )",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Reading SAS Datasets (+ Cleaning)</span>"
+    ]
+  },
+  {
+    "objectID": "05-base-functions.html",
+    "href": "05-base-functions.html",
+    "title": "6  Base R Functions & Apply Family",
+    "section": "",
+    "text": "7 Common Utilities\n\nx &lt;- 1:10\nsum(x); mean(x); sd(x); var(x); quantile(x)\n\n[1] 55\n\n\n[1] 5.5\n\n\n[1] 3.02765\n\n\n[1] 9.166667\n\n\n   0%   25%   50%   75%  100% \n 1.00  3.25  5.50  7.75 10.00 \n\nseq(0, 1, by=0.1); rep(5, times=3)\n\n [1] 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0\n\n\n[1] 5 5 5\n\n\n\n\n8 Apply Family\n\nm &lt;- matrix(1:9, nrow=3)\napply(m, 1, mean)  # row means\n\n[1] 4 5 6\n\napply(m, 2, mean)  # col means\n\n[1] 2 5 8\n\nlst &lt;- list(a=1:3, b=10:12)\nsapply(lst, mean)   # simplifies result\n\n a  b \n 2 11 \n\nmapply(sum, 1:3, 10:12)\n\n[1] 11 13 15\n\n\n\n\n9 Subsetting Essentials\n\ndf &lt;- data.frame(id=1:3, val=c(10,20,30))\ndf[1, \"val\"]\n\n[1] 10\n\ndf[df$val &gt; 10, ]\n\n  id val\n2  2  20\n3  3  30\n\n\n\n\n10 Exercises\n\nUse apply to get the max per column of a numeric matrix.\nWrite a base R snippet to compute IQR for each column of mtcars.\nCompare lapply vs sapply in behavior on a list with mixed types.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Base R Functions & Apply Family</span>"
+    ]
+  },
+  {
+    "objectID": "06-custom-functions-validation.html",
+    "href": "06-custom-functions-validation.html",
+    "title": "7  Custom Functions & Validation",
+    "section": "",
+    "text": "8 Writing Functions\n\nsafe_mean &lt;- function(x, na.rm = TRUE) {\n  stopifnot(is.numeric(x))\n  mean(x, na.rm = na.rm)\n}\nsafe_mean(c(1, 2, NA))\n\n[1] 1.5\n\n\n\n\n9 Error Handling\n\nrobust_divide &lt;- function(a, b) {\n  tryCatch(a / b,\n           warning = function(w) NA_real_,\n           error   = function(e) NA_real_)\n}\nrobust_divide(10, 0)\n\n[1] Inf\n\n\n\n\n10 Unit Testing with testthat\nInstall once: install.packages(c(\"testthat\",\"devtools\",\"usethis\",\"roxygen2\"))\n\nusethis::use_testthat()\nusethis::use_test(\"safe_mean\")\n\nCreate tests/testthat/test-safe_mean.R:\n\ntestthat::test_that(\"safe_mean works\", {\n  x &lt;- c(1,2,NA)\n  testthat::expect_equal(safe_mean(x), 1.5)\n  testthat::expect_error(safe_mean(\"oops\"))\n})\n\nTest passed 😸\n\n\n\n\n11 Document with roxygen2\n\n#' Compute a safe mean\n#' @param x Numeric vector\n#' @param na.rm Logical; remove NAs\n#' @return Numeric scalar\n#' @examples\n#' safe_mean(c(1,2,NA))\n#' @export\nsafe_mean &lt;- function(x, na.rm = TRUE) {\n  stopifnot(is.numeric(x))\n  mean(x, na.rm = na.rm)\n}\n\nRun:\n\ndevtools::document()\n\n\n\n12 Exercises\n\nWrite winsorize(x, probs=c(0.05,0.95)) and test it.\nCreate validate_columns(df, required=c(\"USUBJID\",\"AGE\")) and add tests.\nAdd roxygen docs and build help pages.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Custom Functions & Validation</span>"
+    ]
+  },
+  {
+    "objectID": "07-package-development.html",
+    "href": "07-package-development.html",
+    "title": "8  R Package Development",
+    "section": "",
+    "text": "8.1 Setup\ninstall.packages(c(\"usethis\",\"devtools\",\"testthat\",\"roxygen2\",\"pkgdown\"))",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>R Package Development</span>"
+    ]
+  },
+  {
+    "objectID": "07-package-development.html#create-a-package",
+    "href": "07-package-development.html#create-a-package",
+    "title": "8  R Package Development",
+    "section": "8.2 Create a Package",
+    "text": "8.2 Create a Package\n\nusethis::create_package(\"mypkg\")\n# In the new project:\nusethis::use_mit_license(\"Your Name\")\nusethis::use_git()\nusethis::use_github()   # optional\nusethis::use_roxygen_md()\nusethis::use_testthat()\nusethis::use_package(\"dplyr\")   # adds to DESCRIPTION",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>R Package Development</span>"
+    ]
+  },
+  {
+    "objectID": "07-package-development.html#add-a-function",
+    "href": "07-package-development.html#add-a-function",
+    "title": "8  R Package Development",
+    "section": "8.3 Add a Function",
+    "text": "8.3 Add a Function\nCreate R/safe_mean.R and its tests (see previous chapter).",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>R Package Development</span>"
+    ]
+  },
+  {
+    "objectID": "07-package-development.html#build-install-check",
+    "href": "07-package-development.html#build-install-check",
+    "title": "8  R Package Development",
+    "section": "8.4 Build, Install, Check",
+    "text": "8.4 Build, Install, Check\n\ndevtools::document()\ndevtools::build()\ndevtools::install()\ndevtools::check()",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>R Package Development</span>"
+    ]
+  },
+  {
+    "objectID": "07-package-development.html#vignette-website",
+    "href": "07-package-development.html#vignette-website",
+    "title": "8  R Package Development",
+    "section": "8.5 Vignette & Website",
+    "text": "8.5 Vignette & Website\n\nusethis::use_vignette(\"intro\")\nusethis::use_pkgdown()\npkgdown::build_site()\n\nExercise: Package-ize a small utility set (convert_blanks_to_na, validate_columns, etc.) with docs and tests.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>R Package Development</span>"
+    ]
+  },
+  {
+    "objectID": "08-git-rstudio.html",
+    "href": "08-git-rstudio.html",
+    "title": "9  Git in RStudio (Setup & Auth)",
+    "section": "",
+    "text": "9.1 One-Time Setup\nusethis::use_git_config(user.name = \"Your Name\", user.email = \"you@example.com\")",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Git in RStudio (Setup & Auth)</span>"
+    ]
+  },
+  {
+    "objectID": "08-git-rstudio.html#one-time-setup",
+    "href": "08-git-rstudio.html#one-time-setup",
+    "title": "9  Git in RStudio (Setup & Auth)",
+    "section": "",
+    "text": "Install Git and ensure git --version works.\nIn R:",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Git in RStudio (Setup & Auth)</span>"
+    ]
+  },
+  {
+    "objectID": "08-git-rstudio.html#initialize-git-for-the-current-project",
+    "href": "08-git-rstudio.html#initialize-git-for-the-current-project",
+    "title": "9  Git in RStudio (Setup & Auth)",
+    "section": "9.2 Initialize Git for the Current Project",
+    "text": "9.2 Initialize Git for the Current Project\n\nusethis::use_git()",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Git in RStudio (Setup & Auth)</span>"
+    ]
+  },
+  {
+    "objectID": "08-git-rstudio.html#connect-to-github",
+    "href": "08-git-rstudio.html#connect-to-github",
+    "title": "9  Git in RStudio (Setup & Auth)",
+    "section": "9.3 Connect to GitHub",
+    "text": "9.3 Connect to GitHub\n\nCreate a GitHub account.\nIn R:\n\n\nusethis::create_github_token()\ngitcreds::gitcreds_set()  # paste token when prompted\nusethis::use_github(protocol = \"https\")\n\nOr set up SSH keys via RStudio (Tools &gt; Global Options &gt; Git/SVN).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Git in RStudio (Setup & Auth)</span>"
+    ]
+  },
+  {
+    "objectID": "08-git-rstudio.html#typical-workflow",
+    "href": "08-git-rstudio.html#typical-workflow",
+    "title": "9  Git in RStudio (Setup & Auth)",
+    "section": "9.4 Typical Workflow",
+    "text": "9.4 Typical Workflow\n\nStage changes (Git pane in RStudio).\nCommit with a clear message.\nPush to origin (GitHub).",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Git in RStudio (Setup & Auth)</span>"
+    ]
+  },
+  {
+    "objectID": "08-git-rstudio.html#remove-git-from-a-project-macosrstudio",
+    "href": "08-git-rstudio.html#remove-git-from-a-project-macosrstudio",
+    "title": "9  Git in RStudio (Setup & Auth)",
+    "section": "9.5 Remove Git from a Project (macOS/RStudio)",
+    "text": "9.5 Remove Git from a Project (macOS/RStudio)\n\nIn Finder/Terminal, delete the hidden .git folder in the project root (careful!).\nOr from Terminal at project root:\n\nrm -rf .git\n\nReopen project in RStudio; Git pane will disappear.\n\nExercises - Create a new repo for this Quarto course and push it. - Branch, make a change, open a Pull Request on GitHub.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Git in RStudio (Setup & Auth)</span>"
+    ]
+  },
+  {
+    "objectID": "09-adam-adsl.html",
+    "href": "09-adam-adsl.html",
+    "title": "10  Creating ADaM: ADSL from SDTM-like Inputs",
+    "section": "",
+    "text": "10.1 Build ADSL\nWe simulate minimal SDTM-like DM and EX to illustrate ADSL creation. If available, replace with your own data/sdtm/*.sas7bdat.\nadsl &lt;- dm |&gt;\n  left_join(ex, by=\"USUBJID\") |&gt;\n  transmute(\n    STUDYID, USUBJID,\n    TRT01P = ARM,\n    TRT01PN = as.integer(factor(ARM, levels=c(\"Placebo\",\"Active\"))),\n    AGE, SEX,\n    RANDDT,\n    TRTSDT = EXSTDTC,\n    TRT01A = TRT01P,          # assume planned == actual for demo\n    TRT01AN = TRT01PN\n  )\nadsl\n\n# A tibble: 10 × 10\n   STUDYID USUBJID TRT01P  TRT01PN   AGE SEX   RANDDT     TRTSDT     TRT01A \n   &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;chr&gt; &lt;date&gt;     &lt;date&gt;     &lt;chr&gt;  \n 1 XYZ123  XYZ-001 Placebo       1    55 M     2025-01-18 2025-01-18 Placebo\n 2 XYZ123  XYZ-002 Active        2    62 F     2025-01-30 2025-01-30 Active \n 3 XYZ123  XYZ-003 Placebo       1    47 M     2025-01-15 2025-01-15 Placebo\n 4 XYZ123  XYZ-004 Active        2    50 F     2025-01-26 2025-01-28 Active \n 5 XYZ123  XYZ-005 Placebo       1    71 M     2025-01-31 2025-02-03 Placebo\n 6 XYZ123  XYZ-006 Active        2    66 F     2025-02-01 2025-02-03 Active \n 7 XYZ123  XYZ-007 Placebo       1    45 M     2025-02-04 2025-02-07 Placebo\n 8 XYZ123  XYZ-008 Active        2    59 F     2025-01-15 2025-01-16 Active \n 9 XYZ123  XYZ-009 Placebo       1    53 M     2025-01-19 2025-01-20 Placebo\n10 XYZ123  XYZ-010 Active        2    68 F     2025-01-19 2025-01-19 Active \n# ℹ 1 more variable: TRT01AN &lt;int&gt;\nExercises 1. Add analysis populations (e.g., SAFFL, FASFL) based on simple rules. 2. Derive AGEGR1 as &lt;65 / ≥65 and use ordered factor. 3. Add a treatment end date TRTEDT and compute treatment duration.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Creating ADaM: ADSL from SDTM-like Inputs</span>"
+    ]
+  },
+  {
+    "objectID": "09-adam-adsl.html#build-adsl",
+    "href": "09-adam-adsl.html#build-adsl",
+    "title": "10  Creating ADaM: ADSL from SDTM-like Inputs",
+    "section": "",
+    "text": "Note: Real ADSL creation must follow ADaM IG (derive flags, dates, imputations, populations). This example is educational only.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Creating ADaM: ADSL from SDTM-like Inputs</span>"
+    ]
+  },
+  {
+    "objectID": "10-tlf.html",
+    "href": "10-tlf.html",
+    "title": "11  TLFs: Table, Figure, Listing",
+    "section": "",
+    "text": "11.1 Table 1: Baseline Characteristics by Treatment\nWe reuse adsl from the previous chapter (or synthesize if missing).\ntbl1 &lt;- adsl |&gt;\n  group_by(TRT01P) |&gt;\n  summarise(\n    N = dplyr::n(),\n    mean_age = mean(AGE, na.rm=TRUE),\n    sd_age = sd(AGE, na.rm=TRUE),\n    pct_female = mean(SEX == \"F\")*100\n  )\n\ngt(tbl1) |&gt;\n  tab_header(title = \"Table 1. Baseline Characteristics by Treatment\") |&gt;\n  fmt_number(columns = c(mean_age, sd_age, pct_female), decimals = 1)\n\n\n\n\n\n\n\nTable 1. Baseline Characteristics by Treatment\n\n\nTRT01P\nN\nmean_age\nsd_age\npct_female\n\n\n\n\nActive\n24\n59.4\n8.1\n50.0\n\n\nPlacebo\n36\n61.7\n5.6\n61.1",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>TLFs: Table, Figure, Listing</span>"
+    ]
+  },
+  {
+    "objectID": "10-tlf.html#figure-toy-survival-curve",
+    "href": "10-tlf.html#figure-toy-survival-curve",
+    "title": "11  TLFs: Table, Figure, Listing",
+    "section": "11.2 Figure: (Toy) Survival Curve",
+    "text": "11.2 Figure: (Toy) Survival Curve\nWe simulate time-to-event data for illustration only.\n\nset.seed(42)\nn &lt;- nrow(adsl)\nadsl$time &lt;- rexp(n, rate = ifelse(adsl$TRT01P==\"Active\", 0.08, 0.1))\nadsl$status &lt;- rbinom(n, 1, 0.7)\nfit &lt;- survival::survfit(survival::Surv(time, status) ~ TRT01P, data = adsl)\n\n# Quick GGplot\nggsurv &lt;- function(fit) {\n  # rebuild data for plotting\n  ss &lt;- summary(fit)\n  dd &lt;- data.frame(\n    time = ss$time,\n    surv = ss$surv,\n    strata = rep(names(fit$strata), fit$strata)\n  )\n  ggplot(dd, aes(x=time, y=surv, linetype=strata)) +\n    geom_step() +\n    labs(title=\"Kaplan–Meier (Toy Data)\", x=\"Time\", y=\"Survival Probability\", linetype=\"Treatment\") +\n    theme_minimal()\n}\n#ggsurv(fit)",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>TLFs: Table, Figure, Listing</span>"
+    ]
+  },
+  {
+    "objectID": "10-tlf.html#listing-subject-level-listing",
+    "href": "10-tlf.html#listing-subject-level-listing",
+    "title": "11  TLFs: Table, Figure, Listing",
+    "section": "11.3 Listing: Subject-Level Listing",
+    "text": "11.3 Listing: Subject-Level Listing\n\nlst &lt;- adsl |&gt;\n  arrange(USUBJID) |&gt;\n  select(USUBJID, TRT01P, AGE, SEX) |&gt;\n  head(20)\n\ngt(lst) |&gt;\n  tab_header(title = \"Listing: First 20 Subjects\")\n\n\n\n\n\n\n\nListing: First 20 Subjects\n\n\nUSUBJID\nTRT01P\nAGE\nSEX\n\n\n\n\nXYZ-001\nPlacebo\n63\nF\n\n\nXYZ-002\nPlacebo\n58\nM\n\n\nXYZ-003\nPlacebo\n67\nM\n\n\nXYZ-004\nActive\n67\nM\n\n\nXYZ-005\nPlacebo\n67\nM\n\n\nXYZ-006\nActive\n66\nF\n\n\nXYZ-007\nActive\n64\nF\n\n\nXYZ-008\nActive\n60\nM\n\n\nXYZ-009\nPlacebo\n58\nM\n\n\nXYZ-010\nPlacebo\n57\nF\n\n\nXYZ-011\nActive\n54\nF\n\n\nXYZ-012\nActive\n58\nM\n\n\nXYZ-013\nActive\n50\nM\n\n\nXYZ-014\nPlacebo\n77\nF\n\n\nXYZ-015\nActive\n70\nF\n\n\nXYZ-016\nPlacebo\n51\nM\n\n\nXYZ-017\nActive\n57\nM\n\n\nXYZ-018\nPlacebo\n56\nF\n\n\nXYZ-019\nPlacebo\n66\nM\n\n\nXYZ-020\nPlacebo\n59\nF\n\n\n\n\n\n\n\nExercises 1. Format Table 1 to N (mean ± SD) for age. 2. Add risk table to the KM plot (use an extension like survminer outside of this minimal example). 3. Create a listing that includes population flags once you derive them.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>TLFs: Table, Figure, Listing</span>"
+    ]
+  },
+  {
+    "objectID": "11-capstone.html",
+    "href": "11-capstone.html",
+    "title": "12  Capstone: End-to-End Mini Workflow",
+    "section": "",
+    "text": "12.1 Parameters\nThis chapter ties everything together: read data → derive ADSL → produce TLFs → render a report.\n# You could parametrize paths via YAML; here we keep inline defaults.\ndm_path &lt;- \"data/sdtm/dm.sas7bdat\"\nex_path &lt;- \"data/sdtm/ex.sas7bdat\"",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Capstone: End-to-End Mini Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "11-capstone.html#read-or-synthesize-sdtm",
+    "href": "11-capstone.html#read-or-synthesize-sdtm",
+    "title": "12  Capstone: End-to-End Mini Workflow",
+    "section": "12.2 1) Read (or Synthesize) SDTM",
+    "text": "12.2 1) Read (or Synthesize) SDTM\n\nlibrary(haven); library(dplyr); library(lubridate)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\n\n\nAttaching package: 'lubridate'\n\n\nThe following objects are masked from 'package:base':\n\n    date, intersect, setdiff, union\n\nif (file.exists(dm_path)) {\n  dm &lt;- read_sas(dm_path)\n} else {\n  dm &lt;- tibble::tibble(\n    STUDYID = \"XYZ123\",\n    USUBJID = sprintf(\"XYZ-%03d\", 1:60),\n    ARM = sample(c(\"Placebo\",\"Active\"), 60, replace=TRUE),\n    AGE = round(rnorm(60, 60, 8)),\n    SEX = sample(c(\"M\",\"F\"), 60, replace=TRUE),\n    RANDDT = as.Date(\"2025-01-15\") + sample(0:40, 60, replace=TRUE)\n  )\n}\nif (file.exists(ex_path)) {\n  ex &lt;- read_sas(ex_path)\n} else {\n  ex &lt;- tibble::tibble(\n    USUBJID = dm$USUBJID,\n    EXSTDTC = dm$RANDDT + sample(0:3, nrow(dm), replace=TRUE)\n  )\n}",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Capstone: End-to-End Mini Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "11-capstone.html#derive-adsl-minimal-demo",
+    "href": "11-capstone.html#derive-adsl-minimal-demo",
+    "title": "12  Capstone: End-to-End Mini Workflow",
+    "section": "12.3 2) Derive ADSL (Minimal Demo)",
+    "text": "12.3 2) Derive ADSL (Minimal Demo)\n\nadsl &lt;- dm |&gt;\n  left_join(ex, by=\"USUBJID\") |&gt;\n  mutate(\n    TRT01P = ARM,\n    TRT01PN = as.integer(factor(ARM, levels=c(\"Placebo\",\"Active\"))),\n    TRT01A = TRT01P,\n    TRT01AN = TRT01PN,\n    SAFFL = \"Y\",          # demo only; define rules in real life\n    FASFL = \"Y\"\n  ) |&gt;\n  dplyr::select(STUDYID.x, USUBJID, TRT01P, TRT01PN, TRT01A, TRT01AN, AGE, SEX, EXSTDTC, SAFFL, FASFL)",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Capstone: End-to-End Mini Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "11-capstone.html#tlfs",
+    "href": "11-capstone.html#tlfs",
+    "title": "12  Capstone: End-to-End Mini Workflow",
+    "section": "12.4 3) TLFs",
+    "text": "12.4 3) TLFs\n\nlibrary(gt); library(ggplot2); library(survival)\n\ntbl1 &lt;- adsl |&gt;\n  group_by(TRT01P) |&gt;\n  summarise(N=n(),\n            mean_age = mean(AGE), sd_age = sd(AGE),\n            pct_female = mean(SEX==\"F\")*100)\ntbl1_gt &lt;- gt(tbl1) |&gt; tab_header(title=\"Table 1. Baseline by Treatment\")\ntbl1_gt\n\n\n\n\n\n\n\nTable 1. Baseline by Treatment\n\n\nDescription of Planned Arm\nN\nmean_age\nsd_age\npct_female\n\n\n\n\nPlacebo\n226\n75.04867\n8.503715\n60.61947\n\n\nScreen Failure\n52\n75.09615\n9.699928\n69.23077\n\n\nXanomeline High Dose\n184\n74.01087\n7.939656\n48.36957\n\n\nXanomeline Low Dose\n181\n75.29834\n8.277778\n60.77348\n\n\n\n\n\n\n\n\nset.seed(123)\nadsl$time &lt;- rexp(nrow(adsl), rate=ifelse(adsl$TRT01P==\"Active\", 0.08, 0.1))\nadsl$status &lt;- rbinom(nrow(adsl), 1, 0.7)\nfit &lt;- survfit(Surv(time, status) ~ TRT01P, data=adsl)\n# reuse plotting function from prior chapter\nggsurv &lt;- function(fit) {\n  ss &lt;- summary(fit)\n  dd &lt;- data.frame(time=ss$time, surv=ss$surv, strata=rep(names(fit$strata), fit$strata))\n  ggplot(dd, aes(x=time, y=surv, linetype=strata)) + geom_step() + theme_minimal() +\n    labs(title=\"KM Curve (Toy)\", x=\"Time\", y=\"Survival\", linetype=\"Treatment\")\n}\n#ggsurv(fit)",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Capstone: End-to-End Mini Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "11-capstone.html#save-outputs",
+    "href": "11-capstone.html#save-outputs",
+    "title": "12  Capstone: End-to-End Mini Workflow",
+    "section": "12.5 4) Save Outputs",
+    "text": "12.5 4) Save Outputs\n\n# Example: Save Table 1 as PNG\n#gtsave(tbl1_gt, \"tlf-table1.png\")\n\nChallenge: Convert this chapter into a parameterized report (e.g., treatment subset or different cohort) and render multiple outputs.",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Capstone: End-to-End Mini Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html",
+    "href": "12-appendix.html",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "",
+    "text": "13.1 Useful Profiles\nCreate ~/.Rprofile to set options (be careful on shared systems):",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html#useful-profiles",
+    "href": "12-appendix.html#useful-profiles",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "",
+    "text": "options(\n  repos = c(CRAN = \"https://cloud.r-project.org\"),\n  scipen = 999\n)",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html#custom-library-paths",
+    "href": "12-appendix.html#custom-library-paths",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "13.2 Custom Library Paths",
+    "text": "13.2 Custom Library Paths\n# In .Rprofile or project-level .Rprofile\n.libPaths(c(\"/path/to/Rlibs\", .libPaths()))",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html#format-vs-formatc-quick-recap",
+    "href": "12-appendix.html#format-vs-formatc-quick-recap",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "13.3 Format vs formatC (quick recap)",
+    "text": "13.3 Format vs formatC (quick recap)\n\nx &lt;- c(123.456, 0.00123456)\nformat(x, digits = 4)\n\n[1] \"1.235e+02\" \"1.235e-03\"\n\nformat(x, nsmall = 2)\n\n[1] \"1.23456e+02\" \"1.23456e-03\"\n\nformatC(x, digits = 3, format = \"f\")\n\n[1] \"123.456\" \"0.001\"",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html#posixct-vs-posixlt",
+    "href": "12-appendix.html#posixct-vs-posixlt",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "13.4 POSIXct vs POSIXlt",
+    "text": "13.4 POSIXct vs POSIXlt\n\nPOSIXct: seconds since epoch (numeric), compact, fast.\nPOSIXlt: list-like with components (year, mon, mday…), easier to extract parts.",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html#recommended-packages",
+    "href": "12-appendix.html#recommended-packages",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "13.5 Recommended Packages",
+    "text": "13.5 Recommended Packages\n\ntidyverse, lubridate, janitor, gt, gtsummary, survival, broom, here.\nPharma/CDISC: admiral, tlf/tern, pharmaverse meta-packages (explore as you grow).",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  },
+  {
+    "objectID": "12-appendix.html#short-glossary",
+    "href": "12-appendix.html#short-glossary",
+    "title": "13  Appendix: Tips, Profiles, .libPaths",
+    "section": "13.6 Short Glossary",
+    "text": "13.6 Short Glossary\n\nSDTM: Study Data Tabulation Model (FDA submission standard for raw domains).\nADaM: Analysis Data Model (derived analysis-ready datasets).\nTLF: Tables, Listings, Figures for reporting.",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Appendix: Tips, Profiles, .libPaths</span>"
+    ]
+  }
+]
