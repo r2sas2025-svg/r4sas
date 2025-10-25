@@ -4,14 +4,13 @@ title: "Welcome"
 
 # About this Course
 
-This Quarto book takes you from **R beginner** to **expert**, with a practical focus on **clinical programming** (CDISC/ADaM and TLFs).  
+This Course from **R beginner** to **expert**, with a practical focus on **clinical programming** (CDISC/ADaM and TLFs).  
 Each chapter includes step-by-step explanations, runnable code, and short exercises.
 
 ## How to Use
-1. Install: R (≥4.2), RStudio (or VS Code), and Quarto.
-2. In a terminal: `quarto render` to build the whole book, or click **Render** in RStudio.
-3. Open `index.html` in the `_book/` folder after rendering.
-
+1. Install: R (≥4.2), RStudio (or VS Code).
+2. Follow along chapter-by-chapter, running code and completing exercises.
+3. Use sample data or your own clinical trial datasets (SAS/CSV).
 ## Structure (Highlights)
 - **Basics & Data**: R syntax, data types/structures, vectors/data frames/lists.
 - **I/O**: Read SAS datasets (with `haven`), handle labels, and clean raw data.
@@ -21,3 +20,5 @@ Each chapter includes step-by-step explanations, runnable code, and short exerci
 - **TLFs**: Produce a baseline Table 1, a KM plot, and a listing.
 
 > Tip: If you don't have sample SDTM/ADaM data yet, the chapters generate **small synthetic data** as a fallback so everything runs end-to-end.
+## contact
+For questions or feedback, reach out to **r2sas2025@gmail.com**

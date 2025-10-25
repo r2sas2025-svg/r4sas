@@ -3,33 +3,1031 @@ title: "Manipulating Vectors, Data Frames, and Lists"
 ---
 
 ```{r}
+library(haven)
 library(dplyr)
 library(tidyr)
 ```
 
 # Vectors: Indexing & Vectorized Ops
 ```{r}
-v <- 1:10
-v[v %% 2 == 0]
-v * 2
+#Creating vector
+x=1:10
+x=10:1
+x=-5:10
+x=c(1:10)
+x=c(-5:10)
+x=c(1,2,3,4,5,6,7,8,9,10)
+
+# Naming a vector
+a=c(1:3)
+names(a) #Returns null
+names(a)=c("one","two","three")
+names(a)
+a
+
+#2)Accessing vector element
+x=c(1,3,5,7)
+x[2]
+x[c(1,3)]
+x[-2]
+x[-c(1,3)]
+x[0]
+y=x[10]
+class(y)
+#Note: X[0],x[10],output is numeric class only
+#************************************
+#3)Modification of Vector elements
+x=c(9,3,5,7)
+x[2]=13
+x[-c(2,3)]=c(11,17)
+x[-1]=c(110,170,70)
+
+#****************************
+x=c(11,3,5,7)
+x[9]=x[7]
+#****************************
+x=c(11,3,5,7)
+x[9]=x[2]
+
+x=c(1,3,5,7)
+x[2]=x[11] 
+#****************************
+x=c(1,3,5,7)
+x[c(2,5)]=x[c(4,4)] # It assign 4 element of to 2nd element and 4th element to 5th element 
+#****************************			from x=1,3,5,7
+x=c(11,3,5,7)
+x[c(2,7)]=x[c(1,3)]
+
+x=c(1,3,5,7)
+x[c(2,3)]=x[c(1,10)]
+
+#4)Airthematic Operations on Vector
+x=c(1,3,5,7)
+x+10
+x-5
+x*10
+x/10
+x=c(1,3,5,7)
+x%/%2
+x=c(1,3,5,7)
+x%%2
+min(x)
+max(x)
+median(x)
+mean(x)
+range(x)
+var(x)
+sd(x)
+quantile(x)
+quantile(1:20,probs=c(.25,0.9))
+IQR(x)
+
+#5)"WHICH" function
+x=c(2,3,4,5,11,112,133,33)
+x>5
+
+x=c(2,3,4,5,11,112,133,33)
+y=which(x>5) #Returns the position,not values
+y=x[which(x>5)]
+y=x[x>5]
+
+x=c(2,3,4,5,11,112,133,33)
+min(x)
+which(x==min(x))
+x[which(x==min(x))]#Returns the  value
+which.min(x)#Returns the position,not values
+
+x=c(2,3,4,5,11,112,133,33)
+max(x)
+which(x==max(x)) #Returns the position,not values
+x[which(x==max(x))]#Returns the  value
+which.max(x)#Returns the position,not values
+
+x=c(8,7,4,5,11,112,133,33)
+which(x>2 & x<5)
+x[which(x>2 & x<5)]
+
+x=c(8,7,4,5,11,112,133,33)
+which(x>7 | x<12)
+x[which(x>7 | x<12)]
+
+#6)"REP" function
+x=rep(1:5,times=10)
+x=rep(100,times=10)
+x=rep(c(3,6),times=4)
+x=rep("Kummam",times=5)
+x=rep(c("Ramesh","Kummam"),times=3)
+x=rep(1:4,5:8)
+x=rep(1:4,1:2) #output as invalid argument
+x=rep(1:4,c(2,3,5,7))
+x=rep(1:4,each=3)
+x=rep(1:4,each=2,times=3)
+
+#7)"SEQ" function
+x=seq(from=1,to=10,by=3)
+x=seq(from=1,to=10,by=-3) # wrong arguments
+x=seq(from=10,to=1,by=-3)
+x=seq(from=1,to=10,length=100)
+x=seq(from=1,by=2,length=100)
+y=seq(from=1,by=3,length=50)
+z=c(x,y)
+
+#8)seq_len() & seq_along() functions
+x=c(8,7,4,5,11,112,133,33)
+length(x)
+seq_len(length(x))
+seq_along(x) #Returns length of the object
+
+#9) Dealing with missing values
+x=c(11,3,5,7)
+x[2]=NA
+x[c(2,3)]=NA
+is.na(x) #Output is a logical vector
+x[!is.na(x)]
+na.omit(x)
+#Note: Observe the below operations carefully
+x=c(1,NA,5,NA)
+#x==NA # not followed it so far
+#x[x==NA]# not followed it so far
+	
+
+#10) Naming a vector
+x=c(1:3)
+names(x)=c("a","b","c")
+x[c("a","b")]
+y=c("Ramesh","Kummam")
+names(y)=c("First","Last")
+y[c("Last","First")]
+
+#9) Checking the availability of elements in a vector
+a=c(1:10)
+b=c(5:15)
+1 %in% a
+1 %in% b
+a %in% b
+b %in% a
+is.element(a,b)
+is.element(b,a)
+
+# print strings
+print("string")
+
+# concatenate strings "a" + "b" = "ab"
+paste("a", "b", sep = "")
+
+# paste objects of different length
+paste("i", 1:10, sep =".")
+paste(c("i","j", "k"), 1:10, sep =".")
+
+# paste with collapsing
+paste(c("i","j", "k"), 1:3, sep = "", collapse = "")
+
+# paste withour collapsing
+paste(c("i","j", "k"), 1:3, sep = "")
+
+# paste0() shorter version of paste(..., sep ="")
+paste0("Hello", "world", ",", "I", "use", "R")
+paste("Hello", "world", ",", "I", "use", "R", sep =" ")
+
+# concatenate strings with cat()
+cat("Hello", "world", "!")
+
+# it prints withoute "" quotes !!!
+cat("Hello", "world", "!", sep = "/")
+
+# counting number of characters nchar()
+nchar("Hello world")
+
+# load US states names from data frame regarding crime rate
+df <- USArrests
+head(df)
+rownames(df)
+states <- rownames(df) 
+
+# convert all states names to upper case
+states_upper <- toupper(states)
+
+# convert all names to lower
+states_lower <- tolower(states)
+
+# or select which to apply with function casefol
+casefold(x = states, upper = T)
+casefold(x = states, upper = F)
+
+# character translation
+chartr(old = "o", new = "0", x = "Hello World")
+
+# sorting strings 
+sort(states, decreasing = F) #ascending order
+sort(states, decreasing = T) #descending order
+
+# extracting parts of string
+# sub string first 3 letters from state name Alabama
+substr(x = "Alabama", start = 1, stop = 3)
+
+# String matching - back to toy example
+help(regex)
+
+# get all country names
+install.packages("countrycode")
+require(countrycode)
+
+countries <- as.vector(countrycode::codelist$country.name.en)
+
+# countries beginning with letter "A"
+grep(pattern = "^A", x = countries)
+countries[grep(pattern = "^A", x = countries)]
+countries[grepl(pattern = "^A", x = countries)]
+
+# all country names that end with letter "y"
+rez <- grep(pattern = "*y$", x = countries)
+countries[rez]
+
+# all country with 2 words or more for a country name
+rez <- grep(pattern = "\\w\\s\\w", x = countries)
+countries[rez]
+
+# all country names that end with letter "e" or "i"
+rez <- grep(pattern = "*e$|*i$", x = countries)
+countries[rez]
+
+# all country names which contain combination of letters “gin” 
+rez <- grep(pattern = "*(gin)", x = countries)
+countries[rez]
+
+
+# metacharacters and double backslash sign
+strings <- c("dollar $", "dollar", "US dollar")
+
+# how to escape metacharacters in R
+# we would like to match a word with "$" dollar sign
+strings
+rez1 <- grep(pattern = "$", x = strings) # wrong way all are find $ indicating end of string
+strings[rez1]
+
+# we need to escape $ with \ backslash
+rez2 <- grep(pattern = "\$", x = strings) # wrong way error
+strings[rez2]
+
+# right way $ escape with \\ double backslash
+rez3 <- grep(pattern = "\\$", x = strings) # wrong way error
+strings[rez3]
+
+# Escape dot .
+strings <-c("word.word", "word word")
+rez <- grep(pattern = "\\.", x = strings)
+strings[rez]
+
+# the hat sign beginning of the string and dollar sign end of string
+strings <- c("Word", "worD")
+strings[grep("^W",strings)]
+strings[grep("D$",strings)]
+
+# example of an anchor sequences in R
+strings <- c("123", "onetwothree", "1twothree")
+strings[grep("\\d", strings)] # digit character
+strings[grep("\\D", strings)] # non-digit character
+
+# example of a character classes
+strings <- c("123", "dollar", "shkjl")
+strings[grep("[aeiou]", strings)] # match word with any vovel
+strings[grep("[0-9]", strings)] # match word with digits
+
+
+# find and replace sub() & gsub()
+string <- "I have started to learn R, and I already love R."
+
+# replace "R" with "X"
+sub(pattern = "R", replacement = "X", x = string) #only first occurence replaced
+gsub(pattern = "R", replacement = "X", x = string) #all occurences replaced
+
+#replace white space with blank space
+gsub(pattern = "\\s", replacement = "", x = string)
+
+
+# string split, split given sentence by comma ","
+strsplit(x = string, split = ",")
+
+# split phone numbers by digits
+numbers <- c("310-555-123", "311-444-456")
+strsplit(x = numbers, split = "-")
+
 ```
 
 # Data Frames with dplyr
 ```{r}
-df <- tibble::tibble(
-  id = 1:6,
-  grp = c("A","A","B","B","C","C"),
-  age = c(35,44,53,51,29,40),
-  wt  = c(70, 85, 92, 88, 60, 75)
+
+# create data frame 
+df1 <- data.frame(col1 = 1:3, 
+                  col2 = c("a", "b", "c"), 
+                  col3 = c(T, F, T), 
+                  col4 = c(as.Date("2020-01-01"), as.Date("2020-01-03"), as.Date("2020-01-03")))
+
+
+df1
+View(df1)
+
+# create data frame - vectors
+col1 <- seq(10,100,10)
+col2 <- seq(as.Date("2020-01-01"), length = 10, by = "weeks")
+col3 <- rep("word", 10)
+
+df2 <- data.frame(num = col1,
+                  date = col2,
+                  string = col3)
+
+# check DF structure
+str(df2)
+
+
+# create data frame - matrix
+M <- matrix(data = 1:100, nrow = 10, ncol = 10, byrow = T)
+rownames(M) <- paste("row", 1:10, sep = "")
+colnames(M) <- paste("col", 1:10, sep = "")
+M
+df3 <- as.data.frame(M)
+df3
+
+# check DF dimensions
+dim(df3)
+nrow(df3)
+ncol(df3)
+
+# check DF type / class
+class(df3)
+typeof(df3)
+
+
+# 4.3.2 Accessing DF
+
+# let's create DF - employees
+df_emp <- data.frame(id = 1:6,
+                     name = c("Max", "Jane", "John", "Tony", "Janis", "Helen"),
+                     surname = c("Gordon", "Smith", "Don", "Price", "Jett", "Dust"),
+                     age = c(55, 35, 46, 22, 60, 27),
+                     date_start_work = c(as.Date("1985-09-01"), as.Date("2010-10-01"), as.Date("1999-06-01"), as.Date("2019-03-01"), as.Date("1980-04-15"), as.Date("2015-02-20")),
+                     gender = c("M", "F", "M", "M", "F", "M"),
+                     manager_position = c(T, F, F, F, T, F)
+                     )
+
+# extract data as data frame (one column) - []
+df_extr <- df_emp["name"]
+df_extr
+class(df_extr)
+
+# extract data as vector (one column) [[]] $
+df_extr <- df_emp[["age"]]
+df_extr
+class(df_extr) # vector factor
+df_extr <- df_emp$age
+df_extr
+class(df_extr) # vector factor
+
+# extract multiple columns
+df_extr <- df_emp[c("name", "age")]
+df_extr
+
+
+# data frame slicing
+df_emp
+
+#extract second row in name column (1 cell)
+df_emp[2,2]
+df_emp[2,"name"]
+
+# extract first 4 rows of last 2 columns 
+df_emp[1:4, 6:7]
+df_emp[1:4, c("gender", "manager_position")]
+
+# extract first column (all rows)
+df_emp[,1]
+df_emp[,"id"]
+df_emp$id
+
+# extract last 2 rows (all columns) 
+df_emp[5:6,]
+cols <- colnames(df_emp)
+df_emp[5:6, cols]
+
+
+# 4.3.3 Modifying data frame
+
+# append column 
+df_emp <- cbind(df_emp, role = c("director", "secretary", "analyst", "researcher", "CEO", "analyst"))
+df_emp$new_col <- 1
+
+# append rows 
+df_emp <- rbind(df_emp, list(7, "Mark", "Jax", 32, as.Date("2020-01-01"), "M", F, "researcher", 1))
+
+# problem with factor variables (new values not in factor levels)
+# easy solution - append new row as data frame (rbind 2 data frames)!!! 
+# will show few rows later
+
+# remove column
+df_emp$new_col <- NULL
+
+# remove row
+df_emp <- df_emp[-7,]
+
+# merge two data frames (row wise)
+df_new_emp <- data.frame(id = 7,
+                         name = "Mark",
+                         surname = "Jax",
+                         age = 32,
+                         date_start_work = as.Date("2020-01-01"),
+                         gender = "M",
+                         manager_position = F,
+                         role = "researcher")
+
+df_emp <- rbind(df_emp, df_new_emp)
+
+# merge two data frames (column wise)
+df_attr <- data.frame(eye_color = c("blue", "green", "brown", "hazel", "blue", "brown", "brown"),
+                      hair_color = c("blonde", "light brown", "black", "brown", "blonde", "dark brown", "brown"))
+df_emp <- cbind(df_emp, df_attr)
+
+
+# 4.3.4 Tips
+
+# Df summary
+summary(df_emp)
+
+# rows subsetting
+subset(x = df_emp, gender == "M")
+subset(x = df_emp, gender == "F" & manager_position == T)
+
+rows <- which(df_emp[,"gender"] == "M")
+df_emp[rows,]
+
+rows <- which(df_emp[,"gender"] == "F" & df_emp[,"manager_position"] == T)
+df_emp[rows,]
+
+# some calculations regarding data frames
+nr_managers <- sum(df_emp$manager_position)
+mean_age <- mean(df_emp$age)
+df_emp$name_surname <- paste(df_emp$name, df_emp$surname, sep = " ") # merge name and surname
+
+# use apply to sum over columns (age, manager_position)
+apply(df_emp[,c("age", "manager_position")], 2, sum)
+
+# if statement
+
+x <- 3
+y <- 14
+
+if(x < y){
+  print("x is less than y")
+}
+
+
+# if-else statement
+
+x <- 3
+y <- 14
+
+if(x > y){
+  print("x is greater than y")
+} else{
+  print("x is less or equal to y")
+}
+
+
+# if-else if-else statement
+
+x <- 14
+y <- 14
+
+if(x > y){
+  print("x is greater than y")
+} else if (x < y){
+  print("x is less than y")
+} else{
+  print("x is equal to y")
+}
+
+
+# 5.1.2 relational operators
+
+# scalar
+x <- 3
+
+x == 4
+x > 0 
+x < 5
+x <= 3
+x >= 10
+x %in% c(1,2,3,4,5)
+
+# vectors
+X <- c(F,T,0,10)
+Y <- c(T,F,F,T)
+
+X == Y # element-wise comparison
+X > Y
+X < Y
+X >= Y
+X <= Y
+X != Y
+X %in% Y
+
+
+# 5.1.3 Logical operators 
+
+X | Y
+X || Y
+X & Y
+X && Y
+!X
+
+# logical operators in if statement (flip coin twice)
+c1 <- "H"
+c2 <- "H"
+
+if(c1 == "H" & c2 == "H"){
+  paste("You win 10$")
+} else if((c1 == "H" & c2 == "T") | (c1 == "T" & c2 == "H")){
+  paste("You win 2$")
+} else{
+  paste("You lose all the money")
+}
+
+
+# loop over iterations and print number of iteration
+for(it in 1:10){
+  print(paste("iteration ", it, sep = ""))
+}
+
+
+# sum of numbers in a sequence
+sequence <- c(1,2,3,4,5)
+s <- 0 # initial sum
+
+for(val in sequence){
+  s <- s + val
+  print(paste("value = ", val, sep = ""))
+  print(paste("s = ", s, sep = ""))
+  print("--------------------")
+}
+
+
+# for loop with conditional statement
+# (count number of even numbers in a vector)
+x <- c(1,3,2,4,5,10,22,21,100) # given numbers
+count <- 0 # counter for even numbers
+
+for(val in x){
+  if(val %% 2 == 0){ # if number is divisible with 2
+    count <- count + 1
+  }
+}
+
+print(count)
+
+
+
+```
+# Read sas dataset
+```{r}
+dm <- haven::read_sas("data/sdtm/dm.sas7bdat")
+ae <- haven::read_sas("data/sdtm/ae.sas7bdat")
+```
+
+# keeping selected columns
+```{r}
+
+dm_1 <- dm |> 
+       dplyr::select(USUBJID,ARM) |> 
+       dplyr::filter(ARM =="Placebo")
+
+dm_2 <- dm |> 
+  dplyr::select(USUBJID:ARM) 
+
+dm_2 <- dm |> 
+  dplyr::select(1,2,3) 
+
+dm_2 <- dm |> 
+  dplyr::select(1:3) 
+
+dm_2 <- dm |> 
+  dplyr::select(starts_with("AR")) 
+
+dm_2 <- dm |> 
+  dplyr::select(contains("DT")) 
+
+
+dm2 <- dplyr::select(dm,USUBJID,ARM) 
+```
+
+# dropping columns
+To select all columns except certain ones, put a “-” in front of the variable to exclude it. For multiple variables, you can use the function c() to combine values into a vector or list. This will select all the variables in surveys except ARM, SITEID
+```{r}
+adsl <- haven::read_sas("data/adam/adsl.sas7bdat")
+adsl2 <- dplyr::select(adsl, -c(AGE, SEX, TRT01A))
+adsl3 <- select(adsl, -c(STUDYID:ARM))
+adsl4 <- select(adsl, -c(1:6))
+adsl4 <- select(adsl, -c(1:6, 43))
+adsl5 <- select(adsl, -starts_with("A"))
+adsl6 <- select(adsl, -ends_with("DTC"))
+adsl7 <- select(adsl, -contains("TRT"))
+```
+There are many helper functions available with select() like: starts_with(), ends_with(), contains() among others. These were imported from the tidyselect package. You can put a “-” in front of the helper function to negate it. Here is an example using contains():
+# Filtering rows
+To choose rows based on a specific criteria, use filter(): To select rows where the planned treatment code equals “Placebo”:
+```{r}
+adsl1 <- adsl |> 
+     dplyr::select(USUBJID,TRT01A) |> 
+     dplyr::filter(TRT01A=="Placebo" )
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A=="Placebo" & SEX == "M" & AGE == 70)
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A=="Placebo" & (SEX == "M" | AGE == 70))
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A=="Placebo" & SEX == "M" & AGE %in% c(70,80))
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A=="Placebo" & SEX == "M" & !AGE %in% c(70,80))
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A=="Placebo" & !SEX == "M" & !AGE %in% c(70,80))
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A %in% c("Placebo","Xanomeline High Dose") & !SEX == "M" & !AGE %in% c(70,80))
+
+adsl2 <- adsl |> 
+  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
+  dplyr::filter(TRT01A %in% c("Placebo","Xanomeline High Dose") & !SEX == "M" & AGE >= 70)
+```
+
+# Rename
+```{r}
+adsl1 <- adsl |> 
+    dplyr::rename(usubjid=USUBJID)
+
+adsl1 <- adsl |> 
+  dplyr::rename(usubjid=USUBJID,
+                trt=TRT01P)
+```
+
+# Arrange (sorting)
+```{r}
+adsl1 <- adsl |> 
+      dplyr::select(USUBJID,SEX,AGE) |> 
+      dplyr::arrange(AGE,SEX)
+
+adsl1 <- adsl |> 
+  dplyr::select(USUBJID,SEX,AGE) |> 
+  dplyr::arrange(AGE,desc(SEX))
+```
+
+# conver var names to lower case
+```{r}
+tolower(names(adsl))
+
+adsl1 <- adsl
+
+names(adsl1) <- tolower(names(adsl1))
+```
+
+# Creating new variables
+```{r}
+adsl1 <- adsl |> 
+  dplyr::mutate(name="Sri Ram")
+
+adsl_test <- adsl |>
+  dplyr::mutate(
+    AGEGR1_t = dplyr::if_else(AGE < 65, "<65", ">=65"),                     # character
+    SAFFL_t  = dplyr::if_else(!is.na(TRTSDT), "Y", "N")                    # character flag
+  ) |> 
+  dplyr::select(USUBJID,AGE,AGEGR1_t,SAFFL_t,TRTSDT)
+```
+
+# bind rows ( set operator in SAS)
+```{r}
+# bind rows
+df_a <- data.frame(
+  id = 1:3,
+  value = c("A", "B", "C"),
+  score = c(10, 20, 30)
+)
+df_b <- data.frame(
+  id = 4:6,
+  value = c("D", "E", "F"),
+  score = c(40, 50, 60)
 )
 
-df |> 
-  dplyr::group_by(grp) |>
-  dplyr::summarise(
-    n = dplyr::n(),
-    mean_age = mean(age),
-    sd_wt = sd(wt)
+com <- dplyr::bind_rows(df_a,
+                        df_b)
+
+df_combined <- dplyr::bind_rows(df_a, df_b,df_a,.id = "source")
+
+df_combined <- dplyr::bind_rows(df_a, df_b,df_a,.id = "source")
+
+df_combined <- dplyr::bind_rows("dset1"=df_a, 
+                                "dset2"=df_b,
+                                "test"=df_a,.id = "Source_var_name")
+
+df_combined <- dplyr::bind_rows(select(df_a,id, value), 
+                                df_b)
+
+adsl_tot <- dplyr::bind_rows(adsl |> 
+                               dplyr::select(USUBJID,TRT01P,TRT01PN),
+                             
+                             adsl |> 
+                               dplyr::mutate(TRT01P="Total", TRT01PN=99) |>
+                               dplyr::select(USUBJID,TRT01P,TRT01PN)
+)
+
+```
+
+# recode (similar to PROC FORMAT in SAS)
+```{r}
+sex_fm <- c("M"="Male",
+            "F"="Female"
+)
+adsl_test1 <- adsl_test |> 
+      dplyr::mutate(gender=dplyr::recode(SEX,!!!sex_fm))
+
+adsl_test2 <- adsl_test |> 
+        dplyr::mutate(SEX=dplyr::recode(SEX,"M"="Male",
+                                            "F"="Female"))
+
+adsl_test <- adsl |>
+  dplyr::mutate(
+    gn = dplyr::if_else(SEX=="M","Male","Female")                    # character
+                ) |> 
+  dplyr::select(USUBJID,SEX,gn) |> 
+  head(5)
+```
+# joins
+
+The dplyr package provides functions to join tables based on shared keys, such as patient IDs. The main types of joins include:
+
+-   inner_join()
+-   left_join()
+-   right_join()
+-   full_join()
+-   semi_join()
+-   anti_join()
+
+```{r}
+# Patient demographics data
+patients <- data.frame(
+  patient_id = c(101, 102, 103, 104),
+  age = c(34, 45, 29, 56),
+  gender = c("F", "M", "M", "F")
+)
+
+# Patient lab results data
+lab_results <- data.frame(
+  patient_id = c(103, 104, 105, 106),
+  test = c("CBC", "Lipid Panel", "Blood Glucose", "CBC"),
+  result = c("Normal", "High Cholesterol", "Elevated", "Normal")
+)
+
+# Display the data frames
+patients
+lab_results
+
+```
+
+## innter join
+
+`inner_join()`: returns only rows with matching patient IDs in both data frames.
+
+```{r}
+# Inner join on patient_id
+inner_join(patients, lab_results, by = "patient_id")
+
+```
+
+In this example, only patients with patient_ids 103 and 104 are in both tables, so only their information appears in the result.
+
+## left join
+
+`left_join()` returns all rows from the patients data frame and matches rows from lab_results where possible. Unmatched rows in lab_results are filled with `NA`.
+
+```{r}
+# Left join on patient_id
+left_join(patients, lab_results, by = "patient_id")
+
+```
+
+Here, all patients from patients are included, with `NA` for lab results where no match is found.
+
+## right join
+
+`right_join()` returns all rows from lab_results, matching rows from patients where possible. Unmatched rows in patients are filled with`NA`.
+
+```{r}
+# Right join on patient_id
+right_join(patients, lab_results, by = "patient_id")
+
+```
+
+In this example, all patients with lab results are included, with demographic data from patients where available.
+
+## Full Join
+
+`full_join()` returns all rows from both tables, with `NA` for missing matches in either table.
+
+```{r}
+# Full join on patient_id
+full_join(patients, lab_results, by = "patient_id")
+
+```
+
+## Semi Join
+
+`semi_join()` returns only the rows in patients that have a match in lab_results, without bringing in columns from lab_results.
+
+```{r}
+# Semi join on patient_id
+semi_join(patients, lab_results, by = "patient_id")
+
+```
+
+Only patients with lab results are included here (patients 103 and 104).
+
+## Anti join
+
+`anti_join()` returns only the rows in patients that do not have a match in lab_results.
+
+```{r}
+# Anti join on patient_id
+anti_join(patients, lab_results, by = "patient_id")
+
+#example
+tab_a <- data.frame(
+  id=c(001,002,003,004),
+  age=c(25,50,30,40)
+)
+
+tab_b <- data.frame(
+  id=c(001,002,004,005),
+  sex=c("M","F","M","F")
+)
+
+#inner join: 
+injointab <- dplyr::inner_join(tab_a,tab_b,by="id")
+#full join:
+fulljointab <- full_join(tab_a,tab_b,by="id")
+#left join
+leftjointab <- left_join(x=tab_a,y=tab_b,by="id")
+#right join
+righjointab <- right_join(x=tab_a,y=tab_b,by="id")
+#anti_join
+antijointab <- anti_join(x=tab_a,y=tab_b,by="id")
+antijointab1 <- anti_join(x=tab_b,y=tab_a,by="id")
+
+```
+# Reshaping data with tidyr
+```{r}
+test <- data.frame(
+  visit=c("wk0","wk2","wk4","wk6","wk12"),
+  drug_a=c(10,20,30,40,50),
+  drug_b=c(50,40,30,20,10),
+  drug_c=c(15,25,35,45,55))
+#tidyr::pivot_longer
+library(tidyr)
+test1 <- pivot_longer(data=test,
+                      cols=c(drug_a,drug_b,drug_c),
+                      names_to="drug",
+                      values_to = "dose")
+
+
+test2 <- pivot_wider(data=test1,
+                     id_cols =visit,
+                     names_prefix = "d_", # it is optional
+                     values_from = dose,
+                     names_from = drug)
+```
+
+# counting with `n()`
+When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, dplyr provides count(). For example, if we wanted to count the number of rows of data for each sex, we would do:
+```{r}
+cnt <- adsl |> 
+  dplyr::count(SEX)
+print(cnt)
+
+# race count by treatment
+cnt2 <- adsl |> 
+  dplyr::count(TRT01P, RACE)
+print(cnt2)
+
+#treatment count
+cnt3 <- adsl |> 
+  dplyr::filter(!is.na(TRT01P)) |>
+  dplyr::count(TRT01P)
+print(cnt3)
+
+
+adae <- haven::read_sas("data/adam/adae.sas7bdat") |> 
+  dplyr::mutate(dplyr::across(where(is.character),~ dplyr::na_if(.,"")))
+
+adsl <- haven::read_sas("data/adam/adsl.sas7bdat") |> 
+  dplyr::mutate(dplyr::across(where(is.character),~ dplyr::na_if(.,"")))
+
+bign <- adsl |>
+  dplyr::filter(SAFFL == "Y") |>
+  dplyr::count(TRT01AN, TRT01A) |>
+  dplyr::rename(TRTA = TRT01A, TRTAN = TRT01AN, bign = n)
+
+bign1 <- dplyr::count(adsl, TRT01AN, TRT01A) |>
+  dplyr::rename(TRTA = TRT01A, TRTAN = TRT01AN, bign = n)
+
+adae1 <- adae |> 
+   dplyr::distinct(USUBJID,AEBODSYS,AEDECOD,TRTA,TRTAN,SAFFL)
+
+ae_t <- adae1 |>
+  dplyr::filter(SAFFL == "Y") |>
+  dplyr::group_by(TRTA) |>
+  dplyr::count(AEBODSYS, AEDECOD)
+
+ae_t1 <- ae_t |>
+  dplyr::left_join(bign, by = "TRTA") |>
+  dplyr::mutate(
+    pct = paste0("(", round(n / bign * 100, 2), ")"),
+    val = paste0(n," ",pct)
   )
+
+ae2 <- pivot_wider(
+  data = ae_t1,
+  id_cols = c(AEBODSYS, AEDECOD),
+  names_from = TRTA,
+  values_from = val,
+  values_fill = "0 (0.0)"
+)
+
+```
+# dplyr distinct()
+The distinct() function in dplyr is used to return unique/distinct rows from a data
+frame or tibble. It removes duplicate rows based on the values in specified columns or all columns if none are specified.
+```{r}
+# distinct
+distinct_trt <- adsl |> 
+  dplyr::distinct(TRT01P,TRT01PN)
+print(distinct_trt)
+```
+# case_when()
+The case_when() function in dplyr is a powerful tool for creating new variables based on
+multiple conditions. It allows you to specify a series of conditions and corresponding values to assign when those conditions are met.
+```{r}
+adsl1 <- adsl |> 
+  dplyr::mutate(
+    agegrp1 = dplyr::case_when(
+      AGE < 18 ~ "Child",
+      AGE >= 18 & AGE < 65 ~ "Adult",
+      AGE >= 65 ~ "Senior",
+      TRUE ~ "Unknown"  # Default case
+    )
+  ) |> 
+  dplyr::select(USUBJID, AGE, age_group) |> 
+  head(10)
+```
+# create seq no.
+```{r}
+class <- haven::read_sas("data/class.sas7bdat")
+
+
+t <- dplyr::arrange(class, Age)
+# Create t1 data set with first and last records for each unique value of 'age'
+
+t1 <- class |> 
+  dplyr::arrange(Age) |>
+  dplyr::group_by(Age) |>
+     dplyr::mutate(seq = dplyr::row_number()) 
+
+t2 <- class |> 
+  dplyr::mutate(seq = dplyr::row_number(), .by = Age) |> 
+  dplyr::arrange(Age)
+
+t3 <- class |> 
+  dplyr::arrange(Age) |>
+  dplyr::group_by(Age) |>
+  dplyr::filter(dplyr::row_number() == 1 )
+
+t4 <- class |> 
+  dplyr::arrange(Age) |>
+  dplyr::group_by(Age) |>
+  dplyr::filter(dplyr::row_number() == n())
+
+t5 <- class |> 
+  dplyr::group_by(Age) |> 
+  dplyr::filter(row_number() == 1 & row_number() == n())
+
+t6 <- class |> 
+  dplyr::group_by(Age) |> 
+  dplyr::filter(row_number() == 1|row_number() == n())
+
 ```
 
 ## `mutate()` + `across()`
@@ -40,6 +1038,7 @@ df |>
     across(c(age, wt), ~ .x - mean(.x), .names = "{.col}_centered")
   )
 ```
+
 
 ## Row-wise with `c_across()`
 ```{r}

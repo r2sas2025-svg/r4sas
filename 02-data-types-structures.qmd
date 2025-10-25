@@ -4,7 +4,7 @@ title: "Data Types & Data Structures"
 
 R has several built-in data structures to store and manipulate different types of data. These include vectors, lists, matrices, data frames, and factors. Below is an overview of each structure along with code examples.
 
-# 1. Vectors
+# Vectors
 
 Vectors are the simplest data structure in R. They store elements of the same type (numeric, character, logical, etc.).
 
@@ -233,7 +233,7 @@ identical(c(1,2,3), c(1,2,3))
 
 ```
 
-# 2. Lists
+# Lists
 
 A list can contain elements of different types, including other lists or vectors or data structures.
 
@@ -353,7 +353,7 @@ list1[[1]][[1]][[2]]
 
 ```
 
-# 3. Matrices
+# Matrices
 
 A matrix is a two-dimensional structure that contains elements of the same type (numeric, character, or logical).
 
@@ -581,7 +581,7 @@ apply(A, 1, mean)
 apply(A, 2, sd)
 ```
 
-# 4. Data Frames
+# Data Frames
 
 A data frame is a table where each column can contain elements of different types (e.g., numbers, strings). It’s the most common structure used for data sets.
 
@@ -752,7 +752,7 @@ apply(df_emp[,c("age", "manager_position")], 2, sum)
 
 ```
 
-# 5. Factors
+# Factors
 
 Factors are used to represent categorical data. They store both the data values and the corresponding levels.
 
@@ -796,7 +796,7 @@ f_strings <- factor(strings)
 f_string
 ```
 
-# 6. Arrays
+# Arrays
 
 Arrays are similar to matrices but can have more than two dimensions.
 
