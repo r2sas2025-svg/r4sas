@@ -604,9 +604,6 @@ df1 <- data.frame(col1 = 1:3,
                   col3 = c(T, F, T), 
                   col4 = c(as.Date("2020-01-01"), as.Date("2020-01-03"), as.Date("2020-01-03")))
 
-
-df1
-
 # create data frame - vectors
 col1 <- seq(10,100,10)
 col2 <- seq(as.Date("2020-01-01"), length = 10, by = "weeks")
@@ -793,6 +790,7 @@ is.ordered(gender)
 # create other object to factor
 strings <- c("a", "b", "a", "c")
 f_strings <- factor(strings)
+
 #f_string
 ```
 
