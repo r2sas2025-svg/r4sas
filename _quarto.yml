@@ -3,7 +3,7 @@ project:
 
 book:
   title: "R Course: Beginner to Expert "
-  author: "Gaduputi.R"
+  author: "Sumit.G"
   date: today
   chapters:
     - index.qmd

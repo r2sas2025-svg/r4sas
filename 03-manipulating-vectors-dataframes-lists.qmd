@@ -685,7 +685,7 @@ adsl1 <- adsl |>
   dplyr::arrange(AGE,desc(SEX))
 ```
 
-# conver var names to lower case
+# convert var names to lower case
 ```{r}
 tolower(names(adsl))
 
