@@ -793,7 +793,7 @@ is.ordered(gender)
 # create other object to factor
 strings <- c("a", "b", "a", "c")
 f_strings <- factor(strings)
-f_string
+#f_string
 ```
 
 # Arrays
