@@ -14,12 +14,139 @@ x <- 10
 y <- 3.5
 x + y
 ```
+# object naming rules
 
-# Getting Help
+-   R variable names can contain letters, numbers, periods, and underscores. However, they cannot start with a number or underscore. R is case-sensitive, so `age`, `Age`, and `AGE` would be considered different variables.
+-   R variable names should be descriptive and meaningful. Avoid using reserved words or function names as variable names.
+-   A variable can have a short name (like x and y) or a more descriptive name (age, carname, total_volume). Rules for R variables are:
+-   A variable name must start with a letter and can be a combination of letters, digits, period(.) and underscore(\_). If it starts with period(.), it cannot be followed by a digit.
+-   A variable name cannot start with a number or underscore (\_) Variable names are case-sensitive (age, Age and AGE are three different variables) Reserved words cannot be used as variables (TRUE, FALSE, NULL, if...)
+-   Variable names should not contain spaces. Use underscore (\_) or period (.) to separate words in a variable name.
+-   Variable names should be meaningful and descriptive. Avoid using single-letter variable names except for temporary variables in loops or functions.
+
+# Basic Operations in R
+
+R supports various basic operations, including: \* Arithmetic Operations: Addition (`+`), subtraction (`-`), multiplication (`*`), division (`/`), and exponentiation (`^`). Example:
+
+```{r}
+a <- 10
+b <- 5
+sum <- a + b
+diff <- a - b
+prod <- a * b
+quot <- a / b
+exp <- a ^ b
+sum; diff; prod; quot; exp
+```
+
+-   Comparison Operations: Equal to (`==`), not equal to (`!=`), greater than (`>`), less than (`<`), greater than or equal to (`>=`), and less than or equal to (`<=`). Example:
+
+```{r}
+x <- 10
+y <- 5
+eq <- x == y
+neq <- x != y
+gt <- x > y
+lt <- x < y
+gte <- x >= y
+lte <- x <= y
+eq; neq; gt; lt; gte; lte
+
+```
+
+-   Logical Operations: AND (`&`), OR (`|`), and NOT (`!`). Example:
+
+```{r}
+p <- TRUE
+q <- FALSE
+and <- p & q
+or <- p | q
+not <- !p
+and; or; not
+```
+
+# Comments in R
+
+Comments in R are created using the `#` symbol. Anything following the `#` on the same line is considered a comment and is ignored by R during execution. Example:
+
+```{r}
+# This is a comment
+x <- 10  # Assigning value to x
+y <- 5   # Assigning value to y
+sum <- x + y  # Calculating the sum of x and y
+sum  # Output the sum
+
+```
+
+# Getting Help in R
+
+R provides several ways to get help and documentation for functions and packages: \* `?function_name`: Displays the documentation for a specific function. Example:
+
 ```{r}
 ?mean
-help("lm")
 ```
+
+-   `help(function_name)`: Another way to access the documentation for a function. Example:
+
+```{r}
+help(mean)
+```
+
+-   `help.search("keyword")`: Searches for help topics related to a specific keyword. Example:
+
+```{r}
+help.search("regression")
+```
+
+-   `example(function_name)`: Shows examples of how to use a specific function. Example:
+
+```{r}
+example(mean)
+```
+
+-   `vignette("package_name")`: Opens the vignette (detailed documentation) for a specific package. Example:
+
+```{r}
+vignette("dplyr")
+```
+
+-   `??keyword`: Searches for help topics related to a specific keyword (similar to `help .search`). Example:
+
+```{r}
+??regression
+```
+
+# Installing and Loading Packages in R
+
+R has a vast ecosystem of packages that extend its functionality. To use a package, you need to install it first and then load it into your R session. \* Installing a Package: Use the `install.packages("package_name")` function to install a package from CRAN. Example:
+
+```{r eval=FALSE}
+install.packages("ggplot2")
+
+```
+
+-   Loading a Package: Use the `library(package_name)` function to load an installed package into your R session. Example:
+
+```{r}
+library(ggplot2)
+
+# Now you can use functions from the ggplot2 package
+```
+
+### Saving and Loading Workspaces in R
+
+You can save your R workspace (all objects in memory) to a file and load it later \* Saving Workspace: Use the `save.image("file_name.RData")` function to save the entire workspace to a file. Example:
+
+```{r eval=FALSE}
+save.image("my_workspace.RData")
+```
+
+-   Loading Workspace: Use the `load("file_name.RData")` function to load a saved workspace from a file. Example:
+
+```{r eval=FALSE}
+load("my_workspace.RData")
+```
+
 
 # Working Directory
 ```{r}

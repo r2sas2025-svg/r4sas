@@ -2,44 +2,818 @@
 title: "Data Types & Data Structures"
 ---
 
-# Atomic Types
-- logical, integer, double (numeric), character, complex, raw
+R has several built-in data structures to store and manipulate different types of data. These include vectors, lists, matrices, data frames, and factors. Below is an overview of each structure along with code examples.
+
+# 1. Vectors
+
+Vectors are the simplest data structure in R. They store elements of the same type (numeric, character, logical, etc.).
 
 ```{r}
-typeof(TRUE)
-typeof(1L)
-typeof(1.0)
-typeof("R")
+# Creating numeric and character vectors
+numeric_vector <- c(1, 2, 3, 4)
+char_vector1 <- c("apple", "banana", "cherry")
+char_vector2 <- c(2, 3, 4, 5, "a")
+logical_vector <- c(TRUE, FALSE, TRUE)
+
+# Accessing elements
+numeric_vector[1]  # Access the first element
+
+v_logical <- c(T,F,T) # logical vector
+v_logical
+is.vector(v_logical)
+is.atomic(v_logical)
+typeof(v_logical)
+
+v_integer <- c(1L,2L,5L) # integer vector
+v_integer
+is.vector(v_integer)
+is.atomic(v_integer)
+typeof(v_integer)
+
+v_double <- c(1.3,2.1,5.0) # double vector
+v_double
+is.vector(v_double)
+is.atomic(v_double)
+typeof(v_double)
+
+v_character <- c("a", "b", "c") # character vector
+v_character
+is.vector(v_character)
+is.atomic(v_character)
+typeof(v_character)
+
+v_NULL <- NULL # NULL
+v_NULL
+typeof(v_NULL)
+
+# Mix type vector (type coercion or conversion)
+v_mix <- c(T, 1L, 1.25, "a")
+v_mix # all elements converted to charatcers (based on hierarchy)
+is.vector(v_mix)
+typeof(v_mix)
+
+
+# Vector properties
+
+v <- c(1,2,3,4,5)
+
+# vector length
+length(v)
+
+# type
+typeof(v)
+class(v)
+
+# naming elements
+names(v) # without names
+vnames <- c("first", "second", "third", "fourth", "fifth") # element names
+names(v) <- vnames # naming elements
+v
+names(v) # new names
+
+
+# Create vector, access elements, modify vector
+
+# create using c()
+v <- c(1,3,5,8,0)
+
+# create using operator :
+1:100
+10:-10
+
+# using sequence seq()
+v <- seq(from = 1, to = 100, by = 1)
+v
+v <- seq(from = 0, to = 1, by = 0.01)
+v
+v <- seq(from = 0, to = 10, length.out = 5)
+v
+
+# let's create a vector for accessing vector elements
+v <- 1:10
+names(v) <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
+v
+
+# access vector elements using integer vector index
+v[c(1,5,10)]
+v[1:5] # range index selection (slicing)
+v[seq(from = 1, to = 9, by = 2)]
+v[10:1] # reverse order selection
+v[c(10,1,5,3)] # mix orfer selection
+
+# access vector elements using logical vector index
+v[c(T,F,F,F,F,F,F,F,F,F)] # access first element
+v[c(F,F,F,F,F,F,F,T,T,T)] # access last three elements
+
+# access elements using names
+v[c("a","c","e")]
+v[c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")]
+
+
+# modify vector elements
+v
+v[2] <- 20 # alter second element
+v
+v[c(1,5,10)] <- c(0,0,0) # alter multiple elements
+v
+
+# modify elements with value 0
+v
+v[v==0] # filter with condition
+v[v==0] <- 1000
+v
+
+# truncate vector to first 3 elements
+v <- v[1:3]
+v
+
+# transpose vector change row to column vector or vice versa
+v
+t(v)
+
+# delete or remove a vector
+v <- NULL
+v
+rm(v)
+
+# combine 2 different vectors
+v1 <- 1:3
+v2 <- 100:105
+v1
+v2
+v3 <- c(v1,v2) # combine vectors
+v3
+
+# repet elements of a vector
+rep(x = v1, times = 2)
+rep(x = v1, times = 100)
+rep(10,10)
+
+
+# Vector arithmetics
+
+# vector - scalar (scalar with each vector element)
+v <- 1:5
+a <- 10
+v
+a
+
+# Addition +
+v + a
+# Subtraction -
+v - a
+# Multiplication *
+v * a
+# Division /
+v / a
+# Exponent ^  **
+v^a
+# Modulus (Remainder from division) %%
+v %% 2
+# Integer Division %/%
+v %/% 2
+# Other functions on vector elements
+sqrt(v)
+log(v)
+sum(v)
+
+
+# vector - vector (vector element to element | member-by-member)
+v1 <- seq(10,30,10)
+v2 <- rep(3,3)
+
+# Addition +
+v1 + v2
+# Subtraction -
+v1 - v2
+# Multiplication *
+v1 * v2
+# Division /
+v1 / v2
+# Exponent ^  **
+v1^v2
+# Modulus (Remainder from division) %%
+v1 %% v2
+# Integer Division %/%
+v1 %/% v2
+
+# Vector-matrix style multiplication
+v1
+v2
+10*3 + 20*3 + 30*3
+t(v1) %*% v2
+v1 %*% v2
+v1 %*% t(v2)
+
+
+# Recycling rule
+v1 <- c(1,1,1)
+v2 <- 1:6
+v1
+v2
+v1 + v2
+
+
+#  Set operations
+
+v1 <- c("a", "b", "c")
+v2 <- c("c", "d", "e")
+v1
+v2
+
+union(v1,v2) # union of both sets (all unique elements)
+
+intersect(v1,v2) # intersection of both sets (elements in both sets)
+
+setdiff(v1,v2) # difference of elements (elements in v1 and not in v2)
+
+identical(v1, v2) # check if vectors are identical
+identical(c(1,2,3), c(1,2,3))
+
+
 ```
 
-# Factors, Dates, Date-Times
+# 2. Lists
+
+A list can contain elements of different types, including other lists or vectors or data structures.
+
 ```{r}
-f <- factor(c("Placebo","Active","Active"))
-f
-as.integer(f)
-d <- as.Date("2025-10-24")
-dt <- as.POSIXct("2025-10-24 09:30:00", tz = "Europe/Zurich")
-str(list(f=f, d=d, dt=dt))
+# Creating a list
+my_list <- list(name = "John", age = 25, scores = c(90, 85, 88))
+
+# Accessing elements by name
+my_list$name  # Output: "John"
+
+# Create a list (and name elements)
+
+# lets create some variables (different types)
+a <- 10
+b <- 2L
+c <- TRUE
+d <- "word"
+v <- 1:10
+names(v) <- paste("i", v, sep = "")
+M <- matrix(data = seq(10,40,by = 10), nrow = 2, dimnames = list(c("r1", "r2"), c("c1", "c2")))
+A <- array(data = 1:8, dim = c(2,2,2), dimnames = list(c("r1", "r2"), c("c1", "c2"), c("M1", "M2"))) 
+
+# create list and include all variables (elements)
+lst <- list(a, b, c, d, v, M, A)
+lst
+str(lst) # check list structure
+typeof(lst) # check type
+class(lst) # check class
+is.list(lst) # check if object is list
+
+# name each list member
+names(lst) <- c("a", "b", "c", "d", "v", "M", "A")
+lst
+
+# alternative: define names as tags when list is created
+list(a=a, b=b, c=c, d=d, v=v, M=M, A=A)
+
+
+# Access list elements
+
+# single square bracket [] (return a list)
+lst1 <-lst[1] # access first list elements (return a list)
+str(lst1)
+class(lst1)
+
+lst123 <-lst[c(1,2,3)] # access first three elements with index vector (return a list)
+lst123
+class(lst123)
+
+# double square brackets [[]] (return original member)
+ele <-lst[[5]] # extract 5th member-element (returns original element)
+ele
+is.vector(ele)
+
+# use $ operator - extract by member name (return original member)
+ele <- lst$M
+ele
+class(ele)
+
+
+#  Modify list 
+
+# remove element from a list
+lst
+lst[1] <- NULL # remove first member
+lst
+
+# add element to a list (at the end)
+length(lst)
+lst[7] <- 1000
+lst
+
+# update value of a member in alist
+lst[[7]] <- 500
+lst[7]
+
+# update value within a vector (on a list)
+lst[[4]][5] <- 5000
+lst[[4]]
+
+# convert list to a vector
+vec <- unlist(lst)
+vec
+is.vector(vec)
+
+#  Merging lists & nested lists
+
+# create another list
+lst1 <- list(el1 = c(1,5,10), el2 = TRUE)
+
+# merge both lists
+lst_merged <- c(lst, lst1)
+lst_merged
+str(lst_merged)
+names(lst_merged)
+
+
+# nested list (recursive procedure)
+list3 <- list(1, c(T,F,F)) # list sub-level 3
+list2 <- list(list3) # list sub-level 2
+list1 <- list(list2) # list sub-level 1
+
+str(list1)
+
+# extract list level 2
+list1[[1]]
+
+# extract list level 3
+list1[[1]][[1]]
+
+# extract 1st member from list level 3
+list1[[1]][[1]][[1]]
+
+# extract 2nd member from list level 3
+list1[[1]][[1]][[2]]
+
+
 ```
 
-# Core Structures
-- vector, matrix, array, **list**, **data.frame** / tibble
+# 3. Matrices
+
+A matrix is a two-dimensional structure that contains elements of the same type (numeric, character, or logical).
 
 ```{r}
-m <- matrix(1:6, nrow=2)
-arr <- array(1:8, dim=c(2,2,2))
-lst <- list(a=1:3, b=c("x","y"))
-df <- data.frame(id=1:3, val=c(10,20,30))
-str(list(m=m, arr=arr, lst=lst, df=df))
+# Creating a 3x3 numeric matrix
+my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
+
+# Accessing elements
+my_matrix[1, 2]  # Access the element in row 1, column 2
+
+# using matrix()
+M <- matrix(data = 1:9, nrow = 3, ncol = 3)
+M
+
+M <- matrix(data = 1:9, nrow = 3, ncol = 3, byrow = T)
+M
+
+matrix(data = 1:6, nrow = 2, ncol = 3)
+
+# by merging multiple vectors
+v1 <- c(1,2,3)
+v2 <- c(4,5,6)
+v3 <- c(7,8,9)
+
+rbind(v1,v2,v3)
+cbind(v1,v2,v3)
+
+# by altering vector dimension
+v <- 1:9
+v
+dim(v) <- c(3,3)
+v
+
+
+# Matrix properties
+
+# rownames & colnames
+M <- matrix(1:12, nrow = 4, dimnames = list(c("r1","r2","r3", "r4"), c("c1","c2","c3")))
+M
+rownames(M)
+colnames(M)
+
+# matrix dimension
+dim(M)
+
+# get all attributes
+attributes(M)
+
+# change rownames & colnames
+rownames(M) <- paste("row ", 1:4, sep = "")
+colnames(M) <- paste("col ", 1:3, sep = "")
+attributes(M)
+M
+
+# class and type
+class(M)
+typeof(M)
+
+# check for matrix
+is.matrix(M)
+
+
+# Access matrix elements
+
+# integer vector as index
+M
+M[2,3]
+M[c(1,2),3]
+
+M[c(2,3),] # selected rows and all columns
+M[,c(2,3)] # selected columns and all rows
+
+# logical vector as index
+M[c(T,T,F,F), c(T,T,T)]
+
+# character vector as index
+M[c("row 2", "row 3"), c("col 1", "col 2")]
+
+# range of indexes (slicing rows and columns)
+M[1:3,2:3]
+
+
+# Access matrix elements
+
+# modify 1 element
+M
+M[1,1] <- 10
+M
+
+# modify more than one element
+M[2:3,3] <- 20 
+M
+
+# modify elements based on condition
+M[M>10] <- 0
+M
+
+# transpose a matrix
+t(M)
+
+# add row to matrix
+M
+rbind(M, c(0,0,0))
+
+# add column to matrix
+cbind(M, c(0,0,0, 0))
+
+# alter matrix dimensions
+dim(M)
+dim(M) <- c(3,4) # names are dropped
+M
+
+# merge 2 matrices
+M1 <- matrix(data = rep(0,4), nrow = 2, ncol = 2)
+M2 <- matrix(data = rep(1,4), nrow = 2, ncol = 2)
+M1
+M2
+
+rbind(M1,M2)
+cbind(M1,M2)
+
+
+#  Matrix arithmetics
+
+# matrix  - scalar (scalar with each vector element)
+M
+a <- 10
+
+# Addition +
+M + a
+# Subtraction -
+M - a
+# Multiplication *
+M * a
+# Division /
+M / a
+# Exponent ^  **
+M^a
+# Modulus (Remainder from division) %%
+M %% 2
+# Integer Division %/%
+M %/% 2
+# Other functions on matrix elements
+sqrt(M)
+log(M)
+sum(M)
+
+# matrix - vector (matrix element to element | member-by-member)
+M1 <- matrix(data = 1:9, nrow = 3, byrow = T)
+M2 <- matrix(data = rep(3,9), nrow = 3)
+
+# Addition +
+M1 + M2
+# Subtraction -
+M1 - M2
+# Multiplication *
+M1 * M2
+# Division /
+M1 / M2
+# Exponent ^  **
+M1^M2
+# Modulus (Remainder from division) %%
+M1 %% M2
+# Integer Division %/%
+M1 %/% M2
+
+# matrix-matrix style multiplication
+M1
+M2
+t(M1) %*% M2
+M1 %*% M2
+
+
+# matrix algebra (matrix based functions)
+M <- matrix(data = c(1,5,3,2,4,7,4,6,2), nrow = 3, byrow = T)
+
+# get diagonal elements
+diag(M)
+
+# get matrix determinant
+det(M)
+
+# get inverse of a matrix M^(-1)
+solve(M)
+
+# get eigen values
+eigen(M)
+
+# calculate sum over rows or columns
+M
+rowSums(M)
+colSums(M)
+
+# Lets solve simple matrix equation
+# A * X = B
+A <- matrix(data = c(1,2,4,5), nrow = 2, byrow = T)
+B <- matrix(data = c(5,24,17,66), nrow = 2, byrow = T)
+# X = A^(-1) * B
+X <- solve(A) %*% B
+X
+# test
+A %*% X # should get B
+
+
+# summarizing a matrix (apply)
+M
+
+# sum of rows
+apply(X = M, MARGIN = 1, FUN = sum)
+
+# sum of columns
+apply(X = M, MARGIN = 2, FUN = sum)
+
+# create matrix of random numbers
+rnorm(n = 1000, mean = 0, sd = 2)
+A <- matrix(data = rnorm(n = 1000, mean = 0, sd = 2), nrow = 100, ncol = 10)
+
+# get mean over columns
+apply(A, 2, mean)
+
+# get mean over rows
+apply(A, 1, mean)
+
+# calculate standard deviation for each column
+apply(A, 2, sd)
 ```
 
-# Coercion & Attributes
+# 4. Data Frames
+
+A data frame is a table where each column can contain elements of different types (e.g., numbers, strings). It’s the most common structure used for data sets.
+
 ```{r}
-v <- c(1, "2", 3)   # coerces to character
-attributes(df)      # names, row.names, class
+# Creating a data frame
+my_data <- data.frame(
+  Name = c("Alice", "Bob", "Charlie"),
+  Age = c(23, 30, 25),
+  Gender = c("F", "M", "M")
+)
+
+my_data
+
+# Accessing columns
+my_data$Name  # Output: "Alice", "Bob", "Charlie"
+
+# create data frame 
+df1 <- data.frame(col1 = 1:3, 
+                  col2 = c("a", "b", "c"), 
+                  col3 = c(T, F, T), 
+                  col4 = c(as.Date("2020-01-01"), as.Date("2020-01-03"), as.Date("2020-01-03")))
+
+
+df1
+
+# create data frame - vectors
+col1 <- seq(10,100,10)
+col2 <- seq(as.Date("2020-01-01"), length = 10, by = "weeks")
+col3 <- rep("word", 10)
+
+df2 <- data.frame(num = col1,
+                  date = col2,
+                  string = col3)
+
+# check DF structure
+str(df2)
+
+
+# create data frame - matrix
+M <- matrix(data = 1:100, nrow = 10, ncol = 10, byrow = T)
+rownames(M) <- paste("row", 1:10, sep = "")
+colnames(M) <- paste("col", 1:10, sep = "")
+M
+df3 <- as.data.frame(M)
+df3
+
+# check DF dimensions
+dim(df3)
+nrow(df3)
+ncol(df3)
+
+# check DF type / class
+class(df3)
+typeof(df3)
+
+
+# Accessing DF
+
+# let's create DF - employees
+df_emp <- data.frame(id = 1:6,
+                     name = c("Max", "Jane", "John", "Tony", "Janis", "Helen"),
+                     surname = c("Gordon", "Smith", "Don", "Price", "Jett", "Dust"),
+                     age = c(55, 35, 46, 22, 60, 27),
+                     date_start_work = c(as.Date("1985-09-01"), as.Date("2010-10-01"), as.Date("1999-06-01"), as.Date("2019-03-01"), as.Date("1980-04-15"), as.Date("2015-02-20")),
+                     gender = c("M", "F", "M", "M", "F", "M"),
+                     manager_position = c(T, F, F, F, T, F)
+                     )
+
+# extract data as data frame (one column) - []
+df_extr <- df_emp["name"]
+df_extr
+class(df_extr)
+
+# extract data as vector (one column) [[]] $
+df_extr <- df_emp[["age"]]
+df_extr
+class(df_extr) # vector factor
+df_extr <- df_emp$age
+df_extr
+class(df_extr) # vector factor
+
+# extract multiple columns
+df_extr <- df_emp[c("name", "age")]
+df_extr
+
+
+# data frame slicing
+df_emp
+
+#extract second row in name column (1 cell)
+df_emp[2,2]
+df_emp[2,"name"]
+
+# extract first 4 rows of last 2 columns 
+df_emp[1:4, 6:7]
+df_emp[1:4, c("gender", "manager_position")]
+
+# extract first column (all rows)
+df_emp[,1]
+df_emp[,"id"]
+df_emp$id
+
+# extract last 2 rows (all columns) 
+df_emp[5:6,]
+cols <- colnames(df_emp)
+df_emp[5:6, cols]
+
+
+# Modifying data frame
+
+# append column 
+df_emp <- cbind(df_emp, role = c("director", "secretary", "analyst", "researcher", "CEO", "analyst"))
+df_emp$new_col <- 1
+
+# append rows 
+df_emp <- rbind(df_emp, list(7, "Mark", "Jax", 32, as.Date("2020-01-01"), "M", F, "researcher", 1))
+
+# problem with factor variables (new values not in factor levels)
+# easy solution - append new row as data frame (rbind 2 data frames)!!! 
+# will show few rows later
+
+# remove column
+df_emp$new_col <- NULL
+
+# remove row
+df_emp <- df_emp[-7,]
+
+# merge two data frames (row wise)
+df_new_emp <- data.frame(id = 7,
+                         name = "Mark",
+                         surname = "Jax",
+                         age = 32,
+                         date_start_work = as.Date("2020-01-01"),
+                         gender = "M",
+                         manager_position = F,
+                         role = "researcher")
+
+df_emp <- rbind(df_emp, df_new_emp)
+
+# merge two data frames (column wise)
+df_attr <- data.frame(eye_color = c("blue", "green", "brown", "hazel", "blue", "brown", "brown"),
+                      hair_color = c("blonde", "light brown", "black", "brown", "blonde", "dark brown", "brown"))
+df_emp <- cbind(df_emp, df_attr)
+
+
+# Tips
+
+# Df summary
+summary(df_emp)
+
+# rows subsetting
+subset(x = df_emp, gender == "M")
+subset(x = df_emp, gender == "F" & manager_position == T)
+
+rows <- which(df_emp[,"gender"] == "M")
+df_emp[rows,]
+
+rows <- which(df_emp[,"gender"] == "F" & df_emp[,"manager_position"] == T)
+df_emp[rows,]
+
+# some calculations regarding data frames
+nr_managers <- sum(df_emp$manager_position)
+mean_age <- mean(df_emp$age)
+df_emp$name_surname <- paste(df_emp$name, df_emp$surname, sep = " ") # merge name and surname
+
+# use apply to sum over columns (age, manager_position)
+apply(df_emp[,c("age", "manager_position")], 2, sum)
+
 ```
 
-# Exercises
-1. Build a 3×3 matrix and extract row 2, col 3.
-2. Convert a character vector `c("1","2","3")` to numeric safely.
-3. Create a factor with levels in a custom order.
+# 5. Factors
+
+Factors are used to represent categorical data. They store both the data values and the corresponding levels.
+
+```{r  eval=F}
+gender_factor <- factor(c("Male", "Female", "Male"))
+
+# Display the factor and its levels
+print(gender_factor)
+levels(gender_factor)
+
+
+# create factor variable (gender)
+gender <- factor(x = c("male", "female", "female"))
+
+# check new variable
+gender
+str(gender)
+class(gender)
+typeof(gender)
+
+# create with ordering
+gender <- factor(x = c("male", "female", "female"), ordered = T)
+is.ordered(gender)
+
+# check levels
+levels(gender) # order of levels based on variable (string alphabetic order)
+
+# we can define our own levels (custom levels order)
+gender <- factor(x = c("male", "female", "female"), levels = c("male", "female"), ordered = F)
+gender
+levels(gender)
+
+# factor properties
+levels(gender)
+is.factor(gender)
+is.ordered(gender)
+
+# create other object to factor
+strings <- c("a", "b", "a", "c")
+f_strings <- factor(strings)
+f_string
+```
+
+# 6. Arrays
+
+Arrays are similar to matrices but can have more than two dimensions.
+
+```{r}
+# Creating a 3-dimensional array
+my_array <- array(1:24, dim = c(3, 4, 2))
+
+# Accessing elements
+my_array[1, 2, 1]  # Access the element in the first dimension, second row, and first slice
+
+```
+
+# Summary
+
+-   `Vector:` One-dimensional, homogeneous.
+-   `List:` One-dimensional, heterogeneous.
+-   `Matrix:` Two-dimensional, homogeneous.
+-   `Data Frame:` Two-dimensional, heterogeneous (columns can be different types).
+-   `Factor:` Categorical data representation.
+-   `Array:` Multi-dimensional, homogeneous.
