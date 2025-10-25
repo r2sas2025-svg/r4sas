@@ -240,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#dropping-columns" id="toc-dropping-columns" class="nav-link" data-scroll-target="#dropping-columns"><span class="header-section-number">9</span> dropping columns</a></li>
   <li><a href="#rename" id="toc-rename" class="nav-link" data-scroll-target="#rename"><span class="header-section-number">10</span> Rename</a></li>
   <li><a href="#arrange-sorting" id="toc-arrange-sorting" class="nav-link" data-scroll-target="#arrange-sorting"><span class="header-section-number">11</span> Arrange (sorting)</a></li>
-  <li><a href="#conver-var-names-to-lower-case" id="toc-conver-var-names-to-lower-case" class="nav-link" data-scroll-target="#conver-var-names-to-lower-case"><span class="header-section-number">12</span> conver var names to lower case</a></li>
+  <li><a href="#convert-var-names-to-lower-case" id="toc-convert-var-names-to-lower-case" class="nav-link" data-scroll-target="#convert-var-names-to-lower-case"><span class="header-section-number">12</span> convert var names to lower case</a></li>
   <li><a href="#creating-new-variables" id="toc-creating-new-variables" class="nav-link" data-scroll-target="#creating-new-variables"><span class="header-section-number">13</span> Creating new variables</a></li>
   <li><a href="#bind-rows-set-operator-in-sas" id="toc-bind-rows-set-operator-in-sas" class="nav-link" data-scroll-target="#bind-rows-set-operator-in-sas"><span class="header-section-number">14</span> bind rows ( set operator in SAS)</a></li>
   <li><a href="#recode-similar-to-proc-format-in-sas" id="toc-recode-similar-to-proc-format-in-sas" class="nav-link" data-scroll-target="#recode-similar-to-proc-format-in-sas"><span class="header-section-number">15</span> recode (similar to PROC FORMAT in SAS)</a></li>
@@ -1648,8 +1648,8 @@ row10   91   92   93   94   95   96   97   98   99   100</code></pre>
 <span id="cb305-7"><a href="#cb305-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(AGE,<span class="fu">desc</span>(SEX))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="conver-var-names-to-lower-case" class="level1" data-number="12">
-<h1 data-number="12"><span class="header-section-number">12</span> conver var names to lower case</h1>
+<section id="convert-var-names-to-lower-case" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> convert var names to lower case</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb306"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb306-1"><a href="#cb306-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tolower</span>(<span class="fu">names</span>(adsl))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -3224,7 +3224,7 @@ $b
 <span id="cb337-701"><a href="#cb337-701" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(AGE,<span class="fu">desc</span>(SEX))</span>
 <span id="cb337-702"><a href="#cb337-702" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb337-703"><a href="#cb337-703" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb337-704"><a href="#cb337-704" aria-hidden="true" tabindex="-1"></a><span class="fu"># conver var names to lower case</span></span>
+<span id="cb337-704"><a href="#cb337-704" aria-hidden="true" tabindex="-1"></a><span class="fu"># convert var names to lower case</span></span>
 <span id="cb337-707"><a href="#cb337-707" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb337-708"><a href="#cb337-708" aria-hidden="true" tabindex="-1"></a><span class="fu">tolower</span>(<span class="fu">names</span>(adsl))</span>
 <span id="cb337-709"><a href="#cb337-709" aria-hidden="true" tabindex="-1"></a></span>
