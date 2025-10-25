@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Sri">
+<meta name="author" content="Gaduputi.R">
 <meta name="dcterms.date" content="2025-10-25">
 
 <title>R Course: Beginner to Expert</title>
@@ -237,7 +237,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#about-this-course" id="toc-about-this-course" class="nav-link active" data-scroll-target="#about-this-course"><span class="header-section-number">1</span> About this Course</a>
   <ul class="collapse">
   <li><a href="#how-to-use" id="toc-how-to-use" class="nav-link" data-scroll-target="#how-to-use"><span class="header-section-number">1.1</span> How to Use</a></li>
-  <li><a href="#structure-highlights" id="toc-structure-highlights" class="nav-link" data-scroll-target="#structure-highlights"><span class="header-section-number">1.2</span> Structure (Highlights)</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -257,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Sri </p>
+             <p>Gaduputi.R </p>
           </div>
   </div>
     
@@ -278,18 +277,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="about-this-course" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> About this Course</h1>
-<p>This Quarto book takes you from <strong>R beginner</strong> to <strong>expert</strong>, with a practical focus on <strong>clinical programming</strong> (CDISC/ADaM and TLFs).<br>
+<p>This Course from <strong>R beginner</strong> to <strong>expert</strong>, with a practical focus on <strong>clinical programming</strong> (CDISC/ADaM and TLFs).<br>
 Each chapter includes step-by-step explanations, runnable code, and short exercises.</p>
 <section id="how-to-use" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="how-to-use"><span class="header-section-number">1.1</span> How to Use</h2>
 <ol type="1">
-<li>Install: R (≥4.2), RStudio (or VS Code), and Quarto.</li>
-<li>In a terminal: <code>quarto render</code> to build the whole book, or click <strong>Render</strong> in RStudio.</li>
-<li>Open <code>index.html</code> in the <code>_book/</code> folder after rendering.</li>
+<li>Install: R (≥4.2), RStudio (or VS Code).</li>
+<li>Follow along chapter-by-chapter, running code and completing exercises.</li>
+<li>Use sample data or your own clinical trial datasets (SAS/CSV). ## Structure (Highlights)</li>
 </ol>
-</section>
-<section id="structure-highlights" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="structure-highlights"><span class="header-section-number">1.2</span> Structure (Highlights)</h2>
 <ul>
 <li><strong>Basics &amp; Data</strong>: R syntax, data types/structures, vectors/data frames/lists.</li>
 <li><strong>I/O</strong>: Read SAS datasets (with <code>haven</code>), handle labels, and clean raw data.</li>
@@ -299,7 +295,7 @@ Each chapter includes step-by-step explanations, runnable code, and short exerci
 <li><strong>TLFs</strong>: Produce a baseline Table 1, a KM plot, and a listing.</li>
 </ul>
 <blockquote class="blockquote">
-<p>Tip: If you don’t have sample SDTM/ADaM data yet, the chapters generate <strong>small synthetic data</strong> as a fallback so everything runs end-to-end.</p>
+<p>Tip: If you don’t have sample SDTM/ADaM data yet, the chapters generate <strong>small synthetic data</strong> as a fallback so everything runs end-to-end. ## contact For questions or feedback, reach out to <strong>r2sas2025@gmail.com</strong></p>
 </blockquote>
 
 
@@ -775,23 +771,24 @@ Each chapter includes step-by-step explanations, runnable code, and short exerci
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu"># About this Course</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>This Quarto book takes you from **R beginner** to **expert**, with a practical focus on **clinical programming** (CDISC/ADaM and TLFs).  </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>This Course from **R beginner** to **expert**, with a practical focus on **clinical programming** (CDISC/ADaM and TLFs).  </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Each chapter includes step-by-step explanations, runnable code, and short exercises.</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## How to Use</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Install: R (≥4.2), RStudio (or VS Code), and Quarto.</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>In a terminal: <span class="in">`quarto render`</span> to build the whole book, or click **Render** in RStudio.</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Open <span class="in">`index.html`</span> in the <span class="in">`_book/`</span> folder after rendering.</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">## Structure (Highlights)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Basics &amp; Data**: R syntax, data types/structures, vectors/data frames/lists.</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**I/O**: Read SAS datasets (with <span class="in">`haven`</span>), handle labels, and clean raw data.</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Programming**: Base functions, write your own functions, validate with tests.</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**DevOps**: Create an R package, connect Git in RStudio/GitHub.</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CDISC**: Build ADaM (ADSL) from SDTM-like inputs.</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**TLFs**: Produce a baseline Table 1, a KM plot, and a listing.</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Tip: If you don't have sample SDTM/ADaM data yet, the chapters generate **small synthetic data** as a fallback so everything runs end-to-end.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Install: R (≥4.2), RStudio (or VS Code).</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Follow along chapter-by-chapter, running code and completing exercises.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Use sample data or your own clinical trial datasets (SAS/CSV).</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">## Structure (Highlights)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Basics &amp; Data**: R syntax, data types/structures, vectors/data frames/lists.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**I/O**: Read SAS datasets (with <span class="in">`haven`</span>), handle labels, and clean raw data.</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Programming**: Base functions, write your own functions, validate with tests.</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**DevOps**: Create an R package, connect Git in RStudio/GitHub.</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**CDISC**: Build ADaM (ADSL) from SDTM-like inputs.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**TLFs**: Produce a baseline Table 1, a KM plot, and a listing.</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Tip: If you don't have sample SDTM/ADaM data yet, the chapters generate **small synthetic data** as a fallback so everything runs end-to-end.</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## contact</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>For questions or feedback, reach out to **r2sas2025@gmail.com**</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
