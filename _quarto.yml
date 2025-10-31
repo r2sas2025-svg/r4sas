@@ -3,13 +3,14 @@ project:
 
 book:
   title: "R Course: Beginner to Expert "
-  author: "Sumit.G"
+  author: "Sri Ram"
   date: today
   chapters:
     - index.qmd
     - 01-r-basics.qmd
     - 02-data-types-structures.qmd
     - 03-manipulating-vectors-dataframes-lists.qmd
+    - 03.1string_functions.qmd
     - 04-reading-sas.qmd
     - 05-base-functions.qmd
     - 06-custom-functions-validation.qmd
