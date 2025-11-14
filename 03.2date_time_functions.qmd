@@ -1,0 +1,357 @@
+---
+title: "date and time functions"
+---
+
+### Date and Time Base Functions in R
+
+Date and time manipulation is a common task in data analysis. R provides several base functions to work with dates and times. Here are some of the most commonly used base R functions for handling date and time data:
+
+```{r}
+# Get the current date
+current_date <- Sys.Date()
+print(current_date)
+# Get the current date and time
+current_datetime <- Sys.time()
+print(current_datetime)
+```
+### Creating Date and Time Objects
+### Year Formats
+| Code | Meaning                     | Example (`format(dt, ...)`) |
+| ---- | --------------------------- | --------------------------- |
+| `%Y` | 4-digit year                | `"2025"`                    |
+| `%y` | 2-digit year (00–99)        | `"25"`                      |
+| `%C` | Century (year / 100, 00–99) | `"20"` (for 2025; OS-dep.)  |
+
+### Month Formats
+| Code | Meaning                           | Example      |
+| ---- | --------------------------------- | ------------ |
+| `%m` | Month number (01–12)              | `"11"`       |
+| `%b` | Abbrev. month name (locale)       | `"Nov"`      |
+| `%B` | Full month name (locale)          | `"November"` |
+| `%h` | Same as `%b` (abbrev. month name) | `"Nov"`      |
+
+### Day Formats
+| Code | Meaning                                | Example                             |
+| ---- | -------------------------------------- | ----------------------------------- |
+| `%d` | Day of month (01–31)                   | `"14"`                              |
+| `%e` | Day of month (1–31, padded with space) | `"14"` (or `" 7"` for 7th; OS-dep.) |
+| `%j` | Day of year (001–366)                  | `"318"`                             |
+
+### Weekday Formats
+
+| Code | Meaning                                            | Example        |
+| ---- | -------------------------------------------------- | -------------- |
+| `%a` | Abbrev. weekday name (locale)                      | `"Fri"`        |
+| `%A` | Full weekday name (locale)                         | `"Friday"`     |
+| `%w` | Weekday number (0–6, **0 = Sunday**)               | `"5"`          |
+| `%u` | ISO weekday number (1–7, **1 = Monday**) (OS-dep.) | `"5"` (Friday) |
+
+### Time Formats
+| Code | Meaning                        | Example    |
+| ---- | ------------------------------ | ---------- |
+| `%H` | Hour (00–23)                   | `"14"`     |
+| `%I` | Hour (01–12)                   | `"02"`     |
+| `%M` | Minute (00–59)                 | `"30"`     |
+| `%S` | Second (00–61, allows for leap) | `"05"`    |
+| `%p` | AM/PM indicator (locale)       | `"PM"`     |
+
+###Locale-dependent “full date/time” codes
+
+###These depend on your system locale (language + region):
+
+| Code | Meaning                     | Example                      |
+| ---- | --------------------------- | ---------------------------- |
+| `%c` | Date and time representation | `"Fri Nov 14 16:05:30 2025"` |
+| `%x` | Date representation         | `"11/14/25"` (varies by locale) |
+| `%X` | Time representation         | `"16:05:30"`                 |
+
+```{r}
+# Create a Date object
+dt <- as.Date("2025-11-14")
+# Create a POSIXct object (date-time)
+dt <- as.POSIXct("2025-11-14 16:05:30")
+# Format examples
+format(dt, "%Y-%m-%d")  # e.g. "2025-11-14"
+format(dt, "%m/%d/%y")  # e.g. "11/14/25"
+format(dt, "%B %d, %Y") # e.g. "November 14, 2025"
+format(dt, "%c")  # e.g. "Fri Nov 14 16:05:30 2025"
+format(dt, "%x")  # e.g. "11/14/25" (depends on locale)
+format(dt, "%X")  # e.g. "16:05:30"
+
+```
+
+
+| SAS informat  | R parsing                                |
+| ------------- | ---------------------------------------- |
+| `ddmmyy10.`   | `as.Date(x, "%d/%m/%Y")`                 |
+| `ddmmyyd10.`  | `as.Date(x, "%d-%m-%Y")`                 |
+| `ddmmyyp10.`  | `as.Date(x, "%d.%m.%Y")`                 |
+| `mmddyy10.`   | `as.Date(x, "%m/%d/%Y")`                 |
+| `date9.`      | `as.Date(x, "%d%b%Y")`                   |
+| `julian7.`    | `as.Date(strptime(x, "%Y%j"))`           |
+| `time8.`      | `as.POSIXct(x, "%H:%M:%S")`              |
+| `time10.`     | `as.POSIXct(x, "%I:%M:%S%p")` (if am/pm) |
+| `datetime18.` | `as.POSIXct(x, "%d%b%Y:%H:%M:%S")`       |
+| `datetime20.` | `as.POSIXct(x, "%d%b%Y:%I:%M:%S%p")`     |
+
+| SAS format    | Meaning                                    | R equivalent                             |
+| ------------- | ------------------------------------------ | ---------------------------------------- |
+| `worddate18.` | Month date, year (e.g., February 23, 2003) | `format(d, "%B %d, %Y")`                 |
+| `weekdate24.` | Weekday, month date, year                  | `format(d, "%A, %B %d, %Y")`             |
+| `year.`       | numeric year                               | `as.integer(format(d, "%Y"))`            |
+| `month.`      | month number (1–12)                        | `as.integer(format(d, "%m"))`            |
+| `day.`        | day of month                               | `as.integer(format(d, "%d"))`            |
+| `weekday.`    | day of week (1–7)                          | `as.integer(format(d, "%u"))`  (Mon = 1) |
+
+
+
+```{r}
+# Convert a character string to a Date object
+date_string <- "2023-10-01"
+date_object <- as.Date(date_string)
+print(date_object)
+# Convert a character string to a POSIXct object (date-time)
+datetime_string <- "2023-10-01 12:34:56"
+datetime_object <- as.POSIXct(datetime_string)
+print(datetime_object)
+# Extract components from a Date object
+year <- format(date_object, "%Y")
+month <- format(date_object, "%m")
+day <- format(date_object, "%d")
+print(paste("Year:", year, "Month:", month, "Day:", day))
+# Extract components from a POSIXct object
+hour <- format(datetime_object, "%H")
+minute <- format(datetime_object, "%M")
+second <- format(datetime_object, "%S")
+print(paste("Hour:", hour, "Minute:", minute, "Second:", second))
+# Perform date arithmetic
+tomorrow <- current_date + 1
+yesterday <- current_date - 1
+print(paste("Tomorrow:", tomorrow, "Yesterday:", yesterday))
+# Calculate the difference between two dates
+date_diff <- as.numeric(difftime(current_date, date_object, units = "days"))
+print(paste("Difference in days:", date_diff))
+# Format a Date object to a specific string format
+formatted_date <- format(current_date, "%B %d, %Y")
+print(formatted_date)
+# Format a POSIXct object to a specific string format
+formatted_datetime <- format(current_datetime, "%Y-%m-%d %H:%M:%S")
+print(formatted_datetime)
+```
+
+These functions allow you to create, manipulate, and format date and time data in R. For more advanced date and time handling, you might consider using the `lubridate` package, which provides a more user-friendly interface for working with dates and times.
+
+A practical, CDISC‑friendly guide to working with **dates/times** and implementing **partial date imputation** in R using **base R** and **lubridate**.
+
+## 1. Date & Time Basics in R
+
+### 1.1 Core classes
+
+-   **Date**: calendar dates without time.
+-   **POSIXct**: seconds since 1970‑01‑01 (compact, good for storage/arithmetic).
+-   **POSIXlt**: list of components (year, mon, mday, hour, min, sec) — convenient to extract parts.
+
+
+### 1.2 Converting numerics to Date (origins matter)
+
+Different systems use different **origins** for numeric dates: - Excel: 1900‑01‑01 (beware 1900 leap‑year bug in older Excels) - SAS: 1960‑01‑01 - R: 1970‑01‑01
+
+``` {r}
+num_dates <- c(0, 159, 464, 15674)
+
+as.Date(num_dates, origin = "1960-01-01")  # SAS origin
+as.Date(num_dates, origin = "1970-01-01")  # R origin
+as.Date(num_dates, origin = "1900-01-01")  # Excel origin
+```
+### 1.3 Custom date formats
+
+``` r
+x1 <- c("01/05/1965", "08/16/1975")
+as.Date(x1, "%m/%d/%Y")
+
+x2 <- c("05-01-1965", "16-08-1975")
+as.Date(x2, "%d-%m-%Y")
+
+x3 <- c("01MAY1965", "16AUG1975")
+as.Date(x3, "%d%b%Y")
+
+# Unknown format? Try multiple patterns
+x4 <- c("01MAY1965MORNING", "16AUGUST1975")
+as.Date(x4, tryFormats = c("%d%b%Y", "%d%B%Y"))
+```
+
+### 1.4 Datetime strings (ISO 8601 & time zones)
+
+``` r
+x <- c("2015-10-19T10:15", "2018-12-19T23:05")
+# Keep the literal 'T' in the format string
+as.POSIXct(x, format = "%Y-%m-%dT%H:%M", tz = "UTC")
+
+# Extract parts
+xt <- as.POSIXlt(x, format = "%Y-%m-%dT%H:%M")
+format(xt, "%Y-%m-%d")  # date part
+format(xt, "%H:%M")     # time part
+```
+
+## 2. Lubridate: Fast, Friendly Parsing & Arithmetic
+
+Install & load: `install.packages("lubridate"); library(lubridate)`
+
+### 2.1 Intuitive parsers
+
+-   `ymd()`, `mdy()`, `dmy()` for dates
+-   `ymd_hms()`, `ymd_hm()`, `ymd_h()` for date‑times
+
+``` r
+ymd("20210529")
+dmy("29/05/2021")
+ymd_hm("2019/01/19T17:15")  # delimiter agnostic
+```
+
+### 2.2 Accessors and rounding
+
+``` r
+x <- ymd_hms("2009-08-03 12:01:59")
+year(x); month(x); mday(x); wday(x); hour(x); minute(x); second(x)
+
+floor_date(x, "month")   # 2009-08-01
+ceiling_date(x, "month") # 2009-09-01
+round_date(x, "month")    # 2009-08-01
+rollback(x)               # last day of previous month
+```
+
+### 2.3 Timespans
+
+-   **Durations**: exact seconds, e.g., `ddays(2)`
+-   **Periods**: human units, e.g., `months(1)`
+-   **Intervals**: start–end pair, e.g., `interval(start, end)`
+
+``` r
+start <- ymd("2015-10-19")
+end   <- ymd("2018-12-19")
+int   <- interval(start, end)
+as.duration(int)       # exact seconds
+as.period(int)         # years/months/days
+```
+
+
+### 3 ADaM‑Style Partial Date Imputation (Start & End)
+ Imputation rules vary by study; always follow the SAP. A common pattern:
+
+### Start date (`AESTDTC`)
+
+- `YYYY-MM-DD` → use as is  
+- `YYYY-MM` → impute **day = 01** (first of month)  
+- `YYYY` → impute **month = 01**, **day = 01** (`01-Jan`)
+
+### End date (`AEENDTC`)
+
+- `YYYY-MM-DD` → use as is  
+- `YYYY-MM` → impute **last day of that month**  
+- `YYYY` → impute **`31-Dec`**
+
+### Censoring by death / last alive date
+
+Additionally, bound `AEENDT` by death / last alive date (when present):
+
+- `CENSOR = coalesce(DTHDT, LASTALVDT)`  
+- `AEENDT = min(imputed_end, CENSOR)`
+
+### Imputation flags
+
+Add flags:
+
+- `AESTDTF`, `AEENDTF`:
+  - `"D"`   → day imputed  
+  - `"M,D"` → month & day imputed  
+- Add `"C"` if we had to **censor the end date** at `DTHDT` / `LASTALVDT`.
+
+
+```{r}
+library(dplyr, warn.conflicts = FALSE)
+library(stringr, warn.conflicts = FALSE)
+library(lubridate, warn.conflicts = FALSE)
+
+df <- data.frame(
+  USUBJID    = sprintf("01-001-%03d", 1:6),
+  AESTDTC    = c("2015-10-19", "2015-10", "2015", "2019-02", "2020-02", "2018-12-31"),
+  AEENDTC    = c("2018-12-19", "2018-10", "2017-05-29", "2019-02", "2020-02", "2020"),
+  RANDDT     = ymd(c("2015-10-01", "2015-10-01", "2015-01-10", "2019-01-15", "2020-02-10", "2018-12-01")),
+  DTHDT      = ymd(c(NA, NA, NA, NA, "2020-08-03", NA)),
+  LASTALVDT  = ymd(c(NA, NA, NA, NA, NA, "2020-12-15"))
+)
+
+df_imp <- df |> 
+  mutate(
+    # Length of partial date strings
+    AESTDTC_LEN = str_length(AESTDTC),
+    AEENDTC_LEN = str_length(AEENDTC),
+    ## --- AE start date imputation (minimum: first possible date) ---
+    AESTDT = case_when(
+      is.na(AESTDTC) ~ as.Date(NA),
+      AESTDTC_LEN == 10 ~ ymd(AESTDTC, quiet = TRUE),
+      AESTDTC_LEN == 7  ~ ymd(str_c(AESTDTC, "-01"), quiet = TRUE),
+      AESTDTC_LEN == 4  ~ ymd(str_c(AESTDTC, "-01-01"), quiet = TRUE),
+      TRUE ~ as.Date(NA)
+    ),
+    AESTDTF = case_when(
+      is.na(AESTDTC) ~ NA_character_,
+      AESTDTC_LEN == 10 ~ "",
+      AESTDTC_LEN == 7  ~ "D",
+      AESTDTC_LEN == 4  ~ "M,D",
+      TRUE ~ "UNK"
+    ),
+    ## --- AE end date imputation (maximum: latest possible date) ---
+    AEENDT_RAW = case_when(
+      is.na(AEENDTC) ~ as.Date(NA),
+      AEENDTC_LEN == 10 ~ ymd(AEENDTC, quiet = TRUE),
+      AEENDTC_LEN == 7  ~ ymd(str_c(AEENDTC, "-01"), quiet = TRUE),
+      AEENDTC_LEN == 4  ~ ymd(str_c(AEENDTC, "-12-31"), quiet = TRUE),
+      TRUE ~ as.Date(NA)
+    ),
+    AEENDTF_RAW = case_when(
+      is.na(AEENDTC) ~ NA_character_,
+      AEENDTC_LEN == 10 ~ "",
+      AEENDTC_LEN == 7  ~ "D",
+      AEENDTC_LEN == 4  ~ "M,D",
+      TRUE ~ "UNK"
+    )
+  ) %>%
+  mutate(
+    AEENDT_RAW = if_else(
+      AEENDTC_LEN == 7 & !is.na(AEENDT_RAW),
+      ceiling_date(AEENDT_RAW, "month") - days(1),
+      AEENDT_RAW
+    ),
+    CENSOR = coalesce(DTHDT, LASTALVDT),
+    AEENDT = case_when(
+      !is.na(CENSOR) & !is.na(AEENDT_RAW) & AEENDT_RAW > CENSOR ~ CENSOR,
+      TRUE ~ AEENDT_RAW
+    ),
+    AEENDTF = case_when(
+      is.na(AEENDT) ~ AEENDTF_RAW,
+      !is.na(CENSOR) & !is.na(AEENDT_RAW) & AEENDT_RAW > CENSOR & AEENDTF_RAW == ""  ~ "C",
+      !is.na(CENSOR) & !is.na(AEENDT_RAW) & AEENDT_RAW > CENSOR & AEENDTF_RAW != "" ~ str_c(AEENDTF_RAW, ",C"),
+      TRUE ~ AEENDTF_RAW
+    )
+  )
+
+
+```
+
+## 4. Durations & Analysis Variables
+
+### 4.1 AE duration (AEDUR) in days
+
+# Using difftime (base) or as.numeric on Date differences
+`AEDUR <- as.integer(out$AEENDT - out$ASTDT)`
+
+### 6.2 Handy lubridate parsers (subset)
+
+-   Dates: `ymd()`, `mdy()`, `dmy()`, `yq()`\
+-   Datetimes: `ymd_hms()`, `ymd_hm()`, `ymd_h()`\
+-   Times: `hms()`, `hm()`, `ms()`\
+-   Accessors: `year()`, `month()`, `mday()`, `wday()`, `hour()`, `minute()`, `second()`, `date()`\
+-   Rounding: `floor_date()`, `ceiling_date()`, `round_date()`, `rollback()`
+
+------------------------------------------------------------------------

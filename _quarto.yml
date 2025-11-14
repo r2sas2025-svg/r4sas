@@ -11,6 +11,7 @@ book:
     - 02-data-types-structures.qmd
     - 03-manipulating-vectors-dataframes-lists.qmd
     - 03.1string_functions.qmd
+    - 03.2date_time_functions.qmd
     - 04-reading-sas.qmd
     - 05-base-functions.qmd
     - 06-custom-functions-validation.qmd
