@@ -2,17 +2,72 @@
 title: "TLFs: Table, Figure, Listing"
 ---
 
-```{r}
+```{r warning=FALSE, message=FALSE}
 library(dplyr)
 library(gt)
 library(ggplot2)
 library(survival)
-
+library(table1)
+library(r2rtf)
+library(haven)
+library(tidyr)
+library(stringr)
+library(tools)
 ```
 
 We reuse `adsl` from the previous chapter (or synthesize if missing).
 
+```{r, include=FALSE, warning=FALSE, message=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  message = FALSE
+)
+
+options(dplyr.summarise.inform = FALSE)
+
+rtf2pdf <- function(input) {
+  input <- normalizePath(input)
+  x <- "export LD_LIBRARY_PATH=:/usr/lib/libreoffice/program:/usr/lib/x86_64-linux-gnu/"
+  y <- paste0("libreoffice --invisible --headless --nologo --convert-to pdf --outdir tlf/ ", input)
+  z <- paste(x, y, sep = " && ")
+  if (Sys.getenv("GITHUB_ACTIONS") != "") system(z) else invisible(NULL)
+}
+
+# Customize data frame and tibble printing methods.
+# See <https://github.com/elong0527/r4csr/issues/115> for details.
+more_rows <- function(x, n) if (nrow(x) <= n) NULL else paste0("# ℹ ", nrow(x) - n, " more rows")
+knit_print.data.frame <- function(x, ...) {
+  paste(
+    c(
+      capture.output(base::print.data.frame(head(x, 4))),
+      more_rows(x, 4)
+    ),
+    collapse = "\n"
+  )
+}
+
+registerS3method(
+  "knit_print", "data.frame", knit_print.data.frame,
+  envir = asNamespace("knitr")
+)
+
+options(pillar.advice = FALSE)
+
+knit_print.tbl_df <- function(x, ...) {
+  paste(capture.output(print(x, n = 4)), collapse = "\n")
+}
+
+registerS3method(
+  "knit_print", "tbl_df", knit_print.tbl_df,
+  envir = asNamespace("knitr")
+)
+
+
+```
+
 ```{r}
+adsl <- haven::read_sas("data/adam/adsl.sas7bdat")  # adjust path as needed
 if (!exists("adsl")) {
   set.seed(123)
   adsl <- tibble::tibble(
@@ -27,8 +82,8 @@ if (!exists("adsl")) {
 ## Table 1: Baseline Characteristics by Treatment
 ```{r}
 tbl1 <- adsl |>
-  group_by(TRT01P) |>
-  summarise(
+  dplyr::group_by(TRT01P) |>
+  dplyr::summarise(
     N = dplyr::n(),
     mean_age = mean(AGE, na.rm=TRUE),
     sd_age = sd(AGE, na.rm=TRUE),
@@ -40,31 +95,16 @@ gt(tbl1) |>
   fmt_number(columns = c(mean_age, sd_age, pct_female), decimals = 1)
 ```
 
-## Figure: (Toy) Survival Curve
-We simulate time-to-event data for illustration only.
-
 ```{r}
-set.seed(42)
-n <- nrow(adsl)
-adsl$time <- rexp(n, rate = ifelse(adsl$TRT01P=="Active", 0.08, 0.1))
-adsl$status <- rbinom(n, 1, 0.7)
-fit <- survival::survfit(survival::Surv(time, status) ~ TRT01P, data = adsl)
-
-# Quick GGplot
-ggsurv <- function(fit) {
-  # rebuild data for plotting
-  ss <- summary(fit)
-  dd <- data.frame(
-    time = ss$time,
-    surv = ss$surv,
-    strata = rep(names(fit$strata), fit$strata)
+ana <- adsl %>%
+  mutate(
+    SEX = factor(SEX, c("F", "M"), c("Female", "Male")),
+    RACE = toTitleCase(tolower(RACE))
   )
-  ggplot(dd, aes(x=time, y=surv, linetype=strata)) +
-    geom_step() +
-    labs(title="Kaplan–Meier (Toy Data)", x="Time", y="Survival Probability", linetype="Treatment") +
-    theme_minimal()
-}
-#ggsurv(fit)
+
+tbl <- table1(~ SEX + AGE + RACE | TRT01P, data = ana)
+tbl
+
 ```
 
 ## Listing: Subject-Level Listing
@@ -77,6 +117,81 @@ lst <- adsl |>
 gt(lst) |>
   tab_header(title = "Listing: First 20 Subjects")
 ```
+
+The code below transfer the output into a dataframe
+that only contains ASCII characters
+recommended by regulatory agencies.
+`tbl_base` is used as input for r2rtf to create the final report.
+
+```{r}
+tbl_base <- tbl %>%
+  as.data.frame() %>%
+  as_tibble() %>%
+  mutate(across(
+    everything(),
+    ~ str_replace_all(.x, intToUtf8(160), " ")
+  ))
+
+
+names(tbl_base) <- str_replace_all(names(tbl_base), intToUtf8(160), " ")
+tbl_base
+```
+We define the format of the output. We highlight items that
+are not discussed in previous discussion.
+
+`text_indent_first` and `text_indent_left` are used to control the indent
+space of text. They are helpful when you need to control the white space
+of a long phrase, "AMERICAN INDIAN OR ALASKA NATIVE"
+in the table provides an example.
+
+```{r}
+colheader1 <- paste(names(tbl_base), collapse = "|")
+colheader2 <- paste(tbl_base[1, ], collapse = "|")
+rel_width <- c(2.5, rep(1, 4))
+
+tbl_base[-1, ] %>%
+  rtf_title(
+    "Baseline Characteristics of Participants",
+    "(All Participants Randomized)"
+  ) %>%
+  rtf_colheader(colheader1,
+    col_rel_width = rel_width
+  ) %>%
+  rtf_colheader(colheader2,
+    border_top = "",
+    col_rel_width = rel_width
+  ) %>%
+  rtf_body(
+    col_rel_width = rel_width,
+    text_justification = c("l", rep("c", 4)),
+    text_indent_first = -240,
+    text_indent_left = 180
+  ) %>%
+  rtf_encode() %>%
+  write_rtf("tlf/tlf_base.rtf")
+```
+
+```{r, include=FALSE}
+#rtf to pdf convert
+
+rtf2pdf("tlf/tlf_base.rtf")
+```
+
+```{r, out.width = "100%", out.height = if (knitr::is_html_output()) "400px", echo = FALSE, fig.align = "center"}
+if (exists("tlf/tlf_base.pdf")) {
+knitr::include_graphics("tlf/tlf_base.pdf")
+}
+```
+
+
+
+In conclusion, the procedure to generate demographic and baseline characteristics table is summarized as follows:
+
+- Step 1: Read the data set.
+- Step 2: Use `table1::table1()` to get the baseline characteristics table.
+- Step 3: Transfer the output from Step 2 into a data frame that only contains ASCII characters.
+- Step 4: Define the format of the RTF table by using the R package r2rtf.
+
 
 **Exercises**
 1. Format Table 1 to `N (mean ± SD)` for age.

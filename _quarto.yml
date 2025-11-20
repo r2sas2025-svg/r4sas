@@ -33,6 +33,6 @@ format:
 
 execute:
   freeze: auto
-  echo: true
+  echo: FALSE
   warning: true
   message: true
