@@ -256,7 +256,7 @@ devtools::build()
 devtools::install()
 
 # Try it out
-library(simutils)
+#library(simutils)
 na_counter(airquality)
 ```
 
