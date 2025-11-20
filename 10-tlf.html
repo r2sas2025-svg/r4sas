@@ -105,6 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet">
 
 
 </head>
@@ -244,8 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#table-1-baseline-characteristics-by-treatment" id="toc-table-1-baseline-characteristics-by-treatment" class="nav-link active" data-scroll-target="#table-1-baseline-characteristics-by-treatment"><span class="header-section-number">13.1</span> Table 1: Baseline Characteristics by Treatment</a></li>
-  <li><a href="#figure-toy-survival-curve" id="toc-figure-toy-survival-curve" class="nav-link" data-scroll-target="#figure-toy-survival-curve"><span class="header-section-number">13.2</span> Figure: (Toy) Survival Curve</a></li>
-  <li><a href="#listing-subject-level-listing" id="toc-listing-subject-level-listing" class="nav-link" data-scroll-target="#listing-subject-level-listing"><span class="header-section-number">13.3</span> Listing: Subject-Level Listing</a></li>
+  <li><a href="#listing-subject-level-listing" id="toc-listing-subject-level-listing" class="nav-link" data-scroll-target="#listing-subject-level-listing"><span class="header-section-number">13.2</span> Listing: Subject-Level Listing</a></li>
   </ul>
 </nav>
     </div>
@@ -271,71 +271,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <p>We reuse <code>adsl</code> from the previous chapter (or synthesize if missing).</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"adsl"</span>)) {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  adsl <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">USUBJID =</span> <span class="fu">sprintf</span>(<span class="st">"XYZ-%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">TRT01P =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Placebo"</span>,<span class="st">"Active"</span>), <span class="dv">60</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">AGE =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">8</span>)),</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEX =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"F"</span>), <span class="dv">60</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 <section id="table-1-baseline-characteristics-by-treatment" class="level2" data-number="13.1">
 <h2 data-number="13.1" class="anchored" data-anchor-id="table-1-baseline-characteristics-by-treatment"><span class="header-section-number">13.1</span> Table 1: Baseline Characteristics by Treatment</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tbl1 <span class="ot">&lt;-</span> adsl <span class="sc">|&gt;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TRT01P) <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(AGE, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(AGE, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_female =</span> <span class="fu">mean</span>(SEX <span class="sc">==</span> <span class="st">"F"</span>)<span class="sc">*</span><span class="dv">100</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(tbl1) <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Baseline Characteristics by Treatment"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_age, sd_age, pct_female), <span class="at">decimals =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="nupwahhjyh" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nupwahhjyh table {
+<div id="lgnatvxfti" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lgnatvxfti table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nupwahhjyh thead, #nupwahhjyh tbody, #nupwahhjyh tfoot, #nupwahhjyh tr, #nupwahhjyh td, #nupwahhjyh th {
+#lgnatvxfti thead, #lgnatvxfti tbody, #lgnatvxfti tfoot, #lgnatvxfti tr, #lgnatvxfti td, #lgnatvxfti th {
   border-style: none;
 }
 
-#nupwahhjyh p {
+#lgnatvxfti p {
   margin: 0;
   padding: 0;
 }
 
-#nupwahhjyh .gt_table {
+#lgnatvxfti .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -361,12 +318,12 @@ Attaching package: 'dplyr'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_caption {
+#lgnatvxfti .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nupwahhjyh .gt_title {
+#lgnatvxfti .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -378,7 +335,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-width: 0;
 }
 
-#nupwahhjyh .gt_subtitle {
+#lgnatvxfti .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -390,7 +347,7 @@ Attaching package: 'dplyr'</code></pre>
   border-top-width: 0;
 }
 
-#nupwahhjyh .gt_heading {
+#lgnatvxfti .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -402,13 +359,13 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_bottom_border {
+#lgnatvxfti .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_col_headings {
+#lgnatvxfti .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -423,7 +380,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_col_heading {
+#lgnatvxfti .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -443,7 +400,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#nupwahhjyh .gt_column_spanner_outer {
+#lgnatvxfti .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -455,15 +412,15 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 4px;
 }
 
-#nupwahhjyh .gt_column_spanner_outer:first-child {
+#lgnatvxfti .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nupwahhjyh .gt_column_spanner_outer:last-child {
+#lgnatvxfti .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nupwahhjyh .gt_column_spanner {
+#lgnatvxfti .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -475,11 +432,11 @@ Attaching package: 'dplyr'</code></pre>
   width: 100%;
 }
 
-#nupwahhjyh .gt_spanner_row {
+#lgnatvxfti .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nupwahhjyh .gt_group_heading {
+#lgnatvxfti .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -505,7 +462,7 @@ Attaching package: 'dplyr'</code></pre>
   text-align: left;
 }
 
-#nupwahhjyh .gt_empty_group_heading {
+#lgnatvxfti .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -520,15 +477,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: middle;
 }
 
-#nupwahhjyh .gt_from_md > :first-child {
+#lgnatvxfti .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nupwahhjyh .gt_from_md > :last-child {
+#lgnatvxfti .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nupwahhjyh .gt_row {
+#lgnatvxfti .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -547,7 +504,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#nupwahhjyh .gt_stub {
+#lgnatvxfti .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -560,7 +517,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#nupwahhjyh .gt_stub_row_group {
+#lgnatvxfti .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -574,15 +531,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: top;
 }
 
-#nupwahhjyh .gt_row_group_first td {
+#lgnatvxfti .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nupwahhjyh .gt_row_group_first th {
+#lgnatvxfti .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nupwahhjyh .gt_summary_row {
+#lgnatvxfti .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -592,16 +549,16 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#nupwahhjyh .gt_first_summary_row {
+#lgnatvxfti .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_first_summary_row.thick {
+#lgnatvxfti .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nupwahhjyh .gt_last_summary_row {
+#lgnatvxfti .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -611,7 +568,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_grand_summary_row {
+#lgnatvxfti .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -621,7 +578,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#nupwahhjyh .gt_first_grand_summary_row {
+#lgnatvxfti .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -631,7 +588,7 @@ Attaching package: 'dplyr'</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_last_grand_summary_row_top {
+#lgnatvxfti .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -641,11 +598,11 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_striped {
+#lgnatvxfti .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nupwahhjyh .gt_table_body {
+#lgnatvxfti .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -654,7 +611,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_footnotes {
+#lgnatvxfti .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -668,7 +625,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_footnote {
+#lgnatvxfti .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -677,7 +634,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#nupwahhjyh .gt_sourcenotes {
+#lgnatvxfti .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -691,7 +648,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#nupwahhjyh .gt_sourcenote {
+#lgnatvxfti .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -699,72 +656,72 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#nupwahhjyh .gt_left {
+#lgnatvxfti .gt_left {
   text-align: left;
 }
 
-#nupwahhjyh .gt_center {
+#lgnatvxfti .gt_center {
   text-align: center;
 }
 
-#nupwahhjyh .gt_right {
+#lgnatvxfti .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nupwahhjyh .gt_font_normal {
+#lgnatvxfti .gt_font_normal {
   font-weight: normal;
 }
 
-#nupwahhjyh .gt_font_bold {
+#lgnatvxfti .gt_font_bold {
   font-weight: bold;
 }
 
-#nupwahhjyh .gt_font_italic {
+#lgnatvxfti .gt_font_italic {
   font-style: italic;
 }
 
-#nupwahhjyh .gt_super {
+#lgnatvxfti .gt_super {
   font-size: 65%;
 }
 
-#nupwahhjyh .gt_footnote_marks {
+#lgnatvxfti .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nupwahhjyh .gt_asterisk {
+#lgnatvxfti .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nupwahhjyh .gt_indent_1 {
+#lgnatvxfti .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nupwahhjyh .gt_indent_2 {
+#lgnatvxfti .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nupwahhjyh .gt_indent_3 {
+#lgnatvxfti .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nupwahhjyh .gt_indent_4 {
+#lgnatvxfti .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nupwahhjyh .gt_indent_5 {
+#lgnatvxfti .gt_indent_5 {
   text-indent: 25px;
 }
 
-#nupwahhjyh .katex-display {
+#lgnatvxfti .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#nupwahhjyh div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#lgnatvxfti div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -775,7 +732,7 @@ Attaching package: 'dplyr'</code></pre>
 <td colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border">Table 1. Baseline Characteristics by Treatment</td>
 </tr>
 <tr class="gt_col_headings even">
-<th id="TRT01P" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">TRT01P</th>
+<th id="TRT01P" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Planned Treatment for Period 01</th>
 <th id="N" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">N</th>
 <th id="mean_age" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mean_age</th>
 <th id="sd_age" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">sd_age</th>
@@ -784,18 +741,126 @@ Attaching package: 'dplyr'</code></pre>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="N">24</td>
-<td class="gt_row gt_right" headers="mean_age">59.4</td>
-<td class="gt_row gt_right" headers="sd_age">8.1</td>
-<td class="gt_row gt_right" headers="pct_female">50.0</td>
+<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
+<td class="gt_row gt_right" headers="N">86</td>
+<td class="gt_row gt_right" headers="mean_age">75.2</td>
+<td class="gt_row gt_right" headers="sd_age">8.6</td>
+<td class="gt_row gt_right" headers="pct_female">61.6</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="N">36</td>
-<td class="gt_row gt_right" headers="mean_age">61.7</td>
-<td class="gt_row gt_right" headers="sd_age">5.6</td>
-<td class="gt_row gt_right" headers="pct_female">61.1</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
+<td class="gt_row gt_right" headers="N">84</td>
+<td class="gt_row gt_right" headers="mean_age">74.4</td>
+<td class="gt_row gt_right" headers="sd_age">7.9</td>
+<td class="gt_row gt_right" headers="pct_female">47.6</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="N">84</td>
+<td class="gt_row gt_right" headers="mean_age">75.7</td>
+<td class="gt_row gt_right" headers="sd_age">8.3</td>
+<td class="gt_row gt_right" headers="pct_female">59.5</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="Rtable1">
+<table class="Rtable1 caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Placebo<br>
+<span class="stratn">(N=86)</span></span></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Xanomeline High Dose<br>
+<span class="stratn">(N=84)</span></span></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Xanomeline Low Dose<br>
+<span class="stratn">(N=84)</span></span></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
+<span class="stratn">(N=254)</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="rowlabel firstrow"><span class="varlabel">SEX</span></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Female</td>
+<td>53 (61.6%)</td>
+<td>40 (47.6%)</td>
+<td>50 (59.5%)</td>
+<td>143 (56.3%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">33 (38.4%)</td>
+<td class="lastrow">44 (52.4%)</td>
+<td class="lastrow">34 (40.5%)</td>
+<td class="lastrow">111 (43.7%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel firstrow"><span class="varlabel">Age</span></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">Mean (SD)</td>
+<td>75.2 (8.59)</td>
+<td>74.4 (7.89)</td>
+<td>75.7 (8.29)</td>
+<td>75.1 (8.25)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">76.0 [52.0, 89.0]</td>
+<td class="lastrow">76.0 [56.0, 88.0]</td>
+<td class="lastrow">77.5 [51.0, 88.0]</td>
+<td class="lastrow">77.0 [51.0, 89.0]</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel firstrow"><span class="varlabel">RACE</span></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Black or African American</td>
+<td>8 (9.3%)</td>
+<td>9 (10.7%)</td>
+<td>6 (7.1%)</td>
+<td>23 (9.1%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">White</td>
+<td>78 (90.7%)</td>
+<td>74 (88.1%)</td>
+<td>78 (92.9%)</td>
+<td>230 (90.6%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel lastrow">American Indian or Alaska Native</td>
+<td class="lastrow">0 (0%)</td>
+<td class="lastrow">1 (1.2%)</td>
+<td class="lastrow">0 (0%)</td>
+<td class="lastrow">1 (0.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -804,61 +869,27 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </section>
-<section id="figure-toy-survival-curve" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="figure-toy-survival-curve"><span class="header-section-number">13.2</span> Figure: (Toy) Survival Curve</h2>
-<p>We simulate time-to-event data for illustration only.</p>
+<section id="listing-subject-level-listing" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="listing-subject-level-listing"><span class="header-section-number">13.2</span> Listing: Subject-Level Listing</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(adsl)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>adsl<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">rexp</span>(n, <span class="at">rate =</span> <span class="fu">ifelse</span>(adsl<span class="sc">$</span>TRT01P<span class="sc">==</span><span class="st">"Active"</span>, <span class="fl">0.08</span>, <span class="fl">0.1</span>))</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>adsl<span class="sc">$</span>status <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.7</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">survfit</span>(survival<span class="sc">::</span><span class="fu">Surv</span>(time, status) <span class="sc">~</span> TRT01P, <span class="at">data =</span> adsl)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick GGplot</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>ggsurv <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rebuild data for plotting</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  ss <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  dd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> ss<span class="sc">$</span>time,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">surv =</span> ss<span class="sc">$</span>surv,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">strata =</span> <span class="fu">rep</span>(<span class="fu">names</span>(fit<span class="sc">$</span>strata), fit<span class="sc">$</span>strata)</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(dd, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>surv, <span class="at">linetype=</span>strata)) <span class="sc">+</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_step</span>() <span class="sc">+</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Kaplan–Meier (Toy Data)"</span>, <span class="at">x=</span><span class="st">"Time"</span>, <span class="at">y=</span><span class="st">"Survival Probability"</span>, <span class="at">linetype=</span><span class="st">"Treatment"</span>) <span class="sc">+</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#ggsurv(fit)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="listing-subject-level-listing" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="listing-subject-level-listing"><span class="header-section-number">13.3</span> Listing: Subject-Level Listing</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> adsl <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(USUBJID) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(USUBJID, TRT01P, AGE, SEX) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(lst) <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Listing: First 20 Subjects"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="ysqnnofxok" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ysqnnofxok table {
+<div id="cyqojmkvum" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cyqojmkvum table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ysqnnofxok thead, #ysqnnofxok tbody, #ysqnnofxok tfoot, #ysqnnofxok tr, #ysqnnofxok td, #ysqnnofxok th {
+#cyqojmkvum thead, #cyqojmkvum tbody, #cyqojmkvum tfoot, #cyqojmkvum tr, #cyqojmkvum td, #cyqojmkvum th {
   border-style: none;
 }
 
-#ysqnnofxok p {
+#cyqojmkvum p {
   margin: 0;
   padding: 0;
 }
 
-#ysqnnofxok .gt_table {
+#cyqojmkvum .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -884,12 +915,12 @@ Attaching package: 'dplyr'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_caption {
+#cyqojmkvum .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ysqnnofxok .gt_title {
+#cyqojmkvum .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -901,7 +932,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-width: 0;
 }
 
-#ysqnnofxok .gt_subtitle {
+#cyqojmkvum .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -913,7 +944,7 @@ Attaching package: 'dplyr'</code></pre>
   border-top-width: 0;
 }
 
-#ysqnnofxok .gt_heading {
+#cyqojmkvum .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -925,13 +956,13 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_bottom_border {
+#cyqojmkvum .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_col_headings {
+#cyqojmkvum .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -946,7 +977,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_col_heading {
+#cyqojmkvum .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -966,7 +997,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#ysqnnofxok .gt_column_spanner_outer {
+#cyqojmkvum .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -978,15 +1009,15 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 4px;
 }
 
-#ysqnnofxok .gt_column_spanner_outer:first-child {
+#cyqojmkvum .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ysqnnofxok .gt_column_spanner_outer:last-child {
+#cyqojmkvum .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ysqnnofxok .gt_column_spanner {
+#cyqojmkvum .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -998,11 +1029,11 @@ Attaching package: 'dplyr'</code></pre>
   width: 100%;
 }
 
-#ysqnnofxok .gt_spanner_row {
+#cyqojmkvum .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ysqnnofxok .gt_group_heading {
+#cyqojmkvum .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1028,7 +1059,7 @@ Attaching package: 'dplyr'</code></pre>
   text-align: left;
 }
 
-#ysqnnofxok .gt_empty_group_heading {
+#cyqojmkvum .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1043,15 +1074,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: middle;
 }
 
-#ysqnnofxok .gt_from_md > :first-child {
+#cyqojmkvum .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ysqnnofxok .gt_from_md > :last-child {
+#cyqojmkvum .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ysqnnofxok .gt_row {
+#cyqojmkvum .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1070,7 +1101,7 @@ Attaching package: 'dplyr'</code></pre>
   overflow-x: hidden;
 }
 
-#ysqnnofxok .gt_stub {
+#cyqojmkvum .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1083,7 +1114,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#ysqnnofxok .gt_stub_row_group {
+#cyqojmkvum .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1097,15 +1128,15 @@ Attaching package: 'dplyr'</code></pre>
   vertical-align: top;
 }
 
-#ysqnnofxok .gt_row_group_first td {
+#cyqojmkvum .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ysqnnofxok .gt_row_group_first th {
+#cyqojmkvum .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ysqnnofxok .gt_summary_row {
+#cyqojmkvum .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1115,16 +1146,16 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#ysqnnofxok .gt_first_summary_row {
+#cyqojmkvum .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_first_summary_row.thick {
+#cyqojmkvum .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ysqnnofxok .gt_last_summary_row {
+#cyqojmkvum .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1134,7 +1165,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_grand_summary_row {
+#cyqojmkvum .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1144,7 +1175,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#ysqnnofxok .gt_first_grand_summary_row {
+#cyqojmkvum .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1154,7 +1185,7 @@ Attaching package: 'dplyr'</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_last_grand_summary_row_top {
+#cyqojmkvum .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1164,11 +1195,11 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_striped {
+#cyqojmkvum .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ysqnnofxok .gt_table_body {
+#cyqojmkvum .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1177,7 +1208,7 @@ Attaching package: 'dplyr'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_footnotes {
+#cyqojmkvum .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1191,7 +1222,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_footnote {
+#cyqojmkvum .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1200,7 +1231,7 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#ysqnnofxok .gt_sourcenotes {
+#cyqojmkvum .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1214,7 +1245,7 @@ Attaching package: 'dplyr'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ysqnnofxok .gt_sourcenote {
+#cyqojmkvum .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1222,72 +1253,72 @@ Attaching package: 'dplyr'</code></pre>
   padding-right: 5px;
 }
 
-#ysqnnofxok .gt_left {
+#cyqojmkvum .gt_left {
   text-align: left;
 }
 
-#ysqnnofxok .gt_center {
+#cyqojmkvum .gt_center {
   text-align: center;
 }
 
-#ysqnnofxok .gt_right {
+#cyqojmkvum .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ysqnnofxok .gt_font_normal {
+#cyqojmkvum .gt_font_normal {
   font-weight: normal;
 }
 
-#ysqnnofxok .gt_font_bold {
+#cyqojmkvum .gt_font_bold {
   font-weight: bold;
 }
 
-#ysqnnofxok .gt_font_italic {
+#cyqojmkvum .gt_font_italic {
   font-style: italic;
 }
 
-#ysqnnofxok .gt_super {
+#cyqojmkvum .gt_super {
   font-size: 65%;
 }
 
-#ysqnnofxok .gt_footnote_marks {
+#cyqojmkvum .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ysqnnofxok .gt_asterisk {
+#cyqojmkvum .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ysqnnofxok .gt_indent_1 {
+#cyqojmkvum .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ysqnnofxok .gt_indent_2 {
+#cyqojmkvum .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ysqnnofxok .gt_indent_3 {
+#cyqojmkvum .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ysqnnofxok .gt_indent_4 {
+#cyqojmkvum .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ysqnnofxok .gt_indent_5 {
+#cyqojmkvum .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ysqnnofxok .katex-display {
+#cyqojmkvum .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ysqnnofxok div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#cyqojmkvum div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1298,131 +1329,131 @@ Attaching package: 'dplyr'</code></pre>
 <td colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border">Listing: First 20 Subjects</td>
 </tr>
 <tr class="gt_col_headings even">
-<th id="USUBJID" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">USUBJID</th>
-<th id="TRT01P" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">TRT01P</th>
-<th id="AGE" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">AGE</th>
-<th id="SEX" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">SEX</th>
+<th id="USUBJID" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Unique Subject Identifier</th>
+<th id="TRT01P" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Planned Treatment for Period 01</th>
+<th id="AGE" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Age</th>
+<th id="SEX" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Sex</th>
 </tr>
 </thead>
 <tbody class="gt_table_body">
 <tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-001</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1015</td>
 <td class="gt_row gt_left" headers="TRT01P">Placebo</td>
 <td class="gt_row gt_right" headers="AGE">63</td>
 <td class="gt_row gt_left" headers="SEX">F</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-002</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1023</td>
 <td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">58</td>
-<td class="gt_row gt_left" headers="SEX">M</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-003</td>
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">67</td>
-<td class="gt_row gt_left" headers="SEX">M</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-004</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">67</td>
-<td class="gt_row gt_left" headers="SEX">M</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-005</td>
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">67</td>
-<td class="gt_row gt_left" headers="SEX">M</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-006</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">66</td>
-<td class="gt_row gt_left" headers="SEX">F</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-007</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
 <td class="gt_row gt_right" headers="AGE">64</td>
-<td class="gt_row gt_left" headers="SEX">F</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-008</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">60</td>
 <td class="gt_row gt_left" headers="SEX">M</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-009</td>
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">58</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1028</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
+<td class="gt_row gt_right" headers="AGE">71</td>
 <td class="gt_row gt_left" headers="SEX">M</td>
 </tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-010</td>
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">57</td>
-<td class="gt_row gt_left" headers="SEX">F</td>
-</tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-011</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">54</td>
-<td class="gt_row gt_left" headers="SEX">F</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-012</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">58</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1033</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="AGE">74</td>
 <td class="gt_row gt_left" headers="SEX">M</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-013</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">50</td>
-<td class="gt_row gt_left" headers="SEX">M</td>
-</tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-014</td>
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1034</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
 <td class="gt_row gt_right" headers="AGE">77</td>
 <td class="gt_row gt_left" headers="SEX">F</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-015</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
-<td class="gt_row gt_right" headers="AGE">70</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1047</td>
+<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
+<td class="gt_row gt_right" headers="AGE">85</td>
 <td class="gt_row gt_left" headers="SEX">F</td>
 </tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1097</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="AGE">68</td>
+<td class="gt_row gt_left" headers="SEX">M</td>
+</tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-016</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1111</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="AGE">81</td>
+<td class="gt_row gt_left" headers="SEX">F</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1115</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="AGE">84</td>
+<td class="gt_row gt_left" headers="SEX">M</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1118</td>
 <td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">51</td>
+<td class="gt_row gt_right" headers="AGE">52</td>
 <td class="gt_row gt_left" headers="SEX">M</td>
 </tr>
 <tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-017</td>
-<td class="gt_row gt_left" headers="TRT01P">Active</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1130</td>
+<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
+<td class="gt_row gt_right" headers="AGE">84</td>
+<td class="gt_row gt_left" headers="SEX">M</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1133</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
+<td class="gt_row gt_right" headers="AGE">81</td>
+<td class="gt_row gt_left" headers="SEX">F</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1146</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
+<td class="gt_row gt_right" headers="AGE">75</td>
+<td class="gt_row gt_left" headers="SEX">F</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1148</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
 <td class="gt_row gt_right" headers="AGE">57</td>
 <td class="gt_row gt_left" headers="SEX">M</td>
 </tr>
-<tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-018</td>
+<tr class="odd">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1153</td>
 <td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">56</td>
+<td class="gt_row gt_right" headers="AGE">79</td>
 <td class="gt_row gt_left" headers="SEX">F</td>
 </tr>
-<tr class="odd">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-019</td>
-<td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">66</td>
+<tr class="even">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1180</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
+<td class="gt_row gt_right" headers="AGE">56</td>
 <td class="gt_row gt_left" headers="SEX">M</td>
 </tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1181</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline High Dose</td>
+<td class="gt_row gt_right" headers="AGE">79</td>
+<td class="gt_row gt_left" headers="SEX">F</td>
+</tr>
 <tr class="even">
-<td class="gt_row gt_left" headers="USUBJID">XYZ-020</td>
+<td class="gt_row gt_right" headers="USUBJID">01-701-1188</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="AGE">71</td>
+<td class="gt_row gt_left" headers="SEX">M</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1192</td>
+<td class="gt_row gt_left" headers="TRT01P">Xanomeline Low Dose</td>
+<td class="gt_row gt_right" headers="AGE">80</td>
+<td class="gt_row gt_left" headers="SEX">F</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="USUBJID">01-701-1203</td>
 <td class="gt_row gt_left" headers="TRT01P">Placebo</td>
-<td class="gt_row gt_right" headers="AGE">59</td>
+<td class="gt_row gt_right" headers="AGE">81</td>
 <td class="gt_row gt_left" headers="SEX">F</td>
 </tr>
 </tbody>
@@ -1431,6 +1462,26 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div>
+<p>The code below transfer the output into a dataframe that only contains ASCII characters recommended by regulatory agencies. <code>tbl_base</code> is used as input for r2rtf to create the final report.</p>
+<div class="cell">
+<pre><code>#&gt; # A tibble: 11 × 5
+#&gt;   ` `        Placebo      `Xanomeline High Dose` `Xanomeline Low Dose` Overall  
+#&gt;   &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;                  &lt;chr&gt;                 &lt;chr&gt;    
+#&gt; 1 ""         "(N=86)"     "(N=84)"               "(N=84)"              "(N=254)"
+#&gt; 2 "SEX"      ""           ""                     ""                    ""       
+#&gt; 3 "  Female" "53 (61.6%)" "40 (47.6%)"           "50 (59.5%)"          "143 (56…
+#&gt; 4 "  Male"   "33 (38.4%)" "44 (52.4%)"           "34 (40.5%)"          "111 (43…
+#&gt; # ℹ 7 more rows</code></pre>
+</div>
+<p>We define the format of the output. We highlight items that are not discussed in previous discussion.</p>
+<p><code>text_indent_first</code> and <code>text_indent_left</code> are used to control the indent space of text. They are helpful when you need to control the white space of a long phrase, “AMERICAN INDIAN OR ALASKA NATIVE” in the table provides an example.</p>
+<p>In conclusion, the procedure to generate demographic and baseline characteristics table is summarized as follows:</p>
+<ul>
+<li>Step 1: Read the data set.</li>
+<li>Step 2: Use <code>table1::table1()</code> to get the baseline characteristics table.</li>
+<li>Step 3: Transfer the output from Step 2 into a data frame that only contains ASCII characters.</li>
+<li>Step 4: Define the format of the RTF table by using the R package r2rtf.</li>
+</ul>
 <p><strong>Exercises</strong> 1. Format Table 1 to <code>N (mean ± SD)</code> for age. 2. Add risk table to the KM plot (use an extension like survminer outside of this minimal example). 3. Create a listing that includes population flags once you derive them.</p>
 
 
@@ -1902,90 +1953,205 @@ Attaching package: 'dplyr'</code></pre>
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "TLFs: Table, Figure, Listing"</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>We reuse <span class="in">`adsl`</span> from the previous chapter (or synthesize if missing).</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"adsl"</span>)) {</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  adsl <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">USUBJID =</span> <span class="fu">sprintf</span>(<span class="st">"XYZ-%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">TRT01P =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Placebo"</span>,<span class="st">"Active"</span>), <span class="dv">60</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">AGE =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">8</span>)),</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEX =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"F"</span>), <span class="dv">60</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="fu">## Table 1: Baseline Characteristics by Treatment</span></span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>tbl1 <span class="ot">&lt;-</span> adsl <span class="sc">|&gt;</span></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(TRT01P) <span class="sc">|&gt;</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(AGE, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(AGE, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_female =</span> <span class="fu">mean</span>(SEX <span class="sc">==</span> <span class="st">"F"</span>)<span class="sc">*</span><span class="dv">100</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(tbl1) <span class="sc">|&gt;</span></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Baseline Characteristics by Treatment"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_age, sd_age, pct_female), <span class="at">decimals =</span> <span class="dv">1</span>)</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Figure: (Toy) Survival Curve</span></span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>We simulate time-to-event data for illustration only.</span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">nrow</span>(adsl)</span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>adsl<span class="sc">$</span>time <span class="ot">&lt;-</span> <span class="fu">rexp</span>(n, <span class="at">rate =</span> <span class="fu">ifelse</span>(adsl<span class="sc">$</span>TRT01P<span class="sc">==</span><span class="st">"Active"</span>, <span class="fl">0.08</span>, <span class="fl">0.1</span>))</span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>adsl<span class="sc">$</span>status <span class="ot">&lt;-</span> <span class="fu">rbinom</span>(n, <span class="dv">1</span>, <span class="fl">0.7</span>)</span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>fit <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">survfit</span>(survival<span class="sc">::</span><span class="fu">Surv</span>(time, status) <span class="sc">~</span> TRT01P, <span class="at">data =</span> adsl)</span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Quick GGplot</span></span>
-<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>ggsurv <span class="ot">&lt;-</span> <span class="cf">function</span>(fit) {</span>
-<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  <span class="co"># rebuild data for plotting</span></span>
-<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>  ss <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit)</span>
-<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>  dd <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">time =</span> ss<span class="sc">$</span>time,</span>
-<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">surv =</span> ss<span class="sc">$</span>surv,</span>
-<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">strata =</span> <span class="fu">rep</span>(<span class="fu">names</span>(fit<span class="sc">$</span>strata), fit<span class="sc">$</span>strata)</span>
-<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(dd, <span class="fu">aes</span>(<span class="at">x=</span>time, <span class="at">y=</span>surv, <span class="at">linetype=</span>strata)) <span class="sc">+</span></span>
-<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_step</span>() <span class="sc">+</span></span>
-<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span><span class="st">"Kaplan–Meier (Toy Data)"</span>, <span class="at">x=</span><span class="st">"Time"</span>, <span class="at">y=</span><span class="st">"Survival Probability"</span>, <span class="at">linetype=</span><span class="st">"Treatment"</span>) <span class="sc">+</span></span>
-<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_minimal</span>()</span>
-<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a><span class="co">#ggsurv(fit)</span></span>
-<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## Listing: Subject-Level Listing</span></span>
-<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> adsl <span class="sc">|&gt;</span></span>
-<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(USUBJID) <span class="sc">|&gt;</span></span>
-<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(USUBJID, TRT01P, AGE, SEX) <span class="sc">|&gt;</span></span>
-<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span>
-<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(lst) <span class="sc">|&gt;</span></span>
-<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Listing: First 20 Subjects"</span>)</span>
-<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>**Exercises**</span>
-<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Format Table 1 to <span class="in">`N (mean ± SD)`</span> for age.</span>
-<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Add risk table to the KM plot (use an extension like survminer outside of this minimal example).</span>
-<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Create a listing that includes population flags once you derive them.</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "TLFs: Table, Figure, Listing"</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="in">```{r warning=FALSE, message=FALSE}</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(table1)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(r2rtf)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(haven)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tools)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>We reuse <span class="in">`adsl`</span> from the previous chapter (or synthesize if missing).</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=FALSE, warning=FALSE, message=FALSE}</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">comment =</span> <span class="st">"#&gt;"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">collapse =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">message =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">dplyr.summarise.inform =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>rtf2pdf <span class="ot">&lt;-</span> <span class="cf">function</span>(input) {</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  input <span class="ot">&lt;-</span> <span class="fu">normalizePath</span>(input)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  x <span class="ot">&lt;-</span> <span class="st">"export LD_LIBRARY_PATH=:/usr/lib/libreoffice/program:/usr/lib/x86_64-linux-gnu/"</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"libreoffice --invisible --headless --nologo --convert-to pdf --outdir tlf/ "</span>, input)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">paste</span>(x, y, <span class="at">sep =</span> <span class="st">" &amp;&amp; "</span>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">Sys.getenv</span>(<span class="st">"GITHUB_ACTIONS"</span>) <span class="sc">!=</span> <span class="st">""</span>) <span class="fu">system</span>(z) <span class="cf">else</span> <span class="fu">invisible</span>(<span class="cn">NULL</span>)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Customize data frame and tibble printing methods.</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co"># See &lt;https://github.com/elong0527/r4csr/issues/115&gt; for details.</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>more_rows <span class="ot">&lt;-</span> <span class="cf">function</span>(x, n) <span class="cf">if</span> (<span class="fu">nrow</span>(x) <span class="sc">&lt;=</span> n) <span class="cn">NULL</span> <span class="cf">else</span> <span class="fu">paste0</span>(<span class="st">"# ℹ "</span>, <span class="fu">nrow</span>(x) <span class="sc">-</span> n, <span class="st">" more rows"</span>)</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>knit_print.data.frame <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">capture.output</span>(base<span class="sc">::</span><span class="fu">print.data.frame</span>(<span class="fu">head</span>(x, <span class="dv">4</span>))),</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>      <span class="fu">more_rows</span>(x, <span class="dv">4</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="fu">registerS3method</span>(</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="st">"knit_print"</span>, <span class="st">"data.frame"</span>, knit_print.data.frame,</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">envir =</span> <span class="fu">asNamespace</span>(<span class="st">"knitr"</span>)</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">pillar.advice =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>knit_print.tbl_df <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(<span class="fu">capture.output</span>(<span class="fu">print</span>(x, <span class="at">n =</span> <span class="dv">4</span>)), <span class="at">collapse =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a><span class="fu">registerS3method</span>(</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="st">"knit_print"</span>, <span class="st">"tbl_df"</span>, knit_print.tbl_df,</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">envir =</span> <span class="fu">asNamespace</span>(<span class="st">"knitr"</span>)</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>adsl <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sas</span>(<span class="st">"data/adam/adsl.sas7bdat"</span>)  <span class="co"># adjust path as needed</span></span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">exists</span>(<span class="st">"adsl"</span>)) {</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  adsl <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">USUBJID =</span> <span class="fu">sprintf</span>(<span class="st">"XYZ-%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">60</span>),</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">TRT01P =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"Placebo"</span>,<span class="st">"Active"</span>), <span class="dv">60</span>, <span class="at">replace=</span><span class="cn">TRUE</span>),</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">AGE =</span> <span class="fu">round</span>(<span class="fu">rnorm</span>(<span class="dv">60</span>, <span class="dv">60</span>, <span class="dv">8</span>)),</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEX =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="st">"M"</span>,<span class="st">"F"</span>), <span class="dv">60</span>, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="fu">## Table 1: Baseline Characteristics by Treatment</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>tbl1 <span class="ot">&lt;-</span> adsl <span class="sc">|&gt;</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(TRT01P) <span class="sc">|&gt;</span></span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">N =</span> dplyr<span class="sc">::</span><span class="fu">n</span>(),</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(AGE, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(AGE, <span class="at">na.rm=</span><span class="cn">TRUE</span>),</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>    <span class="at">pct_female =</span> <span class="fu">mean</span>(SEX <span class="sc">==</span> <span class="st">"F"</span>)<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(tbl1) <span class="sc">|&gt;</span></span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Table 1. Baseline Characteristics by Treatment"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> <span class="fu">c</span>(mean_age, sd_age, pct_female), <span class="at">decimals =</span> <span class="dv">1</span>)</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>ana <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span></span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEX =</span> <span class="fu">factor</span>(SEX, <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"M"</span>), <span class="fu">c</span>(<span class="st">"Female"</span>, <span class="st">"Male"</span>)),</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>    <span class="at">RACE =</span> <span class="fu">toTitleCase</span>(<span class="fu">tolower</span>(RACE))</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> <span class="fu">table1</span>(<span class="sc">~</span> SEX <span class="sc">+</span> AGE <span class="sc">+</span> RACE <span class="sc">|</span> TRT01P, <span class="at">data =</span> ana)</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>tbl</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a><span class="fu">## Listing: Subject-Level Listing</span></span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>lst <span class="ot">&lt;-</span> adsl <span class="sc">|&gt;</span></span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(USUBJID) <span class="sc">|&gt;</span></span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(USUBJID, TRT01P, AGE, SEX) <span class="sc">|&gt;</span></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(lst) <span class="sc">|&gt;</span></span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">"Listing: First 20 Subjects"</span>)</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>The code below transfer the output into a dataframe</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>that only contains ASCII characters</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>recommended by regulatory agencies.</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a><span class="in">`tbl_base`</span> is used as input for r2rtf to create the final report.</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>tbl_base <span class="ot">&lt;-</span> tbl <span class="sc">%&gt;%</span></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>    <span class="fu">everything</span>(),</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>    <span class="sc">~</span> <span class="fu">str_replace_all</span>(.x, <span class="fu">intToUtf8</span>(<span class="dv">160</span>), <span class="st">" "</span>)</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(tbl_base) <span class="ot">&lt;-</span> <span class="fu">str_replace_all</span>(<span class="fu">names</span>(tbl_base), <span class="fu">intToUtf8</span>(<span class="dv">160</span>), <span class="st">" "</span>)</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>tbl_base</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>We define the format of the output. We highlight items that</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>are not discussed in previous discussion.</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a><span class="in">`text_indent_first`</span> and <span class="in">`text_indent_left`</span> are used to control the indent</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>space of text. They are helpful when you need to control the white space</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>of a long phrase, "AMERICAN INDIAN OR ALASKA NATIVE"</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>in the table provides an example.</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>colheader1 <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">names</span>(tbl_base), <span class="at">collapse =</span> <span class="st">"|"</span>)</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>colheader2 <span class="ot">&lt;-</span> <span class="fu">paste</span>(tbl_base[<span class="dv">1</span>, ], <span class="at">collapse =</span> <span class="st">"|"</span>)</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>rel_width <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">2.5</span>, <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">4</span>))</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>tbl_base[<span class="sc">-</span><span class="dv">1</span>, ] <span class="sc">%&gt;%</span></span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rtf_title</span>(</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Baseline Characteristics of Participants"</span>,</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(All Participants Randomized)"</span></span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rtf_colheader</span>(colheader1,</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_rel_width =</span> rel_width</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rtf_colheader</span>(colheader2,</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>    <span class="at">border_top =</span> <span class="st">""</span>,</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_rel_width =</span> rel_width</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rtf_body</span>(</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>    <span class="at">col_rel_width =</span> rel_width,</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>    <span class="at">text_justification =</span> <span class="fu">c</span>(<span class="st">"l"</span>, <span class="fu">rep</span>(<span class="st">"c"</span>, <span class="dv">4</span>)),</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>    <span class="at">text_indent_first =</span> <span class="sc">-</span><span class="dv">240</span>,</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">text_indent_left =</span> <span class="dv">180</span></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rtf_encode</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>  <span class="fu">write_rtf</span>(<span class="st">"tlf/tlf_base.rtf"</span>)</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, include=FALSE}</span></span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a><span class="co">#rtf to pdf convert</span></span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a><span class="fu">rtf2pdf</span>(<span class="st">"tlf/tlf_base.rtf"</span>)</span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r, out.width = "100%", out.height = if (knitr::is_html_output()) "400px", echo = FALSE, fig.align = "center"}</span></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">exists</span>(<span class="st">"tlf/tlf_base.pdf"</span>)) {</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="st">"tlf/tlf_base.pdf"</span>)</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>In conclusion, the procedure to generate demographic and baseline characteristics table is summarized as follows:</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Step 1: Read the data set.</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Step 2: Use <span class="in">`table1::table1()`</span> to get the baseline characteristics table.</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Step 3: Transfer the output from Step 2 into a data frame that only contains ASCII characters.</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Step 4: Define the format of the RTF table by using the R package r2rtf.</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>**Exercises**</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Format Table 1 to <span class="in">`N (mean ± SD)`</span> for age.</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Add risk table to the KM plot (use an extension like survminer outside of this minimal example).</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>Create a listing that includes population flags once you derive them.</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
