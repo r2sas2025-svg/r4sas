@@ -284,7 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">date and time functions</span></h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">date and time functions</span></h1>
 </div>
 
 
@@ -305,11 +305,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="6.0.1" class="anchored" data-anchor-id="date-and-time-base-functions-in-r"><span class="header-section-number">6.0.1</span> Date and Time Base Functions in R</h3>
 <p>Date and time manipulation is a common task in data analysis. R provides several base functions to work with dates and times. Here are some of the most commonly used base R functions for handling date and time data:</p>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current date</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>current_date <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(current_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2025-11-20"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current date and time</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>current_datetime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(current_datetime)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2025-11-20 10:24:46 UTC"</code></pre>
+<pre><code>[1] "2025-11-20 10:36:04 UTC"</code></pre>
 </div>
 </div>
 </section>
@@ -519,21 +525,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Date object</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2025-11-14"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a POSIXct object (date-time)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(<span class="st">"2025-11-14 16:05:30"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Format examples</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%Y-%m-%d"</span>)  <span class="co"># e.g. "2025-11-14"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2025-11-14"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%m/%d/%y"</span>)  <span class="co"># e.g. "11/14/25"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "11/14/25"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%B %d, %Y"</span>) <span class="co"># e.g. "November 14, 2025"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "November 14, 2025"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%c"</span>)  <span class="co"># e.g. "Fri Nov 14 16:05:30 2025"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Fri Nov 14 16:05:30 2025"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%x"</span>)  <span class="co"># e.g. "11/14/25" (depends on locale)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "11/14/25"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%X"</span>)  <span class="co"># e.g. "16:05:30"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "16:05:30"</code></pre>
 </div>
@@ -635,29 +652,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert a character string to a Date object</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>date_string <span class="ot">&lt;-</span> <span class="st">"2023-10-01"</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>date_object <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(date_string)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(date_object)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2023-10-01"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert a character string to a POSIXct object (date-time)</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>datetime_string <span class="ot">&lt;-</span> <span class="st">"2023-10-01 12:34:56"</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>datetime_object <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(datetime_string)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(datetime_object)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "2023-10-01 12:34:56 UTC"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract components from a Date object</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="fu">format</span>(date_object, <span class="st">"%Y"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>month <span class="ot">&lt;-</span> <span class="fu">format</span>(date_object, <span class="st">"%m"</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">format</span>(date_object, <span class="st">"%d"</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Year:"</span>, year, <span class="st">"Month:"</span>, month, <span class="st">"Day:"</span>, day))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Year: 2023 Month: 10 Day: 01"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract components from a POSIXct object</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>hour <span class="ot">&lt;-</span> <span class="fu">format</span>(datetime_object, <span class="st">"%H"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>minute <span class="ot">&lt;-</span> <span class="fu">format</span>(datetime_object, <span class="st">"%M"</span>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>second <span class="ot">&lt;-</span> <span class="fu">format</span>(datetime_object, <span class="st">"%S"</span>)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Hour:"</span>, hour, <span class="st">"Minute:"</span>, minute, <span class="st">"Second:"</span>, second))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Hour: 12 Minute: 34 Second: 56"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform date arithmetic</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>tomorrow <span class="ot">&lt;-</span> current_date <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>yesterday <span class="ot">&lt;-</span> current_date <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Tomorrow:"</span>, tomorrow, <span class="st">"Yesterday:"</span>, yesterday))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Tomorrow: 2025-11-21 Yesterday: 2025-11-19"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the difference between two dates</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>date_diff <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(current_date, date_object, <span class="at">units =</span> <span class="st">"days"</span>))</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Difference in days:"</span>, date_diff))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Difference in days: 781"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Format a Date object to a specific string format</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="ot">&lt;-</span> <span class="fu">format</span>(current_date, <span class="st">"%B %d, %Y"</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "November 20, 2025"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Format a POSIXct object to a specific string format</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>formatted_datetime <span class="ot">&lt;-</span> <span class="fu">format</span>(current_datetime, <span class="st">"%Y-%m-%d %H:%M:%S"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_datetime)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2025-11-20 10:24:46"</code></pre>
+<pre><code>[1] "2025-11-20 10:36:04"</code></pre>
 </div>
 </div>
 <p>These functions allow you to create, manipulate, and format date and time data in R. For more advanced date and time handling, you might consider using the <code>lubridate</code> package, which provides a more user-friendly interface for working with dates and times.</p>
@@ -677,12 +725,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="6.1.2" class="anchored" data-anchor-id="converting-numerics-to-date-origins-matter"><span class="header-section-number">6.1.2</span> 1.2 Converting numerics to Date (origins matter)</h3>
 <p>Different systems use different <strong>origins</strong> for numeric dates: - Excel: 1900‑01‑01 (beware 1900 leap‑year bug in older Excels) - SAS: 1960‑01‑01 - R: 1970‑01‑01</p>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>num_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">159</span>, <span class="dv">464</span>, <span class="dv">15674</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(num_dates, <span class="at">origin =</span> <span class="st">"1960-01-01"</span>)  <span class="co"># SAS origin</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1960-01-01" "1960-06-08" "1961-04-09" "2002-11-30"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(num_dates, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>)  <span class="co"># R origin</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1970-01-01" "1970-06-09" "1971-04-10" "2012-11-30"</code></pre>
 </div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(num_dates, <span class="at">origin =</span> <span class="st">"1900-01-01"</span>)  <span class="co"># Excel origin</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "1900-01-01" "1900-06-09" "1901-04-10" "1942-12-01"</code></pre>
 </div>
@@ -690,29 +743,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="custom-date-formats" class="level3" data-number="6.1.3">
 <h3 data-number="6.1.3" class="anchored" data-anchor-id="custom-date-formats"><span class="header-section-number">6.1.3</span> 1.3 Custom date formats</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01/05/1965"</span>, <span class="st">"08/16/1975"</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x1, <span class="st">"%m/%d/%Y"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"05-01-1965"</span>, <span class="st">"16-08-1975"</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x2, <span class="st">"%d-%m-%Y"</span>)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01MAY1965"</span>, <span class="st">"16AUG1975"</span>)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x3, <span class="st">"%d%b%Y"</span>)</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Unknown format? Try multiple patterns</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>x4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01MAY1965MORNING"</span>, <span class="st">"16AUGUST1975"</span>)</span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x4, <span class="at">tryFormats =</span> <span class="fu">c</span>(<span class="st">"%d%b%Y"</span>, <span class="st">"%d%B%Y"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01/05/1965"</span>, <span class="st">"08/16/1975"</span>)</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x1, <span class="st">"%m/%d/%Y"</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"05-01-1965"</span>, <span class="st">"16-08-1975"</span>)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x2, <span class="st">"%d-%m-%Y"</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01MAY1965"</span>, <span class="st">"16AUG1975"</span>)</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x3, <span class="st">"%d%b%Y"</span>)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Unknown format? Try multiple patterns</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>x4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01MAY1965MORNING"</span>, <span class="st">"16AUGUST1975"</span>)</span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x4, <span class="at">tryFormats =</span> <span class="fu">c</span>(<span class="st">"%d%b%Y"</span>, <span class="st">"%d%B%Y"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="datetime-strings-iso-8601-time-zones" class="level3" data-number="6.1.4">
 <h3 data-number="6.1.4" class="anchored" data-anchor-id="datetime-strings-iso-8601-time-zones"><span class="header-section-number">6.1.4</span> 1.4 Datetime strings (ISO 8601 &amp; time zones)</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2015-10-19T10:15"</span>, <span class="st">"2018-12-19T23:05"</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep the literal 'T' in the format string</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.POSIXct</span>(x, <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract parts</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>xt <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(x, <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M"</span>)</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(xt, <span class="st">"%Y-%m-%d"</span>)  <span class="co"># date part</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(xt, <span class="st">"%H:%M"</span>)     <span class="co"># time part</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2015-10-19T10:15"</span>, <span class="st">"2018-12-19T23:05"</span>)</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep the literal 'T' in the format string</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.POSIXct</span>(x, <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract parts</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>xt <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(x, <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M"</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(xt, <span class="st">"%Y-%m-%d"</span>)  <span class="co"># date part</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(xt, <span class="st">"%H:%M"</span>)     <span class="co"># time part</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
 <section id="lubridate-fast-friendly-parsing-arithmetic" class="level2" data-number="6.2">
@@ -724,19 +777,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>ymd()</code>, <code>mdy()</code>, <code>dmy()</code> for dates</li>
 <li><code>ymd_hms()</code>, <code>ymd_hm()</code>, <code>ymd_h()</code> for date‑times</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">"20210529"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(<span class="st">"29/05/2021"</span>)</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd_hm</span>(<span class="st">"2019/01/19T17:15"</span>)  <span class="co"># delimiter agnostic</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">"20210529"</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(<span class="st">"29/05/2021"</span>)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd_hm</span>(<span class="st">"2019/01/19T17:15"</span>)  <span class="co"># delimiter agnostic</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="accessors-and-rounding" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="accessors-and-rounding"><span class="header-section-number">6.2.2</span> 2.2 Accessors and rounding</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2009-08-03 12:01:59"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x); <span class="fu">month</span>(x); <span class="fu">mday</span>(x); <span class="fu">wday</span>(x); <span class="fu">hour</span>(x); <span class="fu">minute</span>(x); <span class="fu">second</span>(x)</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="fu">floor_date</span>(x, <span class="st">"month"</span>)   <span class="co"># 2009-08-01</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling_date</span>(x, <span class="st">"month"</span>) <span class="co"># 2009-09-01</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(x, <span class="st">"month"</span>)    <span class="co"># 2009-08-01</span></span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(x)               <span class="co"># last day of previous month</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2009-08-03 12:01:59"</span>)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x); <span class="fu">month</span>(x); <span class="fu">mday</span>(x); <span class="fu">wday</span>(x); <span class="fu">hour</span>(x); <span class="fu">minute</span>(x); <span class="fu">second</span>(x)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="fu">floor_date</span>(x, <span class="st">"month"</span>)   <span class="co"># 2009-08-01</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling_date</span>(x, <span class="st">"month"</span>) <span class="co"># 2009-09-01</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(x, <span class="st">"month"</span>)    <span class="co"># 2009-08-01</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(x)               <span class="co"># last day of previous month</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="timespans" class="level3" data-number="6.2.3">
 <h3 data-number="6.2.3" class="anchored" data-anchor-id="timespans"><span class="header-section-number">6.2.3</span> 2.3 Timespans</h3>
@@ -745,11 +798,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Periods</strong>: human units, e.g., <code>months(1)</code></li>
 <li><strong>Intervals</strong>: start–end pair, e.g., <code>interval(start, end)</code></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2015-10-19"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>end   <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2018-12-19"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>int   <span class="ot">&lt;-</span> <span class="fu">interval</span>(start, end)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.duration</span>(int)       <span class="co"># exact seconds</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(int)         <span class="co"># years/months/days</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2015-10-19"</span>)</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>end   <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2018-12-19"</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>int   <span class="ot">&lt;-</span> <span class="fu">interval</span>(start, end)</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.duration</span>(int)       <span class="co"># exact seconds</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(int)         <span class="co"># years/months/days</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="adamstyle-partial-date-imputation-start-end" class="level3" data-number="6.2.4">
 <h3 data-number="6.2.4" class="anchored" data-anchor-id="adamstyle-partial-date-imputation-start-end"><span class="header-section-number">6.2.4</span> 3 ADaM‑Style Partial Date Imputation (Start &amp; End)</h3>
@@ -797,6 +850,75 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul></li>
 <li>Add <code>"C"</code> if we had to <strong>censor the end date</strong> at <code>DTHDT</code> / <code>LASTALVDT</code>.</li>
 </ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">USUBJID    =</span> <span class="fu">sprintf</span>(<span class="st">"01-001-%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>),</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">AESTDTC    =</span> <span class="fu">c</span>(<span class="st">"2015-10-19"</span>, <span class="st">"2015-10"</span>, <span class="st">"2015"</span>, <span class="st">"2019-02"</span>, <span class="st">"2020-02"</span>, <span class="st">"2018-12-31"</span>),</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">AEENDTC    =</span> <span class="fu">c</span>(<span class="st">"2018-12-19"</span>, <span class="st">"2018-10"</span>, <span class="st">"2017-05-29"</span>, <span class="st">"2019-02"</span>, <span class="st">"2020-02"</span>, <span class="st">"2020"</span>),</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">RANDDT     =</span> <span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">"2015-10-01"</span>, <span class="st">"2015-10-01"</span>, <span class="st">"2015-01-10"</span>, <span class="st">"2019-01-15"</span>, <span class="st">"2020-02-10"</span>, <span class="st">"2018-12-01"</span>)),</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">DTHDT      =</span> <span class="fu">ymd</span>(<span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="st">"2020-08-03"</span>, <span class="cn">NA</span>)),</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">LASTALVDT  =</span> <span class="fu">ymd</span>(<span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="st">"2020-12-15"</span>))</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>df_imp <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Length of partial date strings</span></span>
+<span id="cb44-17"><a href="#cb44-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">AESTDTC_LEN =</span> <span class="fu">str_length</span>(AESTDTC),</span>
+<span id="cb44-18"><a href="#cb44-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDTC_LEN =</span> <span class="fu">str_length</span>(AEENDTC),</span>
+<span id="cb44-19"><a href="#cb44-19" aria-hidden="true" tabindex="-1"></a>    <span class="do">## --- AE start date imputation (minimum: first possible date) ---</span></span>
+<span id="cb44-20"><a href="#cb44-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">AESTDT =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-21"><a href="#cb44-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AESTDTC) <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>),</span>
+<span id="cb44-22"><a href="#cb44-22" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="fu">ymd</span>(AESTDTC, <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-23"><a href="#cb44-23" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AESTDTC, <span class="st">"-01"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-24"><a href="#cb44-24" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AESTDTC, <span class="st">"-01-01"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-25"><a href="#cb44-25" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>)</span>
+<span id="cb44-26"><a href="#cb44-26" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb44-27"><a href="#cb44-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">AESTDTF =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-28"><a href="#cb44-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AESTDTC) <span class="sc">~</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb44-29"><a href="#cb44-29" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">""</span>,</span>
+<span id="cb44-30"><a href="#cb44-30" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="st">"D"</span>,</span>
+<span id="cb44-31"><a href="#cb44-31" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="st">"M,D"</span>,</span>
+<span id="cb44-32"><a href="#cb44-32" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"UNK"</span></span>
+<span id="cb44-33"><a href="#cb44-33" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb44-34"><a href="#cb44-34" aria-hidden="true" tabindex="-1"></a>    <span class="do">## --- AE end date imputation (maximum: latest possible date) ---</span></span>
+<span id="cb44-35"><a href="#cb44-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDT_RAW =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-36"><a href="#cb44-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AEENDTC) <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>),</span>
+<span id="cb44-37"><a href="#cb44-37" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="fu">ymd</span>(AEENDTC, <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-38"><a href="#cb44-38" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AEENDTC, <span class="st">"-01"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-39"><a href="#cb44-39" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AEENDTC, <span class="st">"-12-31"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb44-40"><a href="#cb44-40" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>)</span>
+<span id="cb44-41"><a href="#cb44-41" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb44-42"><a href="#cb44-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDTF_RAW =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-43"><a href="#cb44-43" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AEENDTC) <span class="sc">~</span> <span class="cn">NA_character_</span>,</span>
+<span id="cb44-44"><a href="#cb44-44" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">""</span>,</span>
+<span id="cb44-45"><a href="#cb44-45" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="st">"D"</span>,</span>
+<span id="cb44-46"><a href="#cb44-46" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="st">"M,D"</span>,</span>
+<span id="cb44-47"><a href="#cb44-47" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"UNK"</span></span>
+<span id="cb44-48"><a href="#cb44-48" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb44-49"><a href="#cb44-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb44-50"><a href="#cb44-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb44-51"><a href="#cb44-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDT_RAW =</span> <span class="fu">if_else</span>(</span>
+<span id="cb44-52"><a href="#cb44-52" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">7</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW),</span>
+<span id="cb44-53"><a href="#cb44-53" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ceiling_date</span>(AEENDT_RAW, <span class="st">"month"</span>) <span class="sc">-</span> <span class="fu">days</span>(<span class="dv">1</span>),</span>
+<span id="cb44-54"><a href="#cb44-54" aria-hidden="true" tabindex="-1"></a>      AEENDT_RAW</span>
+<span id="cb44-55"><a href="#cb44-55" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb44-56"><a href="#cb44-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">CENSOR =</span> <span class="fu">coalesce</span>(DTHDT, LASTALVDT),</span>
+<span id="cb44-57"><a href="#cb44-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDT =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-58"><a href="#cb44-58" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(CENSOR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW) <span class="sc">&amp;</span> AEENDT_RAW <span class="sc">&gt;</span> CENSOR <span class="sc">~</span> CENSOR,</span>
+<span id="cb44-59"><a href="#cb44-59" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> AEENDT_RAW</span>
+<span id="cb44-60"><a href="#cb44-60" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb44-61"><a href="#cb44-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDTF =</span> <span class="fu">case_when</span>(</span>
+<span id="cb44-62"><a href="#cb44-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AEENDT) <span class="sc">~</span> AEENDTF_RAW,</span>
+<span id="cb44-63"><a href="#cb44-63" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(CENSOR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW) <span class="sc">&amp;</span> AEENDT_RAW <span class="sc">&gt;</span> CENSOR <span class="sc">&amp;</span> AEENDTF_RAW <span class="sc">==</span> <span class="st">""</span>  <span class="sc">~</span> <span class="st">"C"</span>,</span>
+<span id="cb44-64"><a href="#cb44-64" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(CENSOR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW) <span class="sc">&amp;</span> AEENDT_RAW <span class="sc">&gt;</span> CENSOR <span class="sc">&amp;</span> AEENDTF_RAW <span class="sc">!=</span> <span class="st">""</span> <span class="sc">~</span> <span class="fu">str_c</span>(AEENDTF_RAW, <span class="st">",C"</span>),</span>
+<span id="cb44-65"><a href="#cb44-65" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> AEENDTF_RAW</span>
+<span id="cb44-66"><a href="#cb44-66" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb44-67"><a href="#cb44-67" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 </section>
 <section id="durations-analysis-variables" class="level2" data-number="6.3">
@@ -823,8 +945,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 
-
-<!-- -->
 
 </section>
 </section>
@@ -900,57 +1020,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         container: window.document.getElementById('quarto-embedded-source-code-modal')
       });
       clipboardModal.on('success', onCopySuccess);
-    }
-    const viewSource = window.document.getElementById('quarto-view-source') ||
-                       window.document.getElementById('quarto-code-tools-source');
-    if (viewSource) {
-      const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
-      viewSource.addEventListener("click", function(e) {
-        if (sourceUrl) {
-          // rstudio viewer pane
-          if (/\bcapabilities=\b/.test(window.location)) {
-            window.open(sourceUrl);
-          } else {
-            window.location.href = sourceUrl;
-          }
-        } else {
-          const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
-          modal.show();
-        }
-        return false;
-      });
-    }
-    function toggleCodeHandler(show) {
-      return function(e) {
-        const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
-        for (let i=0; i<detailsSrc.length; i++) {
-          const details = detailsSrc[i].parentElement;
-          if (show) {
-            details.open = true;
-          } else {
-            details.removeAttribute("open");
-          }
-        }
-        const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
-        const fromCls = show ? "hidden" : "unhidden";
-        const toCls = show ? "unhidden" : "hidden";
-        for (let i=0; i<cellCodeDivs.length; i++) {
-          const codeDiv = cellCodeDivs[i];
-          if (codeDiv.classList.contains(fromCls)) {
-            codeDiv.classList.remove(fromCls);
-            codeDiv.classList.add(toCls);
-          } 
-        }
-        return false;
-      }
-    }
-    const hideAllCode = window.document.getElementById("quarto-hide-all-code");
-    if (hideAllCode) {
-      hideAllCode.addEventListener("click", toggleCodeHandler(false));
-    }
-    const showAllCode = window.document.getElementById("quarto-show-all-code");
-    if (showAllCode) {
-      showAllCode.addEventListener("click", toggleCodeHandler(true));
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
@@ -1292,366 +1361,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Reading SAS Datasets (+ Cleaning)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
-</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "date and time functions"</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="fu">### Date and Time Base Functions in R</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>Date and time manipulation is a common task in data analysis. R provides several base functions to work with dates and times. Here are some of the most commonly used base R functions for handling date and time data:</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current date</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>current_date <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(current_date)</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the current date and time</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>current_datetime <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(current_datetime)</span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Creating Date and Time Objects</span></span>
-<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Year Formats</span></span>
-<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Code <span class="pp">|</span> Meaning                     <span class="pp">|</span> Example (<span class="in">`format(dt, ...)`</span>) <span class="pp">|</span></span>
-<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a><span class="pp">| ----</span> <span class="pp">| ---------------------------</span> <span class="pp">| ---------------------------</span> <span class="pp">|</span></span>
-<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%Y`</span> <span class="pp">|</span> 4-digit year                <span class="pp">|</span> <span class="in">`"2025"`</span>                    <span class="pp">|</span></span>
-<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%y`</span> <span class="pp">|</span> 2-digit year (00–99)        <span class="pp">|</span> <span class="in">`"25"`</span>                      <span class="pp">|</span></span>
-<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%C`</span> <span class="pp">|</span> Century (year / 100, 00–99) <span class="pp">|</span> <span class="in">`"20"`</span> (for 2025; OS-dep.)  <span class="pp">|</span></span>
-<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a><span class="fu">### Month Formats</span></span>
-<span id="cb25-28"><a href="#cb25-28" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Code <span class="pp">|</span> Meaning                           <span class="pp">|</span> Example      <span class="pp">|</span></span>
-<span id="cb25-29"><a href="#cb25-29" aria-hidden="true" tabindex="-1"></a><span class="pp">| ----</span> <span class="pp">| ---------------------------------</span> <span class="pp">| ------------</span> <span class="pp">|</span></span>
-<span id="cb25-30"><a href="#cb25-30" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%m`</span> <span class="pp">|</span> Month number (01–12)              <span class="pp">|</span> <span class="in">`"11"`</span>       <span class="pp">|</span></span>
-<span id="cb25-31"><a href="#cb25-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%b`</span> <span class="pp">|</span> Abbrev. month name (locale)       <span class="pp">|</span> <span class="in">`"Nov"`</span>      <span class="pp">|</span></span>
-<span id="cb25-32"><a href="#cb25-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%B`</span> <span class="pp">|</span> Full month name (locale)          <span class="pp">|</span> <span class="in">`"November"`</span> <span class="pp">|</span></span>
-<span id="cb25-33"><a href="#cb25-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%h`</span> <span class="pp">|</span> Same as <span class="in">`%b`</span> (abbrev. month name) <span class="pp">|</span> <span class="in">`"Nov"`</span>      <span class="pp">|</span></span>
-<span id="cb25-34"><a href="#cb25-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-35"><a href="#cb25-35" aria-hidden="true" tabindex="-1"></a><span class="fu">### Day Formats</span></span>
-<span id="cb25-36"><a href="#cb25-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Code <span class="pp">|</span> Meaning                                <span class="pp">|</span> Example                             <span class="pp">|</span></span>
-<span id="cb25-37"><a href="#cb25-37" aria-hidden="true" tabindex="-1"></a><span class="pp">| ----</span> <span class="pp">| --------------------------------------</span> <span class="pp">| -----------------------------------</span> <span class="pp">|</span></span>
-<span id="cb25-38"><a href="#cb25-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%d`</span> <span class="pp">|</span> Day of month (01–31)                   <span class="pp">|</span> <span class="in">`"14"`</span>                              <span class="pp">|</span></span>
-<span id="cb25-39"><a href="#cb25-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%e`</span> <span class="pp">|</span> Day of month (1–31, padded with space) <span class="pp">|</span> <span class="in">`"14"`</span> (or <span class="in">`" 7"`</span> for 7th; OS-dep.) <span class="pp">|</span></span>
-<span id="cb25-40"><a href="#cb25-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%j`</span> <span class="pp">|</span> Day of year (001–366)                  <span class="pp">|</span> <span class="in">`"318"`</span>                             <span class="pp">|</span></span>
-<span id="cb25-41"><a href="#cb25-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-42"><a href="#cb25-42" aria-hidden="true" tabindex="-1"></a><span class="fu">### Weekday Formats</span></span>
-<span id="cb25-43"><a href="#cb25-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-44"><a href="#cb25-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Code <span class="pp">|</span> Meaning                                            <span class="pp">|</span> Example        <span class="pp">|</span></span>
-<span id="cb25-45"><a href="#cb25-45" aria-hidden="true" tabindex="-1"></a><span class="pp">| ----</span> <span class="pp">| --------------------------------------------------</span> <span class="pp">| --------------</span> <span class="pp">|</span></span>
-<span id="cb25-46"><a href="#cb25-46" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%a`</span> <span class="pp">|</span> Abbrev. weekday name (locale)                      <span class="pp">|</span> <span class="in">`"Fri"`</span>        <span class="pp">|</span></span>
-<span id="cb25-47"><a href="#cb25-47" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%A`</span> <span class="pp">|</span> Full weekday name (locale)                         <span class="pp">|</span> <span class="in">`"Friday"`</span>     <span class="pp">|</span></span>
-<span id="cb25-48"><a href="#cb25-48" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%w`</span> <span class="pp">|</span> Weekday number (0–6, **0 = Sunday**)               <span class="pp">|</span> <span class="in">`"5"`</span>          <span class="pp">|</span></span>
-<span id="cb25-49"><a href="#cb25-49" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%u`</span> <span class="pp">|</span> ISO weekday number (1–7, **1 = Monday**) (OS-dep.) <span class="pp">|</span> <span class="in">`"5"`</span> (Friday) <span class="pp">|</span></span>
-<span id="cb25-50"><a href="#cb25-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-51"><a href="#cb25-51" aria-hidden="true" tabindex="-1"></a><span class="fu">### Time Formats</span></span>
-<span id="cb25-52"><a href="#cb25-52" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Code <span class="pp">|</span> Meaning                        <span class="pp">|</span> Example    <span class="pp">|</span></span>
-<span id="cb25-53"><a href="#cb25-53" aria-hidden="true" tabindex="-1"></a><span class="pp">| ----</span> <span class="pp">| ------------------------------</span> <span class="pp">| ----------</span> <span class="pp">|</span></span>
-<span id="cb25-54"><a href="#cb25-54" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%H`</span> <span class="pp">|</span> Hour (00–23)                   <span class="pp">|</span> <span class="in">`"14"`</span>     <span class="pp">|</span></span>
-<span id="cb25-55"><a href="#cb25-55" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%I`</span> <span class="pp">|</span> Hour (01–12)                   <span class="pp">|</span> <span class="in">`"02"`</span>     <span class="pp">|</span></span>
-<span id="cb25-56"><a href="#cb25-56" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%M`</span> <span class="pp">|</span> Minute (00–59)                 <span class="pp">|</span> <span class="in">`"30"`</span>     <span class="pp">|</span></span>
-<span id="cb25-57"><a href="#cb25-57" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%S`</span> <span class="pp">|</span> Second (00–61, allows for leap) <span class="pp">|</span> <span class="in">`"05"`</span>    <span class="pp">|</span></span>
-<span id="cb25-58"><a href="#cb25-58" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%p`</span> <span class="pp">|</span> AM/PM indicator (locale)       <span class="pp">|</span> <span class="in">`"PM"`</span>     <span class="pp">|</span></span>
-<span id="cb25-59"><a href="#cb25-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-60"><a href="#cb25-60" aria-hidden="true" tabindex="-1"></a>###Locale-dependent “full date/time” codes</span>
-<span id="cb25-61"><a href="#cb25-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-62"><a href="#cb25-62" aria-hidden="true" tabindex="-1"></a>###These depend on your system locale (language + region):</span>
-<span id="cb25-63"><a href="#cb25-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-64"><a href="#cb25-64" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Code <span class="pp">|</span> Meaning                     <span class="pp">|</span> Example                      <span class="pp">|</span></span>
-<span id="cb25-65"><a href="#cb25-65" aria-hidden="true" tabindex="-1"></a><span class="pp">| ----</span> <span class="pp">| ---------------------------</span> <span class="pp">| ----------------------------</span> <span class="pp">|</span></span>
-<span id="cb25-66"><a href="#cb25-66" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%c`</span> <span class="pp">|</span> Date and time representation <span class="pp">|</span> <span class="in">`"Fri Nov 14 16:05:30 2025"`</span> <span class="pp">|</span></span>
-<span id="cb25-67"><a href="#cb25-67" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%x`</span> <span class="pp">|</span> Date representation         <span class="pp">|</span> <span class="in">`"11/14/25"`</span> (varies by locale) <span class="pp">|</span></span>
-<span id="cb25-68"><a href="#cb25-68" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`%X`</span> <span class="pp">|</span> Time representation         <span class="pp">|</span> <span class="in">`"16:05:30"`</span>                 <span class="pp">|</span></span>
-<span id="cb25-69"><a href="#cb25-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-72"><a href="#cb25-72" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-73"><a href="#cb25-73" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Date object</span></span>
-<span id="cb25-74"><a href="#cb25-74" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(<span class="st">"2025-11-14"</span>)</span>
-<span id="cb25-75"><a href="#cb25-75" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a POSIXct object (date-time)</span></span>
-<span id="cb25-76"><a href="#cb25-76" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(<span class="st">"2025-11-14 16:05:30"</span>)</span>
-<span id="cb25-77"><a href="#cb25-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Format examples</span></span>
-<span id="cb25-78"><a href="#cb25-78" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%Y-%m-%d"</span>)  <span class="co"># e.g. "2025-11-14"</span></span>
-<span id="cb25-79"><a href="#cb25-79" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%m/%d/%y"</span>)  <span class="co"># e.g. "11/14/25"</span></span>
-<span id="cb25-80"><a href="#cb25-80" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%B %d, %Y"</span>) <span class="co"># e.g. "November 14, 2025"</span></span>
-<span id="cb25-81"><a href="#cb25-81" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%c"</span>)  <span class="co"># e.g. "Fri Nov 14 16:05:30 2025"</span></span>
-<span id="cb25-82"><a href="#cb25-82" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%x"</span>)  <span class="co"># e.g. "11/14/25" (depends on locale)</span></span>
-<span id="cb25-83"><a href="#cb25-83" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(dt, <span class="st">"%X"</span>)  <span class="co"># e.g. "16:05:30"</span></span>
-<span id="cb25-84"><a href="#cb25-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-85"><a href="#cb25-85" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-86"><a href="#cb25-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-87"><a href="#cb25-87" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-88"><a href="#cb25-88" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SAS informat  <span class="pp">|</span> R parsing                                <span class="pp">|</span></span>
-<span id="cb25-89"><a href="#cb25-89" aria-hidden="true" tabindex="-1"></a><span class="pp">| -------------</span> <span class="pp">| ----------------------------------------</span> <span class="pp">|</span></span>
-<span id="cb25-90"><a href="#cb25-90" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ddmmyy10.`</span>   <span class="pp">|</span> <span class="in">`as.Date(x, "%d/%m/%Y")`</span>                 <span class="pp">|</span></span>
-<span id="cb25-91"><a href="#cb25-91" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ddmmyyd10.`</span>  <span class="pp">|</span> <span class="in">`as.Date(x, "%d-%m-%Y")`</span>                 <span class="pp">|</span></span>
-<span id="cb25-92"><a href="#cb25-92" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`ddmmyyp10.`</span>  <span class="pp">|</span> <span class="in">`as.Date(x, "%d.%m.%Y")`</span>                 <span class="pp">|</span></span>
-<span id="cb25-93"><a href="#cb25-93" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`mmddyy10.`</span>   <span class="pp">|</span> <span class="in">`as.Date(x, "%m/%d/%Y")`</span>                 <span class="pp">|</span></span>
-<span id="cb25-94"><a href="#cb25-94" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`date9.`</span>      <span class="pp">|</span> <span class="in">`as.Date(x, "%d%b%Y")`</span>                   <span class="pp">|</span></span>
-<span id="cb25-95"><a href="#cb25-95" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`julian7.`</span>    <span class="pp">|</span> <span class="in">`as.Date(strptime(x, "%Y%j"))`</span>           <span class="pp">|</span></span>
-<span id="cb25-96"><a href="#cb25-96" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`time8.`</span>      <span class="pp">|</span> <span class="in">`as.POSIXct(x, "%H:%M:%S")`</span>              <span class="pp">|</span></span>
-<span id="cb25-97"><a href="#cb25-97" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`time10.`</span>     <span class="pp">|</span> <span class="in">`as.POSIXct(x, "%I:%M:%S%p")`</span> (if am/pm) <span class="pp">|</span></span>
-<span id="cb25-98"><a href="#cb25-98" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`datetime18.`</span> <span class="pp">|</span> <span class="in">`as.POSIXct(x, "%d%b%Y:%H:%M:%S")`</span>       <span class="pp">|</span></span>
-<span id="cb25-99"><a href="#cb25-99" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`datetime20.`</span> <span class="pp">|</span> <span class="in">`as.POSIXct(x, "%d%b%Y:%I:%M:%S%p")`</span>     <span class="pp">|</span></span>
-<span id="cb25-100"><a href="#cb25-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-101"><a href="#cb25-101" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> SAS format    <span class="pp">|</span> Meaning                                    <span class="pp">|</span> R equivalent                             <span class="pp">|</span></span>
-<span id="cb25-102"><a href="#cb25-102" aria-hidden="true" tabindex="-1"></a><span class="pp">| -------------</span> <span class="pp">| ------------------------------------------</span> <span class="pp">| ----------------------------------------</span> <span class="pp">|</span></span>
-<span id="cb25-103"><a href="#cb25-103" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`worddate18.`</span> <span class="pp">|</span> Month date, year (e.g., February 23, 2003) <span class="pp">|</span> <span class="in">`format(d, "%B %d, %Y")`</span>                 <span class="pp">|</span></span>
-<span id="cb25-104"><a href="#cb25-104" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`weekdate24.`</span> <span class="pp">|</span> Weekday, month date, year                  <span class="pp">|</span> <span class="in">`format(d, "%A, %B %d, %Y")`</span>             <span class="pp">|</span></span>
-<span id="cb25-105"><a href="#cb25-105" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`year.`</span>       <span class="pp">|</span> numeric year                               <span class="pp">|</span> <span class="in">`as.integer(format(d, "%Y"))`</span>            <span class="pp">|</span></span>
-<span id="cb25-106"><a href="#cb25-106" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`month.`</span>      <span class="pp">|</span> month number (1–12)                        <span class="pp">|</span> <span class="in">`as.integer(format(d, "%m"))`</span>            <span class="pp">|</span></span>
-<span id="cb25-107"><a href="#cb25-107" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`day.`</span>        <span class="pp">|</span> day of month                               <span class="pp">|</span> <span class="in">`as.integer(format(d, "%d"))`</span>            <span class="pp">|</span></span>
-<span id="cb25-108"><a href="#cb25-108" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="in">`weekday.`</span>    <span class="pp">|</span> day of week (1–7)                          <span class="pp">|</span> <span class="in">`as.integer(format(d, "%u"))`</span>  (Mon = 1) <span class="pp">|</span></span>
-<span id="cb25-109"><a href="#cb25-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-110"><a href="#cb25-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-111"><a href="#cb25-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-114"><a href="#cb25-114" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-115"><a href="#cb25-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert a character string to a Date object</span></span>
-<span id="cb25-116"><a href="#cb25-116" aria-hidden="true" tabindex="-1"></a>date_string <span class="ot">&lt;-</span> <span class="st">"2023-10-01"</span></span>
-<span id="cb25-117"><a href="#cb25-117" aria-hidden="true" tabindex="-1"></a>date_object <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(date_string)</span>
-<span id="cb25-118"><a href="#cb25-118" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(date_object)</span>
-<span id="cb25-119"><a href="#cb25-119" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert a character string to a POSIXct object (date-time)</span></span>
-<span id="cb25-120"><a href="#cb25-120" aria-hidden="true" tabindex="-1"></a>datetime_string <span class="ot">&lt;-</span> <span class="st">"2023-10-01 12:34:56"</span></span>
-<span id="cb25-121"><a href="#cb25-121" aria-hidden="true" tabindex="-1"></a>datetime_object <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(datetime_string)</span>
-<span id="cb25-122"><a href="#cb25-122" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(datetime_object)</span>
-<span id="cb25-123"><a href="#cb25-123" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract components from a Date object</span></span>
-<span id="cb25-124"><a href="#cb25-124" aria-hidden="true" tabindex="-1"></a>year <span class="ot">&lt;-</span> <span class="fu">format</span>(date_object, <span class="st">"%Y"</span>)</span>
-<span id="cb25-125"><a href="#cb25-125" aria-hidden="true" tabindex="-1"></a>month <span class="ot">&lt;-</span> <span class="fu">format</span>(date_object, <span class="st">"%m"</span>)</span>
-<span id="cb25-126"><a href="#cb25-126" aria-hidden="true" tabindex="-1"></a>day <span class="ot">&lt;-</span> <span class="fu">format</span>(date_object, <span class="st">"%d"</span>)</span>
-<span id="cb25-127"><a href="#cb25-127" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Year:"</span>, year, <span class="st">"Month:"</span>, month, <span class="st">"Day:"</span>, day))</span>
-<span id="cb25-128"><a href="#cb25-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract components from a POSIXct object</span></span>
-<span id="cb25-129"><a href="#cb25-129" aria-hidden="true" tabindex="-1"></a>hour <span class="ot">&lt;-</span> <span class="fu">format</span>(datetime_object, <span class="st">"%H"</span>)</span>
-<span id="cb25-130"><a href="#cb25-130" aria-hidden="true" tabindex="-1"></a>minute <span class="ot">&lt;-</span> <span class="fu">format</span>(datetime_object, <span class="st">"%M"</span>)</span>
-<span id="cb25-131"><a href="#cb25-131" aria-hidden="true" tabindex="-1"></a>second <span class="ot">&lt;-</span> <span class="fu">format</span>(datetime_object, <span class="st">"%S"</span>)</span>
-<span id="cb25-132"><a href="#cb25-132" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Hour:"</span>, hour, <span class="st">"Minute:"</span>, minute, <span class="st">"Second:"</span>, second))</span>
-<span id="cb25-133"><a href="#cb25-133" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform date arithmetic</span></span>
-<span id="cb25-134"><a href="#cb25-134" aria-hidden="true" tabindex="-1"></a>tomorrow <span class="ot">&lt;-</span> current_date <span class="sc">+</span> <span class="dv">1</span></span>
-<span id="cb25-135"><a href="#cb25-135" aria-hidden="true" tabindex="-1"></a>yesterday <span class="ot">&lt;-</span> current_date <span class="sc">-</span> <span class="dv">1</span></span>
-<span id="cb25-136"><a href="#cb25-136" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Tomorrow:"</span>, tomorrow, <span class="st">"Yesterday:"</span>, yesterday))</span>
-<span id="cb25-137"><a href="#cb25-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the difference between two dates</span></span>
-<span id="cb25-138"><a href="#cb25-138" aria-hidden="true" tabindex="-1"></a>date_diff <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(current_date, date_object, <span class="at">units =</span> <span class="st">"days"</span>))</span>
-<span id="cb25-139"><a href="#cb25-139" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Difference in days:"</span>, date_diff))</span>
-<span id="cb25-140"><a href="#cb25-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Format a Date object to a specific string format</span></span>
-<span id="cb25-141"><a href="#cb25-141" aria-hidden="true" tabindex="-1"></a>formatted_date <span class="ot">&lt;-</span> <span class="fu">format</span>(current_date, <span class="st">"%B %d, %Y"</span>)</span>
-<span id="cb25-142"><a href="#cb25-142" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_date)</span>
-<span id="cb25-143"><a href="#cb25-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Format a POSIXct object to a specific string format</span></span>
-<span id="cb25-144"><a href="#cb25-144" aria-hidden="true" tabindex="-1"></a>formatted_datetime <span class="ot">&lt;-</span> <span class="fu">format</span>(current_datetime, <span class="st">"%Y-%m-%d %H:%M:%S"</span>)</span>
-<span id="cb25-145"><a href="#cb25-145" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(formatted_datetime)</span>
-<span id="cb25-146"><a href="#cb25-146" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-147"><a href="#cb25-147" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-148"><a href="#cb25-148" aria-hidden="true" tabindex="-1"></a>These functions allow you to create, manipulate, and format date and time data in R. For more advanced date and time handling, you might consider using the <span class="in">`lubridate`</span> package, which provides a more user-friendly interface for working with dates and times.</span>
-<span id="cb25-149"><a href="#cb25-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-150"><a href="#cb25-150" aria-hidden="true" tabindex="-1"></a>A practical, CDISC‑friendly guide to working with **dates/times** and implementing **partial date imputation** in R using **base R** and **lubridate**.</span>
-<span id="cb25-151"><a href="#cb25-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-152"><a href="#cb25-152" aria-hidden="true" tabindex="-1"></a><span class="fu">## 1. Date &amp; Time Basics in R</span></span>
-<span id="cb25-153"><a href="#cb25-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-154"><a href="#cb25-154" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.1 Core classes</span></span>
-<span id="cb25-155"><a href="#cb25-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-156"><a href="#cb25-156" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Date**: calendar dates without time.</span>
-<span id="cb25-157"><a href="#cb25-157" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**POSIXct**: seconds since 1970‑01‑01 (compact, good for storage/arithmetic).</span>
-<span id="cb25-158"><a href="#cb25-158" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**POSIXlt**: list of components (year, mon, mday, hour, min, sec) — convenient to extract parts.</span>
-<span id="cb25-159"><a href="#cb25-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-160"><a href="#cb25-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-161"><a href="#cb25-161" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.2 Converting numerics to Date (origins matter)</span></span>
-<span id="cb25-162"><a href="#cb25-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-163"><a href="#cb25-163" aria-hidden="true" tabindex="-1"></a>Different systems use different **origins** for numeric dates: - Excel: 1900‑01‑01 (beware 1900 leap‑year bug in older Excels) - SAS: 1960‑01‑01 - R: 1970‑01‑01</span>
-<span id="cb25-164"><a href="#cb25-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-165"><a href="#cb25-165" aria-hidden="true" tabindex="-1"></a><span class="in">``` {r}</span></span>
-<span id="cb25-166"><a href="#cb25-166" aria-hidden="true" tabindex="-1"></a>num_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">159</span>, <span class="dv">464</span>, <span class="dv">15674</span>)</span>
-<span id="cb25-167"><a href="#cb25-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-168"><a href="#cb25-168" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(num_dates, <span class="at">origin =</span> <span class="st">"1960-01-01"</span>)  <span class="co"># SAS origin</span></span>
-<span id="cb25-169"><a href="#cb25-169" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(num_dates, <span class="at">origin =</span> <span class="st">"1970-01-01"</span>)  <span class="co"># R origin</span></span>
-<span id="cb25-170"><a href="#cb25-170" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(num_dates, <span class="at">origin =</span> <span class="st">"1900-01-01"</span>)  <span class="co"># Excel origin</span></span>
-<span id="cb25-171"><a href="#cb25-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-172"><a href="#cb25-172" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.3 Custom date formats</span></span>
-<span id="cb25-173"><a href="#cb25-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-174"><a href="#cb25-174" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb25-175"><a href="#cb25-175" aria-hidden="true" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01/05/1965"</span>, <span class="st">"08/16/1975"</span>)</span>
-<span id="cb25-176"><a href="#cb25-176" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x1, <span class="st">"%m/%d/%Y"</span>)</span>
-<span id="cb25-177"><a href="#cb25-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-178"><a href="#cb25-178" aria-hidden="true" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"05-01-1965"</span>, <span class="st">"16-08-1975"</span>)</span>
-<span id="cb25-179"><a href="#cb25-179" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x2, <span class="st">"%d-%m-%Y"</span>)</span>
-<span id="cb25-180"><a href="#cb25-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-181"><a href="#cb25-181" aria-hidden="true" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01MAY1965"</span>, <span class="st">"16AUG1975"</span>)</span>
-<span id="cb25-182"><a href="#cb25-182" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x3, <span class="st">"%d%b%Y"</span>)</span>
-<span id="cb25-183"><a href="#cb25-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-184"><a href="#cb25-184" aria-hidden="true" tabindex="-1"></a><span class="co"># Unknown format? Try multiple patterns</span></span>
-<span id="cb25-185"><a href="#cb25-185" aria-hidden="true" tabindex="-1"></a>x4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"01MAY1965MORNING"</span>, <span class="st">"16AUGUST1975"</span>)</span>
-<span id="cb25-186"><a href="#cb25-186" aria-hidden="true" tabindex="-1"></a><span class="fu">as.Date</span>(x4, <span class="at">tryFormats =</span> <span class="fu">c</span>(<span class="st">"%d%b%Y"</span>, <span class="st">"%d%B%Y"</span>))</span>
-<span id="cb25-187"><a href="#cb25-187" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-188"><a href="#cb25-188" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-189"><a href="#cb25-189" aria-hidden="true" tabindex="-1"></a><span class="fu">### 1.4 Datetime strings (ISO 8601 &amp; time zones)</span></span>
-<span id="cb25-190"><a href="#cb25-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-191"><a href="#cb25-191" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb25-192"><a href="#cb25-192" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2015-10-19T10:15"</span>, <span class="st">"2018-12-19T23:05"</span>)</span>
-<span id="cb25-193"><a href="#cb25-193" aria-hidden="true" tabindex="-1"></a><span class="co"># Keep the literal 'T' in the format string</span></span>
-<span id="cb25-194"><a href="#cb25-194" aria-hidden="true" tabindex="-1"></a><span class="fu">as.POSIXct</span>(x, <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M"</span>, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
-<span id="cb25-195"><a href="#cb25-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-196"><a href="#cb25-196" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract parts</span></span>
-<span id="cb25-197"><a href="#cb25-197" aria-hidden="true" tabindex="-1"></a>xt <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(x, <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M"</span>)</span>
-<span id="cb25-198"><a href="#cb25-198" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(xt, <span class="st">"%Y-%m-%d"</span>)  <span class="co"># date part</span></span>
-<span id="cb25-199"><a href="#cb25-199" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(xt, <span class="st">"%H:%M"</span>)     <span class="co"># time part</span></span>
-<span id="cb25-200"><a href="#cb25-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-201"><a href="#cb25-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-202"><a href="#cb25-202" aria-hidden="true" tabindex="-1"></a><span class="fu">## 2. Lubridate: Fast, Friendly Parsing &amp; Arithmetic</span></span>
-<span id="cb25-203"><a href="#cb25-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-204"><a href="#cb25-204" aria-hidden="true" tabindex="-1"></a>Install &amp; load: <span class="in">`install.packages("lubridate"); library(lubridate)`</span></span>
-<span id="cb25-205"><a href="#cb25-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-206"><a href="#cb25-206" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.1 Intuitive parsers</span></span>
-<span id="cb25-207"><a href="#cb25-207" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-208"><a href="#cb25-208" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`ymd()`</span>, <span class="in">`mdy()`</span>, <span class="in">`dmy()`</span> for dates</span>
-<span id="cb25-209"><a href="#cb25-209" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span><span class="in">`ymd_hms()`</span>, <span class="in">`ymd_hm()`</span>, <span class="in">`ymd_h()`</span> for date‑times</span>
-<span id="cb25-210"><a href="#cb25-210" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-211"><a href="#cb25-211" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb25-212"><a href="#cb25-212" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd</span>(<span class="st">"20210529"</span>)</span>
-<span id="cb25-213"><a href="#cb25-213" aria-hidden="true" tabindex="-1"></a><span class="fu">dmy</span>(<span class="st">"29/05/2021"</span>)</span>
-<span id="cb25-214"><a href="#cb25-214" aria-hidden="true" tabindex="-1"></a><span class="fu">ymd_hm</span>(<span class="st">"2019/01/19T17:15"</span>)  <span class="co"># delimiter agnostic</span></span>
-<span id="cb25-215"><a href="#cb25-215" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-216"><a href="#cb25-216" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-217"><a href="#cb25-217" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.2 Accessors and rounding</span></span>
-<span id="cb25-218"><a href="#cb25-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-219"><a href="#cb25-219" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb25-220"><a href="#cb25-220" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2009-08-03 12:01:59"</span>)</span>
-<span id="cb25-221"><a href="#cb25-221" aria-hidden="true" tabindex="-1"></a><span class="fu">year</span>(x); <span class="fu">month</span>(x); <span class="fu">mday</span>(x); <span class="fu">wday</span>(x); <span class="fu">hour</span>(x); <span class="fu">minute</span>(x); <span class="fu">second</span>(x)</span>
-<span id="cb25-222"><a href="#cb25-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-223"><a href="#cb25-223" aria-hidden="true" tabindex="-1"></a><span class="fu">floor_date</span>(x, <span class="st">"month"</span>)   <span class="co"># 2009-08-01</span></span>
-<span id="cb25-224"><a href="#cb25-224" aria-hidden="true" tabindex="-1"></a><span class="fu">ceiling_date</span>(x, <span class="st">"month"</span>) <span class="co"># 2009-09-01</span></span>
-<span id="cb25-225"><a href="#cb25-225" aria-hidden="true" tabindex="-1"></a><span class="fu">round_date</span>(x, <span class="st">"month"</span>)    <span class="co"># 2009-08-01</span></span>
-<span id="cb25-226"><a href="#cb25-226" aria-hidden="true" tabindex="-1"></a><span class="fu">rollback</span>(x)               <span class="co"># last day of previous month</span></span>
-<span id="cb25-227"><a href="#cb25-227" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-228"><a href="#cb25-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-229"><a href="#cb25-229" aria-hidden="true" tabindex="-1"></a><span class="fu">### 2.3 Timespans</span></span>
-<span id="cb25-230"><a href="#cb25-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-231"><a href="#cb25-231" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Durations**: exact seconds, e.g., <span class="in">`ddays(2)`</span></span>
-<span id="cb25-232"><a href="#cb25-232" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Periods**: human units, e.g., <span class="in">`months(1)`</span></span>
-<span id="cb25-233"><a href="#cb25-233" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>**Intervals**: start–end pair, e.g., <span class="in">`interval(start, end)`</span></span>
-<span id="cb25-234"><a href="#cb25-234" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-235"><a href="#cb25-235" aria-hidden="true" tabindex="-1"></a><span class="in">``` r</span></span>
-<span id="cb25-236"><a href="#cb25-236" aria-hidden="true" tabindex="-1"></a>start <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2015-10-19"</span>)</span>
-<span id="cb25-237"><a href="#cb25-237" aria-hidden="true" tabindex="-1"></a>end   <span class="ot">&lt;-</span> <span class="fu">ymd</span>(<span class="st">"2018-12-19"</span>)</span>
-<span id="cb25-238"><a href="#cb25-238" aria-hidden="true" tabindex="-1"></a>int   <span class="ot">&lt;-</span> <span class="fu">interval</span>(start, end)</span>
-<span id="cb25-239"><a href="#cb25-239" aria-hidden="true" tabindex="-1"></a><span class="fu">as.duration</span>(int)       <span class="co"># exact seconds</span></span>
-<span id="cb25-240"><a href="#cb25-240" aria-hidden="true" tabindex="-1"></a><span class="fu">as.period</span>(int)         <span class="co"># years/months/days</span></span>
-<span id="cb25-241"><a href="#cb25-241" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-242"><a href="#cb25-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-243"><a href="#cb25-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-244"><a href="#cb25-244" aria-hidden="true" tabindex="-1"></a><span class="fu">### 3 ADaM‑Style Partial Date Imputation (Start &amp; End)</span></span>
-<span id="cb25-245"><a href="#cb25-245" aria-hidden="true" tabindex="-1"></a> Imputation rules vary by study; always follow the SAP. A common pattern:</span>
-<span id="cb25-246"><a href="#cb25-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-247"><a href="#cb25-247" aria-hidden="true" tabindex="-1"></a><span class="fu">### Start date (`AESTDTC`)</span></span>
-<span id="cb25-248"><a href="#cb25-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-249"><a href="#cb25-249" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`YYYY-MM-DD`</span> → use as is  </span>
-<span id="cb25-250"><a href="#cb25-250" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`YYYY-MM`</span> → impute **day = 01** (first of month)  </span>
-<span id="cb25-251"><a href="#cb25-251" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`YYYY`</span> → impute **month = 01**, **day = 01** (<span class="in">`01-Jan`</span>)</span>
-<span id="cb25-252"><a href="#cb25-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-253"><a href="#cb25-253" aria-hidden="true" tabindex="-1"></a><span class="fu">### End date (`AEENDTC`)</span></span>
-<span id="cb25-254"><a href="#cb25-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-255"><a href="#cb25-255" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`YYYY-MM-DD`</span> → use as is  </span>
-<span id="cb25-256"><a href="#cb25-256" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`YYYY-MM`</span> → impute **last day of that month**  </span>
-<span id="cb25-257"><a href="#cb25-257" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`YYYY`</span> → impute **`31-Dec`**</span>
-<span id="cb25-258"><a href="#cb25-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-259"><a href="#cb25-259" aria-hidden="true" tabindex="-1"></a><span class="fu">### Censoring by death / last alive date</span></span>
-<span id="cb25-260"><a href="#cb25-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-261"><a href="#cb25-261" aria-hidden="true" tabindex="-1"></a>Additionally, bound <span class="in">`AEENDT`</span> by death / last alive date (when present):</span>
-<span id="cb25-262"><a href="#cb25-262" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-263"><a href="#cb25-263" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`CENSOR = coalesce(DTHDT, LASTALVDT)`</span>  </span>
-<span id="cb25-264"><a href="#cb25-264" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`AEENDT = min(imputed_end, CENSOR)`</span></span>
-<span id="cb25-265"><a href="#cb25-265" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-266"><a href="#cb25-266" aria-hidden="true" tabindex="-1"></a><span class="fu">### Imputation flags</span></span>
-<span id="cb25-267"><a href="#cb25-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-268"><a href="#cb25-268" aria-hidden="true" tabindex="-1"></a>Add flags:</span>
-<span id="cb25-269"><a href="#cb25-269" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-270"><a href="#cb25-270" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="in">`AESTDTF`</span>, <span class="in">`AEENDTF`</span>:</span>
-<span id="cb25-271"><a href="#cb25-271" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`"D"`</span>   → day imputed  </span>
-<span id="cb25-272"><a href="#cb25-272" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span><span class="in">`"M,D"`</span> → month &amp; day imputed  </span>
-<span id="cb25-273"><a href="#cb25-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Add <span class="in">`"C"`</span> if we had to **censor the end date** at <span class="in">`DTHDT`</span> / <span class="in">`LASTALVDT`</span>.</span>
-<span id="cb25-274"><a href="#cb25-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-275"><a href="#cb25-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-278"><a href="#cb25-278" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb25-279"><a href="#cb25-279" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-280"><a href="#cb25-280" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-281"><a href="#cb25-281" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate, <span class="at">warn.conflicts =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-282"><a href="#cb25-282" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-283"><a href="#cb25-283" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb25-284"><a href="#cb25-284" aria-hidden="true" tabindex="-1"></a>  <span class="at">USUBJID    =</span> <span class="fu">sprintf</span>(<span class="st">"01-001-%03d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>),</span>
-<span id="cb25-285"><a href="#cb25-285" aria-hidden="true" tabindex="-1"></a>  <span class="at">AESTDTC    =</span> <span class="fu">c</span>(<span class="st">"2015-10-19"</span>, <span class="st">"2015-10"</span>, <span class="st">"2015"</span>, <span class="st">"2019-02"</span>, <span class="st">"2020-02"</span>, <span class="st">"2018-12-31"</span>),</span>
-<span id="cb25-286"><a href="#cb25-286" aria-hidden="true" tabindex="-1"></a>  <span class="at">AEENDTC    =</span> <span class="fu">c</span>(<span class="st">"2018-12-19"</span>, <span class="st">"2018-10"</span>, <span class="st">"2017-05-29"</span>, <span class="st">"2019-02"</span>, <span class="st">"2020-02"</span>, <span class="st">"2020"</span>),</span>
-<span id="cb25-287"><a href="#cb25-287" aria-hidden="true" tabindex="-1"></a>  <span class="at">RANDDT     =</span> <span class="fu">ymd</span>(<span class="fu">c</span>(<span class="st">"2015-10-01"</span>, <span class="st">"2015-10-01"</span>, <span class="st">"2015-01-10"</span>, <span class="st">"2019-01-15"</span>, <span class="st">"2020-02-10"</span>, <span class="st">"2018-12-01"</span>)),</span>
-<span id="cb25-288"><a href="#cb25-288" aria-hidden="true" tabindex="-1"></a>  <span class="at">DTHDT      =</span> <span class="fu">ymd</span>(<span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="st">"2020-08-03"</span>, <span class="cn">NA</span>)),</span>
-<span id="cb25-289"><a href="#cb25-289" aria-hidden="true" tabindex="-1"></a>  <span class="at">LASTALVDT  =</span> <span class="fu">ymd</span>(<span class="fu">c</span>(<span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="cn">NA</span>, <span class="st">"2020-12-15"</span>))</span>
-<span id="cb25-290"><a href="#cb25-290" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb25-291"><a href="#cb25-291" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-292"><a href="#cb25-292" aria-hidden="true" tabindex="-1"></a>df_imp <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> </span>
-<span id="cb25-293"><a href="#cb25-293" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb25-294"><a href="#cb25-294" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Length of partial date strings</span></span>
-<span id="cb25-295"><a href="#cb25-295" aria-hidden="true" tabindex="-1"></a>    <span class="at">AESTDTC_LEN =</span> <span class="fu">str_length</span>(AESTDTC),</span>
-<span id="cb25-296"><a href="#cb25-296" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDTC_LEN =</span> <span class="fu">str_length</span>(AEENDTC),</span>
-<span id="cb25-297"><a href="#cb25-297" aria-hidden="true" tabindex="-1"></a>    <span class="do">## --- AE start date imputation (minimum: first possible date) ---</span></span>
-<span id="cb25-298"><a href="#cb25-298" aria-hidden="true" tabindex="-1"></a>    <span class="at">AESTDT =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-299"><a href="#cb25-299" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AESTDTC) <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>),</span>
-<span id="cb25-300"><a href="#cb25-300" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="fu">ymd</span>(AESTDTC, <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-301"><a href="#cb25-301" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AESTDTC, <span class="st">"-01"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-302"><a href="#cb25-302" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AESTDTC, <span class="st">"-01-01"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-303"><a href="#cb25-303" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>)</span>
-<span id="cb25-304"><a href="#cb25-304" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-305"><a href="#cb25-305" aria-hidden="true" tabindex="-1"></a>    <span class="at">AESTDTF =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-306"><a href="#cb25-306" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AESTDTC) <span class="sc">~</span> <span class="cn">NA_character_</span>,</span>
-<span id="cb25-307"><a href="#cb25-307" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">""</span>,</span>
-<span id="cb25-308"><a href="#cb25-308" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="st">"D"</span>,</span>
-<span id="cb25-309"><a href="#cb25-309" aria-hidden="true" tabindex="-1"></a>      AESTDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="st">"M,D"</span>,</span>
-<span id="cb25-310"><a href="#cb25-310" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"UNK"</span></span>
-<span id="cb25-311"><a href="#cb25-311" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-312"><a href="#cb25-312" aria-hidden="true" tabindex="-1"></a>    <span class="do">## --- AE end date imputation (maximum: latest possible date) ---</span></span>
-<span id="cb25-313"><a href="#cb25-313" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDT_RAW =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-314"><a href="#cb25-314" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AEENDTC) <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>),</span>
-<span id="cb25-315"><a href="#cb25-315" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="fu">ymd</span>(AEENDTC, <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-316"><a href="#cb25-316" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AEENDTC, <span class="st">"-01"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-317"><a href="#cb25-317" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="fu">ymd</span>(<span class="fu">str_c</span>(AEENDTC, <span class="st">"-12-31"</span>), <span class="at">quiet =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb25-318"><a href="#cb25-318" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="fu">as.Date</span>(<span class="cn">NA</span>)</span>
-<span id="cb25-319"><a href="#cb25-319" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-320"><a href="#cb25-320" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDTF_RAW =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-321"><a href="#cb25-321" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AEENDTC) <span class="sc">~</span> <span class="cn">NA_character_</span>,</span>
-<span id="cb25-322"><a href="#cb25-322" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">10</span> <span class="sc">~</span> <span class="st">""</span>,</span>
-<span id="cb25-323"><a href="#cb25-323" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">7</span>  <span class="sc">~</span> <span class="st">"D"</span>,</span>
-<span id="cb25-324"><a href="#cb25-324" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">4</span>  <span class="sc">~</span> <span class="st">"M,D"</span>,</span>
-<span id="cb25-325"><a href="#cb25-325" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"UNK"</span></span>
-<span id="cb25-326"><a href="#cb25-326" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-327"><a href="#cb25-327" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb25-328"><a href="#cb25-328" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb25-329"><a href="#cb25-329" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDT_RAW =</span> <span class="fu">if_else</span>(</span>
-<span id="cb25-330"><a href="#cb25-330" aria-hidden="true" tabindex="-1"></a>      AEENDTC_LEN <span class="sc">==</span> <span class="dv">7</span> <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW),</span>
-<span id="cb25-331"><a href="#cb25-331" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ceiling_date</span>(AEENDT_RAW, <span class="st">"month"</span>) <span class="sc">-</span> <span class="fu">days</span>(<span class="dv">1</span>),</span>
-<span id="cb25-332"><a href="#cb25-332" aria-hidden="true" tabindex="-1"></a>      AEENDT_RAW</span>
-<span id="cb25-333"><a href="#cb25-333" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-334"><a href="#cb25-334" aria-hidden="true" tabindex="-1"></a>    <span class="at">CENSOR =</span> <span class="fu">coalesce</span>(DTHDT, LASTALVDT),</span>
-<span id="cb25-335"><a href="#cb25-335" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDT =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-336"><a href="#cb25-336" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(CENSOR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW) <span class="sc">&amp;</span> AEENDT_RAW <span class="sc">&gt;</span> CENSOR <span class="sc">~</span> CENSOR,</span>
-<span id="cb25-337"><a href="#cb25-337" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> AEENDT_RAW</span>
-<span id="cb25-338"><a href="#cb25-338" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb25-339"><a href="#cb25-339" aria-hidden="true" tabindex="-1"></a>    <span class="at">AEENDTF =</span> <span class="fu">case_when</span>(</span>
-<span id="cb25-340"><a href="#cb25-340" aria-hidden="true" tabindex="-1"></a>      <span class="fu">is.na</span>(AEENDT) <span class="sc">~</span> AEENDTF_RAW,</span>
-<span id="cb25-341"><a href="#cb25-341" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(CENSOR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW) <span class="sc">&amp;</span> AEENDT_RAW <span class="sc">&gt;</span> CENSOR <span class="sc">&amp;</span> AEENDTF_RAW <span class="sc">==</span> <span class="st">""</span>  <span class="sc">~</span> <span class="st">"C"</span>,</span>
-<span id="cb25-342"><a href="#cb25-342" aria-hidden="true" tabindex="-1"></a>      <span class="sc">!</span><span class="fu">is.na</span>(CENSOR) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.na</span>(AEENDT_RAW) <span class="sc">&amp;</span> AEENDT_RAW <span class="sc">&gt;</span> CENSOR <span class="sc">&amp;</span> AEENDTF_RAW <span class="sc">!=</span> <span class="st">""</span> <span class="sc">~</span> <span class="fu">str_c</span>(AEENDTF_RAW, <span class="st">",C"</span>),</span>
-<span id="cb25-343"><a href="#cb25-343" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> AEENDTF_RAW</span>
-<span id="cb25-344"><a href="#cb25-344" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb25-345"><a href="#cb25-345" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb25-346"><a href="#cb25-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-347"><a href="#cb25-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-348"><a href="#cb25-348" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb25-349"><a href="#cb25-349" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-350"><a href="#cb25-350" aria-hidden="true" tabindex="-1"></a><span class="fu">## 4. Durations &amp; Analysis Variables</span></span>
-<span id="cb25-351"><a href="#cb25-351" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-352"><a href="#cb25-352" aria-hidden="true" tabindex="-1"></a><span class="fu">### 4.1 AE duration (AEDUR) in days</span></span>
-<span id="cb25-353"><a href="#cb25-353" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-354"><a href="#cb25-354" aria-hidden="true" tabindex="-1"></a><span class="fu"># Using difftime (base) or as.numeric on Date differences</span></span>
-<span id="cb25-355"><a href="#cb25-355" aria-hidden="true" tabindex="-1"></a><span class="in">`AEDUR &lt;- as.integer(out$AEENDT - out$ASTDT)`</span></span>
-<span id="cb25-356"><a href="#cb25-356" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-357"><a href="#cb25-357" aria-hidden="true" tabindex="-1"></a><span class="fu">### 6.2 Handy lubridate parsers (subset)</span></span>
-<span id="cb25-358"><a href="#cb25-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-359"><a href="#cb25-359" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Dates: <span class="in">`ymd()`</span>, <span class="in">`mdy()`</span>, <span class="in">`dmy()`</span>, <span class="in">`yq()`</span>\</span>
-<span id="cb25-360"><a href="#cb25-360" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Datetimes: <span class="in">`ymd_hms()`</span>, <span class="in">`ymd_hm()`</span>, <span class="in">`ymd_h()`</span>\</span>
-<span id="cb25-361"><a href="#cb25-361" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Times: <span class="in">`hms()`</span>, <span class="in">`hm()`</span>, <span class="in">`ms()`</span>\</span>
-<span id="cb25-362"><a href="#cb25-362" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Accessors: <span class="in">`year()`</span>, <span class="in">`month()`</span>, <span class="in">`mday()`</span>, <span class="in">`wday()`</span>, <span class="in">`hour()`</span>, <span class="in">`minute()`</span>, <span class="in">`second()`</span>, <span class="in">`date()`</span>\</span>
-<span id="cb25-363"><a href="#cb25-363" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Rounding: <span class="in">`floor_date()`</span>, <span class="in">`ceiling_date()`</span>, <span class="in">`round_date()`</span>, <span class="in">`rollback()`</span></span>
-<span id="cb25-364"><a href="#cb25-364" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-365"><a href="#cb25-365" aria-hidden="true" tabindex="-1"></a>------------------------------------------------------------------------</span>
-</code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
-</div></div></div></div></div>
+</nav>
 </div> <!-- /content -->
 
 
