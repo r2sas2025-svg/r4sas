@@ -21,7 +21,7 @@ library(usethis)
 
 ### 2.1 Create a new package directory
 
-```{r, eval=FALSE warning=FALSE,error=FALSE}
+```{r, eval=FALSE, warning=FALSE,error=FALSE}
 # Creates simutils with DESCRIPTION, NAMESPACE placeholder, R/ etc.
 #usethis::create_package("simutils")
 # Or from an existing project folder
@@ -211,7 +211,7 @@ Common expectations:
 
 Run the test suite:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 devtools::test()
 ```
 
