@@ -11,7 +11,7 @@ title: "R Package Development"
 -   Recommended packages:
     -   `install.packages(c("devtools", "roxygen2", "usethis", "testthat", "pkgdown"))`
 
-```{r warning=FALSE,error=FALSE}
+```{r, warning=FALSE,error=FALSE}
 # Load helpers
 library(devtools)
 library(usethis)
@@ -21,7 +21,7 @@ library(usethis)
 
 ### 2.1 Create a new package directory
 
-```{r eval=FALSE warning=FALSE,error=FALSE}
+```{r, eval=FALSE warning=FALSE,error=FALSE}
 # Creates simutils with DESCRIPTION, NAMESPACE placeholder, R/ etc.
 #usethis::create_package("simutils")
 # Or from an existing project folder
@@ -30,14 +30,14 @@ library(usethis)
 
 ### 2.2 Initialize Git and a README
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 usethis::use_git()
 usethis::use_readme_rmd()  # README.Rmd + badge placeholders
 ```
 
 ### 2.3 The minimal structure (what you get)
 
-```{r eval=FALSE,warning=FALSE,error=FALSE}        
+```{r, eval=FALSE,warning=FALSE,error=FALSE}        
 simutils/
   DESCRIPTION
   NAMESPACE
@@ -51,7 +51,7 @@ simutils/
 
 Run helpers and then edit as needed.
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 usethis::use_description(fields = list(
   Title = "Simulation Utilities",
   Description = "Convenience functions for sampling and NA counting.",
@@ -82,7 +82,7 @@ You’ll generate it with `devtools::document()`.
 
 Create your first R file:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # File: R/na.R
 #' Count NAs in a vector
 #'
@@ -101,7 +101,7 @@ sum_na <- function(x) {
 
 Add a second exported function that works on data frames/matrices:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # File: R/na_counter.R
 #' Column-wise NA counts
 #'
@@ -120,7 +120,7 @@ na_counter <- function(x) {
 
 A simple sampler utility with a documented argument:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # File: R/sample_from_data.R
 #' Sample rows from a data frame
 #'
@@ -143,7 +143,7 @@ sample_from_data <- function(data, size, replace = FALSE) {
 
 ## 6. Generate Documentation
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # Parses roxygen headers -> creates/updates NAMESPACE and man/*.Rd
 devtools::document()
 ```
@@ -154,7 +154,7 @@ This will populate `man/` with help files and refresh `NAMESPACE`.
 
 ### 7.1 Package data
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # Create example data
 sim_dat <- data.frame(
   ID = 1:10,
@@ -167,7 +167,7 @@ usethis::use_data(sim_dat, overwrite = TRUE)
 
 ### 7.2 Vignettes
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 usethis::use_vignette("getting-started")
 # Edit vignettes/getting-started.Rmd, then:
 devtools::build_vignettes()
@@ -175,7 +175,7 @@ devtools::build_vignettes()
 
 ### 7.3 Tests with testthat
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 usethis::use_testthat()
 # Creates tests/testthat.R and tests/testthat/ directory
 
@@ -185,7 +185,7 @@ usethis::use_test("na_counter")
 
 Example tests:
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # File: tests/testthat/test-na_counter.R
 
 library(testthat)
@@ -219,7 +219,7 @@ devtools::test()
 
 Use helpers to declare dependencies in `DESCRIPTION` (rather than editing by hand):
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 usethis::use_package("dplyr")                # add to Imports
 usethis::use_package("ggplot2", type = "Suggests")
 ```
@@ -232,7 +232,7 @@ Guidelines:
 
 ## 9. Check Your Package Thoroughly
 
-``` {r eval=FALSE}
+``` {r, eval=FALSE}
 # Full check like CRAN does; read 00check.log for details
 rc <- devtools::check()
 rc
@@ -248,7 +248,7 @@ Typical findings & quick fixes:
 
 ## 10. Build & Install Locally
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # Build source tarball
 devtools::build()
 
@@ -264,7 +264,7 @@ na_counter(airquality)
 
 You can wire up CI so checks run automatically on each commit. (Any provider works; pick what your org supports.)
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # Example: set up a CI service config (adjust per provider)
 # usethis::use_github_action_check_standard()
 # or legacy: usethis::use_travis()
@@ -272,7 +272,7 @@ You can wire up CI so checks run automatically on each commit. (Any provider wor
 
 ## 12. Package Website (optional)
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 usethis::use_pkgdown()
 pkgdown::build_site()
 ```
@@ -300,7 +300,7 @@ pkgdown::build_site()
 
 ### Appendix B — Troubleshooting Snippets
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 # 1) Missing License in check
 usethis::use_mit_license("Your Name")
 
