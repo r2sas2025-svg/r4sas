@@ -11,7 +11,7 @@ title: "R Package Development"
 -   Recommended packages:
     -   `install.packages(c("devtools", "roxygen2", "usethis", "testthat", "pkgdown"))`
 
-```{r}
+```{r warning=FALSE,error=FALSE}
 # Load helpers
 library(devtools)
 library(usethis)
@@ -21,9 +21,9 @@ library(usethis)
 
 ### 2.1 Create a new package directory
 
-```{r eval=FALSE}
-# Creates ./simutils with DESCRIPTION, NAMESPACE placeholder, R/ etc.
-usethis::create_package("simutils")
+```{r eval=FALSE warning=FALSE,error=FALSE}
+# Creates simutils with DESCRIPTION, NAMESPACE placeholder, R/ etc.
+#usethis::create_package("simutils")
 # Or from an existing project folder
 # usethis::create_package(getwd())
 ```
@@ -37,7 +37,7 @@ usethis::use_readme_rmd()  # README.Rmd + badge placeholders
 
 ### 2.3 The minimal structure (what you get)
 
-```         
+```{r eval=FALSE,warning=FALSE,error=FALSE}        
 simutils/
   DESCRIPTION
   NAMESPACE
