@@ -2,195 +2,182 @@
 title: "TLFs: Table, Figure, Listing"
 ---
 
-```{r warning=FALSE, message=FALSE}
-library(dplyr)
-library(gt)
-library(ggplot2)
-library(survival)
-library(table1)
+## Create demographic table from ADSL
+```{r eval=FALSE}
+
 library(r2rtf)
-library(haven)
+library(dplyr)
 library(tidyr)
-library(stringr)
-library(tools)
-```
+library(haven)
 
-We reuse `adsl` from the previous chapter (or synthesize if missing).
+adsl <- haven::read_sas("data/adam/adsl.sas7bdat") 
 
-```{r, include=FALSE, warning=FALSE, message=FALSE}
-knitr::opts_chunk$set(
-  comment = "#>",
-  collapse = TRUE,
-  message = FALSE
-)
+bs_count <- function(data, grp, var,
+                     var_label = var,
+                     decimal = 1,
+                     total = TRUE) {
+  data <- data |>  
+    dplyr::rename(grp = !!grp, var = !!var)
+  
+  coding <- levels(factor(data$grp))
+  
+  data <- data |>  
+      dplyr::mutate(grp = as.numeric(factor(grp)))
 
-options(dplyr.summarise.inform = FALSE)
+  res <- with(data, table(var, grp)) |> 
+    as.data.frame() |> 
+    dplyr::mutate(grp = as.numeric(grp))
 
-rtf2pdf <- function(input) {
-  input <- normalizePath(input)
-  x <- "export LD_LIBRARY_PATH=:/usr/lib/libreoffice/program:/usr/lib/x86_64-linux-gnu/"
-  y <- paste0("libreoffice --invisible --headless --nologo --convert-to pdf --outdir tlf/ ", input)
-  z <- paste(x, y, sep = " && ")
-  if (Sys.getenv("GITHUB_ACTIONS") != "") system(z) else invisible(NULL)
+  if (total) {
+    res_tot <- with(data, table(var)) |> 
+      as.data.frame() |> 
+      dplyr::mutate(grp = 9999)
+    res <- dplyr::bind_rows(res, res_tot)
+  }
+
+  res <- res |> 
+    rename(n = Freq)
+
+  res <- res |> 
+    mutate(pct = formatC(n / sum(n) * 100, digits = decimal, format = "f", flag = "0"))
+
+  res$n <- as.character(res$n)
+
+  res <- res |> 
+    pivot_longer(cols = c(n, pct), names_to = "key", values_to = "value") |> 
+    unite(keys, grp, key) |> 
+    pivot_wider(names_from = keys, values_from = value) |> 
+    mutate(var_label = var_label) |> 
+    mutate(var = as.character(var))
+
+  names(res) <- gsub("_n", "", names(res), fixed = TRUE)
+  attr(res, "coding") <- coding
+
+  res
 }
 
-# Customize data frame and tibble printing methods.
-# See <https://github.com/elong0527/r4csr/issues/115> for details.
-more_rows <- function(x, n) if (nrow(x) <= n) NULL else paste0("# ℹ ", nrow(x) - n, " more rows")
-knit_print.data.frame <- function(x, ...) {
-  paste(
-    c(
-      capture.output(base::print.data.frame(head(x, 4))),
-      more_rows(x, 4)
-    ),
-    collapse = "\n"
-  )
+bs_continuous <- function(data, grp, var,
+                          var_label = var,
+                          decimal = 1,
+                          total = TRUE,
+                          blank_row = FALSE) {
+  data <- data |> 
+    rename(grp = !!grp, var = !!var)
+  coding <- levels(factor(data$grp))
+  data <- data |>  mutate(grp = as.numeric(factor(grp)))
+
+  res <- data |> 
+    select(grp, var) |> 
+    na.omit() |> 
+    group_by(grp) |> 
+    summarise(
+      n= n(),
+      Mean = formatC(mean(var), digits = decimal, format = "f", flag = "0"),
+      SD = formatC(sd(var), digits = decimal, format = "f", flag = "0"),
+      Median = formatC(median(var), digits = decimal, format = "f", flag = "0"),
+      Range = paste(range(var), collapse = " to ")
+    )
+
+  if (total) {
+    res_tot <- data |> 
+      select(grp, var) |> 
+      na.omit() |> 
+      summarise(
+        n = n(),
+        Mean = formatC(mean(var), digits = decimal, format = "f", flag = "0"),
+        SD = formatC(sd(var), digits = decimal, format = "f", flag = "0"),
+        Median = formatC(median(var), digits = decimal, format = "f", flag = "0"),
+        Range = paste(range(var), collapse = " to ")
+      ) |> 
+      mutate(grp = 9999)
+    res <- bind_rows(res, res_tot)
+  }
+
+  res$"n" <- as.character(res$"n")
+
+  res <- res |> 
+    pivot_longer(cols = -grp, names_to = "key", values_to = "value") |> 
+    mutate(key = factor(key, levels = c("n", "Mean", "SD", "Median", "Range"))) |> 
+    pivot_wider(names_from = grp, values_from = value) %>%
+    mutate(var_label = var_label) |> 
+    mutate(key = as.character(key)) |> 
+    rename(var = key)
+
+  if (blank_row) {
+    res <- bind_rows(tibble(var_label = var_label), res)
+  }
+
+  res
 }
 
-registerS3method(
-  "knit_print", "data.frame", knit_print.data.frame,
-  envir = asNamespace("knitr")
-)
+# The code above define two utility function for baseline characteristic tables.
 
-options(pillar.advice = FALSE)
+# Analysis Set
 
-knit_print.tbl_df <- function(x, ...) {
-  paste(capture.output(print(x, n = 4)), collapse = "\n")
-}
+ana <- adsl |> 
+  subset(ITTFL == "Y")
 
-registerS3method(
-  "knit_print", "tbl_df", knit_print.tbl_df,
-  envir = asNamespace("knitr")
-)
-
-
-```
-
-```{r}
-adsl <- haven::read_sas("data/adam/adsl.sas7bdat")  # adjust path as needed
-if (!exists("adsl")) {
-  set.seed(123)
-  adsl <- tibble::tibble(
-    USUBJID = sprintf("XYZ-%03d", 1:60),
-    TRT01P = sample(c("Placebo","Active"), 60, replace=TRUE),
-    AGE = round(rnorm(60, 60, 8)),
-    SEX = sample(c("M","F"), 60, replace=TRUE)
-  )
-}
-```
-
-## Table 1: Baseline Characteristics by Treatment
-```{r}
-tbl1 <- adsl |>
-  dplyr::group_by(TRT01P) |>
-  dplyr::summarise(
-    N = dplyr::n(),
-    mean_age = mean(AGE, na.rm=TRUE),
-    sd_age = sd(AGE, na.rm=TRUE),
-    pct_female = mean(SEX == "F")*100
-  )
-
-gt(tbl1) |>
-  tab_header(title = "Table 1. Baseline Characteristics by Treatment") |>
-  fmt_number(columns = c(mean_age, sd_age, pct_female), decimals = 1)
-```
-
-```{r}
-ana <- adsl %>%
+ana <- ana |> 
   mutate(
-    SEX = factor(SEX, c("F", "M"), c("Female", "Male")),
-    RACE = toTitleCase(tolower(RACE))
+  RACE = factor(
+    RACE,
+    c("WHITE", "BLACK OR AFRICAN AMERICAN", "AMERICAN INDIAN OR ALASKA NATIVE"),
+    c("White", "Black", "Other")
+  ),
+  SEX = factor(
+    SEX,
+    c("F", "M"),
+    c("Female", "Male")
+  ),
+  AGEGR1 = factor(
+    AGEGR1,
+    levels = c("<65", "65-80", ">80")
   )
+)
 
-tbl <- table1(~ SEX + AGE + RACE | TRT01P, data = ana)
-tbl
+# Build Data for r2rtf
+bs_tb <- bind_rows(
+  bs_count(ana, "TRT01AN", "SEX", "Gender"),
+  bs_count(ana, "TRT01AN", "AGEGR1", "Age (Years)"),
+  bs_continuous(ana, "TRT01AN", "AGE", "Age (Years)", blank_row = TRUE),
+  bs_count(ana, "TRT01AN", "RACE", "Race")
+) |> 
+  mutate(
+  var_label = factor(var_label, levels = c("Gender", "Age (Years)", "Race"))
+)
 
-```
+bs_tb[is.na(bs_tb)] <- "" # convert NA to blank string.
 
-## Listing: Subject-Level Listing
-```{r}
-lst <- adsl |>
-  arrange(USUBJID) |>
-  select(USUBJID, TRT01P, AGE, SEX) |>
-  head(20)
-
-gt(lst) |>
-  tab_header(title = "Listing: First 20 Subjects")
-```
-
-The code below transfer the output into a dataframe
-that only contains ASCII characters
-recommended by regulatory agencies.
-`tbl_base` is used as input for r2rtf to create the final report.
-
-```{r}
-tbl_base <- tbl %>%
-  as.data.frame() %>%
-  as_tibble() %>%
-  mutate(across(
-    everything(),
-    ~ str_replace_all(.x, intToUtf8(160), " ")
-  ))
-
-
-names(tbl_base) <- str_replace_all(names(tbl_base), intToUtf8(160), " ")
-tbl_base
-```
-We define the format of the output. We highlight items that
-are not discussed in previous discussion.
-
-`text_indent_first` and `text_indent_left` are used to control the indent
-space of text. They are helpful when you need to control the white space
-of a long phrase, "AMERICAN INDIAN OR ALASKA NATIVE"
-in the table provides an example.
-
-```{r}
-colheader1 <- paste(names(tbl_base), collapse = "|")
-colheader2 <- paste(tbl_base[1, ], collapse = "|")
-rel_width <- c(2.5, rep(1, 4))
-
-tbl_base[-1, ] %>%
-  rtf_title(
-    "Baseline Characteristics of Participants",
-    "(All Participants Randomized)"
-  ) %>%
-  rtf_colheader(colheader1,
-    col_rel_width = rel_width
-  ) %>%
-  rtf_colheader(colheader2,
-    border_top = "",
-    col_rel_width = rel_width
-  ) %>%
+# reporting
+bs_rtf <- bs_tb |> 
+  rtf_page(width = 9.5) |> 
+  rtf_title("Demographic and Anthropometric Characteristics", "ITT Subjects") |> 
+  rtf_colheader(" | Placebo | Drug Low Dose | Drug High Dose | Total ",
+    col_rel_width = c(3, rep(2, 4))
+  ) |> 
+  rtf_colheader(" | n | (%) | n | (%) | n | (%) | n | (%) ",
+    col_rel_width = c(3, rep(c(1.2, 0.8), 4)),
+    border_top = c("", rep("single", 8)),
+    border_left = c("single", rep(c("single", ""), 4))
+  ) |> 
   rtf_body(
-    col_rel_width = rel_width,
-    text_justification = c("l", rep("c", 4)),
-    text_indent_first = -240,
-    text_indent_left = 180
-  ) %>%
+    page_by = "var_label",
+    col_rel_width = c(3, rep(c(1.2, 0.8), 4), 3),
+    text_justification = c("l", rep("c", 8), "l"),
+    text_format = c(rep("", 9), "b"),
+    border_left = c("single", rep(c("single", ""), 4), "single"),
+    border_top = c(rep("", 9), "single"),
+    border_bottom = c(rep("", 9), "single"),
+  ) |> 
+  rtf_footnote("This is a footnote") |> 
+  rtf_source("Source: xxx")
+
+# Output .rtf file
+bs_rtf %>%
   rtf_encode() %>%
-  write_rtf("tlf/tlf_base.rtf")
+  write_rtf("rtf/bs_example.rtf")
 ```
 
-```{r, include=FALSE}
-#rtf to pdf convert
-
-rtf2pdf("tlf/tlf_base.rtf")
-```
-
-```{r, out.width = "100%", out.height = if (knitr::is_html_output()) "400px", echo = FALSE, fig.align = "center"}
-if (exists("tlf/tlf_base.pdf")) {
-knitr::include_graphics("tlf/tlf_base.pdf")
-}
-```
-
-
-
-In conclusion, the procedure to generate demographic and baseline characteristics table is summarized as follows:
-
-- Step 1: Read the data set.
-- Step 2: Use `table1::table1()` to get the baseline characteristics table.
-- Step 3: Transfer the output from Step 2 into a data frame that only contains ASCII characters.
-- Step 4: Define the format of the RTF table by using the R package r2rtf.
 
 
 **Exercises**

@@ -2,14 +2,383 @@
 title: "Custom Functions & Validation"
 ---
 
-# Writing Functions
+
+# Function introduction
+
+In R, a **function** is a reusable block of code that performs a specific task.  
+Functions help you:
+
+- Avoid repeating the same code again and again
+- Organize code into logical pieces
+- Make your code easier to read, test, and maintain
+
+R has many **built-in functions** (e.g., `sum()`, `mean()`, `lm()`), and you can also define your **own functions**.
+
 ```{r}
-safe_mean <- function(x, na.rm = TRUE) {
-  stopifnot(is.numeric(x))
-  mean(x, na.rm = na.rm)
-}
-safe_mean(c(1, 2, NA))
+# Example: using a built-in function
+x <- c(1, 2, 3, 4, 5)
+mean(x)
 ```
+
+## Function components
+A function has three parts: 
+
+* The `formals()`, the list of arguments that control how you call the function.
+  
+* The `body()`, the code inside the function.
+
+* The `environment()`, the data structure that determines how the function finds 
+the values associated with the names.
+
+While the formals and body are specified explicitly when you create a function, the environment is specified implicitly, based on _where_ you defined the function. The function environment always exists, but it is only printed when the function isn't defined in the global environment.
+
+```{r}
+f02 <- function(x, y) {
+  # A comment
+  x + y
+}
+
+formals(f02)
+
+body(f02)
+
+environment(f02)
+```
+
+## Signalling conditions
+
+
+There are three conditions that you can signal in code: errors, warnings, and messages. 
+
+* Errors are the most severe; they indicate that there is no way for a function 
+  to continue and execution must stop. 
+
+* Warnings fall somewhat in between errors and message, and typically indicate 
+  that something has gone wrong but the function has been able to at least 
+  partially recover. 
+  
+* Messages are the mildest; they are way of informing users that some action 
+  has been performed on their behalf. 
+  
+There is a final condition that can only be generated interactively: an interrupt, which indicates that the user has interrupted execution by pressing Escape, Ctrl + Break, or Ctrl + C (depending on the platform).
+
+Conditions are usually displayed prominently, in a bold font or coloured red, depending on the R interface. You can tell them apart because errors always start with "Error", warnings with "Warning" or "Warning message", and messages with nothing.
+
+```{r, eval=FALSE}
+stop("This is what an error looks like")
+
+warning("This is what a warning looks like")
+
+message("This is what a message looks like")
+```
+
+## Ignoring conditions
+You can choose to ignore conditions using `try()`, tryCatch()` or `suppressMessages()`, `suppressWarnings()`.
+
+```{r, eval=FALSE}
+# Example: ignoring a warning
+suppressWarnings(log(-1))
+
+suppressWarnings({
+  warning("Uhoh!")
+  warning("Another warning")
+  1
+})
+
+
+suppressMessages({
+  message("Hello there")
+  2
+})
+
+
+suppressWarnings({
+  message("You can still see me")
+  3
+})
+
+suppressWarnings(library(dplyr))
+suppressWarnings(library(ggplot2))
+```
+## tryCatch function
+The `tryCatch()` function allows you to handle conditions (errors, warnings, messages) in a controlled way. You can specify custom behavior for each type of condition.
+```{r}
+result <- tryCatch({
+  # Code that may produce an error
+  log(-1)
+},
+warning = function(w) {
+  cat("Caught a warning:", conditionMessage(w), "\n")
+  NA  # Return NA on warning
+},
+error = function(e) {
+  cat("Caught an error:", conditionMessage(e), "\n")
+  NA  # Return NA on error
+},
+finally = {
+  cat("Execution completed.\n")
+})
+result
+```
+
+## function scope
+Functions in R have their own scope, meaning that variables defined inside a function are not accessible outside of it, and vice versa. This helps prevent naming conflicts and keeps functions self-contained.
+```{r}
+my_function <- function() {
+  x <- 10  # x is local to the function
+  return(x)
+}
+my_function()
+
+```
+## Creating Custom Functions
+```{r}
+# Define a simple function to add two numbers
+add_numbers <- function(a, b) {
+  return(a + b)
+}
+# Call the function
+add_numbers(3, 5)
+```
+## Function Arguments
+```{r}
+# Function with default argument
+greet <- function(name = "Guest") {
+  paste("Hello,", name)
+}
+greet()          # Uses default
+greet("Alice")   # Overrides default
+```
+
+
+## User-defined Functions in R Programming Language
+
+User-defined functions are the functions that are created by the user. User defines the working, parameters, default parameter, etc. of that user-defined function. They can be only used in that specific code.
+
+    1.  Single Input Single Output : Now create a function in R that will take a single input and gives us a single output
+    2.  Multiple Input Multiple Output : Now create a function in R Language that will take multiple inputs and gives us multiple outputs using a list.
+
+```{r}
+# Single Input Single Outpu
+calculate_bmi <- function(data) {
+  # BMI formula: weight (kg) / height (m)^2
+  bmi <- data$weight / (data$height ^ 2)
+  return(bmi)
+}
+
+# Example data
+patient_data <- data.frame(
+  weight = c(70, 80, 65),  # in kg
+  height = c(1.75, 1.8, 1.6)  # in meters
+)
+
+# Calculate BMI
+bmi_values <- calculate_bmi(patient_data)
+print(bmi_values)  # Outputs BMI for each patient
+
+# Multiple Input Multiple Output
+calculate_summary_stats <- function(age, weight, height) {
+  age_stats <- list(
+    mean_age = mean(age, na.rm = TRUE),
+    median_age = median(age, na.rm = TRUE),
+    sd_age = sd(age, na.rm = TRUE)
+  )
+  
+  weight_stats <- list(
+    mean_weight = mean(weight, na.rm = TRUE),
+    median_weight = median(weight, na.rm = TRUE),
+    sd_weight = sd(weight, na.rm = TRUE)
+  )
+  
+  height_stats <- list(
+    mean_height = mean(height, na.rm = TRUE),
+    median_height = median(height, na.rm = TRUE),
+    sd_height = sd(height, na.rm = TRUE)
+  )
+  
+  # Return a list containing all summary stats
+  return(list(age = age_stats, weight = weight_stats, height = height_stats))
+}
+
+# Example data
+age <- c(40, 45, 50, 55, 60)
+weight <- c(70, 75, 65, 80, 68)
+height <- c(1.75, 1.8, 1.6, 1.65, 1.7)
+
+summary_stats <- calculate_summary_stats(age, weight, height)
+print(summary_stats)  # Outputs summary stats for age, weight, and height
+
+```
+
+What is `{{}}` in R?
+
+The `{{` syntax is known as curly-curly syntax, and it is part of the tidy evaluation framework in the {r, lang} package. It’s used to capture variables directly and allows for easy manipulation within functions.
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+
+stat <- function(data, grp, var) {
+  # Group by specified grouping variables and summarize the statistics
+  summary_stats <- data |> group_by(across({{ grp }})) |> summarise(
+      n = as.character(n_distinct(USUBJID)),
+      mean = as.character(round(mean({{ var }}, na.rm = TRUE), 2)),
+      median = as.character(median({{ var }}, na.rm = TRUE)),
+      sd = as.character(round(sd({{ var }}, na.rm = TRUE), 3)),
+      min = as.character(min({{ var }}, na.rm = TRUE)),
+      max = as.character(max({{ var }}, na.rm = TRUE)),
+      .groups = 'drop'  # Ungroup after summarising
+    )
+  
+  # Pivot to wider format
+transposed_data <- summary_stats |> 
+  pivot_longer(
+    cols =c(n, mean, median, sd, min, max),        # Columns to pivot
+    names_to = "stat",        # Name for the new 'stat' column
+    values_to = "value"       # Name for the new 'value' column
+  ) |> pivot_wider(
+    names_from = {{ grp }},     # Treatment groups to become column names
+    values_from = value       # Values for each statistic
+  )
+  
+  return(transposed_data)
+}
+
+adsl <- haven::read_sas("./data/adam/adsl.sas7bdat")
+age_stat <- stat(data=adsl,grp=c(TRT01A,TRT01AN),var=AGE)
+wgt_stat <- stat(adsl,TRT01A,WEIGHTBL)
+
+```
+
+# difference !,!!,!!!
+In R, the symbols `!`, `!!`, and `!!!` are used in different contexts, primarily in logical operations and tidy evaluation.
+- `!` (Logical NOT): This is a logical operator used to negate a logical value. It takes a single logical value (TRUE or FALSE) and returns the opposite value. For example, `!TRUE` returns `FALSE`, and `!FALSE` returns `TRUE`.
+- `!!` (Unquote): In the context of tidy evaluation (used in packages like dplyr), `!!` is used to unquote a single variable or expression. It allows you to evaluate a variable or expression within a tidy evaluation context. For example, if you have a variable `var_name` that holds the name of a column, you can use `!!var_name` to refer to that column in a dplyr function.
+- `!!!` (Unquote-splice): This is also used in tidy evaluation and is used to unquote and splice a list of variables or expressions. It allows you to pass multiple arguments to a function by splicing a list. For example, if you have a list of column names, you can use `!!!` to pass them as individual arguments to a dplyr function.
+
+
+```{r}
+stat_simple <- function(data, grp, var, id_var = "USUBJID") {
+  # Convert strings to symbols
+  grp_sym <- sym(grp)
+  var_sym <- sym(var)
+  id_var_sym <- sym(id_var)
+  
+  # Group by specified grouping variables and summarize the statistics
+  summary_stats <- data |> 
+    group_by(!!grp_sym) |> 
+    summarise(
+      n = as.character(n_distinct(!!id_var_sym)),
+      mean = as.character(round(mean(!!var_sym, na.rm = TRUE), 2)),
+      median = as.character(round(median(!!var_sym, na.rm = TRUE), 2)),
+      sd = as.character(round(sd(!!var_sym, na.rm = TRUE), 3)),
+      min = as.character(round(min(!!var_sym, na.rm = TRUE), 2)),
+      max = as.character(round(max(!!var_sym, na.rm = TRUE), 2)),
+      .groups = 'drop'
+    )
+  
+  # Pivot to longer format then wider
+  transposed_data <- summary_stats |> 
+    pivot_longer(
+      cols = c(n, mean, median, sd, min, max),
+      names_to = "stat",
+      values_to = "value"
+    ) |> 
+    pivot_wider(
+      names_from = !!grp_sym,
+      values_from = value
+    ) |> 
+    arrange(factor(stat, levels = c("n", "mean", "median", "sd", "min", "max")))
+  
+  return(transposed_data)
+}
+
+adsl <- haven::read_sas("./data/adam/adsl.sas7bdat")
+age_stat <- stat_simple(data=adsl,grp="TRT01A",var="AGE")
+```
+
+```{r}
+#where function
+ adsl1 <- adsl |> 
+   dplyr::select(dplyr::where(is.character))
+ 
+adsl2 <- adsl |> 
+   dplyr::select(dplyr::where(is.numeric))
+
+# across functions structure and explanation
+
+#across(.cols, .fns, ..., .names = NULL, .unpack = FALSE)
+
+df <- data.frame(
+  id = 1:6,
+  age = c(21, 34, 28, NA, 45, 30),
+  wt = c(70, 80, 65, 72, NA, 68),
+  sex = c("M","F","F","M","F","M")
+)
+
+# 2) Summaries grouped by sex
+df2 <- df |>
+  group_by(sex) |> 
+  summarise(across(.cols=dplyr::where(is.numeric), 
+                   .fns=list( mean = ~mean(., na.rm=TRUE),
+                              sd   = ~sd(., na.rm=TRUE)
+                             ),
+                   .names = "{.col}_{.fn}")
+  )
+
+df_qc <- df |> 
+  group_by(sex) |> 
+  summarize(mm=mean(age,na.rm=TRUE),
+            mn1=mean(wt,na.rm=TRUE))
+
+df2 <- df |>
+  group_by(sex) |> 
+  summarise(across(.cols=c(age, wt), 
+                   .fns=list(nrecs  = ~dplyr::n(),
+                             mean = ~mean(., na.rm=TRUE),
+                             sd   = ~sd(., na.rm=TRUE)
+                   ),
+                   .names = "{.col}_{.fn}")
+  )
+
+df2 <- df |>
+  group_by(sex) |> 
+  summarise(across(.cols=c(age, wt), 
+                   .fns= ~mean(., na.rm=TRUE))
+  )
+
+a <- c(1, 2, 3, 4, 5, 9909)
+b <- data.frame(
+  var1 = c(1, 2, 3, 4, 5, 9909),
+  var2 = c(5, 6, 7, 8, 9, 9909)
+)
+c <- list(a,b)
+
+
+# Numeric: replace sentinel 9909 with 0
+numericdata <- tibble::tribble(
+  ~var1, ~var2, ~var3, ~var4, ~var5,
+  9909,   1,     2,     3,     4,
+  5,    9909,    6,     7,     8,
+  9,      3,   9909,    2,     7
+)
+dm <- haven::read_sas("./data/sdtm/dm.sas7bdat") |> 
+  dplyr::mutate(dplyr::across(where(is.character),~ dplyr::na_if(.,"")))
+
+numericdata01 <- numericdata |>
+  dplyr::mutate(dplyr::across(.cols=where(is.numeric), .fns=~ dplyr::if_else(.x == 9909, 0, .x)))
+
+
+# multiply all numeric variables by 2
+adsl3 <- adsl |> 
+  dplyr::mutate(
+    dplyr::across(.cols = where(is.numeric),
+                  .fns = ~ .x * 2)
+  )
+
+```
+
 
 # Error Handling
 ```{r}
@@ -30,7 +399,7 @@ usethis::use_test("safe_mean")
 ```
 
 Create `tests/testthat/test-safe_mean.R`:
-```{r}
+```{r eval=FALSE}
 testthat::test_that("safe_mean works", {
   x <- c(1,2,NA)
   testthat::expect_equal(safe_mean(x), 1.5)

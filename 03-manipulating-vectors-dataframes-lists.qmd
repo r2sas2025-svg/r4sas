@@ -764,6 +764,18 @@ adsl_test <- adsl |>
   dplyr::select(USUBJID,SEX,gn) |> 
   head(5)
 ```
+# factor levels
+
+```{r}
+adsl_test <- adsl |>
+  dplyr::mutate(
+    AGEGR1_f = factor(dplyr::if_else(AGE < 65, "<65", ">=65"), levels = c("<65", ">=65")),                     # factor
+    SAFFL_f  = factor(dplyr::if_else(!is.na(TRTSDT), "Y", "N"), levels = c("Y", "N"))                    # factor
+  ) |> 
+  dplyr::select(USUBJID,AGE,AGEGR1_f,SAFFL_f,TRTSDT)
+```
+
+
 # joins
 
 The dplyr package provides functions to join tables based on shared keys, such as patient IDs. The main types of joins include:

@@ -2,39 +2,321 @@
 title: "R Package Development"
 ---
 
-## Setup
-```{r eval=FALSE}
-install.packages(c("usethis","devtools","testthat","roxygen2","pkgdown"))
+> A practical, end-to-end cookbook for building robust **R packages** with **devtools**, **roxygen2**, and **testthat**. Written for day‑to‑day use, from scaffolding to checks and tests.
+
+## 1. Prerequisites
+
+-   R (≥ 4.1 recommended so you have the base pipe `|>`)
+-   RTools (Windows) / Xcode command line tools (macOS) for compilation
+-   Recommended packages:
+    -   `install.packages(c("devtools", "roxygen2", "usethis", "testthat", "pkgdown"))`
+
+```{r}
+# Load helpers
+library(devtools)
+library(usethis)
 ```
 
-## Create a Package
+## 2. Create the Package Skeleton
+
+### 2.1 Create a new package directory
+
 ```{r eval=FALSE}
-usethis::create_package("mypkg")
-# In the new project:
-usethis::use_mit_license("Your Name")
+# Creates ./simutils with DESCRIPTION, NAMESPACE placeholder, R/ etc.
+usethis::create_package("simutils")
+# Or from an existing project folder
+# usethis::create_package(getwd())
+```
+
+### 2.2 Initialize Git and a README
+
+```{r eval=FALSE}
 usethis::use_git()
-usethis::use_github()   # optional
-usethis::use_roxygen_md()
-usethis::use_testthat()
-usethis::use_package("dplyr")   # adds to DESCRIPTION
+usethis::use_readme_rmd()  # README.Rmd + badge placeholders
 ```
 
-## Add a Function
-Create `R/safe_mean.R` and its tests (see previous chapter).
+### 2.3 The minimal structure (what you get)
 
-## Build, Install, Check
+```         
+simutils/
+  DESCRIPTION
+  NAMESPACE
+  R/
+  man/
+```
+
+> **Tip:** Keep all your R code inside `R/`. Avoid subfolders there. Group related functions in sensible files (e.g., `na.R`, `sample.R`).
+
+## 3. DESCRIPTION: Package Metadata
+
+Run helpers and then edit as needed.
+
 ```{r eval=FALSE}
+usethis::use_description(fields = list(
+  Title = "Simulation Utilities",
+  Description = "Convenience functions for sampling and NA counting.",
+  `Authors@R` = 'person(given = "Your", family = "Name", role = c("aut","cre"), email = "you@example.com")',
+  License = "MIT + file LICENSE"
+))
+
+usethis::use_mit_license("Your Name")
+```
+
+Key fields you usually set:
+
+-   `Package`, `Title`, `Version`, `Description`
+-   `Authors@R` (with `aut`, `cre` roles)
+-   `License` (e.g., MIT)
+-   `Depends`, `Imports`, `Suggests` (use helpers below)
+
+## 4. NAMESPACE: Exports and Imports (auto‑generated)
+
+> You generally **do not edit NAMESPACE by hand**. It’s generated from your roxygen tags in code.
+
+-   `@export` marks a function for users.
+-   `@import`, `@importFrom` declare your dependencies at function level.
+
+You’ll generate it with `devtools::document()`.
+
+## 5. Write Functions + roxygen2 Headers
+
+Create your first R file:
+
+```{r eval=FALSE}
+# File: R/na.R
+#' Count NAs in a vector
+#'
+#' Count number of missing values (NA) in a numeric/logical/character vector.
+#'
+#' @param x A vector.
+#' @return Integer count of NAs in `x`.
+#' @examples
+#' sum_na(c(1, NA, 3))
+#' sum_na(airquality$Ozone)
+#' @export
+sum_na <- function(x) {
+  sum(is.na(x))
+}
+```
+
+Add a second exported function that works on data frames/matrices:
+
+```{r eval=FALSE}
+# File: R/na_counter.R
+#' Column-wise NA counts
+#'
+#' Returns the number of NAs per column for a data frame or matrix.
+#'
+#' @param x A data frame or matrix.
+#' @return A named integer vector of NA counts per column.
+#' @examples
+#' na_counter(airquality)
+#' @export
+na_counter <- function(x) {
+  if (!is.data.frame(x) && !is.matrix(x)) stop("x must be a data.frame or matrix")
+  colSums(is.na(x))
+}
+```
+
+A simple sampler utility with a documented argument:
+
+```{r eval=FALSE}
+# File: R/sample_from_data.R
+#' Sample rows from a data frame
+#'
+#' Draw a row-wise sample with optional replacement.
+#'
+#' @param data A data frame.
+#' @param size Number of rows to sample.
+#' @param replace Logical; sample with replacement?
+#' @return A data frame containing the sampled rows.
+#' @examples
+#' sample_from_data(airquality, 10)
+#' sample_from_data(airquality, 10, replace = TRUE)
+#' @export
+sample_from_data <- function(data, size, replace = FALSE) {
+  stopifnot(is.data.frame(data))
+  idx <- sample.int(nrow(data), size, replace = replace)
+  data[idx, , drop = FALSE]
+}
+```
+
+## 6. Generate Documentation
+
+```{r eval=FALSE}
+# Parses roxygen headers -> creates/updates NAMESPACE and man/*.Rd
 devtools::document()
-devtools::build()
-devtools::install()
-devtools::check()
 ```
 
-## Vignette & Website
+This will populate `man/` with help files and refresh `NAMESPACE`.
+
+## 7. Add Data, Vignettes, Tests (Optional but Recommended)
+
+### 7.1 Package data
+
 ```{r eval=FALSE}
-usethis::use_vignette("intro")
+# Create example data
+sim_dat <- data.frame(
+  ID = 1:10,
+  Value = sample(1:11, 10),
+  Apples = sample(c(TRUE, FALSE), 10, replace = TRUE)
+)
+
+usethis::use_data(sim_dat, overwrite = TRUE)
+```
+
+### 7.2 Vignettes
+
+```{r eval=FALSE}
+usethis::use_vignette("getting-started")
+# Edit vignettes/getting-started.Rmd, then:
+devtools::build_vignettes()
+```
+
+### 7.3 Tests with testthat
+
+```{r eval=FALSE}
+usethis::use_testthat()
+# Creates tests/testthat.R and tests/testthat/ directory
+
+usethis::use_test("na_counter")
+# -> tests/testthat/test-na_counter.R (edit and add tests)
+```
+
+Example tests:
+
+```{r eval=FALSE}
+# File: tests/testthat/test-na_counter.R
+
+library(testthat)
+
+test_that("na_counter counts NAs correctly for data.frame and matrix", {
+  test_matrix <- matrix(c(NA, 1, 4, NA, 5, 6), nrow = 2)
+  air_expected <- c(Ozone = 37, Solar.R = 7, Wind = 0, Temp = 0, Month = 0, Day = 0)
+  mat_expected <- c(V1 = 1, V2 = 1, V3 = 0)
+
+  expect_equal(na_counter(airquality), air_expected)
+  expect_equal(na_counter(test_matrix), mat_expected)
+})
+
+# Non-exported functions can be called with ::: if truly needed
+# expect_equal(simutils:::sum_na(airquality$Ozone), 37)
+```
+
+Common expectations:
+
+-   `expect_identical()`, `expect_equal(tolerance = ...)`, `expect_equivalent()`
+-   `expect_error()`, `expect_warning()`
+-   `expect_output()` / `expect_output_file()` for console text
+
+Run the test suite:
+
+```{r eval=FALSE}
+devtools::test()
+```
+
+## 8. Manage Dependencies
+
+Use helpers to declare dependencies in `DESCRIPTION` (rather than editing by hand):
+
+```{r eval=FALSE}
+usethis::use_package("dplyr")                # add to Imports
+usethis::use_package("ggplot2", type = "Suggests")
+```
+
+Guidelines:
+
+-   **Imports**: packages needed at runtime for your functions.
+-   **Suggests**: optional packages used in examples/tests/vignettes.
+-   **Depends**: rarely needed; if used, it attaches packages for users (discouraged).
+
+## 9. Check Your Package Thoroughly
+
+``` {r eval=FALSE}
+# Full check like CRAN does; read 00check.log for details
+rc <- devtools::check()
+rc
+```
+
+Typical findings & quick fixes:
+
+-   **Missing fields** (e.g., `License`) → add via `use_mit_license()` or set in DESCRIPTION.
+-   **Undocumented args** → ensure every parameter appears in `@param` and usage matches.
+-   **Broken examples** → run your examples; fix typos (e.g., `airquality`, not `airuality`).
+-   **Missing system tools** for building PDF manual/vignettes → install LaTeX if you need PDFs.
+-   **Failing tests** → run `devtools::test()`; update your code or expectations.
+
+## 10. Build & Install Locally
+
+```{r eval=FALSE}
+# Build source tarball
+devtools::build()
+
+# Install the package from source
+devtools::install()
+
+# Try it out
+library(simutils)
+na_counter(airquality)
+```
+
+## 11. Continuous Integration (optional)
+
+You can wire up CI so checks run automatically on each commit. (Any provider works; pick what your org supports.)
+
+```{r eval=FALSE}
+# Example: set up a CI service config (adjust per provider)
+# usethis::use_github_action_check_standard()
+# or legacy: usethis::use_travis()
+```
+
+## 12. Package Website (optional)
+
+```{r eval=FALSE}
 usethis::use_pkgdown()
 pkgdown::build_site()
 ```
 
-**Exercise:** Package-ize a small utility set (`convert_blanks_to_na`, `validate_columns`, etc.) with docs and tests.
+## 13. Release Checklist
+
+-   [ ] `R CMD check` passes locally with **0 errors, 0 warnings, 0 notes**
+-   [ ] All exported functions documented with examples
+-   [ ] Vignettes render without errors
+-   [ ] Tests pass on your platforms (and CI)
+-   [ ] `NEWS.md` updated; version bumped in `DESCRIPTION`
+-   [ ] License added and included
+
+------------------------------------------------------------------------
+
+### Appendix A — Common Files (at a glance)
+
+-   `DESCRIPTION`: metadata & dependencies
+-   `NAMESPACE`: auto‑generated exports/imports
+-   `R/`: function source files
+-   `man/`: help files (`.Rd`) generated by roxygen2
+-   `tests/`: unit tests (testthat)
+-   `vignettes/`: long‑form docs
+-   `data/` & `R/sysdata.rda`: package data
+
+### Appendix B — Troubleshooting Snippets
+
+```{r eval=FALSE}
+# 1) Missing License in check
+usethis::use_mit_license("Your Name")
+
+# 2) Undocumented argument in check
+# -> Make sure @param includes it and re-run document()
+
+devtools::document(); devtools::check()
+
+# 3) Examples fail in check (typo)
+# -> Fix the example code, rerun check
+
+# 4) pdflatex not found during check
+# -> Install a LaTeX distribution or run check without manual building
+
+# 5) Dependency not available
+# -> Ensure it’s in Imports/Suggests and installed in your environment
+```
+
+> Turn this file into your team’s template. Duplicate it, search/replace `simutils`, and you’re ready to scaffold a new package in minutes.
