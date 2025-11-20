@@ -399,7 +399,7 @@ usethis::use_test("safe_mean")
 ```
 
 Create `tests/testthat/test-safe_mean.R`:
-```{r eval=FALSE}
+```{r eval=FALSE,warning=FALSE,error=FALSE}
 testthat::test_that("safe_mean works", {
   x <- c(1,2,NA)
   testthat::expect_equal(safe_mean(x), 1.5)
