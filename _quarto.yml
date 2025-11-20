@@ -26,13 +26,13 @@ format:
   html:
     theme: cosmo
     toc: true
-    code-tools: true
+    code-tools: false
     number-sections: true
   pdf:
     documentclass: scrreprt
 
 execute:
   freeze: auto
-  echo: FALSE
+  echo: true
   warning: true
   message: true
