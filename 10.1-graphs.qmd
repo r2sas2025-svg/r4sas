@@ -1,0 +1,1327 @@
+---
+title: "ggplot2 in R with CDISC ADaM Examples"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE
+)
+
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(survival)   # for ADTTE time-to-event example
+library(survminer)  # convenient KM plotting (ggplot2-based)
+set.seed(123)
+```
+
+# Introduction
+
+This tutorial is a **step-by-step guide to ggplot2** in R, designed to take you from **beginner to advanced**, using
+**CDISC ADaM-style datasets** throughout.
+
+- `ADSL`: Subject-level data
+- `ADLB`: Laboratory data
+- `ADVS`: Vital signs (optional example)
+- `ADTTE`: Time-to-event data (e.g. PFS)
+
+> These are **simulated examples** with ADaM-like structures and variable names. In a real project you would replace
+> them with your actual ADSL/ADLB/ADTTE datasets.
+
+We will cover:
+
+- Basic **Grammar of Graphics** concepts
+- Building plots layer by layer with `ggplot()`
+- Common geoms: points, lines, bars, histograms, boxplots
+- Aesthetics: color, shape, size, linetype
+- Faceting, scales, themes, coordinates
+- Combining `dplyr` + `ggplot2` in a tidy ADaM workflow
+- Advanced: annotations, secondary axes, simple KM plot from ADTTE
+- Saving plots for reports/presentations
+
+---
+
+# Creating Simulated ADaM-Style Data
+
+In this section we create small ADaM-like datasets entirely in R so the tutorial is self-contained.
+
+## ADSL: Subject-Level Data
+
+```{r create-adsl}
+ADSL <- haven::read_sas("./data/adam/adsl.sas7bdat")
+
+ADSL <- ADSL |> 
+       dplyr::mutate(TRTA=ARM)
+
+```
+
+## ADLB: Laboratory Data (e.g. ALT)
+
+We simulate longitudinal ALT values (`PARAMCD = "ALT"`) at multiple visits:
+
+```{r create-adlb}
+ADLB <- haven::read_sas("./data/adam/adlbhy.sas7bdat") |> 
+              dplyr::filter(PARAMCD == "ALT")
+```
+
+## ADTTE: Time-to-Event Data (e.g. PFS)
+
+We simulate a simple ADTTE:
+
+- `PARAMCD = "PFS"`
+- `AVAL`: time (months)
+- `CNSR`: censor flag (0 = event, 1 = censored)
+
+```{r create-adtte}
+ADTTE <- ADSL %>%
+  select(STUDYID, USUBJID, ARM,TRTA, SEX, AGE) %>%
+  mutate(
+    PARAMCD = "PFS",
+    PARAM   = "Progression-Free Survival (Months)",
+    # Arm-specific exponential rates
+    rate = case_when(
+      ARM == "Placebo" ~ 0.12,
+      ARM == "Dose 1"  ~ 0.09,
+      TRUE             ~ 0.07
+    ),
+    AVAL = rexp(n(), rate = rate),
+    AVAL = pmin(AVAL, 36),  # administrative censoring at 36 months
+    CNSR = if_else(AVAL >= 36, 1, 0)
+  ) %>%
+  select(-rate)
+
+ADTTE %>% head()
+```
+
+With these datasets we can now explore ggplot2 concepts **in an ADaM context**.
+
+---
+
+# Grammar of Graphics with ADaM
+
+The basic idea of ggplot2 (Grammar of Graphics):
+
+- **Data**: ADSL / ADLB / ADTTE
+- **Aesthetics** (`aes`): how variables map to x, y, color, etc.
+- **Geoms**: geometric objects (points, lines, bars, etc.)
+- **Scales, facets, coordinates, theme**: control look and structure
+
+The general pattern:
+
+```{r, eval=FALSE}
+ADSL <- haven::read_sas("./data/adam/adsl.sas7bdat")
+ggplot(data = ADSL, aes(x = AGE, y = BMIBL)) +
+  geom_point()
+```
+
+We will start with subject-level plots from **ADSL**, then move to longitudinal labs from **ADLB**, and finally to **ADTTE**.
+
+---
+
+# Basic Plots from ADSL (Beginner Level)
+
+## Scatterplot: AGE vs BMIBL
+
+```{r adsl-scatter-basic}
+ggplot(ADSL, aes(x = AGE, y = BMIBL)) +
+  geom_point() +
+  labs(
+    title = "Scatterplot of Baseline BMI vs Age",
+    x = "Age (Years)",
+    y = "Baseline BMI (kg/m^2)"
+  )
+```
+
+### Mapping vs Setting Aesthetics
+
+- **Mapping** (inside `aes()`): color/shape/size depend on data (e.g. `ARM`).
+- **Setting** (outside `aes()`): fixed values.
+
+Map `ARM` to color:
+
+```{r adsl-scatter-map-color}
+ggplot(ADSL, aes(x = AGE, y = BMIBL, color = TRT01A)) +
+  geom_point(size = 2.5, alpha = 0.8) +
+  labs(
+    title = "Baseline BMI vs Age by Treatment Arm",
+    color = "Treatment Arm",
+    x = "Age (Years)",
+    y = "Baseline BMI (kg/m^2)"
+  )
+```
+
+Set color manually (not based on data):
+
+```{r adsl-scatter-set-color}
+ggplot(ADSL, aes(x = AGE, y = BMIBL)) +
+  geom_point(color = "steelblue", size = 2.5, alpha = 0.8) +
+  labs(
+    title = "Baseline BMI vs Age (All Arms)",
+    x = "Age (Years)",
+    y = "Baseline BMI (kg/m^2)"
+  )
+```
+
+---
+
+## Bar Plot: Subject Counts per Arm
+
+Using `ADSL`, we can show how many subjects per arm:
+
+```{r adsl-bar-arm}
+ggplot(ADSL, aes(x = TRT01A)) +
+  geom_bar(fill = "skyblue", color = "black") +
+  labs(
+    title = "Number of Subjects per Treatment Arm",
+    x = "Treatment Arm",
+    y = "Count of Subjects"
+  )
+```
+
+If you pre-compute counts (e.g. for TLG), use `geom_col()`:
+
+```{r adsl-bar-arm-summarised}
+adsl_counts <- ADSL %>%
+  count(TRT01A, name = "n")
+
+adsl_counts
+```
+
+```{r adsl-bar-arm-col}
+ggplot(adsl_counts, aes(x = TRT01A, y = n)) +
+  geom_col(fill = "steelblue") +
+  labs(
+    title = "Number of Subjects per Treatment Arm",
+    x = "Treatment Arm",
+    y = "Count of Subjects"
+  )
+```
+
+---
+
+## Histogram and Density: Age Distribution
+
+Histogram of `AGE`:
+
+```{r adsl-age-hist}
+ggplot(ADSL, aes(x = AGE)) +
+  geom_histogram(binwidth = 5, fill = "lightgreen", color = "white") +
+  labs(
+    title = "Age Distribution (ADSL)",
+    x = "Age (Years)",
+    y = "Frequency"
+  )
+```
+
+Density plot:
+
+```{r adsl-age-density}
+ggplot(ADSL, aes(x = AGE)) +
+  geom_density(fill = "orange", alpha = 0.6) +
+  labs(
+    title = "Age Density (ADSL)",
+    x = "Age (Years)",
+    y = "Density"
+  )
+```
+
+---
+
+## Boxplot: BMIBL by ARM
+
+Boxplots are useful in CSR or listings to compare distributions across arms.
+
+```{r adsl-bmi-box}
+ggplot(ADSL, aes(x = TRT01A, y = BMIBL)) +
+  geom_boxplot(fill = "lightgray") +
+  labs(
+    title = "Baseline BMI by Treatment Arm",
+    x = "Treatment Arm",
+    y = "Baseline BMI (kg/m^2)"
+  )
+```
+
+You can combine boxplot with jittered points:
+
+```{r adsl-bmi-box-jitter}
+ggplot(ADSL, aes(x = TRT01A, y = BMIBL)) +
+  geom_boxplot(fill = "lightgray", outlier.shape = NA) +
+  geom_jitter(width = 0.15, alpha = 0.6, color = "blue") +
+  labs(
+    title = "Baseline BMI by Treatment Arm (with Individual Subjects)",
+    x = "Treatment Arm",
+    y = "Baseline BMI (kg/m^2)"
+  )
+```
+
+---
+
+# Longitudinal Plots from ADLB (Intermediate)
+
+Now we use **ADLB** to illustrate time course plots, which are common in clinical reports.
+
+## Line Plot: Mean ALT Over Time by ARM
+
+First summarise ADLB:
+
+```{r adlb-summary}
+
+adlb_alt_summary <- ADLB %>%
+  group_by(TRTA, AVISIT) %>%
+  summarise(
+    mean_ALT = mean(AVAL,na.rm=TRUE),
+    sd_ALT   = sd(AVAL,na.rm=TRUE),
+    n        = n(),
+    se_ALT   = sd_ALT / sqrt(n),
+    .groups = "drop"
+  )
+
+adlb_alt_summary
+```
+
+Line plot with error bars:
+
+```{r adlb-line-arm}
+ggplot(adlb_alt_summary,
+       aes(x = AVISIT, y = mean_ALT, group = TRTA, color = TRTA)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 2.5) +
+  geom_errorbar(
+    aes(ymin = mean_ALT - se_ALT, ymax = mean_ALT + se_ALT),
+    width = 0.15
+  ) +
+  labs(
+    title = "Mean ALT Over Time by Treatment Arm",
+    x = "Visit",
+    y = "Mean ALT (U/L)",
+    color = "Treatment Arm"
+  ) +
+  theme_minimal()
+```
+
+---
+
+## Individual Profiles (Spaghetti Plot)
+
+To see variability, we can plot individual patients (subset to avoid overcrowding):
+
+```{r adlb-spaghetti}
+
+ADLB_sub <- ADLB |> 
+  head(20)
+
+ggplot(ADLB_sub,
+       aes(x = AVISIT, y = AVAL, group = USUBJID, color = TRTA)) +
+  geom_line(alpha = 0.6) +
+  geom_point(alpha = 0.6, size = 1.5) +
+  labs(
+    title = "Individual ALT Trajectories ",
+    x = "Visit",
+    y = "ALT (U/L)",
+    color = "Arm"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+---
+
+# Faceting with ADaM Data
+
+Faceting is useful when splitting results by subgroups, lab parameters, or regions.
+
+Here we only have `PARAMCD = "ALT"`, but we can pretend we have multiple parameters.
+
+## Example: Facet ALT by Sex
+
+```{r adlb-facet-sex}
+ggplot(adlb_alt_summary,
+       aes(x = AVISIT, y = mean_ALT, group = TRTA, color = TRTA)) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  facet_wrap(~ TRTA) +
+  labs(
+    title = "Mean ALT Over Time – Faceted by Treatment TRTA",
+    x = "Visit",
+    y = "Mean ALT (U/L)",
+    color = "TRTA"
+  ) +
+  theme_minimal()
+```
+
+You can similarly facet by `SEX`, `RACE`, or any other ADSL variable once merged into ADLB.
+
+---
+
+# Scales, Labels, and Themes in ADaM Context
+
+## Changing Axis Labels and Titles
+
+```{r adsl-scatter-labels}
+ggplot(ADSL, aes(x = AGE, y = BMIBL, color = TRT01A)) +
+  geom_point(alpha = 0.8) +
+  labs(
+    title = "Baseline BMI vs Age by Treatment TRTA",
+    subtitle = "Simulated ADaM ADSL Data",
+    x = "Age (Years)",
+    y = "Baseline BMI (kg/m^2)",
+    color = "Treatment TRTA"
+  )
+```
+
+## Controlling Color Scales
+
+For discrete `TRTA`:
+
+```{r adsl-color-brewer}
+ggplot(ADSL, aes(x = AGE, y = BMIBL, color = TRT01A)) +
+  geom_point(size = 2.5) +
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    title = "Custom Color Scale for TRTA",
+    color = "TRTA"
+  ) +
+  theme_minimal()
+```
+
+For continuous values (e.g. ALT):
+
+```{r adlb-color-gradient}
+ggplot(ADLB, aes(x = AGE, y = AVAL, color = AVAL)) +
+  geom_point(alpha = 0.7) +
+  scale_color_gradient(low = "lightyellow", high = "darkred") +
+  labs(
+    title = "ALT vs Age (Colored by ALT)",
+    x = "Age (Years)",
+    y = "ALT (U/L)",
+    color = "ALT"
+  ) +
+  theme_minimal()
+```
+
+## Transforming Scales (e.g., log10 ALT)
+
+```{r adlb-log-scale}
+ggplot(ADLB, aes(x = AGE, y = AVAL, color = TRTA)) +
+  geom_point(alpha = 0.7) +
+  scale_y_log10() +
+  labs(
+    title = "ALT vs Age (Log10 ALT)",
+    x = "Age (Years)",
+    y = "ALT (U/L) – log10 scale",
+    color = "TRTA"
+  ) +
+  theme_minimal()
+```
+
+---
+
+# Themes and Publication-Style Graphics
+
+## Using Built-In Themes
+
+```{r theme-examples}
+p_base <- ggplot(ADSL, aes(x = AGE, y = BMIBL, color = TRT01A)) +
+  geom_point(size = 2.2, alpha = 0.8) +
+  labs(
+    title = "Baseline BMI vs Age by TRTA",
+    x = "Age (Years)",
+    y = "Baseline BMI"
+  )
+
+p_base + theme_bw()
+```
+
+```{r theme-minimal}
+p_base + theme_minimal()
+```
+
+```{r theme-classic}
+p_base + theme_classic()
+```
+
+## Custom Theme for Clinical Reports
+
+```{r theme-adam-pub}
+theme_adam_pub <- function() {
+  theme_minimal(base_size = 11) +
+    theme(
+      plot.title = element_text(face = "bold", hjust = 0.5, size = 13),
+      axis.title = element_text(face = "bold"),
+      panel.grid.major = element_line(color = "grey85"),
+      panel.grid.minor = element_blank(),
+      legend.position = "bottom",
+      legend.title = element_text(face = "bold")
+    )
+}
+
+ggplot(ADLB, aes(x = AVISIT, y = AVAL, color = TRTA)) +
+  geom_boxplot() +
+  labs(
+    title = "ALT Distribution by Visit and TRTA",
+    x = "Visit",
+    y = "ALT (U/L)",
+    color = "TRTA"
+  ) +
+  theme_adam_pub()
+```
+
+---
+
+# Coordinates and Positions
+
+## Flipping Coordinates: Boxplot of BMI by Sex
+
+```{r coord-flip}
+ggplot(ADSL, aes(x = SEX, y = BMIBL)) +
+  geom_boxplot(fill = "lightblue") +
+  coord_flip() +
+  labs(
+    title = "Baseline BMI by Sex",
+    x = "Sex",
+    y = "Baseline BMI"
+  )
+```
+
+## Stacked vs Dodged Bar Plots: TRTA by SEX
+
+```{r bar-stacked}
+ggplot(ADSL, aes(x = TRTA, fill = SEX)) +
+  geom_bar(position = "stack") +
+  labs(
+    title = "Subjects by Treatment and Sex (Stacked)",
+    x = "TRTA",
+    y = "Count",
+    fill = "Sex"
+  )
+```
+
+```{r bar-dodged}
+ggplot(ADSL, aes(x = TRTA, fill = SEX)) +
+  geom_bar(position = position_dodge(width = 0.8)) +
+  labs(
+    title = "Subjects by Treatment and Sex (Dodged)",
+    x = "TRTA",
+    y = "Count",
+    fill = "Sex"
+  )
+```
+
+---
+
+# Adding Statistical Layers
+
+## Linear Regression: BMIBL vs AGE
+
+```{r stat-smooth-lm}
+ggplot(ADSL, aes(x = AGE, y = BMIBL)) +
+  geom_point(alpha = 0.7) +
+  stat_smooth(method = "lm", se = TRUE, color = "red") +
+  labs(
+    title = "Regression of Baseline BMI on Age",
+    x = "Age (Years)",
+    y = "Baseline BMI"
+  ) +
+  theme_minimal()
+```
+
+## Summaries: Mean ALT ± SD per Visit and TRTA
+
+We already computed `adlb_alt_summary`. Plot mean ± SD:
+
+```{r adlb-mean-sd}
+ggplot(adlb_alt_summary,
+       aes(x = AVISIT, y = mean_ALT, color = TRTA, group = TRTA)) +
+  geom_point(size = 2.5) +
+  geom_line() +
+  geom_errorbar(
+    aes(ymin = mean_ALT - sd_ALT, ymax = mean_ALT + sd_ALT),
+    width = 0.2, alpha = 0.7
+  ) +
+  labs(
+    title = "Mean ALT ± SD by Visit and TRTA",
+    x = "Visit",
+    y = "ALT (U/L)",
+    color = "TRTA"
+  ) +
+  theme_minimal()
+```
+
+---
+
+# Tidy Workflow: dplyr + ggplot2 with ADaM
+
+A very common pattern in clinical reporting:
+
+1. Start from ADaM dataset
+2. Filter / summarise with `dplyr`
+3. Plot with `ggplot2`
+
+Example: Mean BMI by TRTA and SEX:
+
+```{r tidy-workflow}
+ADSL %>%
+  group_by(TRTA, SEX) %>%
+  summarise(
+    mean_BMIBL = mean(BMIBL),
+    sd_BMIBL   = sd(BMIBL),
+    n          = n(),
+    .groups = "drop"
+  ) %>%
+  ggplot(aes(x = TRTA, y = mean_BMIBL, fill = SEX)) +
+  geom_col(position = position_dodge(width = 0.8)) +
+  geom_errorbar(
+    aes(ymin = mean_BMIBL - sd_BMIBL, ymax = mean_BMIBL + sd_BMIBL),
+    position = position_dodge(width = 0.8),
+    width = 0.2
+  ) +
+  labs(
+    title = "Mean Baseline BMI by Treatment TRTA and Sex",
+    x = "Treatment TRTA",
+    y = "Mean Baseline BMI",
+    fill = "Sex"
+  ) +
+  theme_adam_pub()
+```
+
+---
+
+# Advanced: Simple Kaplan–Meier Plot from ADTTE
+
+In ADaM, **ADTTE** contains time-to-event information (e.g. PFS, OS).
+
+Here we show a simple KM plot using `survminer::ggsurvplot()` which uses ggplot2 under the hood.
+
+```{r adtte-km}
+adtte_pfs <- ADTTE %>%
+  filter(PARAMCD == "PFS")
+
+fit_pfs <- survfit(Surv(AVAL, 1 - CNSR) ~ TRTA, data = adtte_pfs)
+
+km_plot <- ggsurvplot(
+  fit_pfs,
+  data = adtte_pfs,
+  conf.int = TRUE,
+  risk.table = TRUE,
+  risk.table.height = 0.25,
+  ggtheme = theme_minimal(),
+  legend.title = "TRTA",
+  legend.labs = levels(factor(adtte_pfs$TRTA)),
+  title = "Kaplan–Meier Curve for PFS by Treatment TRTA",
+  xlab = "Time (Months)",
+  ylab = "Progression-Free Survival Probability"
+)
+
+km_plot
+```
+
+For a **pure ggplot2** approach, you could extract the `survfit` summary into a data frame and use `geom_step()`
+manually, but `ggsurvplot()` is convenient and still fully compatible with ggplot theming.
+
+---
+
+# Advanced: Annotations and Secondary Axes
+
+## Annotations on an ADaM Plot
+
+Example: highlight older patients with high BMI:
+
+```{r annotation-example}
+ggplot(ADSL, aes(x = AGE, y = BMIBL)) +
+  geom_point(alpha = 0.7) +
+  annotate(
+    "rect", xmin = 70, xmax = 80,
+    ymin = 30, ymax = 40,
+    alpha = 0.1, fill = "red"
+  ) +
+  annotate(
+    "text", x = 75, y = 41,
+    label = "Older, higher BMI
+(Example region)",
+    size = 3, color = "red"
+  ) +
+  labs(
+    title = "Annotations on ADSL Scatterplot",
+    x = "Age (Years)",
+    y = "Baseline BMI"
+  ) +
+  theme_minimal()
+```
+
+## Secondary Axis (Use with Care)
+
+ggplot2 allows secondary axes only if they are a simple transformation of the primary axis.
+
+Example (purely illustrative) converting ALT to approximate multiple:
+
+```{r secondary-axis}
+ggplot(adlb_alt_summary, aes(x = AVISIT, y = mean_ALT, group = TRTA, color = TRTA)) +
+  geom_line() +
+  geom_point() +
+  scale_y_continuous(
+    name = "ALT (U/L)",
+    sec.axis = sec_axis(~ . / 40, name = "ALT (x Upper Normal Limit)")
+  ) +
+  labs(
+    title = "ALT Mean Over Time with Secondary Axis",
+    x = "Visit",
+    color = "TRTA"
+  ) +
+  theme_minimal()
+```
+
+> In production, ensure the secondary axis has a clinically correct and meaningful transformation.
+
+---
+
+# Writing Reusable Plot Functions for ADaM
+
+You can encapsulate standard plots (e.g., lab time course by TRTA) into functions.
+
+```{r adam-plot-function}
+plot_lab_timecourse <- function(adlb_df, paramcd = "ALT") {
+  df <- adlb_df %>%
+    filter(PARAMCD == paramcd) %>%
+    group_by(TRTA, AVISIT) %>%
+    summarise(
+      mean_aval = mean(AVAL),
+      se_aval   = sd(AVAL) / sqrt(n()),
+      .groups = "drop"
+    )
+
+  ggplot(df, aes(x = AVISIT, y = mean_aval, color = TRTA, group = TRTA)) +
+    geom_line(linewidth = 1) +
+    geom_point(size = 2.5) +
+    geom_errorbar(
+      aes(ymin = mean_aval - se_aval, ymax = mean_aval + se_aval),
+      width = 0.15
+    ) +
+    labs(
+      title = paste("Mean", paramcd, "Over Time by TRTA"),
+      x = "Visit",
+      y = paste("Mean", paramcd),
+      color = "TRTA"
+    ) +
+    theme_adam_pub()
+}
+
+plot_lab_timecourse(ADLB, paramcd = "ALT")
+```
+
+This approach is very powerful for building **standardized plotting utilities** for your ADaM pipeline.
+
+---
+
+# Saving Plots for Reports
+
+Use `ggsave()` to save plots for use in RTF, Word, or PowerPoint.
+
+```{r save-plot, eval=FALSE}
+p <- ggplot(ADSL, aes(x = AGE, y = BMIBL, color = TRTA)) +
+  geom_point() +
+  labs(
+    title = "Baseline BMI vs Age by TRTA",
+    x = "Age (Years)",
+    y = "Baseline BMI"
+  ) +
+  theme_adam_pub()
+
+# Save as PNG
+ggsave("bmi_vs_age_by_TRTA.png", plot = p, width = 6, height = 4, dpi = 300)
+
+# Save as PDF
+ggsave("bmi_vs_age_by_TRTA.pdf", plot = p, width = 6, height = 4)
+```
+
+
+```{r, include=FALSE}
+# Core packages
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+# For KM and forest plots
+library(survival)
+library(survminer)
+library(grid)
+library(forestploter)
+```
+
+# Introduction
+
+This document walks through **six common oncology graphs** step by step, using the exact code you provided:
+
+1. Bar graph of **sum of lesion diameters** plus individual lesions  
+2. **Waterfall plot** of best percentage change from baseline  
+3. **Swimmer plot** for duration of response  
+4. **Spider plot** (tumor trajectories over time)  
+5. **Kaplan–Meier** survival curve  
+6. **Forest plot** for subgroup hazard ratios  
+
+For each figure, we will:
+
+- Build a simple **example dataset** in R (similar structure to what you’d get from ADaM like ADTR/ADTTE).
+- Explain the main **ggplot2 layers** and options.
+- Show the **final code** to generate the plot.
+
+In a real clinical project, you would replace the toy data here with your ADaM datasets, but the plotting logic stays the same.
+
+---
+
+# Figure 1 – Bar Graph with Individual Lesion Lines
+
+This plot shows, for a single subject:
+
+- Bars: **Sum of Lesion Diameters (SUMLD)** at each visit  
+- Lines/points: each **individual lesion** (tumor) over time  
+
+Clinically, this helps you see how the total tumor burden and individual lesions evolve across visits.
+
+## 1.1 Create bar-graph data
+
+We first build a small dataset with:
+
+- `visit`: visit label
+- `SUMLD`: sum of lesion diameters
+- `trstresn_tumor1/2/3`: individual lesion diameters
+
+```{r fig1-data}
+bar_data <- data.frame(
+  visit = c("Baseline", "Week 4", "Week 8", "Week 12", "Week 16"),
+  SUMLD = c(100, 85, 70, 65, 60),  # Sum of Lesion Diameters
+  trstresn_tumor1 = c(50, 45, 35, 30, 28),
+  trstresn_tumor2 = c(30, 25, 20, 20, 18),
+  trstresn_tumor3 = c(20, 15, 15, 15, 14)
+)
+
+bar_data
+```
+
+In real ADaM:
+
+- `visit` could map to `AVISIT`,
+- `SUMLD` would be a derived variable (sum of target lesions),
+- `trstresn_tumorX` are separate lesions (often separate rows in ADTR; here we keep them as columns for simplicity).
+
+## 1.2 Reshape to long format for lines
+
+To draw multiple lesions as separate lines, we reshape the wide columns (`trstresn_tumor1/2/3`) into a long format using `pivot_longer()`:
+
+```{r fig1-long}
+bar_data_long <- bar_data %>%
+  pivot_longer(
+    cols = starts_with("trstresn"), 
+    names_to = "tuloc", 
+    values_to = "trstresn"
+  )
+
+bar_data_long
+```
+
+- `tuloc` acts like **tumor location / lesion identifier**.  
+- `trstresn` holds the lesion diameter for each visit–lesion combination.
+
+## 1.3 Build the bar + line plot
+
+Now we combine:
+
+- `geom_col()` for SUMLD (bars)
+- `geom_line()` and `geom_point()` for individual lesions
+- `scale_y_continuous()` with a **secondary axis** label (note: both axes use same numeric scale, only labels differ)
+
+```{r fig1-plot, fig.width=7, fig.height=5}
+p1 <- ggplot() +
+  # Bars = Sum of lesion diameters per visit
+  geom_col(
+    data = bar_data, 
+    aes(x = visit, y = SUMLD), 
+    fill = "#4472C4", 
+    width = 0.6,
+    alpha = 0.7
+  ) +
+  # Lines = individual lesions
+  geom_line(
+    data = bar_data_long, 
+    aes(x = visit, y = trstresn, 
+        group = tuloc, color = tuloc),
+    size = 1.2
+  ) +
+  # Points = individual lesion measurements
+  geom_point(
+    data = bar_data_long, 
+    aes(x = visit, y = trstresn, 
+        color = tuloc),
+    size = 3
+  ) +
+  # Primary and secondary y-axes (same numeric scale)
+  scale_y_continuous(
+    name = "Lesion Diameter (mm)",
+    sec.axis = sec_axis(~., name = "Sum of Lesion Diameters (mm)")
+  ) +
+  labs(
+    title = "Figure 1
+Tumor Response in Individual Patients with Measurable Disease",
+    subtitle = "(ITT Population)
+Subject: 1001",
+    x = "Visit",
+    color = "Tumor Location"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    plot.subtitle = element_text(hjust = 0.5, size = 10),
+    axis.title = element_text(face = "bold", size = 11),
+    legend.position = "bottom"
+  )
+
+p1
+```
+
+Key points:
+
+- We used an **empty `ggplot()`** and passed data separately to each layer.  
+- This is useful when we have different data frames for bars (`bar_data`) and lines (`bar_data_long`).
+
+---
+
+# Figure 2 – Waterfall Plot of Best Percentage Change from Baseline
+
+Waterfall plots show each patient’s **best % change from baseline** in tumor size.  
+They’re very common in oncology to visualize response categories like CR/PR/SD/PD.
+
+## 2.1 Create waterfall data
+
+We simulate:
+
+- `patientid`: patient identifier
+- `pchg`: best % change from baseline in sum of diameters
+- `response`: categorical RECIST-like response (CR/PR/SD/PD)
+
+```{r fig2-data}
+waterfall_data <- data.frame(
+  patientid = paste0("PT", sprintf("%03d", 1:30)),
+  pchg = c(-65, -55, -48, -42, -38, -35, -30, -28, -25, -22,
+           -18, -15, -12, -10, -8, -5, -2, 5, 8, 12,
+           15, 20, 25, 30, 35, 40, 45, 50, 55, 60),
+  response = c(rep("CR", 2), rep("PR", 13), rep("SD", 10), rep("PD", 5))
+)
+
+waterfall_data
+```
+
+## 2.2 Sort patients by change
+
+To get the typical waterfall shape (bars sorted from best to worst response), we sort by `pchg` and then set factor levels:
+
+```{r fig2-sort}
+waterfall_data <- waterfall_data %>%
+  arrange(pchg) %>%
+  mutate(patientid = factor(patientid, levels = patientid))
+
+response_colors <- c(
+  "CR" = "#00B050",
+  "PR" = "#92D050", 
+  "SD" = "#FFC000",
+  "PD" = "#FF0000"
+)
+
+waterfall_data
+```
+
+## 2.3 Build the waterfall plot
+
+- `geom_col()` for bars  
+- `geom_hline()` to draw RECIST cut-off lines (e.g. -30%, +20%)  
+- `coord_cartesian()` to fix y-axis limits  
+
+```{r fig2-plot, fig.width=7, fig.height=5}
+p2 <- ggplot(waterfall_data, aes(x = patientid, y = pchg, fill = response)) +
+  geom_col(width = 0.8) +
+  # Baseline line at 0% change
+  geom_hline(yintercept = 0, linetype = "solid", color = "black", size = 0.8) +
+  # Typical RECIST thresholds
+  geom_hline(yintercept = -30, linetype = "dashed", color = "blue", size = 0.6) +
+  geom_hline(yintercept = 20, linetype = "dashed", color = "red", size = 0.6) +
+  scale_fill_manual(values = response_colors) +
+  labs(
+    title = "Figure 2
+Waterfall Plot of Best Percentage Change from Baseline",
+    subtitle = "in Target Lesion per RECIST 1.1",
+    x = "Patient ID",
+    y = "Best % Change from Baseline in Sum of Diameters",
+    fill = "Response"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    plot.subtitle = element_text(hjust = 0.5, size = 10),
+    axis.title = element_text(face = "bold", size = 11),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    legend.position = "bottom"
+  ) +
+  coord_cartesian(ylim = c(-80, 80))
+
+p2
+```
+
+In real ADaM:
+
+- You’d compute `pchg` from ADTR using baseline and best post-baseline sum of diameters.
+
+---
+
+# Figure 3 – Swimmer Plot: Duration of Response
+
+Swimmer plots show **time on treatment / response** for each patient:
+
+- Horizontal bar per patient: **treatment duration**  
+- Color: response category  
+- Symbols/markers: progression, death, etc.
+
+## 3.1 Create swimmer data
+
+We simulate:
+
+- `start_time` / `end_time`: treatment/response duration (months)
+- `response`: CR/PR/SD/PD
+- `progression` / `death`: logical indicators
+
+```{r fig3-data}
+set.seed(123)  # for reproducibility
+
+swimmer_data <- data.frame(
+  patientid = paste0("PT", sprintf("%03d", 1:20)),
+  start_time = rep(0, 20),
+  end_time = c(12, 15, 8, 20, 18, 14, 10, 22, 16, 19,
+               7, 25, 13, 17, 11, 9, 21, 24, 15, 18),
+  response = sample(c("CR", "PR", "SD", "PD"), 20, replace = TRUE),
+  progression = c(TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE,
+                  TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE, TRUE, FALSE),
+  death = c(FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE,
+            FALSE, FALSE, FALSE, TRUE, FALSE, FALSE, FALSE, TRUE, FALSE, FALSE)
+)
+
+# Sort by duration so longest bars at top
+swimmer_data <- swimmer_data %>%
+  arrange(desc(end_time)) %>%
+  mutate(patientid = factor(patientid, levels = patientid))
+
+swimmer_data
+```
+
+## 3.2 Build the swimmer plot
+
+- `geom_segment()` draws horizontal bars  
+- Triangles (`shape = 17`) mark progression  
+- Crosses (`shape = 4`) mark death  
+
+```{r fig3-plot, fig.width=7, fig.height=5}
+p3 <- ggplot(swimmer_data, aes(y = patientid)) +
+  # Treatment/response duration
+  geom_segment(
+    aes(x = start_time, xend = end_time, 
+        yend = patientid, color = response),
+    size = 3
+  ) +
+  # ▲ progression (black triangle)
+  geom_point(
+    data = swimmer_data %>% filter(progression),
+    aes(x = end_time), 
+    shape = 17, size = 4, color = "black"
+  ) +
+  # ✕ death (red cross)
+  geom_point(
+    data = swimmer_data %>% filter(death),
+    aes(x = end_time), 
+    shape = 4, size = 4, color = "red", stroke = 2
+  ) +
+  scale_color_manual(values = c(
+    "CR" = "#00B050", "PR" = "#92D050",
+    "SD" = "#FFC000", "PD" = "#FF0000"
+  )) +
+  labs(
+    title = "Figure 3
+Swimmer Plot - Duration of Response",
+    subtitle = "Individual Patient Treatment Duration and Response",
+    x = "Time (Months)",
+    y = "Patient ID",
+    color = "Response"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    plot.subtitle = element_text(hjust = 0.5, size = 10),
+    axis.title = element_text(face = "bold", size = 11),
+    legend.position = "bottom"
+  ) +
+  annotate(
+    "text", x = 26, y = 21, 
+    label = "▼ = Progression
+✕ = Death", 
+    hjust = 0, size = 3
+  )
+
+p3
+```
+
+In an ADaM workflow, these durations often come from ADTTE / custom response datasets (first response date, progression date, death date, etc.).
+
+---
+
+# Figure 4 – Spider Plot: Tumor Trajectories Over Time
+
+Spider plots show multiple **patients’ tumor trajectories** on the same axes:
+
+- x-axis: time (e.g. months from baseline scan)  
+- y-axis: relative tumor size (ratio vs baseline)  
+
+Each line represents one patient.
+
+## 4.1 Create spider data
+
+We create data for 15 patients, with tumor size values over time:
+
+```{r fig4-data}
+set.seed(123)
+
+spider_data <- expand.grid(
+  patientid = paste0("PT", sprintf("%03d", 1:15)),
+  dur = seq(-10, 100, by = 10)
+) %>%
+  group_by(patientid) %>%
+  mutate(
+    # Simple random trend around baseline = 1
+    size = 1 + rnorm(1, 0, 0.3) + (dur/100) * rnorm(1, -0.5, 0.4)
+  ) %>%
+  ungroup()
+
+spider_data
+```
+
+- At `dur = 0` we are around `size = 1` (baseline).  
+- Later timepoints can go up (> 1) or down (< 1).
+
+## 4.2 Build the spider plot
+
+```{r fig4-plot, fig.width=7, fig.height=5}
+p4 <- ggplot(
+  spider_data, 
+  aes(
+    x = dur, y = size, 
+    group = patientid, 
+    color = patientid
+  )
+) +
+  geom_line(size = 1.2, alpha = 0.7) +
+  geom_point(size = 2, alpha = 0.8) +
+  # Horizontal line at baseline (1.0)
+  geom_hline(
+    yintercept = 1.0, linetype = "solid", 
+    color = "black", size = 0.8
+  ) +
+  scale_y_continuous(breaks = seq(0, 2, by = 0.20)) +
+  scale_x_continuous(breaks = seq(-100, 100, by = 10)) +
+  labs(
+    title = "Figure 4
+Relative Change in Tumor Size",
+    x = "Months from Baseline Scan (Time 0)",
+    y = "Tumor Size Relative to Baseline"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14),
+    axis.title = element_text(face = "bold", size = 11),
+    legend.position = "none"
+  ) +
+  coord_cartesian(xlim = c(-10, 100), ylim = c(0, 2))
+
+p4
+```
+
+In practice, this would also come from **ADTR** (longitudinal tumor measurements) with a derived `relative_size = AVAL / BASE`.
+
+---
+
+# Figure 5 – Kaplan–Meier Survival Curve
+
+Kaplan–Meier (KM) plots visualize **time-to-event endpoints** like PFS or OS:
+
+- Step function for survival probability over time  
+- Separate curve for each treatment arm  
+- Optionally: confidence intervals and number-at-risk table  
+
+## 5.1 Create KM data
+
+We simulate:
+
+- `time`: event/censoring time  
+- `status`: 1 = event, 0 = censored  
+- `treatment`: Treatment A / Treatment B  
+
+```{r fig5-data}
+set.seed(456)
+
+km_data <- data.frame(
+  time = c(rexp(100, 0.05), rexp(100, 0.03)),
+  status = c(rbinom(100, 1, 0.7), rbinom(100, 1, 0.6)),
+  treatment = rep(c("Treatment A", "Treatment B"), each = 100)
+)
+
+head(km_data)
+```
+
+## 5.2 Fit the KM model and plot
+
+We use `survival::survfit()` and `survminer::ggsurvplot()`:
+
+```{r fig5-plot, fig.width=7, fig.height=6}
+km_fit <- survfit(Surv(time, status) ~ treatment, data = km_data)
+
+p5 <- ggsurvplot(
+  km_fit,
+  data = km_data,
+  pval = TRUE,           # log-rank p-value
+  conf.int = TRUE,       # confidence interval bands
+  risk.table = TRUE,     # number at risk under the plot
+  risk.table.height = 0.25,
+  ggtheme = theme_minimal(),
+  palette = c("#E7B800", "#2E9FDF"),
+  title = "Figure 5
+Kaplan-Meier Survival Curve",
+  xlab = "Time (Months)",
+  ylab = "Survival Probability",
+  legend.title = "Treatment Group",
+  legend.labs = c("Treatment A", "Treatment B"),
+  font.main = c(14, "bold"),
+  font.x = c(11, "bold"),
+  font.y = c(11, "bold"),
+  font.legend = c(10)
+)
+
+p5
+```
+
+In ADaM:
+
+- This would typically be based on **ADTTE**, using variables like `AVAL` (time), `CNSR` (censor flag), and `TRT01A` or similar.
+
+---
+
+# Figure 6 – Forest Plot for Subgroup Hazard Ratios
+
+Forest plots summarize **effect estimates (e.g. hazard ratios)** across subgroups:
+
+- Each row: one subgroup  
+- Point: HR  
+- Horizontal line: 95% CI  
+- Vertical reference line at HR = 1  
+
+Here we use the `forestploter` package and its example data.
+
+## 6.1 Load example data and prepare
+
+```{r fig6-data}
+dt <- read.csv(system.file("extdata", "example_data.csv", package = "forestploter"))
+
+head(dt)
+```
+
+We:
+
+- Indent subgroup labels when there is a number in `Placebo` column (for visual hierarchy).  
+- Replace `NA` with empty strings for display columns.  
+- Compute standard error (`se`) from CI.  
+- Add a blank column (`" "`) for the plot.  
+- Create a text column for **HR (95% CI)**.
+
+```{r fig6-prep}
+# Indent subgroup if there is a number in the placebo column
+dt$Subgroup <- ifelse(
+  is.na(dt$Placebo), 
+  dt$Subgroup,
+  paste0("   ", dt$Subgroup)
+)
+
+# NA to blank for display columns
+dt$Treatment <- ifelse(is.na(dt$Treatment), "", dt$Treatment)
+dt$Placebo   <- ifelse(is.na(dt$Placebo), "", dt$Placebo)
+
+# Standard error derived from CI on log scale
+dt$se <- (log(dt$hi) - log(dt$est)) / 1.96
+
+# Blank column used by forestploter for CI area
+dt$` ` <- paste(rep(" ", 20), collapse = " ")
+
+# Display column for HR (95% CI)
+dt$`HR (95% CI)` <- ifelse(
+  is.na(dt$se), "",
+  sprintf("%.2f (%.2f to %.2f)", dt$est, dt$low, dt$hi)
+)
+
+head(dt)
+```
+
+## 6.2 Define forest theme and build the plot
+
+We define a theme (fonts, refline color, arrow labels) and then call `forest()`:
+
+```{r fig6-plot, fig.width=7, fig.height=6}
+tm <- forest_theme(
+  base_size = 10,
+  refline_col = "red",
+  arrow_type = "closed",
+  footnote_gp = gpar(col = "blue", cex = 0.6)
+)
+
+p <- forest(
+  dt[, c(1:3, 20:21)],
+  est     = dt$est,
+  lower   = dt$low, 
+  upper   = dt$hi,
+  sizes   = dt$se,
+  ci_column = 4,
+  ref_line  = 1,
+  arrow_lab = c("Placebo Better", "Treatment Better"),
+  xlim      = c(0, 4),
+  ticks_at  = c(0.5, 1, 2, 3),
+  footnote  = "This is the demo data. Please feel free to change
+anything you want.",
+  theme     = tm
+)
+
+plot(p)
+```
+
+Interpretation:
+
+- Values **< 1** favor **treatment**, values **> 1** favor **placebo** (depending on how you define HR).  
+- The arrow labels at the bottom make this direction explicit.
+
+In real analyses, the columns `est`, `low`, `hi` would be generated from Cox models or other regressions per subgroup.
+
+---
+
+# Summary and Next Steps
+
+In this tutorial, you:
+
+- Learned the **ggplot2 grammar of graphics** using **ADSL, ADLB, and ADTTE** style data
+- Built common clinical plots:
+  - Subject counts by arm
+  - Histograms/boxplots of demographics
+  - Longitudinal lab plots with summary statistics
+  - Simple KM curves from ADTTE
+- Customized scales, themes, coordinates, and annotations
+- Combined `dplyr` + `ggplot2` for tidy ADaM workflows
+- Wrote a small **reusable plotting function** tailored to ADaM
+
+From here, you can:
+
+- Swap the simulated data with your real **ADaM datasets**
+- Extend functions for specific TLFs (e.g., safety labs, efficacy endpoints)
+- Integrate these plots into **R Markdown/Quarto CSRs** or **Shiny dashboards** for interactive review.
+
+Happy plotting with ggplot2 and ADaM!

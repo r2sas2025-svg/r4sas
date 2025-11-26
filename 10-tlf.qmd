@@ -4,7 +4,6 @@ title: "TLFs: Table, Figure, Listing"
 
 ## Create demographic table from ADSL
 ```{r eval=FALSE}
-
 library(r2rtf)
 library(dplyr)
 library(tidyr)
@@ -15,44 +14,49 @@ adsl <- haven::read_sas("data/adam/adsl.sas7bdat")
 bs_count <- function(data, grp, var,
                      var_label = var,
                      decimal = 1,
-                     total = TRUE) {
+                     total = TRUE,
+                     blank_row = FALSE) {
   data <- data |>  
     dplyr::rename(grp = !!grp, var = !!var)
   
   coding <- levels(factor(data$grp))
   
   data <- data |>  
-      dplyr::mutate(grp = as.numeric(factor(grp)))
-
+    dplyr::mutate(grp = as.numeric(factor(grp)))
+  
   res <- with(data, table(var, grp)) |> 
     as.data.frame() |> 
     dplyr::mutate(grp = as.numeric(grp))
-
+  
   if (total) {
     res_tot <- with(data, table(var)) |> 
       as.data.frame() |> 
       dplyr::mutate(grp = 9999)
     res <- dplyr::bind_rows(res, res_tot)
   }
-
+  
   res <- res |> 
     rename(n = Freq)
-
+  
   res <- res |> 
-    mutate(pct = formatC(n / sum(n) * 100, digits = decimal, format = "f", flag = "0"))
-
+    mutate(pct = formatC(n / sum(n) * 100, digits = decimal, format = "f", flag = "0"),
+           pct1= paste0(n, "(", pct, "%)")) 
+  
   res$n <- as.character(res$n)
-
   res <- res |> 
-    pivot_longer(cols = c(n, pct), names_to = "key", values_to = "value") |> 
+    dplyr::select(-n,-pct)
+  res <- res |> 
+    pivot_longer(cols = c(pct1), names_to = "key", values_to = "value") |> 
     unite(keys, grp, key) |> 
     pivot_wider(names_from = keys, values_from = value) |> 
     mutate(var_label = var_label) |> 
     mutate(var = as.character(var))
-
+  
   names(res) <- gsub("_n", "", names(res), fixed = TRUE)
   attr(res, "coding") <- coding
-
+  if (blank_row) {
+    res <- bind_rows(tibble(var_label = var_label), res)
+  }
   res
 }
 
@@ -65,7 +69,7 @@ bs_continuous <- function(data, grp, var,
     rename(grp = !!grp, var = !!var)
   coding <- levels(factor(data$grp))
   data <- data |>  mutate(grp = as.numeric(factor(grp)))
-
+  
   res <- data |> 
     select(grp, var) |> 
     na.omit() |> 
@@ -77,7 +81,7 @@ bs_continuous <- function(data, grp, var,
       Median = formatC(median(var), digits = decimal, format = "f", flag = "0"),
       Range = paste(range(var), collapse = " to ")
     )
-
+  
   if (total) {
     res_tot <- data |> 
       select(grp, var) |> 
@@ -92,9 +96,11 @@ bs_continuous <- function(data, grp, var,
       mutate(grp = 9999)
     res <- bind_rows(res, res_tot)
   }
-
+  
   res$"n" <- as.character(res$"n")
+  
 
+  
   res <- res |> 
     pivot_longer(cols = -grp, names_to = "key", values_to = "value") |> 
     mutate(key = factor(key, levels = c("n", "Mean", "SD", "Median", "Range"))) |> 
@@ -102,11 +108,11 @@ bs_continuous <- function(data, grp, var,
     mutate(var_label = var_label) |> 
     mutate(key = as.character(key)) |> 
     rename(var = key)
-
+  
   if (blank_row) {
     res <- bind_rows(tibble(var_label = var_label), res)
   }
-
+ 
   res
 }
 
@@ -119,67 +125,165 @@ ana <- adsl |>
 
 ana <- ana |> 
   mutate(
-  RACE = factor(
-    RACE,
-    c("WHITE", "BLACK OR AFRICAN AMERICAN", "AMERICAN INDIAN OR ALASKA NATIVE"),
-    c("White", "Black", "Other")
-  ),
-  SEX = factor(
-    SEX,
-    c("F", "M"),
-    c("Female", "Male")
-  ),
-  AGEGR1 = factor(
-    AGEGR1,
-    levels = c("<65", "65-80", ">80")
+    RACE = factor(
+      RACE,
+      c("WHITE", "BLACK OR AFRICAN AMERICAN", "AMERICAN INDIAN OR ALASKA NATIVE"),
+      c("White", "Black", "Other")
+    ),
+    SEX = factor(
+      SEX,
+      c("F", "M"),
+      c("Female", "Male")
+    ),
+    AGEGR1 = factor(
+      AGEGR1,
+      levels = c("<65", "65-80", ">80")
+    )
   )
-)
 
+age_1 <-  bs_continuous(ana, "TRT01AN", "AGE", "Age (Years)", blank_row = TRUE)
+names(age_1) <- c("var_label", "var","1_pct1", "2_pct1", "3_pct1" , "9999_pct1")
 # Build Data for r2rtf
 bs_tb <- bind_rows(
-  bs_count(ana, "TRT01AN", "SEX", "Gender"),
-  bs_count(ana, "TRT01AN", "AGEGR1", "Age (Years)"),
-  bs_continuous(ana, "TRT01AN", "AGE", "Age (Years)", blank_row = TRUE),
-  bs_count(ana, "TRT01AN", "RACE", "Race")
+  bs_count(ana, "TRT01AN", "SEX", "Gender", blank_row = TRUE),
+  bs_count(ana, "TRT01AN", "AGEGR1", "Age (Years)", blank_row = TRUE),
+  age_1,
+  bs_count(ana, "TRT01AN", "RACE", "Race", blank_row = TRUE)
 ) |> 
   mutate(
-  var_label = factor(var_label, levels = c("Gender", "Age (Years)", "Race"))
-)
+    var_label = factor(var_label, levels = c("Gender", "Age (Years)", "Race"))
+  )
+bs_tb <- bs_tb |> 
+    dplyr::mutate(lab1=if_else(is.na(var), var_label, paste0("  ", var))) |> 
+    dplyr::select(lab1, `1_pct1`, `2_pct1`, `3_pct1`, `9999_pct1`) 
+                 
 
 bs_tb[is.na(bs_tb)] <- "" # convert NA to blank string.
 
 # reporting
 bs_rtf <- bs_tb |> 
-  rtf_page(width = 9.5) |> 
+  rtf_page(width = 9.5,
+           border_first = "single",
+           border_last = "single") |> 
   rtf_title("Demographic and Anthropometric Characteristics", "ITT Subjects") |> 
   rtf_colheader(" | Placebo | Drug Low Dose | Drug High Dose | Total ",
-    col_rel_width = c(3, rep(2, 4))
+                col_rel_width = c(3, rep(2, 4)),
+                border_top = rep("",5),
+                border_right = rep("",5),
+                border_left =rep("",5)
   ) |> 
-  rtf_colheader(" | n | (%) | n | (%) | n | (%) | n | (%) ",
-    col_rel_width = c(3, rep(c(1.2, 0.8), 4)),
-    border_top = c("", rep("single", 8)),
-    border_left = c("single", rep(c("single", ""), 4))
+  rtf_colheader(" | n  (%) | n  (%) | n  (%) | n  (%) ",
+                col_rel_width =c(3, rep(2, 4)),
+                border_top = rep("",5),
+                border_right = rep("",5),
+                border_left =rep("",5)
   ) |> 
   rtf_body(
-    page_by = "var_label",
-    col_rel_width = c(3, rep(c(1.2, 0.8), 4), 3),
-    text_justification = c("l", rep("c", 8), "l"),
-    text_format = c(rep("", 9), "b"),
-    border_left = c("single", rep(c("single", ""), 4), "single"),
-    border_top = c(rep("", 9), "single"),
-    border_bottom = c(rep("", 9), "single"),
+    #page_by = "var_label",
+    col_rel_width = c(3, rep(2, 4)),
+    text_justification = c("l", rep("c", 4)),
+    #text_format = c(rep("", 5), "b"),
+    border_top = rep("",5),
+    border_right = rep("",5),
+    border_left =rep("",5)
   ) |> 
-  rtf_footnote("This is a footnote") |> 
-  rtf_source("Source: xxx")
+  rtf_footnote("This is a footnote",
+               border_left = "",
+               border_right = "",
+               border_bottom = "") 
+  
 
 # Output .rtf file
 bs_rtf %>%
   rtf_encode() %>%
-  write_rtf("rtf/bs_example.rtf")
+  write_rtf("bs_example.rtf")
 ```
 
+```{r, out.width = "100%", out.height = if (knitr::is_html_output()) "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("tlf/bs_example.pdf")
+```
+
+## Create adverse event table from ADAE
+
+```{r, eval=FALSE}
+library(r2rtf)
+library(dplyr)
+library(tidyr)
 
 
+####Read SAS Data####
+#keep the variable
+adsl <- haven::read_sas("./data/adam/adsl.sas7bdat")
+adae <- haven::read_sas("./data/adam/adae.sas7bdat")
+
+adae <- adae |> 
+      dplyr::mutate(AEDECOD=stringr::str_to_title(AEDECOD))
+
+ae_t1 <- adae %>%
+  group_by(TRTA) %>%
+  mutate(n_subj = n_distinct(USUBJID)) %>%
+  group_by(TRTA, AEDECOD) %>%
+  summarise(
+    n_ae = n_distinct(USUBJID),
+    pct = round(n_ae / unique(n_subj) * 100, 2)
+  ) %>%
+  ungroup() %>%
+  dplyr::mutate(pct = paste0(n_ae,"(",pct, "%)")) %>%
+  dplyr::filter(n_ae > 5) %>%
+  # only show AE terms with at least 5 subjects in one treatment group.
+  pivot_longer(cols = c( pct), names_to = "var", values_to = "value") %>%
+  unite(temp, TRTA, var) %>%
+  pivot_wider(names_from = temp, values_from = value, values_fill = "0(0.00%)") |> 
+  select(-n_ae)
+
+
+ae_tbl <- ae_t1 %>%
+  rtf_page(orientation = "landscape",
+           border_first = "single",
+           border_last = "single") %>%
+  rtf_title(
+    "Analysis of Subjects With Specific Adverse Events",
+    c(
+      "(Incidence > 5 Subjects in One or More Treatment Groups)",
+      "ASaT"
+    )
+  ) %>%
+  rtf_colheader(" | Placebo | Drug High Dose | Drug Low Dose",
+                col_rel_width = c(4, rep(2, 3)),
+                border_top = rep("",4),
+                border_right = rep("",4),
+                border_left =rep("",4)
+  ) %>%
+  rtf_colheader(" | n (%) | n (%) | n  (%)",
+                col_rel_width = c(4, rep(2, 3)),
+                border_top = rep("",4),
+                border_right = rep("",4),
+                border_left =rep("",4)
+             
+  ) %>%
+  rtf_body(
+    col_rel_width = c(4, rep(2, 3)),
+    text_justification = c("l", rep("c", 3)),
+    border_top = rep("",4),
+    border_right = rep("",4),
+    border_left =rep("",4)
+  ) %>%
+  rtf_footnote(c("{^\\dagger}This is footnote 1", "This is footnote 2"),
+               border_left = "",
+               border_right = "",
+               border_bottom = "") 
+
+
+# Output .rtf file
+ae_tbl %>%
+  rtf_encode(page_title = "all",
+             page_footnote = "all") %>%
+  write_rtf("ae_example.rtf")
+
+```
+```{r, out.width = "100%", out.height = if (knitr::is_html_output()) "400px", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("tlf/ae_example.pdf")
+```
 **Exercises**
 1. Format Table 1 to `N (mean ± SD)` for age.
 2. Add risk table to the KM plot (use an extension like survminer outside of this minimal example).

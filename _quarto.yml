@@ -19,6 +19,7 @@ book:
     - 08-git-rstudio.qmd
     - 09-adam-adsl.qmd
     - 10-tlf.qmd
+    - 10.1-graphs.qmd
     - 11-capstone.qmd
     - 12-appendix.qmd
 
