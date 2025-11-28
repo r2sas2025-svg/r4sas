@@ -269,7 +269,7 @@ First summarise ADLB:
 ```{r adlb-summary}
 
 adlb_alt_summary <- ADLB %>%
-  group_by(TRTA, AVISIT) %>%
+  group_by(TRTA, AVISITN,AVISIT) %>%
   summarise(
     mean_ALT = mean(AVAL,na.rm=TRUE),
     sd_ALT   = sd(AVAL,na.rm=TRUE),
@@ -278,6 +278,7 @@ adlb_alt_summary <- ADLB %>%
     .groups = "drop"
   )
 
+adlb_alt_summary$AVISIT <- factor(adlb_alt_summary$AVISIT, levels=unique(adlb_alt_summary$AVISIT[order(adlb_alt_summary$AVISITN)]))  
 adlb_alt_summary
 ```
 
@@ -311,7 +312,7 @@ To see variability, we can plot individual patients (subset to avoid overcrowdin
 
 ADLB_sub <- ADLB |> 
   head(20)
-
+ADLB_sub$AVISIT <- factor(ADLB_sub$AVISIT, levels=unique(ADLB_sub$AVISIT[order(ADLB_sub$AVISITN)]))  
 ggplot(ADLB_sub,
        aes(x = AVISIT, y = AVAL, group = USUBJID, color = TRTA)) +
   geom_line(alpha = 0.6) +
@@ -457,6 +458,7 @@ theme_adam_pub <- function() {
     )
 }
 
+ADLB$AVISIT <- factor(ADLB$AVISIT, levels=unique(ADLB$AVISIT[order(ADLB$AVISITN)])) 
 ggplot(ADLB, aes(x = AVISIT, y = AVAL, color = TRTA)) +
   geom_boxplot() +
   labs(

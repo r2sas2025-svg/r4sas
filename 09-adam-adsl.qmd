@@ -1,51 +1,325 @@
 ---
 title: "Creating ADaM: ADSL from SDTM-like Inputs"
 ---
+```{r,eval=FALSE}
+####----
+# Program Name : adsl
+# Protocol Name: 
+# Author       : 
+# Creation Date: `<DDMMMYYYY>` by <initials>
+# Purpose      : Create ADSL dataset from SDTM datasets
+# Modification : <DDMMMYYYY> by <initials>: <summary of changes>
+####----
 
-```{r}
-library(dplyr)
-library(tidyr)
+library(tidyverse)
 library(lubridate)
-```
+library(xportr)
+library(haven)
+library(stringr)
 
-We simulate **minimal** SDTM-like `DM` and `EX` to illustrate ADSL creation.
-If available, replace with your own `data/sdtm/*.sas7bdat`.
+##----------------------------------------------------------------------
+## 0. Helper functions
+##----------------------------------------------------------------------
 
-```{r}
-# DM
-dm <- tibble::tibble(
-  STUDYID = "XYZ123",
-  USUBJID = sprintf("XYZ-%03d", 1:10),
-  ARM = rep(c("Placebo","Active"), length.out=10),
-  AGE = c(55, 62, 47, 50, 71, 66, 45, 59, 53, 68),
-  SEX = rep(c("M","F"), length.out=10),
-  RANDDT = as.Date("2025-01-15") + sample(0:20, 10, replace=TRUE)
-)
+# Function to group together missing strings and NAs
+str_missing <- function(x) {
+  is.na(x) | str_trim(as.character(x)) == ""
+}
 
-# EX (first dose date)
-ex <- tibble::tibble(
-  USUBJID = dm$USUBJID,
-  EXSTDTC = dm$RANDDT + sample(0:3, 10, replace=TRUE)
-)
-```
+# Function to check dataframe metadata
+contents <- function(dat) {
+  
+  row_contents <- function(nm, dat) {
+    var <- dat[[nm]]
+    data.frame(
+      Variable = nm,
+      Class    = class(var)[1],
+      Label    = ifelse(is.null(attr(var, "label")),    "", attr(var, "label")),
+      Format   = ifelse(is.null(attr(var, "SASformat")), "", attr(var, "SASformat")),
+      stringsAsFactors = FALSE
+    )
+  }
+  
+  purrr::map_dfr(names(dat), row_contents, dat = dat)
+}
 
-## Build ADSL
-```{r}
-adsl <- dm |>
-  left_join(ex, by="USUBJID") |>
-  transmute(
-    STUDYID, USUBJID,
+##----------------------------------------------------------------------
+## 1. Load SDTM from PHUSE Test Data Factory
+##----------------------------------------------------------------------
+
+sdtm <- "D:/R2SAS/r4sas/data/sdtm"
+
+dm <- read_sas(paste0(sdtm, "/dm.sas7bdat"))
+ex <- read_sas(paste0(sdtm, "/ex.sas7bdat"))
+vs <- read_sas(paste0(sdtm, "/vs.sas7bdat"))
+ds <- read_sas(paste0(sdtm, "/ds.sas7bdat"))
+
+##----------------------------------------------------------------------
+## 2. Derive DM-based variables (demo)
+##----------------------------------------------------------------------
+
+demo <- dm |> 
+  # Keep only necessary columns
+  select(
+    STUDYID, USUBJID, SUBJID, SITEID,
+    AGE, AGEU, SEX, RACE, ETHNIC,
+    DTHDTC, ARM, ACTARM
+  ) |> 
+  mutate(
+    # Age groups
+    AGEGR1 = case_when(
+      AGE < 65                ~ "<65",
+      AGE >= 65 & AGE <= 70   ~ "65-70",
+      AGE > 70                ~ ">70",
+      TRUE                    ~ NA_character_
+    ),
+    AGEGR1N = case_when(
+      AGEGR1 == "<65"   ~ 1,
+      AGEGR1 == "65-70" ~ 2,
+      AGEGR1 == ">70"   ~ 3,
+      TRUE              ~ NA_real_
+    ),
+    
+    # Race numeric
+    RACEN = case_when(
+      RACE == "WHITE"                                ~ 1,
+      RACE == "BLACK OR AFRICAN AMERICAN"            ~ 2,
+      RACE == "ASIAN"                                ~ 3,
+      RACE == "AMERICAN INDIAN OR ALASKA NATIVE"     ~ 4,
+      RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~ 5,
+      RACE == "UNKNOWN"                              ~ 6,
+      TRUE                                           ~ NA_real_
+    ),
+    
+    # Planned treatment
     TRT01P = ARM,
-    TRT01PN = as.integer(factor(ARM, levels=c("Placebo","Active"))),
-    AGE, SEX,
-    RANDDT,
-    TRTSDT = EXSTDTC,
-    TRT01A = TRT01P,          # assume planned == actual for demo
-    TRT01AN = TRT01PN
-  )
-adsl
-```
+    TRT01PN = case_when(
+      TRT01P == "Placebo"               ~ 0,
+      TRT01P == "Xanomeline Low Dose"   ~ 6,
+      TRT01P == "Xanomeline High Dose"  ~ 9,
+      TRUE                              ~ NA_real_
+    ),
+    
+    # Actual treatment
+    TRT01A = ACTARM,
+    TRT01AN = case_when(
+      TRT01A == "Placebo"               ~ 0,
+      TRT01A == "Xanomeline Low Dose"   ~ 6,
+      TRT01A == "Xanomeline High Dose"  ~ 9,
+      TRUE                              ~ NA_real_
+    ),
+    
+    # ITT flag: Y if ARM not missing
+    ITTFL = if_else(!str_missing(ARM), "Y", "N"),
+    
+    # Death date
+    DTHDT = as_date(DTHDTC)
+  ) |> 
+  select(-DTHDTC)
 
+##----------------------------------------------------------------------
+## 3. EX-based variables: treatment dates, duration, dose
+##----------------------------------------------------------------------
+
+# Treatment dates
+treat <- ex |> 
+  select(USUBJID, EXSTDTC, EXENDTC) |> 
+  mutate(
+    across(ends_with("DTC"), as_date)
+  ) |> 
+  group_by(USUBJID) |> 
+  summarise(
+    TRTSDT = suppressWarnings(min(EXSTDTC, na.rm = TRUE)),
+    TRTEDT = suppressWarnings(max(EXENDTC, na.rm = TRUE)),
+    .groups = "drop"
+  ) |> 
+  mutate(
+    # Handle Inf from min/max when all values are NA
+    TRTSDT = replace(TRTSDT, is.infinite(TRTSDT), NA_Date_),
+    TRTEDT = replace(TRTEDT, is.infinite(TRTEDT), NA_Date_),
+    # Treatment duration (days)
+    TRTDURD = as.numeric(TRTEDT - TRTSDT + (TRTEDT >= TRTSDT))
+  )
+
+# Dosing information
+dose <- ex |> 
+  group_by(USUBJID) |> 
+  summarise(
+    DOSE01A = sum(EXDOSE, na.rm = TRUE),
+    .groups = "drop"
+  ) |> 
+  mutate(
+    DOSE01U = "mg"
+  ) |> 
+  select(USUBJID, DOSE01A, DOSE01U)
+
+# Merge DM- and EX-based info
+demo1 <- reduce(
+  list(demo, treat, dose),
+  .f = left_join,
+  by = "USUBJID"
+) |> 
+  mutate(
+    # Safety flag: Y if ITTFL = Y and TRTSDT not missing
+    SAFFL = if_else(ITTFL == "Y" & !str_missing(TRTSDT), "Y", "N")
+  )
+
+##----------------------------------------------------------------------
+## 4. DS-based variables: EOS, discontinuation, screen failure
+##----------------------------------------------------------------------
+
+demo2 <- demo1 |> 
+  left_join(
+    ds |> 
+      filter(DSCAT == "DISPOSITION EVENT") |> 
+      select(USUBJID, DSCAT, DSDECOD, DSTERM),
+    by = "USUBJID"
+  ) |> 
+  mutate(
+    # End of study status
+    EOSSTT = case_when(
+      str_missing(DSDECOD)          ~ "ONGOING",
+      DSDECOD == "COMPLETED"        ~ "COMPLETED",
+      TRUE                          ~ "DISCONTINUED"
+    ),
+    # Discontinuation reason and text
+    DCSREAS  = if_else(
+      DSDECOD != "COMPLETED" & !str_missing(DSDECOD),
+      DSDECOD,
+      "",
+      missing = ""
+    ),
+    DCSREASP = if_else(
+      DSDECOD != "COMPLETED" & !str_missing(DSTERM),
+      DSTERM,
+      "",
+      missing = ""
+    ),
+    # Screen failure flag
+    SCRNFL = if_else(
+      DSDECOD == "SCREEN FAILURE",
+      "Y",
+      "N",
+      missing = "N"
+    )
+  ) |> 
+  select(-c(DSCAT, DSDECOD, DSTERM))
+
+##----------------------------------------------------------------------
+## 5. VS-based variables: weight, height, BMI
+##----------------------------------------------------------------------
+
+# Baseline weight (visit 3)
+weight <- vs |> 
+  filter(VSTESTCD == "WEIGHT", VISITNUM == 3) |> 
+  select(USUBJID, WEIGHTBL = VSSTRESN)
+
+# Baseline height (visit 1)
+height <- vs |> 
+  filter(VSTESTCD == "HEIGHT", VISITNUM == 1) |> 
+  select(USUBJID, HEIGHTBL = VSSTRESN)
+
+demo3 <- reduce(
+  list(demo2, weight, height),
+  .f = left_join,
+  by = "USUBJID"
+) |> 
+  mutate(
+    BMIBL = (WEIGHTBL / HEIGHTBL / HEIGHTBL) * 10000,
+    BMIGR1 = case_when(
+      BMIBL < 25        ~ "<25",
+      BMIBL >= 25       ~ ">=25",
+      TRUE              ~ NA_character_
+    )
+  )
+
+##----------------------------------------------------------------------
+## 6. Metadata (dataset + variable level) and final ADSL
+##----------------------------------------------------------------------
+
+# Dataset-level metadata
+dlm <- tribble(
+  ~dataset, ~label,
+  "adsl",   "Subject-Level Analysis Dataset"
+)
+
+# Variable-level metadata
+vlm <- tribble(
+  ~dataset, ~variable, ~label, ~type, ~format,
+  "adsl", "STUDYID", "Study Identifier", "character", NA_character_,
+  "adsl", "USUBJID", "Unique Subject Identifier", "character", NA_character_,
+  "adsl", "SUBJID", "Subject Identifier for the Study", "character", NA_character_,
+  "adsl", "SITEID", "Study Site Identifier", "character", NA_character_,
+  "adsl", "AGE", "Age", "numeric", NA_character_,
+  "adsl", "AGEU", "Age Units", "character", NA_character_,
+  "adsl", "AGEGR1", "Pooled Age Group 1", "character", NA_character_,
+  "adsl", "AGEGR1N", "Pooled Age Group 1 (N)", "numeric", NA_character_,
+  "adsl", "SEX", "Sex", "character", NA_character_,
+  "adsl", "RACE", "Race", "character", NA_character_,
+  "adsl", "RACEN", "Race (N)", "numeric", NA_character_,
+  "adsl", "ETHNIC", "Ethnicity", "character", NA_character_,
+  "adsl", "SAFFL", "Safety Population Flag", "character", NA_character_,
+  "adsl", "ITTFL", "Intent-To-Treat Population Flag", "character", NA_character_,
+  "adsl", "SCRNFL", "Screen Failure Population Flag", "character", NA_character_,
+  "adsl", "ARM", "Description of Planned Arm", "character", NA_character_,
+  "adsl", "ACTARM", "Description of Actual Arm", "character", NA_character_,
+  "adsl", "TRT01P", "Planned Treatment for Period 01", "character", NA_character_,
+  "adsl", "TRT01PN", "Planned Treatment for Period 01 (N)", "numeric", NA_character_,
+  "adsl", "TRT01A", "Actual Treatment for Period 01", "character", NA_character_,
+  "adsl", "TRT01AN", "Actual Treatment for Period 01 (N)", "numeric", NA_character_,
+  "adsl", "DOSE01A", "Actual Treatment Dose for Period 01", "numeric", NA_character_,
+  "adsl", "DOSE01U", "Units for Dose for Period 01", "character", NA_character_,
+  "adsl", "TRTSDT", "Date of First Exposure to Treatment", "Date", "DATE9.",
+  "adsl", "TRTEDT", "Date of Last Exposure to Treatment", "Date", "DATE9.",
+  "adsl", "TRTDURD", "Total Treatment Duration (Days)", "numeric", NA_character_,
+  "adsl", "EOSSTT", "End of Study Status", "character", NA_character_,
+  "adsl", "DCSREAS", "Reason for Discontinuation from Study", "character", NA_character_,
+  "adsl", "DCSREASP", "Reason Spec for Discont from Study", "character", NA_character_,
+  "adsl", "DTHDT", "Date of Death", "Date", "DATE9.",
+  "adsl", "WEIGHTBL", "Weight (kg) at Baseline", "numeric", NA_character_,
+  "adsl", "HEIGHTBL", "Height (cm) at Baseline", "numeric", NA_character_,
+  "adsl", "BMIBL", "Body Mass Index (kg/m2) at Baseline", "numeric", NA_character_,
+  "adsl", "BMIGR1", "Pooled BMI Group 1", "character", NA_character_
+)
+
+adsl <- demo3 |> 
+  # Order variables
+  select(
+    STUDYID, USUBJID, SUBJID, SITEID,
+    AGE, AGEU, AGEGR1, AGEGR1N, SEX, RACE, RACEN, ETHNIC,
+    SAFFL, ITTFL, SCRNFL,
+    ARM, ACTARM,
+    TRT01P, TRT01PN, TRT01A, TRT01AN,
+    DOSE01A, DOSE01U,
+    TRTSDT, TRTEDT, TRTDURD,
+    EOSSTT, DCSREAS, DCSREASP,
+    DTHDT,
+    WEIGHTBL, HEIGHTBL, BMIBL, BMIGR1
+  ) |> 
+  arrange(USUBJID)  |> 
+  # Apply labels / types / formats
+  xportr_df_label(dlm, domain   = "adsl") |> 
+  xportr_label(vlm,   domain   = "adsl") |> 
+  xportr_type(vlm,    domain   = "adsl") |> 
+  xportr_format(vlm,  domain   = "adsl") |> 
+  # Replace character NA with ""
+  mutate(across(where(is.character), ~ replace(., is.na(.), "")))
+
+##----------------------------------------------------------------------
+## 7. QC: label + metadata + export
+##----------------------------------------------------------------------
+
+# Check dataframe label
+attr(adsl, "label")
+
+# Check metadata
+adsl |> 
+  contents()
+
+# Output to specified path
+xportr_write(adsl, "./adsl.xpt")
+
+```
 > Note: Real ADSL creation must follow **ADaM IG** (derive flags, dates, imputations, populations). This example is educational only.
 
 **Exercises**
