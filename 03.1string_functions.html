@@ -152,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01-r-basics.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">R Basics</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Base R Functions &amp; Apply Family</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -1162,7 +1162,7 @@ Standardized: Allergic ReactionHives</code></pre>
 <span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Time taken: %s seconds</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time taken: 0.0015 seconds</code></pre>
+<pre><code>Time taken: 0.0011 seconds</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Avoid loops for simple operations</span></span>
 <span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Less efficient approach - loop-based:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1178,7 +1178,7 @@ Less efficient approach - loop-based:</code></pre>
 <span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb126-7"><a href="#cb126-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Time taken: %s seconds</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time taken: 0.0148 seconds</code></pre>
+<pre><code>Time taken: 0.0091 seconds</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">First 5 results are identical:"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1384,23 +1384,23 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
 <span id="cb142-36"><a href="#cb142-36" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">fmt_markdown</span>(<span class="at">columns =</span> <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
 <span id="cb142-37"><a href="#cb142-37" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">tab_options</span>(<span class="at">column_labels.font.weight =</span> <span class="st">"bold"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="ziactruxux" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ziactruxux table {
+<div id="pdeolwwjit" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pdeolwwjit table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ziactruxux thead, #ziactruxux tbody, #ziactruxux tfoot, #ziactruxux tr, #ziactruxux td, #ziactruxux th {
+#pdeolwwjit thead, #pdeolwwjit tbody, #pdeolwwjit tfoot, #pdeolwwjit tr, #pdeolwwjit td, #pdeolwwjit th {
   border-style: none;
 }
 
-#ziactruxux p {
+#pdeolwwjit p {
   margin: 0;
   padding: 0;
 }
 
-#ziactruxux .gt_table {
+#pdeolwwjit .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1426,12 +1426,12 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#ziactruxux .gt_caption {
+#pdeolwwjit .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ziactruxux .gt_title {
+#pdeolwwjit .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1443,7 +1443,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-width: 0;
 }
 
-#ziactruxux .gt_subtitle {
+#pdeolwwjit .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1455,7 +1455,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-top-width: 0;
 }
 
-#ziactruxux .gt_heading {
+#pdeolwwjit .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1467,13 +1467,13 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ziactruxux .gt_bottom_border {
+#pdeolwwjit .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ziactruxux .gt_col_headings {
+#pdeolwwjit .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1488,7 +1488,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ziactruxux .gt_col_heading {
+#pdeolwwjit .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1508,7 +1508,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   overflow-x: hidden;
 }
 
-#ziactruxux .gt_column_spanner_outer {
+#pdeolwwjit .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1520,15 +1520,15 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 4px;
 }
 
-#ziactruxux .gt_column_spanner_outer:first-child {
+#pdeolwwjit .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ziactruxux .gt_column_spanner_outer:last-child {
+#pdeolwwjit .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ziactruxux .gt_column_spanner {
+#pdeolwwjit .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1540,11 +1540,11 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   width: 100%;
 }
 
-#ziactruxux .gt_spanner_row {
+#pdeolwwjit .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ziactruxux .gt_group_heading {
+#pdeolwwjit .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1570,7 +1570,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   text-align: left;
 }
 
-#ziactruxux .gt_empty_group_heading {
+#pdeolwwjit .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1585,15 +1585,15 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   vertical-align: middle;
 }
 
-#ziactruxux .gt_from_md > :first-child {
+#pdeolwwjit .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ziactruxux .gt_from_md > :last-child {
+#pdeolwwjit .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ziactruxux .gt_row {
+#pdeolwwjit .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1612,7 +1612,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   overflow-x: hidden;
 }
 
-#ziactruxux .gt_stub {
+#pdeolwwjit .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1625,7 +1625,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#ziactruxux .gt_stub_row_group {
+#pdeolwwjit .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1639,15 +1639,15 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   vertical-align: top;
 }
 
-#ziactruxux .gt_row_group_first td {
+#pdeolwwjit .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ziactruxux .gt_row_group_first th {
+#pdeolwwjit .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ziactruxux .gt_summary_row {
+#pdeolwwjit .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1657,16 +1657,16 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#ziactruxux .gt_first_summary_row {
+#pdeolwwjit .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ziactruxux .gt_first_summary_row.thick {
+#pdeolwwjit .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ziactruxux .gt_last_summary_row {
+#pdeolwwjit .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1676,7 +1676,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ziactruxux .gt_grand_summary_row {
+#pdeolwwjit .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1686,7 +1686,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#ziactruxux .gt_first_grand_summary_row {
+#pdeolwwjit .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1696,7 +1696,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#ziactruxux .gt_last_grand_summary_row_top {
+#pdeolwwjit .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1706,11 +1706,11 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ziactruxux .gt_striped {
+#pdeolwwjit .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ziactruxux .gt_table_body {
+#pdeolwwjit .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1719,7 +1719,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#ziactruxux .gt_footnotes {
+#pdeolwwjit .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1733,7 +1733,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ziactruxux .gt_footnote {
+#pdeolwwjit .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1742,7 +1742,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#ziactruxux .gt_sourcenotes {
+#pdeolwwjit .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1756,7 +1756,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#ziactruxux .gt_sourcenote {
+#pdeolwwjit .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1764,72 +1764,72 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#ziactruxux .gt_left {
+#pdeolwwjit .gt_left {
   text-align: left;
 }
 
-#ziactruxux .gt_center {
+#pdeolwwjit .gt_center {
   text-align: center;
 }
 
-#ziactruxux .gt_right {
+#pdeolwwjit .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ziactruxux .gt_font_normal {
+#pdeolwwjit .gt_font_normal {
   font-weight: normal;
 }
 
-#ziactruxux .gt_font_bold {
+#pdeolwwjit .gt_font_bold {
   font-weight: bold;
 }
 
-#ziactruxux .gt_font_italic {
+#pdeolwwjit .gt_font_italic {
   font-style: italic;
 }
 
-#ziactruxux .gt_super {
+#pdeolwwjit .gt_super {
   font-size: 65%;
 }
 
-#ziactruxux .gt_footnote_marks {
+#pdeolwwjit .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ziactruxux .gt_asterisk {
+#pdeolwwjit .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ziactruxux .gt_indent_1 {
+#pdeolwwjit .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ziactruxux .gt_indent_2 {
+#pdeolwwjit .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ziactruxux .gt_indent_3 {
+#pdeolwwjit .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ziactruxux .gt_indent_4 {
+#pdeolwwjit .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ziactruxux .gt_indent_5 {
+#pdeolwwjit .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ziactruxux .katex-display {
+#pdeolwwjit .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ziactruxux div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#pdeolwwjit div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
