@@ -928,11 +928,11 @@ row3    3    7   11   15   19</code></pre>
 <span id="cb160-13"><a href="#cb160-13" aria-hidden="true" tabindex="-1"></a>sample_data <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(<span class="dv">20</span>), <span class="at">nrow =</span> <span class="dv">4</span>)</span>
 <span id="cb160-14"><a href="#cb160-14" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(sample_data, <span class="dv">2</span>, cv)        <span class="co"># CV for each column</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1]   220.50468  -349.29610    75.32022   121.25839 -2775.48502</code></pre>
+<pre><code>[1] -627.4644 1158.7281  324.8245  269.5187 -172.7442</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(sample_data, <span class="dv">1</span>, my_range)  <span class="co"># Range for each row</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 2.097288 3.512150 2.787191 4.483537</code></pre>
+<pre><code>[1] 1.771685 2.443724 1.593554 2.517550</code></pre>
 </div>
 </div>
 </section>

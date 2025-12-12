@@ -1683,12 +1683,12 @@ sd   17.23949</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(treatment_sex_counts)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       TRT01A SEX  n
-1     Placebo   F 17
-2     Placebo   M 17
+1     Placebo   F 18
+2     Placebo   M 16
 3 Treatment A   F 17
 4 Treatment A   M 16
-5 Treatment B   F 17
-6 Treatment B   M 16</code></pre>
+5 Treatment B   F 16
+6 Treatment B   M 17</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filtering before counting (safety population)</span></span>
 <span id="cb165-2"><a href="#cb165-2" aria-hidden="true" tabindex="-1"></a>safety_counts <span class="ot">&lt;-</span> adsl <span class="sc">%&gt;%</span> </span>
@@ -1748,18 +1748,18 @@ sd   17.23949</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(ae_table, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 10 × 5
-   AEBODSYS         AEDECOD  Placebo    `Treatment A` `Treatment B`
-   &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;         &lt;chr&gt;        
- 1 Gastrointestinal Cough    8 (23.5%)  5 (15.2%)     4 (12.1%)    
- 2 Gastrointestinal Fatigue  7 (20.6%)  5 (15.2%)     1 (3%)       
- 3 Gastrointestinal Headache 4 (11.8%)  8 (24.2%)     3 (9.1%)     
- 4 Gastrointestinal Nausea   3 (8.8%)   3 (9.1%)      3 (9.1%)     
- 5 Nervous System   Cough    7 (20.6%)  5 (15.2%)     5 (15.2%)    
- 6 Nervous System   Fatigue  9 (26.5%)  1 (3%)        6 (18.2%)    
- 7 Nervous System   Headache 5 (14.7%)  5 (15.2%)     6 (18.2%)    
- 8 Nervous System   Nausea   5 (14.7%)  2 (6.1%)      4 (12.1%)    
- 9 Respiratory      Cough    10 (29.4%) 2 (6.1%)      6 (18.2%)    
-10 Respiratory      Fatigue  2 (5.9%)   5 (15.2%)     8 (24.2%)    </code></pre>
+   AEBODSYS         AEDECOD  Placebo   `Treatment A` `Treatment B`
+   &lt;chr&gt;            &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;         &lt;chr&gt;        
+ 1 Gastrointestinal Cough    4 (11.8%) 5 (15.2%)     4 (12.1%)    
+ 2 Gastrointestinal Fatigue  5 (14.7%) 7 (21.2%)     10 (30.3%)   
+ 3 Gastrointestinal Headache 7 (20.6%) 6 (18.2%)     4 (12.1%)    
+ 4 Gastrointestinal Nausea   5 (14.7%) 6 (18.2%)     4 (12.1%)    
+ 5 Nervous System   Cough    5 (14.7%) 4 (12.1%)     6 (18.2%)    
+ 6 Nervous System   Fatigue  5 (14.7%) 4 (12.1%)     6 (18.2%)    
+ 7 Nervous System   Headache 6 (17.6%) 9 (27.3%)     9 (27.3%)    
+ 8 Nervous System   Nausea   6 (17.6%) 4 (12.1%)     6 (18.2%)    
+ 9 Respiratory      Cough    6 (17.6%) 5 (15.2%)     5 (15.2%)    
+10 Respiratory      Fatigue  2 (5.9%)  5 (15.2%)     3 (9.1%)     </code></pre>
 </div>
 </div>
 </section>
@@ -1806,7 +1806,7 @@ sd   17.23949</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb179"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb179-1"><a href="#cb179-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"After removing duplicates:"</span>, <span class="fu">nrow</span>(adae_distinct)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "After removing duplicates: 151"</code></pre>
+<pre><code>[1] "After removing duplicates: 156"</code></pre>
 </div>
 </div>
 </section>
@@ -1849,24 +1849,24 @@ sd   17.23949</code></pre>
  $ USUBJID  : chr  "STUDY001-001" "STUDY001-004" "STUDY001-007" "STUDY001-010" ...
  $ TRT01A   : chr  "Placebo" "Placebo" "Placebo" "Placebo" ...
  $ TRT01AN  : num  0 0 0 0 0 0 0 0 0 0 ...
- $ AGE      : int  27 21 62 70 67 71 35 60 25 23 ...
- $ AGEGR1   : Factor w/ 3 levels "&lt;45","45-64",..: 1 1 2 3 3 3 1 2 1 1 ...
- $ SEX      : chr  "M" "F" "M" "F" ...
- $ SEX_LABEL: chr  "Male" "Female" "Male" "Female" ...</code></pre>
+ $ AGE      : int  32 32 64 23 32 44 18 47 60 31 ...
+ $ AGEGR1   : Factor w/ 3 levels "&lt;45","45-64",..: 1 1 2 1 1 1 1 2 2 1 ...
+ $ SEX      : chr  "F" "F" "F" "M" ...
+ $ SEX_LABEL: chr  "Female" "Female" "Female" "Male" ...</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb185"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb185-1"><a href="#cb185-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(analysis_ready_data, <span class="dv">10</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        USUBJID  TRT01A TRT01AN AGE AGEGR1 SEX SEX_LABEL
-1  STUDY001-001 Placebo       0  27    &lt;45   M      Male
-2  STUDY001-004 Placebo       0  21    &lt;45   F    Female
-3  STUDY001-007 Placebo       0  62  45-64   M      Male
-4  STUDY001-010 Placebo       0  70   &gt;=65   F    Female
-5  STUDY001-013 Placebo       0  67   &gt;=65   F    Female
-6  STUDY001-016 Placebo       0  71   &gt;=65   F    Female
-7  STUDY001-019 Placebo       0  35    &lt;45   M      Male
-8  STUDY001-022 Placebo       0  60  45-64   M      Male
-9  STUDY001-025 Placebo       0  25    &lt;45   M      Male
-10 STUDY001-028 Placebo       0  23    &lt;45   F    Female</code></pre>
+1  STUDY001-001 Placebo       0  32    &lt;45   F    Female
+2  STUDY001-004 Placebo       0  32    &lt;45   F    Female
+3  STUDY001-007 Placebo       0  64  45-64   F    Female
+4  STUDY001-010 Placebo       0  23    &lt;45   M      Male
+5  STUDY001-013 Placebo       0  32    &lt;45   F    Female
+6  STUDY001-016 Placebo       0  44    &lt;45   F    Female
+7  STUDY001-019 Placebo       0  18    &lt;45   F    Female
+8  STUDY001-022 Placebo       0  47  45-64   M      Male
+9  STUDY001-025 Placebo       0  60  45-64   F    Female
+10 STUDY001-028 Placebo       0  31    &lt;45   M      Male</code></pre>
 </div>
 </div>
 </section>
@@ -1892,7 +1892,7 @@ sd   17.23949</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb189"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb189-1"><a href="#cb189-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(validation_summary)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  total_patients missing_age missing_sex missing_treatment age_range
-1            100           0           0                 0  19 to 80
+1            100           0           0                 0  18 to 80
   unique_treatments
 1                 3</code></pre>
 </div>
