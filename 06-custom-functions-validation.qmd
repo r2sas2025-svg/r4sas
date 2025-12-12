@@ -2,431 +2,1606 @@
 title: "Custom Functions & Validation"
 ---
 
+# Introduction to Functions in R
 
-# Function introduction
+In R, a **function** is a reusable block of code that performs a specific task.  Functions are fundamental building blocks that help you: 
 
-In R, a **function** is a reusable block of code that performs a specific task.  
-Functions help you:
-
-- Avoid repeating the same code again and again
-- Organize code into logical pieces
+- Avoid repeating the same code multiple times (DRY principle)
+- Organize code into logical, manageable pieces
 - Make your code easier to read, test, and maintain
+- Create modular, scalable programs
+- Enable code sharing and collaboration
 
-R has many **built-in functions** (e.g., `sum()`, `mean()`, `lm()`), and you can also define your **own functions**.
+R has thousands of **built-in functions** (e.g., `sum()`, `mean()`, `lm()`, `ggplot()`), and you can also define your **own functions** to solve specific problems.
 
 ```{r}
-# Example: using a built-in function
-x <- c(1, 2, 3, 4, 5)
-mean(x)
+# Example: using built-in functions
+numbers <- c(1, 2, 3, 4, 5, NA)
+sum(numbers, na.rm = TRUE)
+mean(numbers, na.rm = TRUE)
+length(numbers)
 ```
 
-## Function components
-A function has three parts: 
+# Function Fundamentals
 
-* The `formals()`, the list of arguments that control how you call the function.
-  
-* The `body()`, the code inside the function.
+## Anatomy of a Function
 
-* The `environment()`, the data structure that determines how the function finds 
-the values associated with the names.
+Every function in R has three essential components:
 
-While the formals and body are specified explicitly when you create a function, the environment is specified implicitly, based on _where_ you defined the function. The function environment always exists, but it is only printed when the function isn't defined in the global environment.
+1. **The `formals()`**: The list of arguments that control how you call the function
+2. **The `body()`**: The code inside the function that does the actual work
+3. **The `environment()`**: The data structure that determines how the function finds values
 
 ```{r}
-f02 <- function(x, y) {
-  # A comment
-  x + y
+# Create a simple function
+my_function <- function(x, y = 2) {
+  # This is the body
+  result <- x * y + 1
+  return(result)
 }
 
-formals(f02)
-
-body(f02)
-
-environment(f02)
+# Examine the components
+formals(my_function)    # Shows the arguments
+body(my_function)       # Shows the code
+environment(my_function) # Shows the environment
 ```
 
-## Signalling conditions
+## Basic Function Syntax
 
-
-There are three conditions that you can signal in code: errors, warnings, and messages. 
-
-* Errors are the most severe; they indicate that there is no way for a function 
-  to continue and execution must stop. 
-
-* Warnings fall somewhat in between errors and message, and typically indicate 
-  that something has gone wrong but the function has been able to at least 
-  partially recover. 
-  
-* Messages are the mildest; they are way of informing users that some action 
-  has been performed on their behalf. 
-  
-There is a final condition that can only be generated interactively: an interrupt, which indicates that the user has interrupted execution by pressing Escape, Ctrl + Break, or Ctrl + C (depending on the platform).
-
-Conditions are usually displayed prominently, in a bold font or coloured red, depending on the R interface. You can tell them apart because errors always start with "Error", warnings with "Warning" or "Warning message", and messages with nothing.
+The general syntax for creating a function is:
 
 ```{r, eval=FALSE}
-stop("This is what an error looks like")
-
-warning("This is what a warning looks like")
-
-message("This is what a message looks like")
-```
-
-## Ignoring conditions
-You can choose to ignore conditions using `try()`, tryCatch()` or `suppressMessages()`, `suppressWarnings()`.
-
-```{r, eval=FALSE}
-# Example: ignoring a warning
-suppressWarnings(log(-1))
-
-suppressWarnings({
-  warning("Uhoh!")
-  warning("Another warning")
-  1
-})
-
-
-suppressMessages({
-  message("Hello there")
-  2
-})
-
-
-suppressWarnings({
-  message("You can still see me")
-  3
-})
-
-suppressWarnings(library(dplyr))
-suppressWarnings(library(ggplot2))
-```
-## tryCatch function
-The `tryCatch()` function allows you to handle conditions (errors, warnings, messages) in a controlled way. You can specify custom behavior for each type of condition.
-```{r}
-result <- tryCatch({
-  # Code that may produce an error
-  log(-1)
-},
-warning = function(w) {
-  cat("Caught a warning:", conditionMessage(w), "\n")
-  NA  # Return NA on warning
-},
-error = function(e) {
-  cat("Caught an error:", conditionMessage(e), "\n")
-  NA  # Return NA on error
-},
-finally = {
-  cat("Execution completed.\n")
-})
-result
-```
-
-## function scope
-Functions in R have their own scope, meaning that variables defined inside a function are not accessible outside of it, and vice versa. This helps prevent naming conflicts and keeps functions self-contained.
-```{r}
-my_function <- function() {
-  x <- 10  # x is local to the function
-  return(x)
+function_name <- function(arg1, arg2 = default_value, ...) {
+  # Function body
+  # Your code here
+  return(result)  # Optional explicit return
 }
-my_function()
-
 ```
-## Creating Custom Functions
+
+### Simple Examples
+
 ```{r}
-# Define a simple function to add two numbers
+# 1. Function with no arguments
+say_hello <- function() {
+  return("Hello, World!")
+}
+
+say_hello()
+
+# 2. Function with one argument
+square <- function(x) {
+  return(x^2)
+}
+
+square(4)
+square(c(1, 2, 3, 4))
+
+# 3. Function with multiple arguments
 add_numbers <- function(a, b) {
-  return(a + b)
+  sum_result <- a + b
+  return(sum_result)
 }
-# Call the function
+
 add_numbers(3, 5)
-```
-## Function Arguments
-```{r}
-# Function with default argument
-greet <- function(name = "Guest") {
-  paste("Hello,", name)
-}
-greet()          # Uses default
-greet("Alice")   # Overrides default
+add_numbers(c(1,2), c(3,4))
 ```
 
+## Function Arguments and Parameters
 
-## User-defined Functions in R Programming Language
-
-User-defined functions are the functions that are created by the user. User defines the working, parameters, default parameter, etc. of that user-defined function. They can be only used in that specific code.
-
-    1.  Single Input Single Output : Now create a function in R that will take a single input and gives us a single output
-    2.  Multiple Input Multiple Output : Now create a function in R Language that will take multiple inputs and gives us multiple outputs using a list.
+### Default Arguments
 
 ```{r}
-# Single Input Single Outpu
-calculate_bmi <- function(data) {
-  # BMI formula: weight (kg) / height (m)^2
-  bmi <- data$weight / (data$height ^ 2)
-  return(bmi)
+# Function with default arguments
+greet <- function(name = "Guest", greeting = "Hello") {
+  message <- paste(greeting, name, "!")
+  return(message)
 }
 
-# Example data
-patient_data <- data.frame(
-  weight = c(70, 80, 65),  # in kg
-  height = c(1.75, 1.8, 1.6)  # in meters
+greet()                           # Uses all defaults
+greet("Alice")                    # Uses default greeting
+greet("Bob", "Hi")               # Overrides both defaults
+greet(greeting = "Hey", name = "Charlie")  # Named arguments
+```
+
+### The `...` (Dots) Parameter
+
+The `...` allows functions to accept any number of arguments:
+
+```{r}
+# Function using dots to pass arguments to other functions
+my_summary <- function(x, ...) {
+  cat("Length:", length(x), "\n")
+  cat("Mean:", mean(x, ...), "\n")
+  cat("SD:", sd(x, ...), "\n")
+}
+
+data_with_na <- c(1, 2, 3, NA, 5)
+my_summary(data_with_na, na.rm = TRUE)
+
+# Function that combines multiple vectors
+combine_all <- function(... ) {
+  all_args <- list(...)
+  combined <- unlist(all_args)
+  return(combined)
+}
+
+combine_all(1:3, 4:6, c(7, 8))
+```
+
+## Return Values
+
+### Explicit vs Implicit Returns
+
+```{r}
+# Explicit return
+explicit_return <- function(x) {
+  result <- x * 2
+  return(result)  # Explicitly return the value
+}
+
+# Implicit return (last expression is returned)
+implicit_return <- function(x) {
+  result <- x * 2
+  result  # Last expression is automatically returned
+}
+
+explicit_return(5)
+implicit_return(5)
+
+# Multiple possible returns
+check_number <- function(x) {
+  if (x > 0) {
+    return("Positive")
+  } else if (x < 0) {
+    return("Negative")
+  } else {
+    return("Zero")
+  }
+}
+
+check_number(5)
+check_number(-3)
+check_number(0)
+```
+
+### Returning Multiple Values
+
+```{r}
+# Return multiple values using a list
+calculate_stats <- function(x) {
+  stats_list <- list(
+    mean = mean(x, na.rm = TRUE),
+    median = median(x, na.rm = TRUE),
+    sd = sd(x, na.rm = TRUE),
+    min = min(x, na.rm = TRUE),
+    max = max(x, na.rm = TRUE),
+    n = length(x[!is.na(x)])
+  )
+  return(stats_list)
+}
+
+sample_data <- c(1, 2, 3, 4, 5, NA, 7, 8, 9, 10)
+results <- calculate_stats(sample_data)
+print(results)
+
+# Access individual elements
+results$mean
+results$sd
+```
+
+# Intermediate Function Concepts
+
+## Function Scope and Environments
+
+Functions create their own local environment, separate from the global environment:
+
+```{r}
+# Global variable
+global_var <- 100
+
+scope_demo <- function() {
+  local_var <- 50        # Local to this function
+  global_var <- 200      # This creates a NEW local variable
+  
+  cat("Inside function - local_var:", local_var, "\n")
+  cat("Inside function - global_var:", global_var, "\n")
+  
+  return(local_var + global_var)
+}
+
+result <- scope_demo()
+cat("Outside function - global_var:", global_var, "\n")
+# cat("Outside function - local_var:", local_var, "\n")  # This would cause an error
+```
+
+### Lexical Scoping
+
+R uses lexical scoping - functions look for variables in the environment where they were defined:
+
+```{r}
+# Demonstrate lexical scoping
+x <- 10
+
+make_function <- function(multiplier) {
+  # This function "captures" the multiplier value
+  multiply_by <- function(y) {
+    return(y * multiplier * x)  # Uses multiplier from parent and x from global
+  }
+  return(multiply_by)
+}
+
+multiply_by_5 <- make_function(5)
+multiply_by_3 <- make_function(3)
+
+multiply_by_5(4)  # 4 * 5 * 10 = 200
+multiply_by_3(4)  # 4 * 3 * 10 = 120
+```
+
+## Input Validation and Error Handling
+
+### Basic Input Validation
+
+```{r}
+# Simple validation with stopifnot
+safe_sqrt <- function(x) {
+  stopifnot("Input must be numeric" = is.numeric(x))
+  stopifnot("Input must be non-negative" = all(x >= 0, na.rm = TRUE))
+  
+  return(sqrt(x))
+}
+
+safe_sqrt(c(4, 9, 16))
+# safe_sqrt(-4)  # Would throw an error
+
+# More detailed validation
+validate_and_process <- function(data, column_name) {
+  # Check if data is a data frame
+  if (!is.data.frame(data)) {
+    stop("Input 'data' must be a data frame")
+  }
+  
+  # Check if column exists
+  if (! column_name %in% names(data)) {
+    stop(paste("Column", column_name, "not found in data"))
+  }
+  
+  # Check if column is numeric
+  if (!is.numeric(data[[column_name]])) {
+    stop(paste("Column", column_name, "must be numeric"))
+  }
+  
+  # Process the data
+  result <- mean(data[[column_name]], na.rm = TRUE)
+  return(result)
+}
+
+# Test data
+test_data <- data.frame(
+  age = c(25, 30, 35, NA, 45),
+  name = c("Alice", "Bob", "Charlie", "Diana", "Eve")
 )
 
-# Calculate BMI
-bmi_values <- calculate_bmi(patient_data)
-print(bmi_values)  # Outputs BMI for each patient
-
-# Multiple Input Multiple Output
-calculate_summary_stats <- function(age, weight, height) {
-  age_stats <- list(
-    mean_age = mean(age, na.rm = TRUE),
-    median_age = median(age, na.rm = TRUE),
-    sd_age = sd(age, na.rm = TRUE)
-  )
-  
-  weight_stats <- list(
-    mean_weight = mean(weight, na.rm = TRUE),
-    median_weight = median(weight, na.rm = TRUE),
-    sd_weight = sd(weight, na.rm = TRUE)
-  )
-  
-  height_stats <- list(
-    mean_height = mean(height, na.rm = TRUE),
-    median_height = median(height, na.rm = TRUE),
-    sd_height = sd(height, na.rm = TRUE)
-  )
-  
-  # Return a list containing all summary stats
-  return(list(age = age_stats, weight = weight_stats, height = height_stats))
-}
-
-# Example data
-age <- c(40, 45, 50, 55, 60)
-weight <- c(70, 75, 65, 80, 68)
-height <- c(1.75, 1.8, 1.6, 1.65, 1.7)
-
-summary_stats <- calculate_summary_stats(age, weight, height)
-print(summary_stats)  # Outputs summary stats for age, weight, and height
-
+validate_and_process(test_data, "age")
+# validate_and_process(test_data, "name")     # Would throw an error
+# validate_and_process(test_data, "height")  # Would throw an error
 ```
 
-What is `{{}}` in R?
+### Advanced Error Handling with tryCatch
 
-The `{{` syntax is known as curly-curly syntax, and it is part of the tidy evaluation framework in the {r, lang} package. It’s used to capture variables directly and allows for easy manipulation within functions.
+```{r}
+# Robust function with error handling
+robust_operation <- function(x, operation = "mean") {
+  result <- tryCatch({
+    switch(operation,
+           "mean" = mean(x, na.rm = TRUE),
+           "median" = median(x, na.rm = TRUE),
+           "sd" = sd(x, na.rm = TRUE),
+           stop("Unsupported operation")
+    )
+  },
+  warning = function(w) {
+    cat("Warning occurred:", conditionMessage(w), "\n")
+    return(NA)
+  },
+  error = function(e) {
+    cat("Error occurred:", conditionMessage(e), "\n")
+    return(NA)
+  },
+  finally = {
+    cat("Operation attempted for", operation, "\n")
+  })
+  
+  return(result)
+}
+
+# Test the function
+test_data <- c(1, 2, 3, NA, 5)
+robust_operation(test_data, "mean")
+robust_operation(test_data, "median")
+robust_operation(test_data, "invalid_op")  # Handles error gracefully
+```
+
+# Advanced Function Concepts
+
+## Higher-Order Functions
+
+Functions that take other functions as arguments or return functions:
+
+```{r}
+# Function that takes another function as argument
+apply_operation <- function(x, operation_func) {
+  return(operation_func(x))
+}
+
+# Test with different functions
+numbers <- c(1, 2, 3, 4, 5)
+apply_operation(numbers, sum)
+apply_operation(numbers, mean)
+apply_operation(numbers, function(x) max(x) - min(x))
+
+# Function that returns a function
+make_multiplier <- function(n) {
+  function(x) {
+    return(x * n)
+  }
+}
+
+double <- make_multiplier(2)
+triple <- make_multiplier(3)
+
+double(10)  # 20
+triple(10)  # 30
+```
+
+## Anonymous Functions and Lambda Functions
+
+```{r}
+# Traditional function definition
+square_traditional <- function(x) x^2
+
+# Anonymous function (lambda)
+numbers <- 1:5
+
+# Using anonymous function with lapply
+squared_numbers <- lapply(numbers, function(x) x^2)
+print(unlist(squared_numbers))
+
+# Using anonymous function with sapply
+cubed_numbers <- sapply(numbers, function(x) x^3)
+print(cubed_numbers)
+
+# More complex anonymous function
+complex_calc <- function(data, func) {
+  sapply(data, func)
+}
+
+complex_calc(1:5, function(x) (x^2 + 2*x + 1))
+```
+
+## Working with Data Frames
+
+### Single Input, Single Output Functions
+
+```{r}
+# Function to calculate BMI
+calculate_bmi <- function(weight_kg, height_m) {
+  # Input validation
+  stopifnot(is.numeric(weight_kg), is.numeric(height_m))
+  stopifnot(all(weight_kg > 0, na.rm = TRUE))
+  stopifnot(all(height_m > 0, na.rm = TRUE))
+  
+  bmi <- weight_kg / (height_m^2)
+  return(round(bmi, 2))
+}
+
+# Test the function
+weights <- c(70, 80, 65, 75)
+heights <- c(1.75, 1.80, 1.65, 1.70)
+bmis <- calculate_bmi(weights, heights)
+print(bmis)
+
+# Create a data frame function
+process_patient_data <- function(patient_df) {
+  # Validate input
+  required_cols <- c("weight", "height")
+  if (!all(required_cols %in% names(patient_df))) {
+    stop("Data frame must contain 'weight' and 'height' columns")
+  }
+  
+  # Calculate BMI and add to data frame
+  patient_df$bmi <- calculate_bmi(patient_df$weight, patient_df$height)
+  
+  # Add BMI category
+  patient_df$bmi_category <- cut(patient_df$bmi,
+                                breaks = c(0, 18.5, 25, 30, Inf),
+                                labels = c("Underweight", "Normal", "Overweight", "Obese"),
+                                include.lowest = TRUE)
+  
+  return(patient_df)
+}
+
+# Test data
+patient_data <- data.frame(
+  id = 1:4,
+  weight = c(70, 80, 65, 75),
+  height = c(1.75, 1.80, 1.65, 1.70),
+  age = c(25, 30, 35, 40)
+)
+
+processed_data <- process_patient_data(patient_data)
+print(processed_data)
+```
+
+### Multiple Input, Multiple Output Functions
+
+```{r}
+# Comprehensive statistical analysis function
+comprehensive_analysis <- function(data, numeric_vars, group_var = NULL) {
+  # Input validation
+  if (!is.data.frame(data)) stop("Data must be a data frame")
+  if (!all(numeric_vars %in% names(data))) stop("Some numeric variables not found")
+  
+  results <- list()
+  
+  # Basic descriptive statistics
+  descriptive_stats <- data.frame(
+    variable = numeric_vars,
+    n = sapply(numeric_vars, function(var) sum(!is.na(data[[var]]))),
+    mean = sapply(numeric_vars, function(var) round(mean(data[[var]], na.rm = TRUE), 3)),
+    median = sapply(numeric_vars, function(var) round(median(data[[var]], na.rm = TRUE), 3)),
+    sd = sapply(numeric_vars, function(var) round(sd(data[[var]], na.rm = TRUE), 3)),
+    min = sapply(numeric_vars, function(var) round(min(data[[var]], na.rm = TRUE), 3)),
+    max = sapply(numeric_vars, function(var) round(max(data[[var]], na.rm = TRUE), 3)),
+    stringsAsFactors = FALSE
+  )
+  
+  results$descriptive <- descriptive_stats
+  
+  # Correlation matrix
+  if (length(numeric_vars) > 1) {
+    cor_data <- data[, numeric_vars, drop = FALSE]
+    cor_data <- cor_data[complete.cases(cor_data), ]
+    results$correlation <- round(cor(cor_data), 3)
+  }
+  
+  # Group analysis if group variable provided
+  if (!is.null(group_var) && group_var %in% names(data)) {
+    group_stats <- list()
+    groups <- unique(data[[group_var]])
+    groups <- groups[!is.na(groups)]
+    
+    for (group in groups) {
+      group_data <- data[data[[group_var]] == group & !is.na(data[[group_var]]), ]
+      
+      group_descriptive <- data.frame(
+        variable = numeric_vars,
+        group = rep(group, length(numeric_vars)),
+        n = sapply(numeric_vars, function(var) sum(!is.na(group_data[[var]]))),
+        mean = sapply(numeric_vars, function(var) round(mean(group_data[[var]], na.rm = TRUE), 3)),
+        median = sapply(numeric_vars, function(var) round(median(group_data[[var]], na.rm = TRUE), 3)),
+        sd = sapply(numeric_vars, function(var) round(sd(group_data[[var]], na.rm = TRUE), 3)),
+        stringsAsFactors = FALSE
+      )
+      
+      group_stats[[as.character(group)]] <- group_descriptive
+    }
+    
+    results$group_analysis <- do.call(rbind, group_stats)
+  }
+  
+  # Data quality report
+  quality_report <- data.frame(
+    variable = names(data),
+    type = sapply(data, class),
+    missing_count = sapply(data, function(x) sum(is.na(x))),
+    missing_percent = sapply(data, function(x) round(100 * sum(is.na(x)) / length(x), 2)),
+    stringsAsFactors = FALSE
+  )
+  
+  results$data_quality <- quality_report
+  
+  return(results)
+}
+
+# Test with sample data
+sample_data <- data.frame(
+  id = 1:100,
+  age = rnorm(100, 40, 10),
+  weight = rnorm(100, 70, 15),
+  height = rnorm(100, 1.7, 0.1),
+  group = sample(c("A", "B", "C"), 100, replace = TRUE),
+  stringsAsFactors = FALSE
+)
+
+# Add some missing values
+sample_data$age[c(5, 15, 25)] <- NA
+sample_data$weight[c(10, 20)] <- NA
+
+analysis_results <- comprehensive_analysis(
+  data = sample_data,
+  numeric_vars = c("age", "weight", "height"),
+  group_var = "group"
+)
+
+# View results
+print("Descriptive Statistics:")
+print(analysis_results$descriptive)
+
+print("\nCorrelation Matrix:")
+print(analysis_results$correlation)
+
+print("\nGroup Analysis (first few rows):")
+print(head(analysis_results$group_analysis))
+
+print("\nData Quality Report:")
+print(analysis_results$data_quality)
+```
+
+# Tidy Evaluation and Advanced dplyr Usage
+
+## Understanding `{{}}`, `!!`, and `!!!`
+
+These operators are part of tidy evaluation, used extensively in the tidyverse:
 
 ```{r}
 library(dplyr)
-library(tidyr)
+library(rlang)
 
-
-stat <- function(data, grp, var) {
-  # Group by specified grouping variables and summarize the statistics
-  summary_stats <- data |> group_by(across({{ grp }})) |> summarise(
-      n = as.character(n_distinct(USUBJID)),
-      mean = as.character(round(mean({{ var }}, na.rm = TRUE), 2)),
-      median = as.character(median({{ var }}, na.rm = TRUE)),
-      sd = as.character(round(sd({{ var }}, na.rm = TRUE), 3)),
-      min = as.character(min({{ var }}, na.rm = TRUE)),
-      max = as.character(max({{ var }}, na.rm = TRUE)),
-      .groups = 'drop'  # Ungroup after summarising
-    )
-  
-  # Pivot to wider format
-transposed_data <- summary_stats |> 
-  pivot_longer(
-    cols =c(n, mean, median, sd, min, max),        # Columns to pivot
-    names_to = "stat",        # Name for the new 'stat' column
-    values_to = "value"       # Name for the new 'value' column
-  ) |> pivot_wider(
-    names_from = {{ grp }},     # Treatment groups to become column names
-    values_from = value       # Values for each statistic
-  )
-  
-  return(transposed_data)
-}
-
-adsl <- haven::read_sas("./data/adam/adsl.sas7bdat")
-age_stat <- stat(data=adsl,grp=c(TRT01A,TRT01AN),var=AGE)
-wgt_stat <- stat(adsl,TRT01A,WEIGHTBL)
-
-```
-
-# difference !,!!,!!!
-In R, the symbols `!`, `!!`, and `!!!` are used in different contexts, primarily in logical operations and tidy evaluation.
-- `!` (Logical NOT): This is a logical operator used to negate a logical value. It takes a single logical value (TRUE or FALSE) and returns the opposite value. For example, `!TRUE` returns `FALSE`, and `!FALSE` returns `TRUE`.
-- `!!` (Unquote): In the context of tidy evaluation (used in packages like dplyr), `!!` is used to unquote a single variable or expression. It allows you to evaluate a variable or expression within a tidy evaluation context. For example, if you have a variable `var_name` that holds the name of a column, you can use `!!var_name` to refer to that column in a dplyr function.
-- `!!!` (Unquote-splice): This is also used in tidy evaluation and is used to unquote and splice a list of variables or expressions. It allows you to pass multiple arguments to a function by splicing a list. For example, if you have a list of column names, you can use `!!!` to pass them as individual arguments to a dplyr function.
-
-
-```{r}
-stat_simple <- function(data, grp, var, id_var = "USUBJID") {
-  # Convert strings to symbols
-  grp_sym <- sym(grp)
-  var_sym <- sym(var)
-  id_var_sym <- sym(id_var)
-  
-  # Group by specified grouping variables and summarize the statistics
-  summary_stats <- data |> 
-    group_by(!!grp_sym) |> 
+# Using {{}} for direct variable capture
+summarize_variable <- function(data, group_var, summary_var) {
+  data %>%
+    group_by({{ group_var }}) %>%
     summarise(
-      n = as.character(n_distinct(!!id_var_sym)),
-      mean = as.character(round(mean(!!var_sym, na.rm = TRUE), 2)),
-      median = as.character(round(median(!!var_sym, na.rm = TRUE), 2)),
-      sd = as.character(round(sd(!!var_sym, na.rm = TRUE), 3)),
-      min = as.character(round(min(!!var_sym, na.rm = TRUE), 2)),
-      max = as.character(round(max(!!var_sym, na.rm = TRUE), 2)),
+      n = n(),
+      mean = mean({{ summary_var }}, na.rm = TRUE),
+      median = median({{ summary_var }}, na.rm = TRUE),
+      sd = sd({{ summary_var }}, na.rm = TRUE),
       .groups = 'drop'
     )
-  
-  # Pivot to longer format then wider
-  transposed_data <- summary_stats |> 
-    pivot_longer(
-      cols = c(n, mean, median, sd, min, max),
-      names_to = "stat",
-      values_to = "value"
-    ) |> 
-    pivot_wider(
-      names_from = !!grp_sym,
-      values_from = value
-    ) |> 
-    arrange(factor(stat, levels = c("n", "mean", "median", "sd", "min", "max")))
-  
-  return(transposed_data)
 }
 
-adsl <- haven::read_sas("./data/adam/adsl.sas7bdat")
-age_stat <- stat_simple(data=adsl,grp="TRT01A",var="AGE")
-```
-
-```{r}
-#where function
- adsl1 <- adsl |> 
-   dplyr::select(dplyr::where(is.character))
- 
-adsl2 <- adsl |> 
-   dplyr::select(dplyr::where(is.numeric))
-
-# across functions structure and explanation
-
-#across(.cols, .fns, ..., .names = NULL, .unpack = FALSE)
-
-df <- data.frame(
-  id = 1:6,
-  age = c(21, 34, 28, NA, 45, 30),
-  wt = c(70, 80, 65, 72, NA, 68),
-  sex = c("M","F","F","M","F","M")
-)
-
-# 2) Summaries grouped by sex
-df2 <- df |>
-  group_by(sex) |> 
-  summarise(across(.cols=dplyr::where(is.numeric), 
-                   .fns=list( mean = ~mean(., na.rm=TRUE),
-                              sd   = ~sd(., na.rm=TRUE)
-                             ),
-                   .names = "{.col}_{.fn}")
-  )
-
-df_qc <- df |> 
-  group_by(sex) |> 
-  summarize(mm=mean(age,na.rm=TRUE),
-            mn1=mean(wt,na.rm=TRUE))
-
-df2 <- df |>
-  group_by(sex) |> 
-  summarise(across(.cols=c(age, wt), 
-                   .fns=list(nrecs  = ~dplyr::n(),
-                             mean = ~mean(., na.rm=TRUE),
-                             sd   = ~sd(., na.rm=TRUE)
-                   ),
-                   .names = "{.col}_{.fn}")
-  )
-
-df2 <- df |>
-  group_by(sex) |> 
-  summarise(across(.cols=c(age, wt), 
-                   .fns= ~mean(., na.rm=TRUE))
-  )
-
-a <- c(1, 2, 3, 4, 5, 9909)
-b <- data.frame(
-  var1 = c(1, 2, 3, 4, 5, 9909),
-  var2 = c(5, 6, 7, 8, 9, 9909)
-)
-c <- list(a,b)
-
-
-# Numeric: replace sentinel 9909 with 0
-numericdata <- tibble::tribble(
-  ~var1, ~var2, ~var3, ~var4, ~var5,
-  9909,   1,     2,     3,     4,
-  5,    9909,    6,     7,     8,
-  9,      3,   9909,    2,     7
-)
-dm <- haven::read_sas("./data/sdtm/dm.sas7bdat") |> 
-  dplyr::mutate(dplyr::across(where(is.character),~ dplyr::na_if(.,"")))
-
-numericdata01 <- numericdata |>
-  dplyr::mutate(dplyr::across(.cols=where(is.numeric), .fns=~ dplyr::if_else(.x == 9909, 0, .x)))
-
-
-# multiply all numeric variables by 2
-adsl3 <- adsl |> 
-  dplyr::mutate(
-    dplyr::across(.cols = where(is.numeric),
-                  .fns = ~ .x * 2)
-  )
-
-```
-
-
-# Error Handling
-```{r}
-robust_divide <- function(a, b) {
-  tryCatch(a / b,
-           warning = function(w) NA_real_,
-           error   = function(e) NA_real_)
+# Using !! for unquoting single variables
+summarize_variable_unquote <- function(data, group_var, summary_var) {
+  group_sym <- sym(group_var)
+  summary_sym <- sym(summary_var)
+  
+  data %>%
+    group_by(!! group_sym) %>%
+    summarise(
+      n = n(),
+      mean = mean(!! summary_sym, na.rm = TRUE),
+      median = median(!!summary_sym, na.rm = TRUE),
+      sd = sd(!!summary_sym, na.rm = TRUE),
+      .groups = 'drop'
+    )
 }
-robust_divide(10, 0)
+
+# Using ! !! for splicing multiple variables
+select_multiple_vars <- function(data, ...) {
+  vars <- list(...)
+  data %>% select(!!! vars)
+}
+
+# Test data
+test_df <- data.frame(
+  group = rep(c("A", "B"), each = 50),
+  value1 = rnorm(100, 10, 2),
+  value2 = rnorm(100, 20, 3),
+  id = 1:100
+)
+
+# Test the functions
+result1 <- summarize_variable(test_df, group, value1)
+print(result1)
+
+result2 <- summarize_variable_unquote(test_df, "group", "value1")
+print(result2)
+
+selected_data <- select_multiple_vars(test_df, "id", "group", "value1")
+print(head(selected_data))
 ```
 
-# Unit Testing with testthat
-Install once: `install.packages(c("testthat","devtools","usethis","roxygen2"))`
+## Advanced Data Processing Function
 
-```{r eval=FALSE}
+```{r}
+library(tidyr)
+library(rlang)
+library(dplyr)
+# Comprehensive data processing function using tidy evaluation
+process_clinical_data <- function(data, group_vars, analysis_vars, 
+                                 id_var = "USUBJID", stats = c("n", "mean", "median", "sd")) {
+  
+  # Input validation
+  stopifnot(is.data.frame(data))
+  stopifnot(all(c(group_vars, analysis_vars, id_var) %in% names(data)))
+  
+  # Convert character vectors to symbols
+  group_syms <- syms(group_vars)
+  analysis_syms <- syms(analysis_vars)
+  id_sym <- sym(id_var)
+  
+  results <- list()
+  
+  # Process each analysis variable
+  for (var in analysis_vars) {
+    var_sym <- sym(var)
+    
+    # Create summary statistics
+    summary_stats <- data %>%
+      group_by(!!! group_syms) %>%
+      summarise(
+        n = n_distinct(!!id_sym),
+        mean = round(mean(!!var_sym, na.rm = TRUE), 2),
+        median = round(median(!!var_sym, na.rm = TRUE), 2),
+        sd = round(sd(!! var_sym, na.rm = TRUE), 3),
+        min = round(min(!!var_sym, na.rm = TRUE), 2),
+        max = round(max(!!var_sym, na.rm = TRUE), 2),
+        q25 = round(quantile(!! var_sym, 0.25, na.rm = TRUE), 2),
+        q75 = round(quantile(!!var_sym, 0.75, na.rm = TRUE), 2),
+        .groups = 'drop'
+      )
+    
+    # Select only requested statistics
+    summary_stats <- summary_stats %>%
+      select(all_of(c(group_vars, stats)))
+    
+    # Reshape to long format then wide format for presentation
+    if (length(group_vars) == 1) {
+      transposed_data <- summary_stats %>%
+        pivot_longer(
+          cols = all_of(stats),
+          names_to = "statistic",
+          values_to = "value"
+        ) %>%
+        mutate(value = as.character(value)) %>%
+        pivot_wider(
+          names_from = all_of(group_vars[1]),
+          values_from = value
+        ) %>%
+        mutate(variable = var) %>%
+        select(variable, statistic, everything())
+      
+      results[[var]] <- transposed_data
+    } else {
+      results[[var]] <- summary_stats
+    }
+  }
+  
+  return(results)
+}
+
+# Create sample clinical data
+set.seed(123)
+clinical_data <- data.frame(
+  USUBJID = paste0("SUBJ-", sprintf("%03d", 1:150)),
+  TRT01A = sample(c("Placebo", "Treatment A", "Treatment B"), 150, replace = TRUE),
+  AGE = round(rnorm(150, 65, 12)),
+  WEIGHTBL = round(rnorm(150, 75, 15), 1),
+  HEIGHTBL = round(rnorm(150, 170, 10), 1),
+  SEX = sample(c("M", "F"), 150, replace = TRUE),
+  stringsAsFactors = FALSE
+)
+
+# Process the data
+clinical_results <- process_clinical_data(
+  data = clinical_data,
+  group_vars = "TRT01A",
+  analysis_vars = c("AGE", "WEIGHTBL"),
+  id_var = "USUBJID",
+  stats = c("n", "mean", "median", "sd")
+)
+
+print("Age Analysis:")
+print(clinical_results$AGE)
+
+print("\nWeight Analysis:")
+print(clinical_results$WEIGHTBL)
+```
+
+# Advanced Topics
+
+## Function Factories and Closures
+
+```{r}
+# Function factory that creates specialized functions
+create_validator <- function(min_val = -Inf, max_val = Inf, allow_na = TRUE) {
+  function(x, var_name = "variable") {
+    # Check if NA values are allowed
+    if (! allow_na && any(is.na(x))) {
+      stop(paste(var_name, "contains NA values, which are not allowed"))
+    }
+    
+    # Check range
+    x_clean <- x[!is.na(x)]
+    if (any(x_clean < min_val | x_clean > max_val)) {
+      stop(paste(var_name, "contains values outside the allowed range [", 
+                 min_val, ",", max_val, "]"))
+    }
+    
+    return(TRUE)
+  }
+}
+
+# Create specialized validators
+age_validator <- create_validator(min_val = 0, max_val = 120, allow_na = FALSE)
+weight_validator <- create_validator(min_val = 0, max_val = 500, allow_na = TRUE)
+percentage_validator <- create_validator(min_val = 0, max_val = 100, allow_na = FALSE)
+
+# Test the validators
+test_ages <- c(25, 35, 45, 55, 65)
+age_validator(test_ages, "Age")
+
+test_weights <- c(50, 75, 90, NA, 120)
+weight_validator(test_weights, "Weight")
+
+# This would throw an error: 
+# bad_ages <- c(25, 35, -5, 200)
+# age_validator(bad_ages, "Age")
+```
+
+## Memoization for Performance
+
+```{r}
+# Function with memoization for expensive calculations
+create_memoized_function <- function(func) {
+  cache <- new.env(parent = emptyenv())
+  
+  function(... ) {
+    # Create a key from the arguments
+    key <- paste(list(...), collapse = "_")
+    
+    # Check if result is in cache
+    if (exists(key, cache)) {
+      cat("Cache hit!\n")
+      return(get(key, cache))
+    }
+    
+    # Calculate result and store in cache
+    cat("Computing result...\n")
+    result <- func(...)
+    assign(key, result, cache)
+    return(result)
+  }
+}
+
+# Expensive calculation function
+expensive_calculation <- function(n) {
+  Sys.sleep(1)  # Simulate expensive operation
+  return(sum(1:n))
+}
+
+# Create memoized version
+fast_calculation <- create_memoized_function(expensive_calculation)
+
+# Test memoization
+system.time(result1 <- fast_calculation(1000))  # First call - slow
+system.time(result2 <- fast_calculation(1000))  # Second call - fast (cached)
+system.time(result3 <- fast_calculation(2000))  # New argument - slow again
+```
+
+## Method Dispatch and S3 Classes
+
+```{r}
+# Create a custom class and methods
+create_summary_stats <- function(x, ...) {
+  UseMethod("create_summary_stats")
+}
+
+# Method for numeric vectors
+create_summary_stats.numeric <- function(x, ...) {
+  result <- list(
+    data = x,
+    mean = mean(x, na.rm = TRUE),
+    median = median(x, na.rm = TRUE),
+    sd = sd(x, na.rm = TRUE),
+    n = length(x),
+    missing = sum(is.na(x))
+  )
+  class(result) <- "numeric_summary"
+  return(result)
+}
+
+# Method for data frames
+create_summary_stats.data.frame <- function(x, ...) {
+  numeric_vars <- sapply(x, is.numeric)
+  result <- list(
+    data = x,
+    numeric_summaries = lapply(x[numeric_vars], create_summary_stats.numeric),
+    dimensions = dim(x),
+    variables = names(x)
+  )
+  class(result) <- "dataframe_summary"
+  return(result)
+}
+
+# Print methods
+print.numeric_summary <- function(x, ...) {
+  cat("Numeric Summary\n")
+  cat("===============\n")
+  cat("n:", x$n, "\n")
+  cat("Missing:", x$missing, "\n")
+  cat("Mean:", round(x$mean, 3), "\n")
+  cat("Median:", round(x$median, 3), "\n")
+  cat("SD:", round(x$sd, 3), "\n")
+}
+
+print.dataframe_summary <- function(x, ...) {
+  cat("Data Frame Summary\n")
+  cat("==================\n")
+  cat("Dimensions:", x$dimensions[1], "rows x", x$dimensions[2], "columns\n")
+  cat("Variables:", paste(x$variables, collapse = ", "), "\n")
+  cat("Numeric variables:", length(x$numeric_summaries), "\n")
+}
+
+# Test the methods
+numeric_data <- rnorm(100, 50, 10)
+df_data <- data.frame(
+  x = rnorm(50),
+  y = rnorm(50, 10, 2),
+  group = sample(letters[1:3], 50, replace = TRUE)
+)
+
+summary1 <- create_summary_stats(numeric_data)
+summary2 <- create_summary_stats(df_data)
+
+print(summary1)
+print(summary2)
+```
+
+# Testing and Documentation
+
+## Unit Testing with testthat
+
+```{r, eval=FALSE}
+# Install required packages (run once)
+if (!require(testthat)) install.packages("testthat")
+if (!require(devtools)) install.packages("devtools")
+
+# Set up testing structure
 usethis::use_testthat()
-usethis::use_test("safe_mean")
 ```
 
-Create `tests/testthat/test-safe_mean.R`:
-```{r, eval=FALSE,warning=FALSE,error=FALSE}
-testthat::test_that("safe_mean works", {
-  x <- c(1,2,NA)
-  testthat::expect_equal(safe_mean(x), 1.5)
-  testthat::expect_error(safe_mean("oops"))
+Example test file (`tests/testthat/test-statistical-functions.R`):
+
+```{r, eval=FALSE}
+# Test file content
+library(testthat)
+
+test_that("calculate_bmi works correctly", {
+  # Test normal case
+  expect_equal(calculate_bmi(70, 1.75), 22.86)
+  
+  # Test vector input
+  weights <- c(70, 80)
+  heights <- c(1.75, 1.8)
+  expected <- c(22.86, 24.69)
+  expect_equal(calculate_bmi(weights, heights), expected, tolerance = 0.01)
+  
+  # Test error conditions
+  expect_error(calculate_bmi(-70, 1.75))  # Negative weight
+  expect_error(calculate_bmi(70, -1.75))  # Negative height
+  expect_error(calculate_bmi("70", 1.75)) # Non-numeric input
+})
+
+test_that("comprehensive_analysis handles edge cases", {
+  # Test with minimal data
+  minimal_data <- data.frame(x = c(1, 2, 3), y = c(4, 5, 6))
+  result <- comprehensive_analysis(minimal_data, c("x", "y"))
+  
+  expect_true(is.list(result))
+  expect_true("descriptive" %in% names(result))
+  expect_true("correlation" %in% names(result))
+  expect_equal(nrow(result$descriptive), 2)
+  
+  # Test with missing data
+  na_data <- data.frame(x = c(1, NA, 3), y = c(4, 5, NA))
+  result_na <- comprehensive_analysis(na_data, c("x", "y"))
+  
+  expect_true(any(result_na$descriptive$n < 3))  # Should handle missing values
 })
 ```
 
-# Document with roxygen2
+## Documentation with roxygen2
+
 ```{r}
-#' Compute a safe mean
-#' @param x Numeric vector
-#' @param na.rm Logical; remove NAs
-#' @return Numeric scalar
+#' Calculate Body Mass Index (BMI)
+#'
+#' This function calculates BMI using the standard formula:  weight (kg) / height (m)^2
+#'
+#' @param weight_kg Numeric vector of weights in kilograms.  Must be positive.
+#' @param height_m Numeric vector of heights in meters. Must be positive.
+#'
+#' @return Numeric vector of BMI values, rounded to 2 decimal places
+#'
+#' @details
+#' BMI categories:
+#' - Underweight: < 18.5
+#' - Normal weight: 18.5-24.9
+#' - Overweight: 25-29.9
+#' - Obese: ≥ 30
+#'
 #' @examples
-#' safe_mean(c(1,2,NA))
+#' # Single values
+#' calculate_bmi(70, 1.75)
+#'
+#' # Multiple values
+#' weights <- c(60, 70, 80, 90)
+#' heights <- c(1.6, 1.7, 1.8, 1.9)
+#' calculate_bmi(weights, heights)
+#'
+#' @seealso
+#' \url{https://www.cdc.gov/healthyweight/assessing/bmi/} for BMI information
+#'
 #' @export
-safe_mean <- function(x, na.rm = TRUE) {
-  stopifnot(is.numeric(x))
-  mean(x, na.rm = na.rm)
+calculate_bmi <- function(weight_kg, height_m) {
+  # Input validation
+  stopifnot("Weight must be numeric" = is.numeric(weight_kg))
+  stopifnot("Height must be numeric" = is.numeric(height_m))
+  stopifnot("Weight must be positive" = all(weight_kg > 0, na.rm = TRUE))
+  stopifnot("Height must be positive" = all(height_m > 0, na.rm = TRUE))
+  
+  # Calculate BMI
+  bmi <- weight_kg / (height_m^2)
+  return(round(bmi, 2))
+}
+
+#' Comprehensive Statistical Analysis
+#'
+#' Performs comprehensive statistical analysis on numeric variables in a dataset,
+#' including descriptive statistics, correlations, and optional group comparisons.
+#'
+#' @param data A data frame containing the variables to analyze
+#' @param numeric_vars Character vector of numeric variable names to analyze
+#' @param group_var Optional character string specifying a grouping variable for
+#'   stratified analysis
+#'
+#' @return A list containing:
+#'   \item{descriptive}{Data frame with descriptive statistics for each variable}
+#'   \item{correlation}{Correlation matrix (if multiple numeric variables)}
+#'   \item{group_analysis}{Stratified analysis by group (if group_var specified)}
+#'   \item{data_quality}{Data quality report with missing value information}
+#'
+#' @examples
+#' # Basic analysis
+#' data(mtcars)
+#' results <- comprehensive_analysis(mtcars, c("mpg", "hp", "wt"))
+#'
+#' # Analysis with grouping
+#' results_grouped <- comprehensive_analysis(mtcars, c("mpg", "hp"), "cyl")
+#'
+#' @export
+comprehensive_analysis <- function(data, numeric_vars, group_var = NULL) {
+  # [Function body as defined earlier]
+  # Input validation
+  if (!is.data.frame(data)) stop("Data must be a data frame")
+  if (!all(numeric_vars %in% names(data))) stop("Some numeric variables not found")
+  
+  results <- list()
+  
+  # Basic descriptive statistics
+  descriptive_stats <- data.frame(
+    variable = numeric_vars,
+    n = sapply(numeric_vars, function(var) sum(!is.na(data[[var]]))),
+    mean = sapply(numeric_vars, function(var) round(mean(data[[var]], na.rm = TRUE), 3)),
+    median = sapply(numeric_vars, function(var) round(median(data[[var]], na.rm = TRUE), 3)),
+    sd = sapply(numeric_vars, function(var) round(sd(data[[var]], na.rm = TRUE), 3)),
+    min = sapply(numeric_vars, function(var) round(min(data[[var]], na.rm = TRUE), 3)),
+    max = sapply(numeric_vars, function(var) round(max(data[[var]], na.rm = TRUE), 3)),
+    stringsAsFactors = FALSE
+  )
+  
+  results$descriptive <- descriptive_stats
+  
+  # Correlation matrix
+  if (length(numeric_vars) > 1) {
+    cor_data <- data[, numeric_vars, drop = FALSE]
+    cor_data <- cor_data[complete.cases(cor_data), ]
+    results$correlation <- round(cor(cor_data), 3)
+  }
+  
+  # Group analysis if group variable provided
+  if (!is.null(group_var) && group_var %in% names(data)) {
+    group_stats <- list()
+    groups <- unique(data[[group_var]])
+    groups <- groups[!is.na(groups)]
+    
+    for (group in groups) {
+      group_data <- data[data[[group_var]] == group & !is.na(data[[group_var]]), ]
+      
+      group_descriptive <- data.frame(
+        variable = numeric_vars,
+        group = rep(group, length(numeric_vars)),
+        n = sapply(numeric_vars, function(var) sum(!is.na(group_data[[var]]))),
+        mean = sapply(numeric_vars, function(var) round(mean(group_data[[var]], na.rm = TRUE), 3)),
+        median = sapply(numeric_vars, function(var) round(median(group_data[[var]], na.rm = TRUE), 3)),
+        sd = sapply(numeric_vars, function(var) round(sd(group_data[[var]], na.rm = TRUE), 3)),
+        stringsAsFactors = FALSE
+      )
+      
+      group_stats[[as.character(group)]] <- group_descriptive
+    }
+    
+    results$group_analysis <- do.call(rbind, group_stats)
+  }
+  
+  # Data quality report
+  quality_report <- data.frame(
+    variable = names(data),
+    type = sapply(data, class),
+    missing_count = sapply(data, function(x) sum(is.na(x))),
+    missing_percent = sapply(data, function(x) round(100 * sum(is.na(x)) / length(x), 2)),
+    stringsAsFactors = FALSE
+  )
+  
+  results$data_quality <- quality_report
+  
+  return(results)
 }
 ```
-Run:
-```{r eval=FALSE}
-devtools::document()
+
+# Performance and Optimization
+
+## Vectorization vs Loops
+
+```{r}
+# Demonstrate vectorization benefits
+set.seed(123)
+large_vector <- rnorm(1000000)
+
+# Slow approach - using a loop
+loop_square <- function(x) {
+  result <- numeric(length(x))
+  for (i in seq_along(x)) {
+    result[i] <- x[i]^2
+  }
+  return(result)
+}
+
+# Fast approach - vectorized
+vectorized_square <- function(x) {
+  return(x^2)
+}
+
+# Benchmark the functions
+library(microbenchmark)
+
+benchmark_results <- microbenchmark(
+  loop = loop_square(large_vector[1:1000]),
+  vectorized = vectorized_square(large_vector[1:1000]),
+  times = 100
+)
+
+print(benchmark_results)
 ```
 
-# Exercises
-1. Write `winsorize(x, probs=c(0.05,0.95))` and test it.
-2. Create `validate_columns(df, required=c("USUBJID","AGE"))` and add tests.
-3. Add roxygen docs and build help pages.
+## Memory Management
+
+```{r}
+# Efficient data processing function
+efficient_data_processor <- function(data, chunk_size = 1000) {
+  n_rows <- nrow(data)
+  n_chunks <- ceiling(n_rows / chunk_size)
+  
+  results <- vector("list", n_chunks)
+  
+  for (i in seq_len(n_chunks)) {
+    start_row <- (i - 1) * chunk_size + 1
+    end_row <- min(i * chunk_size, n_rows)
+    
+    chunk <- data[start_row:end_row, , drop = FALSE]
+    
+    # Process chunk (example: calculate row means for numeric columns)
+    numeric_cols <- sapply(chunk, is.numeric)
+    if (any(numeric_cols)) {
+      chunk_means <- rowMeans(chunk[, numeric_cols, drop = FALSE], na.rm = TRUE)
+      results[[i]] <- data.frame(
+        chunk = i,
+        row_start = start_row,
+        row_end = end_row,
+        mean_value = mean(chunk_means, na.rm = TRUE)
+      )
+    }
+  }
+  
+  return(do.call(rbind, results))
+}
+
+# Test with large dataset
+large_data <- data.frame(
+  id = 1:5000,
+  x1 = rnorm(5000),
+  x2 = rnorm(5000, 10, 2),
+  x3 = rnorm(5000, -5, 3),
+  group = sample(letters[1:5], 5000, replace = TRUE)
+)
+
+chunk_results <- efficient_data_processor(large_data, chunk_size = 1000)
+print(chunk_results)
+```
+
+# Best Practices and Common Patterns
+
+## Function Design Principles
+
+```{r}
+# Good function design example
+#' Process Survey Responses
+#'
+#' A well-designed function that follows best practices:
+#' - Single responsibility
+#' - Clear naming
+#' - Input validation
+#' - Meaningful return values
+#' - Error handling
+process_survey_responses <- function(responses, 
+                                   scale_min = 1, 
+                                   scale_max = 5,
+                                   remove_incomplete = TRUE,
+                                   return_summary = FALSE) {
+  
+  # Input validation with clear error messages
+  if (!is.data.frame(responses)) {
+    stop("Argument 'responses' must be a data. frame")
+  }
+  
+  if (!is.numeric(scale_min) || !is.numeric(scale_max) || scale_min >= scale_max) {
+    stop("scale_min and scale_max must be numeric with scale_min < scale_max")
+  }
+  
+  # Required columns check
+  required_cols <- c("participant_id", "response_value")
+  missing_cols <- setdiff(required_cols, names(responses))
+  if (length(missing_cols) > 0) {
+    stop("Missing required columns: ", paste(missing_cols, collapse = ", "))
+  }
+  
+  # Data processing
+  processed_data <- responses
+  
+  # Remove out-of-range responses
+  valid_range <- processed_data$response_value >= scale_min & 
+                 processed_data$response_value <= scale_max
+  processed_data <- processed_data[valid_range & !is.na(valid_range), ]
+  
+  # Remove incomplete responses if requested
+  if (remove_incomplete) {
+    complete_cases <- complete.cases(processed_data)
+    processed_data <- processed_data[complete_cases, ]
+  }
+  
+  # Add standardized score (0-1 scale)
+  processed_data$standardized_score <- 
+    (processed_data$response_value - scale_min) / (scale_max - scale_min)
+  
+  # Return summary or full data based on parameter
+  if (return_summary) {
+    summary_stats <- list(
+      n_responses = nrow(processed_data),
+      mean_response = mean(processed_data$response_value),
+      mean_standardized = mean(processed_data$standardized_score),
+      response_distribution = table(processed_data$response_value)
+    )
+    return(summary_stats)
+  } else {
+    return(processed_data)
+  }
+}
+
+# Example usage
+sample_responses <- data.frame(
+  participant_id = paste0("P", 1:100),
+  response_value = sample(1:5, 100, replace = TRUE, prob = c(0.1, 0.2, 0.4, 0.2, 0.1)),
+  age_group = sample(c("18-30", "31-50", "51+"), 100, replace = TRUE)
+)
+
+processed_responses <- process_survey_responses(sample_responses)
+summary_only <- process_survey_responses(sample_responses, return_summary = TRUE)
+
+print("Processed data (first 10 rows):")
+print(head(processed_responses, 10))
+
+print("\nSummary statistics:")
+print(summary_only)
+```
+
+## Error Handling Patterns
+
+```{r}
+# Comprehensive error handling example
+robust_file_processor <- function(file_path, expected_columns = NULL) {
+  
+  # Create a custom error class for better error handling
+  create_processing_error <- function(message, type = "general") {
+    err <- structure(
+      list(message = message, type = type, call = sys.call(-1)),
+      class = c("processing_error", "error", "condition")
+    )
+    return(err)
+  }
+  
+  tryCatch({
+    # Check if file exists
+    if (!file.exists(file_path)) {
+      stop(create_processing_error(
+        paste("File does not exist:", file_path), 
+        "file_not_found"
+      ))
+    }
+    
+    # Try to read the file
+    file_ext <- tools::file_ext(file_path)
+    data <- switch(tolower(file_ext),
+                   "csv" = read.csv(file_path, stringsAsFactors = FALSE),
+                   "txt" = read.table(file_path, header = TRUE, stringsAsFactors = FALSE),
+                   stop(create_processing_error(
+                     paste("Unsupported file extension:", file_ext),
+                     "unsupported_format"
+                   ))
+    )
+    
+    # Validate columns if specified
+    if (!is.null(expected_columns)) {
+      missing_cols <- setdiff(expected_columns, names(data))
+      if (length(missing_cols) > 0) {
+        stop(create_processing_error(
+          paste("Missing expected columns:", paste(missing_cols, collapse = ", ")),
+          "missing_columns"
+        ))
+      }
+    }
+    
+    # Return successful result
+    return(list(
+      success = TRUE,
+      data = data,
+      message = paste("Successfully processed", nrow(data), "rows from", basename(file_path))
+    ))
+    
+  }, processing_error = function(e) {
+    return(list(
+      success = FALSE,
+      data = NULL,
+      error_type = e$type,
+      message = e$message
+    ))
+  }, error = function(e) {
+    return(list(
+      success = FALSE,
+      data = NULL,
+      error_type = "unexpected",
+      message = paste("Unexpected error:", e$message)
+    ))
+  })
+}
+
+# Test the error handling (create a temporary file for demonstration)
+temp_file <- tempfile(fileext = ".csv")
+write.csv(data.frame(x = 1:5, y = letters[1:5]), temp_file, row.names = FALSE)
+
+# Successful case
+result_success <- robust_file_processor(temp_file, c("x", "y"))
+print("Success case:")
+print(result_success$message)
+
+# Error case - missing columns
+result_error <- robust_file_processor(temp_file, c("x", "y", "z"))
+print("\nError case:")
+print(paste("Error type:", result_error$error_type))
+print(paste("Message:", result_error$message))
+
+# Clean up
+unlink(temp_file)
+```
+
+# Practical Exercises
+
+## Exercise 1: Data Validation Function
+
+Create a comprehensive data validation function: 
+
+```{r}
+#' Comprehensive Data Validation
+#'
+#' Validates a data frame against specified rules and returns a detailed report
+validate_dataset <- function(data, rules = NULL) {
+  validation_results <- list(
+    is_valid = TRUE,
+    errors = character(0),
+    warnings = character(0),
+    summary = list()
+  )
+  
+  # Basic validation
+  if (!is.data.frame(data)) {
+    validation_results$is_valid <- FALSE
+    validation_results$errors <- c(validation_results$errors, "Input is not a data frame")
+    return(validation_results)
+  }
+  
+  validation_results$summary$n_rows <- nrow(data)
+  validation_results$summary$n_cols <- ncol(data)
+  validation_results$summary$column_names <- names(data)
+  
+  # Check for empty dataset
+  if (nrow(data) == 0) {
+    validation_results$warnings <- c(validation_results$warnings, "Dataset is empty")
+  }
+  
+  # Rule-based validation
+  if (!is.null(rules)) {
+    for (rule_name in names(rules)) {
+      rule <- rules[[rule_name]]
+      
+      if (rule$type == "required_columns") {
+        missing_cols <- setdiff(rule$columns, names(data))
+        if (length(missing_cols) > 0) {
+          validation_results$is_valid <- FALSE
+          validation_results$errors <- c(
+            validation_results$errors,
+            paste("Missing required columns:", paste(missing_cols, collapse = ", "))
+          )
+        }
+      }
+      
+      if (rule$type == "data_types") {
+        for (col in names(rule$expected_types)) {
+          if (col %in% names(data)) {
+            expected_type <- rule$expected_types[[col]]
+            actual_type <- class(data[[col]])[1]
+            
+            if (actual_type != expected_type) {
+              validation_results$warnings <- c(
+                validation_results$warnings,
+                paste("Column", col, "expected type", expected_type, 
+                     "but found", actual_type)
+              )
+            }
+          }
+        }
+      }
+      
+      if (rule$type == "value_ranges") {
+        for (col in names(rule$ranges)) {
+          if (col %in% names(data) && is.numeric(data[[col]])) {
+            range_rule <- rule$ranges[[col]]
+            out_of_range <- data[[col]] < range_rule$min | data[[col]] > range_rule$max
+            out_of_range <- out_of_range[!is.na(out_of_range)]
+            
+            if (any(out_of_range)) {
+              validation_results$warnings <- c(
+                validation_results$warnings,
+                paste("Column", col, "has", sum(out_of_range), 
+                     "values outside range [", range_rule$min, ",", range_rule$max, "]")
+              )
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  # Check for missing values
+  missing_summary <- sapply(data, function(x) sum(is.na(x)))
+  validation_results$summary$missing_values <- missing_summary[missing_summary > 0]
+  
+  return(validation_results)
+}
+
+# Define validation rules
+validation_rules <- list(
+  required_cols = list(
+    type = "required_columns",
+    columns = c("id", "age", "treatment")
+  ),
+  data_types = list(
+    type = "data_types",
+    expected_types = list(
+      id = "character",
+      age = "numeric",
+      treatment = "character"
+    )
+  ),
+  ranges = list(
+    type = "value_ranges",
+    ranges = list(
+      age = list(min = 18, max = 100)
+    )
+  )
+)
+
+# Test data
+test_data_valid <- data.frame(
+  id = paste0("P", 1:10),
+  age = sample(25:75, 10),
+  treatment = sample(c("A", "B"), 10, replace = TRUE),
+  stringsAsFactors = FALSE
+)
+
+test_data_invalid <- data.frame(
+  id = paste0("P", 1:10),
+  age = c(sample(25:75, 8), 15, 105),  # Some ages out of range
+  weight = rnorm(10, 70, 10),          # Missing treatment column
+  stringsAsFactors = FALSE
+)
+
+# Run validations
+validation_valid <- validate_dataset(test_data_valid, validation_rules)
+validation_invalid <- validate_dataset(test_data_invalid, validation_rules)
+
+print("Valid dataset validation:")
+print(paste("Is valid:", validation_valid$is_valid))
+print("Warnings:")
+print(validation_valid$warnings)
+
+print("\nInvalid dataset validation:")
+print(paste("Is valid:", validation_invalid$is_valid))
+print("Errors:")
+print(validation_invalid$errors)
+print("Warnings:")
+print(validation_invalid$warnings)
+```
+
+## Exercise 2: Advanced Statistical Function
+
+```{r}
+#' Advanced Statistical Analysis with Bootstrap Confidence Intervals
+advanced_statistics <- function(data, variable, group = NULL, conf_level = 0.95, n_bootstrap = 1000) {
+  
+  # Input validation
+  stopifnot(is.data.frame(data))
+  stopifnot(variable %in% names(data))
+  stopifnot(is.numeric(data[[variable]]))
+  stopifnot(conf_level > 0 & conf_level < 1)
+  
+  # Bootstrap function for confidence intervals
+  bootstrap_mean <- function(x, n_boot = n_bootstrap) {
+    boot_means <- replicate(n_boot, {
+      sample_data <- sample(x, length(x), replace = TRUE)
+      mean(sample_data, na.rm = TRUE)
+    })
+    return(boot_means)
+  }
+  
+  # Calculate confidence interval
+  calc_ci <- function(x, conf_level) {
+    alpha <- 1 - conf_level
+    boot_samples <- bootstrap_mean(x[!is.na(x)])
+    ci_lower <- quantile(boot_samples, alpha/2)
+    ci_upper <- quantile(boot_samples, 1 - alpha/2)
+    return(c(lower = ci_lower, upper = ci_upper))
+  }
+  
+  # Analysis function
+  analyze_group <- function(data_subset, group_name = "Overall") {
+    values <- data_subset[[variable]]
+    clean_values <- values[!is.na(values)]
+    
+    if (length(clean_values) < 2) {
+      return(data.frame(
+        group = group_name,
+        n = length(clean_values),
+        mean = NA,
+        median = NA,
+        sd = NA,
+        se = NA,
+        ci_lower = NA,
+        ci_upper = NA,
+        skewness = NA,
+        kurtosis = NA
+      ))
+    }
+    
+    # Basic statistics
+    mean_val <- mean(clean_values)
+    median_val <- median(clean_values)
+    sd_val <- sd(clean_values)
+    se_val <- sd_val / sqrt(length(clean_values))
+    
+    # Confidence interval
+    ci <- calc_ci(clean_values, conf_level)
+    
+    # Higher moments
+    skewness <- function(x) {
+      x_centered <- x - mean(x)
+      n <- length(x)
+      skew <- (sum(x_centered^3) / n) / (sum(x_centered^2) / n)^(3/2)
+      return(skew)
+    }
+    
+    kurtosis <- function(x) {
+      x_centered <- x - mean(x)
+      n <- length(x)
+      kurt <- (sum(x_centered^4) / n) / (sum(x_centered^2) / n)^2 - 3
+      return(kurt)
+    }
+    
+    return(data.frame(
+      group = group_name,
+      n = length(clean_values),
+      mean = round(mean_val, 3),
+      median = round(median_val, 3),
+      sd = round(sd_val, 3),
+      se = round(se_val, 3),
+      ci_lower = round(ci[1], 3),
+      ci_upper = round(ci[2], 3),
+      skewness = round(skewness(clean_values), 3),
+      kurtosis = round(kurtosis(clean_values), 3)
+    ))
+  }
+  
+  # Perform analysis
+  if (is.null(group)) {
+    results <- analyze_group(data, "Overall")
+  } else {
+    if (! group %in% names(data)) {
+      stop(paste("Group variable", group, "not found in data"))
+    }
+    
+    groups <- unique(data[[group]])
+    groups <- groups[!is.na(groups)]
+    
+    group_results <- lapply(groups, function(g) {
+      subset_data <- data[data[[group]] == g & !is.na(data[[group]]), ]
+      analyze_group(subset_data, as.character(g))
+    })
+    
+    results <- do.call(rbind, group_results)
+  }
+  
+  return(results)
+}
+
+# Test the advanced statistics function
+set.seed(123)
+advanced_test_data <- data.frame(
+  id = 1:200,
+  value = c(rnorm(100, 50, 10), rnorm(100, 55, 12)),
+  group = rep(c("Control", "Treatment"), each = 100),
+  stringsAsFactors = FALSE
+)
+
+# Add some missing values
+advanced_test_data$value[sample(1:200, 10)] <- NA
+
+# Run analysis
+overall_analysis <- advanced_statistics(advanced_test_data, "value")
+grouped_analysis <- advanced_statistics(advanced_test_data, "value", "group")
+
+print("Overall Analysis:")
+print(overall_analysis)
+
+print("\nGrouped Analysis:")
+print(grouped_analysis)
+```
+
+# Summary and Best Practices
+
+## Key Takeaways
+
+1. **Start Simple**: Begin with basic functions and gradually add complexity
+2. **Validate Inputs**: Always check that inputs are what you expect
+3. **Handle Errors Gracefully**: Use tryCatch and informative error messages
+4. **Document Your Functions**: Use roxygen2 comments for clear documentation
+5. **Test Your Functions**: Write unit tests to ensure reliability
+6. **Follow Naming Conventions**: Use clear, descriptive function and variable names
+7. **Keep Functions Focused**: Each function should do one thing well
+8. **Consider Performance**:  Use vectorization and efficient algorithms
+9. **Plan for Reusability**: Write functions that can be easily used in different contexts
+10. **Version Control**: Track changes to your functions over time
+
+## Function Writing Checklist
+
+Before finalizing a function, ask yourself: 
+
+- [ ] Does the function have a clear, single purpose?
+- [ ] Are the inputs validated appropriately?
+- [ ] Are error messages helpful and informative?
+- [ ] Is the function documented with examples?
+- [ ] Have edge cases been considered and tested?
+- [ ] Is the function efficient for its intended use?
+- [ ] Can the function be easily tested? 
+- [ ] Is the code readable and well-commented? 
+- [ ] Does the function follow naming conventions? 
+- [ ] Are there any dependencies that should be explicit?
+
+By following these principles and practices, you'll be able to create robust, reusable, and maintainable functions that will serve you well in your R programming journey. 
