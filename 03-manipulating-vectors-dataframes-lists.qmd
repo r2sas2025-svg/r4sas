@@ -2,1050 +2,1206 @@
 title: "Manipulating Vectors, Data Frames, and Lists"
 ---
 
-```{r}
-library(haven)
-library(dplyr)
-library(tidyr)
+
+```{r setup, message=FALSE, warning=FALSE}
+# Load essential packages for pharmaceutical data analysis
+library(haven)    # For reading SAS datasets (SDTM, ADaM)
+library(dplyr)    # For data manipulation
+library(tidyr)    # For data reshaping
+library(stringr)  # For string manipulation
 ```
 
-# Vectors: Indexing & Vectorized Ops
-```{r}
-#Creating vector
-x=1:10
-x=10:1
-x=-5:10
-x=c(1:10)
-x=c(-5:10)
-x=c(1,2,3,4,5,6,7,8,9,10)
+# Chapter 1: Vector Operations in Pharmaceutical Context
 
-# Naming a vector
-a=c(1:3)
-names(a) #Returns null
-names(a)=c("one","two","three")
-names(a)
-a
+Vectors are the fundamental building blocks of R.  In pharmaceutical programming, vectors are used to store patient IDs, treatment codes, lab values, and categorical variables like adverse event terms. 
 
-#2)Accessing vector element
-x=c(1,3,5,7)
-x[2]
-x[c(1,3)]
-x[-2]
-x[-c(1,3)]
-x[0]
-y=x[10]
-class(y)
-#Note: X[0],x[10],output is numeric class only
-#************************************
-#3)Modification of Vector elements
-x=c(9,3,5,7)
-x[2]=13
-x[-c(2,3)]=c(11,17)
-x[-1]=c(110,170,70)
+## 1.1 Creating Vectors - The Foundation
 
-#****************************
-x=c(11,3,5,7)
-x[9]=x[7]
-#****************************
-x=c(11,3,5,7)
-x[9]=x[2]
+```{r vector-creation}
+# Creating vectors - essential for pharmaceutical data
+# Patient IDs (sequential numbering)
+patient_ids <- 1:10
+patient_ids_desc <- 10:1
+patient_ids_range <- -5:10
 
-x=c(1,3,5,7)
-x[2]=x[11] 
-#****************************
-x=c(1,3,5,7)
-x[c(2,5)]=x[c(4,4)] # It assign 4 element of to 2nd element and 4th element to 5th element 
-#****************************			from x=1,3,5,7
-x=c(11,3,5,7)
-x[c(2,7)]=x[c(1,3)]
+# Using c() function for explicit vector creation
+dose_levels <- c(1, 5, 10, 25, 50, 100)  # Dose escalation study
+safety_population <- c(1:254)            # Safety population patient IDs
 
-x=c(1,3,5,7)
-x[c(2,3)]=x[c(1,10)]
+# Pharmaceutical example: Creating treatment codes
+treatment_codes <- c("PLA", "LOW", "MED", "HIGH")
+```
 
-#4)Airthematic Operations on Vector
-x=c(1,3,5,7)
-x+10
-x-5
-x*10
-x/10
-x=c(1,3,5,7)
-x%/%2
-x=c(1,3,5,7)
-x%%2
-min(x)
-max(x)
-median(x)
-mean(x)
-range(x)
-var(x)
-sd(x)
-quantile(x)
-quantile(1:20,probs=c(.25,0.9))
-IQR(x)
+### Understanding Vector Naming in Clinical Data
 
-#5)"WHICH" function
-x=c(2,3,4,5,11,112,133,33)
-x>5
+```{r vector-naming}
+# Naming vectors is crucial for clinical data interpretation
+dose_groups <- c(0, 5, 10, 25)
+names(dose_groups) <- c("Placebo", "Low_Dose", "Medium_Dose", "High_Dose")
+print(dose_groups)
 
-x=c(2,3,4,5,11,112,133,33)
-y=which(x>5) #Returns the position,not values
-y=x[which(x>5)]
-y=x[x>5]
+# Clinical example: Lab normal ranges
+lab_ranges <- c(70, 100, 140)
+names(lab_ranges) <- c("Glucose_Low", "Glucose_Normal", "Glucose_High")
+print(lab_ranges)
+```
 
-x=c(2,3,4,5,11,112,133,33)
-min(x)
-which(x==min(x))
-x[which(x==min(x))]#Returns the  value
-which.min(x)#Returns the position,not values
+## 1.2 Vector Indexing - Accessing Patient Data
 
-x=c(2,3,4,5,11,112,133,33)
-max(x)
-which(x==max(x)) #Returns the position,not values
-x[which(x==max(x))]#Returns the  value
-which.max(x)#Returns the position,not values
+Vector indexing is critical when working with patient subsets, safety populations, or specific treatment arms.
 
-x=c(8,7,4,5,11,112,133,33)
-which(x>2 & x<5)
-x[which(x>2 & x<5)]
+```{r vector-indexing}
+# Sample adverse event severity scores
+ae_severity <- c(1, 3, 5, 2, 4, 1, 3)
 
-x=c(8,7,4,5,11,112,133,33)
-which(x>7 | x<12)
-x[which(x>7 | x<12)]
+# Accessing specific patient data
+ae_severity[2]                    # Second patient's AE severity
+ae_severity[c(1, 3, 5)]          # Patients 1, 3, and 5
+ae_severity[-2]                  # Exclude patient 2
+ae_severity[-c(1, 3)]            # Exclude patients 1 and 3
 
-#6)"REP" function
-x=rep(1:5,times=10)
-x=rep(100,times=10)
-x=rep(c(3,6),times=4)
-x=rep("Kummam",times=5)
-x=rep(c("Ramesh","Kummam"),times=3)
-x=rep(1:4,5:8)
-#x=rep(1:4,1:2) #output as invalid argument
-x=rep(1:4,c(2,3,5,7))
-x=rep(1:4,each=3)
-x=rep(1:4,each=2,times=3)
+# Important: Accessing non-existent indices
+missing_patient <- ae_severity[10]  # Returns NA
+class(missing_patient)              # Still numeric class
 
-#7)"SEQ" function
-x=seq(from=1,to=10,by=3)
-#x=seq(from=1,to=10,by=-3) # wrong arguments
-x=seq(from=10,to=1,by=-3)
-x=seq(from=1,to=10,length=100)
-x=seq(from=1,by=2,length=100)
-y=seq(from=1,by=3,length=50)
-z=c(x,y)
+# Pharmaceutical application: Safety population subset
+safety_ids <- 1:100
+efficacy_subset <- safety_ids[1:85]  # Efficacy population
+```
 
-#8)seq_len() & seq_along() functions
-x=c(8,7,4,5,11,112,133,33)
-length(x)
-seq_len(length(x))
-seq_along(x) #Returns length of the object
+## 1.3 Vector Modification - Updating Clinical Data
 
-#9) Dealing with missing values
-x=c(11,3,5,7)
-x[2]=NA
-x[c(2,3)]=NA
-is.na(x) #Output is a logical vector
-x[!is.na(x)]
-na.omit(x)
-#Note: Observe the below operations carefully
-x=c(1,NA,5,NA)
-#x==NA # not followed it so far
-#x[x==NA]# not followed it so far
-	
+```{r vector-modification}
+# Laboratory values that need updating
+lab_values <- c(95, 87, 110, 92)
 
-#10) Naming a vector
-x=c(1:3)
-names(x)=c("a","b","c")
-x[c("a","b")]
-y=c("Ramesh","Kummam")
-names(y)=c("First","Last")
-y[c("Last","First")]
+# Single value modification (data correction)
+lab_values[2] <- 89  # Correcting second patient's value
 
-#9) Checking the availability of elements in a vector
-a=c(1:10)
-b=c(5:15)
-1 %in% a
-1 %in% b
-a %in% b
-b %in% a
-is.element(a,b)
-is.element(b,a)
+# Multiple value updates (batch correction)
+lab_values[c(1, 4)] <- c(96, 94)
 
-# print strings
-print("string")
+# Extending vectors (new patient enrollment)
+lab_values[8] <- lab_values[2]  # Copying value
+lab_values[9] <- 105            # New patient value
 
-# concatenate strings "a" + "b" = "ab"
-paste("a", "b", sep = "")
+# Clinical scenario: Updating multiple positions
+visit_scores <- c(10, 15, 20, 25)
+visit_scores[c(2, 5)] <- c(16, 30)  # Update visits 2 and 5
+```
 
-# paste objects of different length
-paste("i", 1:10, sep =".")
-paste(c("i","j", "k"), 1:10, sep =".")
+## 1.4 Arithmetic Operations - Statistical Calculations
 
-# paste with collapsing
-paste(c("i","j", "k"), 1:3, sep = "", collapse = "")
+```{r arithmetic-operations}
+# Biomarker values for statistical analysis
+biomarker_values <- c(12.5, 15.3, 18.7, 14.2)
 
-# paste withour collapsing
-paste(c("i","j", "k"), 1:3, sep = "")
+# Basic transformations common in clinical analysis
+biomarker_values + 2.5          # Adding baseline adjustment
+biomarker_values - 10           # Subtracting control value
+biomarker_values * 1.2          # Scaling factor
+biomarker_values / 2            # Half-life calculation
 
-# paste0() shorter version of paste(..., sep ="")
-paste0("Hello", "world", ",", "I", "use", "R")
-paste("Hello", "world", ",", "I", "use", "R", sep =" ")
+# Advanced arithmetic operations
+biomarker_values %/% 2          # Integer division
+biomarker_values %% 3           # Modulo operation
 
-# concatenate strings with cat()
-cat("Hello", "world", "!")
+# Essential statistical functions for clinical data
+min(biomarker_values)           # Minimum value
+max(biomarker_values)           # Maximum value
+median(biomarker_values)        # Median (robust to outliers)
+mean(biomarker_values)          # Mean value
+range(biomarker_values)         # Range (min, max)
+var(biomarker_values)           # Variance
+sd(biomarker_values)            # Standard deviation
+quantile(biomarker_values)      # Quartiles
+IQR(biomarker_values)           # Interquartile range
 
-# it prints withoute "" quotes !!!
-cat("Hello", "world", "!", sep = "/")
+# Custom quantiles for clinical cutoffs
+quantile(biomarker_values, probs = c(0.25, 0.5, 0.75, 0.95))
+```
 
-# counting number of characters nchar()
-nchar("Hello world")
+## 1.5 The WHICH Function - Clinical Data Subsetting
 
-# load US states names from data frame regarding crime rate
-df <- USArrests
-head(df)
-rownames(df)
-states <- rownames(df) 
+The `which()` function is essential for identifying patients meeting specific clinical criteria.
 
-# convert all states names to upper case
-states_upper <- toupper(states)
+```{r which-function}
+# Patient vital signs data
+systolic_bp <- c(120, 145, 135, 160, 110, 180, 125, 155)
 
-# convert all names to lower
-states_lower <- tolower(states)
+# Identifying hypertensive patients (>140 mmHg)
+hypertensive_logical <- systolic_bp > 140
+hypertensive_positions <- which(systolic_bp > 140)  # Returns positions
+hypertensive_values <- systolic_bp[which(systolic_bp > 140)]  # Returns values
+hypertensive_values_alt <- systolic_bp[systolic_bp > 140]     # Alternative method
 
-# or select which to apply with function casefol
-casefold(x = states, upper = T)
-casefold(x = states, upper = F)
+# Finding extreme values (safety signals)
+min_bp <- min(systolic_bp)
+min_position <- which(systolic_bp == min_bp)  # Position of minimum
+min_value <- systolic_bp[which(systolic_bp == min_bp)]  # Actual minimum value
 
-# character translation
-chartr(old = "o", new = "0", x = "Hello World")
+# Using which. min() and which.max() for efficiency
+which.min(systolic_bp)  # Position only
+which.max(systolic_bp)  # Position only
 
-# sorting strings 
-sort(states, decreasing = F) #ascending order
-sort(states, decreasing = T) #descending order
+# Complex clinical criteria (combination conditions)
+# Patients with moderate hypertension (140-160 mmHg)
+moderate_hypertension <- which(systolic_bp > 140 & systolic_bp <= 160)
+moderate_bp_values <- systolic_bp[moderate_hypertension]
 
-# extracting parts of string
-# sub string first 3 letters from state name Alabama
-substr(x = "Alabama", start = 1, stop = 3)
+# Patients with either low (<110) or high (>170) BP
+extreme_bp_positions <- which(systolic_bp < 110 | systolic_bp > 170)
+extreme_bp_values <- systolic_bp[extreme_bp_positions]
+```
 
-# String matching - back to toy example
-help(regex)
+## 1.6 The REP Function - Creating Repetitive Clinical Data
 
-# get all country names
-#install.packages("countrycode")
-require(countrycode)
+The `rep()` function is valuable for creating balanced study designs and simulating clinical data.
 
+```{r rep-function}
+# Creating balanced treatment allocation
+treatment_sequence <- rep(1:4, times = 25)  # 25 patients per treatment (4 treatments)
+placebo_only <- rep("Placebo", times = 50)  # 50 placebo patients
+
+# Alternating treatment pattern
+alternating_trt <- rep(c("Active", "Placebo"), times = 10)  # 10 cycles
+
+# Creating patient identifiers with repetition
+patient_labels <- rep("Patient", times = 100)
+center_codes <- rep(c("Site_001", "Site_002", "Site_003"), times = c(30, 40, 50))
+
+# Complex repetition patterns for study design
+dose_levels <- rep(1:4, c(10, 15, 20, 25))  # Unequal allocation
+treatment_blocks <- rep(1:3, each = 20)      # 20 patients per block
+
+# Multi-level repetition (nested study design)
+nested_design <- rep(1:4, each = 5, times = 6)  # 4 treatments, 5 reps, 6 cycles
+```
+
+## 1.7 The SEQ Function - Creating Clinical Sequences
+
+The `seq()` function generates sequences critical for visit schedules, dose escalations, and time series analysis.
+
+```{r seq-function}
+# Visit schedule creation (days from baseline)
+visit_days <- seq(from = 0, to = 365, by = 28)  # Monthly visits for 1 year
+dose_escalation <- seq(from = 1, to = 100, by = 10)  # Dose escalation steps
+
+# Time-based sequences
+hourly_timepoints <- seq(from = 0, to = 24, by = 2)  # PK sampling every 2 hours
+weekly_visits <- seq(from = 7, to = 84, by = 7)      # Weekly visits for 12 weeks
+
+# Creating equal intervals
+pk_timepoints <- seq(from = 0, to = 24, length = 13)  # 13 timepoints over 24 hours
+biomarker_schedule <- seq(from = 1, by = 14, length = 8)  # Bi-weekly for 16 weeks
+
+# Combining sequences for complex study designs
+baseline_visits <- seq(from = -14, to = 0, by = 7)     # Screening period
+treatment_visits <- seq(from = 1, to = 168, by = 14)   # Treatment period
+followup_visits <- seq(from = 182, to = 365, by = 28)  # Follow-up period
+
+complete_schedule <- c(baseline_visits, treatment_visits, followup_visits)
+```
+
+## 1.8 Sequence Helper Functions
+
+```{r seq-helpers}
+# Working with patient vectors
+patient_vitals <- c(120, 135, 142, 128, 156, 118, 145, 139)
+
+# seq_len() - creates sequence from 1 to n
+patient_count <- length(patient_vitals)
+patient_indices <- seq_len(patient_count)  # 1, 2, 3, ..., 8
+
+# seq_along() - creates sequence matching vector length
+visit_numbers <- seq_along(patient_vitals)  # Same as seq_len(length(x))
+```
+
+## 1.9 Missing Data Handling - Critical in Clinical Studies
+
+```{r missing-data}
+# Clinical lab values with missing data (common in real studies)
+hemoglobin_values <- c(12.5, NA, 13.2, 11.8, NA, 14.1)
+
+# Detecting missing values
+missing_pattern <- is.na(hemoglobin_values)  # Logical vector
+complete_values <- hemoglobin_values[!is.na(hemoglobin_values)]  # Complete cases only
+complete_data <- na.omit(hemoglobin_values)  # Alternative method
+
+# Important: Never use == with NA
+# hemoglobin_values == NA      # WRONG - always returns NA
+# hemoglobin_values[hemoglobin_values == NA]  # WRONG
+
+# Correct approach for missing data analysis
+has_missing <- any(is.na(hemoglobin_values))
+missing_count <- sum(is.na(hemoglobin_values))
+complete_count <- sum(!is.na(hemoglobin_values))
+```
+
+## 1.10 Vector Element Membership - Clinical Criteria Checking
+
+```{r vector-membership}
+# Safety population and efficacy population patient IDs
+safety_population <- 1:200
+efficacy_population <- 1:150
+per_protocol_population <- c(1:50, 55:120, 125:148)
+
+# Checking patient membership in populations
+patient_in_safety <- 175 %in% safety_population      # TRUE
+patient_in_efficacy <- 175 %in% efficacy_population  # FALSE
+
+# Population overlap analysis
+safety_in_efficacy <- safety_population %in% efficacy_population
+efficacy_in_pp <- efficacy_population %in% per_protocol_population
+
+# Alternative using is.element()
+element_check1 <- is.element(safety_population, efficacy_population)
+element_check2 <- is.element(efficacy_population, per_protocol_population)
+
+# Clinical application: Treatment compliance checking
+compliant_patients <- c(1, 5, 8, 12, 15, 18, 22, 25, 30)
+all_patients <- 1:50
+compliance_status <- all_patients %in% compliant_patients
+```
+
+## 1.11 String Operations - Essential for Clinical Data
+
+```{r string-operations}
+# Basic string output
+print("Clinical Study Report")
+
+# String concatenation for patient identifiers
+patient_prefix <- "STUDY001-"
+patient_numbers <- sprintf("%03d", 1:10)  # Zero-padded numbers
+patient_ids <- paste(patient_prefix, patient_numbers, sep = "")
+
+# Creating visit labels
+visit_labels <- paste("Visit", 1:10, sep = "_")
+timepoint_labels <- paste("Day", c(1, 7, 14, 28, 56), sep = "_")
+
+# Handling vectors of different lengths
+site_codes <- c("001", "002", "003")
+patient_ranges <- 1:30
+full_patient_ids <- paste(site_codes, patient_ranges, sep = "-")
+
+# Collapsing for summary output
+treatment_arms <- c("Placebo", "Low_Dose", "High_Dose")
+treatment_summary <- paste(treatment_arms, collapse = ", ")
+
+# paste0() - efficient concatenation
+adverse_event_ids <- paste0("AE", sprintf("%04d", 1:100))
+lab_test_codes <- paste0("LAB_", c("HEM", "CHEM", "URN"), "_", 1:5)
+
+# Using cat() for formatted output
+cat("Study Status:", "Ongoing", "\n")
+cat("Enrolled Patients:", 156, "/", 200, "\n")
+```
+
+## 1.12 Advanced String Manipulation for Clinical Data
+
+```{r advanced-strings}
+# Character counting for data validation
+max_adverse_event_length <- max(nchar(c("Headache", "Nausea", "Fatigue", "Dizziness")))
+
+# Case conversion for standardization
+raw_adverse_events <- c("headache", "NAUSEA", "Fatigue", "dizziness")
+standardized_upper <- toupper(raw_adverse_events)
+standardized_lower <- tolower(raw_adverse_events)
+
+# Using casefold() for flexible case conversion
+ae_upper <- casefold(raw_adverse_events, upper = TRUE)
+ae_lower <- casefold(raw_adverse_events, upper = FALSE)
+
+# Character translation for data cleaning
+lab_values_dirty <- "O. 5mg/dL"  # O instead of 0
+lab_values_clean <- chartr(old = "O", new = "0", x = lab_values_dirty)
+
+# Sorting clinical terms
+medical_terms <- c("Zyrtec", "Aspirin", "Benadryl", "Claritin")
+terms_ascending <- sort(medical_terms, decreasing = FALSE)
+terms_descending <- sort(medical_terms, decreasing = TRUE)
+
+# Substring extraction for coding
+study_id <- "PROTO-2024-ONCOLOGY-001"
+protocol_year <- substr(study_id, start = 7, stop = 10)
+therapeutic_area <- substr(study_id, start = 12, stop = 19)
+```
+
+## 1.13 Regular Expressions for Clinical Data Cleaning
+
+```{r regex-clinical}
+# Load country data for site analysis
+library(countrycode)
 countries <- as.vector(countrycode::codelist$country.name.en)
 
-# countries beginning with letter "A"
-grep(pattern = "^A", x = countries)
-countries[grep(pattern = "^A", x = countries)]
-countries[grepl(pattern = "^A", x = countries)]
+# Countries starting with "A" (common site locations)
+countries_a <- grep(pattern = "^A", x = countries, value = TRUE)
+countries_a_positions <- grep(pattern = "^A", x = countries)
 
-# all country names that end with letter "y"
-rez <- grep(pattern = "*y$", x = countries)
-countries[rez]
+# Countries ending with "y"
+countries_ending_y <- countries[grep(pattern = "y$", x = countries)]
 
-# all country with 2 words or more for a country name
-rez <- grep(pattern = "\\w\\s\\w", x = countries)
-countries[rez]
+# Multi-word country names (important for site coding)
+multiword_countries <- countries[grep(pattern = "\\w\\s\\w", x = countries)]
 
-# all country names that end with letter "e" or "i"
-rez <- grep(pattern = "*e$|*i$", x = countries)
-countries[rez]
+# Countries ending with "e" OR "i"
+countries_e_or_i <- countries[grep(pattern = "e$|i$", x = countries)]
 
-# all country names which contain combination of letters “gin” 
-rez <- grep(pattern = "*(gin)", x = countries)
-countries[rez]
+# Countries containing "gin" (pattern matching)
+countries_with_gin <- countries[grep(pattern = "gin", x = countries)]
 
+# Metacharacter handling in clinical data
+financial_data <- c("cost $1000", "budget", "expense $500")
 
-# metacharacters and double backslash sign
-strings <- c("dollar $", "dollar", "US dollar")
+# Escaping special characters
+dollar_entries <- financial_data[grep(pattern = "\\$", x = financial_data)]
 
-# how to escape metacharacters in R
-# we would like to match a word with "$" dollar sign
-strings
-rez1 <- grep(pattern = "$", x = strings) # wrong way all are find $ indicating end of string
-strings[rez1]
+# Finding decimal numbers in lab results
+lab_results <- c("12.5 mg/dL", "normal", "15.7 mg/dL")
+decimal_results <- lab_results[grep(pattern = "\\.", x = lab_results)]
 
-# we need to escape $ with \ backslash
-#rez2 <- grep(pattern = "\$", x = strings) # wrong way error
-#strings[rez2]
+# Anchoring patterns
+medication_codes <- c("MED123", "ADMIN456", "MED789")
+med_codes_only <- medication_codes[grep("^MED", medication_codes)]
+admin_codes_only <- medication_codes[grep("456$", medication_codes)]
 
-# right way $ escape with \\ double backslash
-#rez3 <- grep(pattern = "\\$", x = strings) # wrong way error
-#strings[rez3]
+# Character classes for validation
+study_codes <- c("ST123", "STUDY", "ST456")
+numeric_codes <- study_codes[grep("\\d", study_codes)]      # Contains digits
+alpha_codes <- study_codes[grep("\\D", study_codes)]        # Contains non-digits
 
-# Escape dot .
-strings <-c("word.word", "word word")
-rez <- grep(pattern = "\\.", x = strings)
-strings[rez]
-
-# the hat sign beginning of the string and dollar sign end of string
-strings <- c("Word", "worD")
-strings[grep("^W",strings)]
-strings[grep("D$",strings)]
-
-# example of an anchor sequences in R
-strings <- c("123", "onetwothree", "1twothree")
-strings[grep("\\d", strings)] # digit character
-strings[grep("\\D", strings)] # non-digit character
-
-# example of a character classes
-strings <- c("123", "dollar", "shkjl")
-strings[grep("[aeiou]", strings)] # match word with any vovel
-strings[grep("[0-9]", strings)] # match word with digits
-
-
-# find and replace sub() & gsub()
-string <- "I have started to learn R, and I already love R."
-
-# replace "R" with "X"
-sub(pattern = "R", replacement = "X", x = string) #only first occurence replaced
-gsub(pattern = "R", replacement = "X", x = string) #all occurences replaced
-
-#replace white space with blank space
-gsub(pattern = "\\s", replacement = "", x = string)
-
-
-# string split, split given sentence by comma ","
-strsplit(x = string, split = ",")
-
-# split phone numbers by digits
-numbers <- c("310-555-123", "311-444-456")
-strsplit(x = numbers, split = "-")
-
+# Vowel detection in adverse event terms
+ae_terms <- c("headache", "nausea", "rash")
+vowel_containing <- ae_terms[grep("[aeiou]", ae_terms)]
+numeric_containing <- ae_terms[grep("[0-9]", ae_terms)]
 ```
 
-# Data Frames with dplyr
-```{r}
-
-# create data frame 
-df1 <- data.frame(col1 = 1:3, 
-                  col2 = c("a", "b", "c"), 
-                  col3 = c(T, F, T), 
-                  col4 = c(as.Date("2020-01-01"), as.Date("2020-01-03"), as.Date("2020-01-03")))
-
-
-# create data frame - vectors
-col1 <- seq(10,100,10)
-col2 <- seq(as.Date("2020-01-01"), length = 10, by = "weeks")
-col3 <- rep("word", 10)
-
-df2 <- data.frame(num = col1,
-                  date = col2,
-                  string = col3)
-
-# check DF structure
-str(df2)
-
-
-# create data frame - matrix
-M <- matrix(data = 1:100, nrow = 10, ncol = 10, byrow = T)
-rownames(M) <- paste("row", 1:10, sep = "")
-colnames(M) <- paste("col", 1:10, sep = "")
-M
-df3 <- as.data.frame(M)
-df3
-
-# check DF dimensions
-dim(df3)
-nrow(df3)
-ncol(df3)
-
-# check DF type / class
-class(df3)
-typeof(df3)
-
-
-# 4.3.2 Accessing DF
-
-# let's create DF - employees
-df_emp <- data.frame(id = 1:6,
-                     name = c("Max", "Jane", "John", "Tony", "Janis", "Helen"),
-                     surname = c("Gordon", "Smith", "Don", "Price", "Jett", "Dust"),
-                     age = c(55, 35, 46, 22, 60, 27),
-                     date_start_work = c(as.Date("1985-09-01"), as.Date("2010-10-01"), as.Date("1999-06-01"), as.Date("2019-03-01"), as.Date("1980-04-15"), as.Date("2015-02-20")),
-                     gender = c("M", "F", "M", "M", "F", "M"),
-                     manager_position = c(T, F, F, F, T, F)
-                     )
-
-# extract data as data frame (one column) - []
-df_extr <- df_emp["name"]
-df_extr
-class(df_extr)
-
-# extract data as vector (one column) [[]] $
-df_extr <- df_emp[["age"]]
-df_extr
-class(df_extr) # vector factor
-df_extr <- df_emp$age
-df_extr
-class(df_extr) # vector factor
-
-# extract multiple columns
-df_extr <- df_emp[c("name", "age")]
-df_extr
-
-
-# data frame slicing
-df_emp
-
-#extract second row in name column (1 cell)
-df_emp[2,2]
-df_emp[2,"name"]
-
-# extract first 4 rows of last 2 columns 
-df_emp[1:4, 6:7]
-df_emp[1:4, c("gender", "manager_position")]
-
-# extract first column (all rows)
-df_emp[,1]
-df_emp[,"id"]
-df_emp$id
-
-# extract last 2 rows (all columns) 
-df_emp[5:6,]
-cols <- colnames(df_emp)
-df_emp[5:6, cols]
-
-
-# 4.3.3 Modifying data frame
-
-# append column 
-df_emp <- cbind(df_emp, role = c("director", "secretary", "analyst", "researcher", "CEO", "analyst"))
-df_emp$new_col <- 1
-
-# append rows 
-df_emp <- rbind(df_emp, list(7, "Mark", "Jax", 32, as.Date("2020-01-01"), "M", F, "researcher", 1))
-
-# problem with factor variables (new values not in factor levels)
-# easy solution - append new row as data frame (rbind 2 data frames)!!! 
-# will show few rows later
-
-# remove column
-df_emp$new_col <- NULL
-
-# remove row
-df_emp <- df_emp[-7,]
-
-# merge two data frames (row wise)
-df_new_emp <- data.frame(id = 7,
-                         name = "Mark",
-                         surname = "Jax",
-                         age = 32,
-                         date_start_work = as.Date("2020-01-01"),
-                         gender = "M",
-                         manager_position = F,
-                         role = "researcher")
-
-df_emp <- rbind(df_emp, df_new_emp)
-
-# merge two data frames (column wise)
-df_attr <- data.frame(eye_color = c("blue", "green", "brown", "hazel", "blue", "brown", "brown"),
-                      hair_color = c("blonde", "light brown", "black", "brown", "blonde", "dark brown", "brown"))
-df_emp <- cbind(df_emp, df_attr)
-
-
-# 4.3.4 Tips
-
-# Df summary
-summary(df_emp)
-
-# rows subsetting
-subset(x = df_emp, gender == "M")
-subset(x = df_emp, gender == "F" & manager_position == T)
-
-rows <- which(df_emp[,"gender"] == "M")
-df_emp[rows,]
-
-rows <- which(df_emp[,"gender"] == "F" & df_emp[,"manager_position"] == T)
-df_emp[rows,]
-
-# some calculations regarding data frames
-nr_managers <- sum(df_emp$manager_position)
-mean_age <- mean(df_emp$age)
-df_emp$name_surname <- paste(df_emp$name, df_emp$surname, sep = " ") # merge name and surname
-
-# use apply to sum over columns (age, manager_position)
-apply(df_emp[,c("age", "manager_position")], 2, sum)
-
-# if statement
-
-x <- 3
-y <- 14
-
-if(x < y){
-  print("x is less than y")
-}
-
-
-# if-else statement
-
-x <- 3
-y <- 14
-
-if(x > y){
-  print("x is greater than y")
-} else{
-  print("x is less or equal to y")
-}
-
-
-# if-else if-else statement
-
-x <- 14
-y <- 14
-
-if(x > y){
-  print("x is greater than y")
-} else if (x < y){
-  print("x is less than y")
-} else{
-  print("x is equal to y")
-}
-
-
-# 5.1.2 relational operators
-
-# scalar
-x <- 3
-
-x == 4
-x > 0 
-x < 5
-x <= 3
-x >= 10
-x %in% c(1,2,3,4,5)
-
-# vectors
-X <- c(F,T,0,10)
-Y <- c(T,F,F,T)
-
-X == Y # element-wise comparison
-X > Y
-X < Y
-X >= Y
-X <= Y
-X != Y
-X %in% Y
-
-
-# 5.1.3 Logical operators 
-
-X | Y
-#X || Y
-X & Y
-#X && Y
-!X
-
-# logical operators in if statement (flip coin twice)
-c1 <- "H"
-c2 <- "H"
-
-if(c1 == "H" & c2 == "H"){
-  paste("You win 10$")
-} else if((c1 == "H" & c2 == "T") | (c1 == "T" & c2 == "H")){
-  paste("You win 2$")
-} else{
-  paste("You lose all the money")
-}
-
-
-# loop over iterations and print number of iteration
-for(it in 1:10){
-  print(paste("iteration ", it, sep = ""))
-}
-
-
-# sum of numbers in a sequence
-sequence <- c(1,2,3,4,5)
-s <- 0 # initial sum
-
-for(val in sequence){
-  s <- s + val
-  print(paste("value = ", val, sep = ""))
-  print(paste("s = ", s, sep = ""))
-  print("--------------------")
-}
-
-
-# for loop with conditional statement
-# (count number of even numbers in a vector)
-x <- c(1,3,2,4,5,10,22,21,100) # given numbers
-count <- 0 # counter for even numbers
-
-for(val in x){
-  if(val %% 2 == 0){ # if number is divisible with 2
-    count <- count + 1
-  }
-}
-
-print(count)
-
-
-
-```
-# Read sas dataset
-```{r}
-dm <- haven::read_sas("data/sdtm/dm.sas7bdat")
-ae <- haven::read_sas("data/sdtm/ae.sas7bdat")
+## 1.14 String Replacement - Data Standardization
+
+```{r string-replacement}
+# Clinical data standardization
+report_text <- "Patient received Drug A, and Patient showed improvement with Drug A."
+
+# Single replacement vs. global replacement
+single_replace <- sub(pattern = "Drug A", replacement = "Investigational Product", x = report_text)
+global_replace <- gsub(pattern = "Drug A", replacement = "Investigational Product", x = report_text)
+
+# Removing whitespace for data cleaning
+messy_data <- "Patient   ID:    12345   Status:   Active"
+clean_data <- gsub(pattern = "\\s+", replacement = " ", x = messy_data)  # Multiple spaces to single
+no_spaces <- gsub(pattern = "\\s", replacement = "", x = messy_data)      # Remove all spaces
+
+# String splitting for data parsing
+patient_info <- "LastName,FirstName,DOB,Gender"
+info_components <- strsplit(x = patient_info, split = ",")
+
+# Parsing structured clinical data
+phone_numbers <- c("555-123-4567", "555-987-6543")
+phone_parts <- strsplit(x = phone_numbers, split = "-")
 ```
 
-# keeping selected columns
-```{r}
+# Chapter 2: Data Frame Manipulation with dplyr - Clinical Data Analysis
 
-dm_1 <- dm |> 
-       dplyr::select(USUBJID,ARM) |> 
-       dplyr::filter(ARM =="Placebo")
+Data frames are the primary data structure for clinical datasets (SDTM, ADaM). The dplyr package provides a grammar of data manipulation essential for clinical programming.
 
-dm_2 <- dm |> 
-  dplyr::select(USUBJID:ARM) 
+## 2.1 Creating Data Frames - Study Data Structure
 
-dm_2 <- dm |> 
-  dplyr::select(1,2,3) 
+```{r dataframe-creation}
+# Basic clinical data frame
+patient_demographics <- data.frame(
+  USUBJID = paste0("STUDY001-", sprintf("%03d", 1:5)),
+  AGE = c(45, 67, 23, 55, 34),
+  SEX = c("M", "F", "M", "F", "M"),
+  RACE = c("WHITE", "BLACK", "ASIAN", "WHITE", "OTHER"),
+  ARM = c("Placebo", "Treatment", "Placebo", "Treatment", "Treatment"),
+  RANDDT = as.Date(c("2024-01-15", "2024-01-16", "2024-01-17", "2024-01-18", "2024-01-19"))
+)
 
-dm_2 <- dm |> 
-  dplyr::select(1:3) 
+# More complex data frame with vectors
+visit_dates <- seq(as.Date("2024-01-01"), length = 10, by = "weeks")
+visit_numbers <- 1:10
+study_status <- rep(c("Ongoing", "Completed"), each = 5)
 
-dm_2 <- dm |> 
-  dplyr::select(starts_with("AR")) 
+visit_schedule <- data.frame(
+  VISITNUM = visit_numbers,
+  VISITDT = visit_dates,
+  STATUS = study_status,
+  stringsAsFactors = FALSE  # Important for character data
+)
 
-dm_2 <- dm |> 
-  dplyr::select(contains("DT")) 
+# Converting matrix to data frame (rare but useful)
+lab_matrix <- matrix(data = rnorm(50, mean = 100, sd = 15), nrow = 10, ncol = 5)
+rownames(lab_matrix) <- paste("Patient", 1:10, sep = "_")
+colnames(lab_matrix) <- paste("Lab", LETTERS[1:5], sep = "_")
+lab_dataframe <- as.data.frame(lab_matrix)
 
-
-dm2 <- dplyr::select(dm,USUBJID,ARM) 
+# Data frame inspection
+dim(patient_demographics)     # Dimensions:  rows x columns
+nrow(patient_demographics)    # Number of patients
+ncol(patient_demographics)    # Number of variables
+class(patient_demographics)   # Object class
+str(patient_demographics)     # Structure summary
 ```
 
-# dropping columns
-To select all columns except certain ones, put a “-” in front of the variable to exclude it. For multiple variables, you can use the function c() to combine values into a vector or list. This will select all the variables in surveys except ARM, SITEID
-```{r}
-adsl <- haven::read_sas("data/adam/adsl.sas7bdat")
-adsl2 <- dplyr::select(adsl, -c(AGE, SEX, TRT01A))
-adsl3 <- dplyr::select(adsl, -c(STUDYID:ARM))
-adsl4 <- dplyr::select(adsl, -c(1:6))
-adsl4 <- dplyr::select(adsl, -c(1:6, 43))
-adsl5 <- dplyr::select(adsl, -starts_with("A"))
-adsl6 <- dplyr::select(adsl, -ends_with("DTC"))
-adsl7 <- dplyr::select(adsl, -contains("TRT"))
-```
-There are many helper functions available with select() like: starts_with(), ends_with(), contains() among others. These were imported from the tidyselect package. You can put a “-” in front of the helper function to negate it. Here is an example using contains():
-# Filtering rows
-To choose rows based on a specific criteria, use filter(): To select rows where the planned treatment code equals “Placebo”:
-```{r}
-adsl1 <- adsl |> 
-     dplyr::select(USUBJID,TRT01A) |> 
-     dplyr::filter(TRT01A=="Placebo" )
+## 2.2 Accessing Data Frame Elements - Patient Data Extraction
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A=="Placebo" & SEX == "M" & AGE == 70)
+```{r dataframe-access}
+# Single column extraction (returns data frame)
+age_df <- patient_demographics["AGE"]
+class(age_df)  # Still a data frame
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A=="Placebo" & (SEX == "M" | AGE == 70))
+# Single column extraction (returns vector)
+age_vector <- patient_demographics[["AGE"]]
+age_vector_alt <- patient_demographics$AGE
+class(age_vector)  # Vector
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A=="Placebo" & SEX == "M" & AGE %in% c(70,80))
+# Multiple column extraction
+demographics_subset <- patient_demographics[c("USUBJID", "AGE", "SEX")]
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A=="Placebo" & SEX == "M" & !AGE %in% c(70,80))
+# Row and column slicing (critical for patient subsets)
+# First patient's age
+first_patient_age <- patient_demographics[1, "AGE"]
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A=="Placebo" & !SEX == "M" & !AGE %in% c(70,80))
+# First 3 patients, last 3 variables
+subset_data <- patient_demographics[1:3, 4:6]
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A %in% c("Placebo","Xanomeline High Dose") & !SEX == "M" & !AGE %in% c(70,80))
+# All male patients (logical indexing)
+male_patients <- patient_demographics[patient_demographics$SEX == "M", ]
 
-adsl2 <- adsl |> 
-  dplyr::select(USUBJID,TRT01A,SEX,AGE) |> 
-  dplyr::filter(TRT01A %in% c("Placebo","Xanomeline High Dose") & !SEX == "M" & AGE >= 70)
+# Treatment arm patients only
+treatment_patients <- patient_demographics[patient_demographics$ARM == "Treatment", ]
 ```
 
-# Rename
-```{r}
-adsl1 <- adsl |> 
-    dplyr::rename(usubjid=USUBJID)
+## 2.3 Modifying Data Frames - Clinical Data Updates
 
-adsl1 <- adsl |> 
-  dplyr::rename(usubjid=USUBJID,
-                trt=TRT01P)
+```{r dataframe-modification}
+# Create working copy
+clinical_data <- patient_demographics
+
+# Adding new columns (common in clinical programming)
+clinical_data$AGEGR1 <- ifelse(clinical_data$AGE < 65, "<65", ">=65")
+clinical_data$STUDY_DAY <- as.numeric(Sys.Date() - clinical_data$RANDDT)
+
+# Adding multiple patients (enrollment updates)
+new_patient <- data.frame(
+  USUBJID = "STUDY001-006",
+  AGE = 42,
+  SEX = "F",
+  RACE = "HISPANIC",
+  ARM = "Placebo",
+  RANDDT = as.Date("2024-01-20"),
+  AGEGR1 = "<65",
+  STUDY_DAY = 1
+)
+
+# Proper way to add rows (rbind)
+clinical_data <- rbind(clinical_data, new_patient)
+
+# Adding site information (column-wise merge)
+site_info <- data.frame(
+  SITEID = c("001", "002", "001", "002", "001", "003"),
+  COUNTRY = c("USA", "USA", "USA", "USA", "USA", "CAN")
+)
+
+clinical_data <- cbind(clinical_data, site_info)
+
+# Removing columns (data cleanup)
+clinical_data$STUDY_DAY <- NULL
+
+# Removing rows (patient withdrawal)
+# Remove last patient (index 6)
+clinical_data <- clinical_data[-6, ]
 ```
 
-# Arrange (sorting)
-```{r}
-adsl1 <- adsl |> 
-      dplyr::select(USUBJID,SEX,AGE) |> 
-      dplyr::arrange(AGE,SEX)
+## 2.4 Data Frame Summary and Subsetting
 
-adsl1 <- adsl |> 
-  dplyr::select(USUBJID,SEX,AGE) |> 
-  dplyr::arrange(AGE,desc(SEX))
+```{r dataframe-summary}
+# Comprehensive data summary
+summary(clinical_data)
+
+# Subsetting with conditions (safety population)
+male_patients <- subset(clinical_data, SEX == "M")
+elderly_female <- subset(clinical_data, SEX == "F" & AGE >= 65)
+treatment_elderly <- subset(clinical_data, ARM == "Treatment" & AGE >= 65)
+
+# Using which() for row indices
+male_indices <- which(clinical_data$SEX == "M")
+male_patients_alt <- clinical_data[male_indices, ]
+
+# Statistical calculations
+n_managers <- sum(clinical_data$ARM == "Treatment")  # Treatment group size
+mean_age <- mean(clinical_data$AGE)
+age_by_treatment <- aggregate(AGE ~ ARM, data = clinical_data, FUN = mean)
+
+# Creating composite variables
+clinical_data$PATIENT_LABEL <- paste(clinical_data$USUBJID, clinical_data$ARM, sep = "_")
+
+# Apply functions for calculations
+numeric_columns <- c("AGE")
+apply(clinical_data[numeric_columns], 2, function(x) c(mean = mean(x), sd = sd(x)))
 ```
 
-# convert var names to lower case
-```{r}
-tolower(names(adsl))
+# Chapter 3: Reading SAS Datasets - SDTM and ADaM
 
-adsl1 <- adsl
+```{r sas-data-reading}
+# Reading SDTM datasets (Study Data Tabulation Model)
+# Commented out as files may not exist in all environments
+# dm <- haven::read_sas("data/sdtm/dm.sas7bdat")  # Demographics
+# ae <- haven::read_sas("data/sdtm/ae. sas7bdat")  # Adverse Events
+# vs <- haven::read_sas("data/sdtm/vs. sas7bdat")  # Vital Signs
+# lb <- haven::read_sas("data/sdtm/lb. sas7bdat")  # Laboratory
 
-names(adsl1) <- tolower(names(adsl1))
+# Reading ADaM datasets (Analysis Data Model)  
+# adsl <- haven::read_sas("data/adam/adsl.sas7bdat")  # Subject Level Analysis Dataset
+# adae <- haven::read_sas("data/adam/adae.sas7bdat")  # Adverse Events Analysis Dataset
+# adlb <- haven::read_sas("data/adam/adlb.sas7bdat")  # Laboratory Analysis Dataset
+
+# For demonstration, create sample datasets
+dm <- data.frame(
+  USUBJID = paste0("STUDY001-", sprintf("%03d", 1:100)),
+  ARM = rep(c("Placebo", "Treatment A", "Treatment B"), length.out = 100),
+  AGE = sample(18:80, 100, replace = TRUE),
+  SEX = sample(c("M", "F"), 100, replace = TRUE),
+  RACE = sample(c("WHITE", "BLACK", "ASIAN", "OTHER"), 100, replace = TRUE),
+  RFSTDTC = sample(seq(as.Date("2024-01-01"), as.Date("2024-06-01"), by = "day"), 100),
+  stringsAsFactors = FALSE
+)
+
+ae <- data.frame(
+  USUBJID = sample(dm$USUBJID, 200, replace = TRUE),
+  AETERM = sample(c("Headache", "Nausea", "Fatigue", "Dizziness", "Rash"), 200, replace = TRUE),
+  AESEV = sample(c("MILD", "MODERATE", "SEVERE"), 200, replace = TRUE),
+  AEOUT = sample(c("RECOVERED", "ONGOING", "NOT RECOVERED"), 200, replace = TRUE),
+  stringsAsFactors = FALSE
+)
 ```
 
-# Creating new variables
-```{r}
-adsl1 <- adsl |> 
-  dplyr::mutate(name="Sri Ram")
+# Chapter 4: Advanced dplyr Operations - Clinical Data Manipulation
 
-adsl_test <- adsl |>
+## 4.1 Column Selection - Choosing Clinical Variables
+
+The `select()` function is fundamental for creating analysis datasets from raw SDTM data. 
+
+```{r dplyr-select}
+# Basic column selection for demographics analysis
+dm_analysis <- dm %>% 
+  dplyr::select(USUBJID, ARM, AGE, SEX)
+
+# Range selection (consecutive columns)
+dm_basic <- dm %>% 
+  dplyr::select(USUBJID: ARM)  # From USUBJID to ARM
+
+# Numeric position selection
+dm_first_three <- dm %>% 
+  dplyr::select(1:3)
+
+# Helper functions for clinical programming
+treatment_vars <- dm %>% 
+  dplyr::select(starts_with("ARM"))     # Treatment-related variables
+
+date_vars <- dm %>% 
+  dplyr::select(contains("DT"))         # Date variables
+
+baseline_vars <- dm %>% 
+  dplyr::select(ends_with("BL"))        # Baseline variables
+
+# Combining selections
+key_demographics <- dm %>% 
+  dplyr:: select(USUBJID, AGE, SEX, starts_with("ARM"))
+
+# Alternative syntax (less preferred in pipelines)
+dm_subset <- dplyr::select(dm, USUBJID, ARM)
+```
+
+## 4.2 Dropping Columns - Data Cleanup
+
+```{r dplyr-drop}
+# Dropping unnecessary columns for analysis
+# Create sample ADSL with many columns
+adsl <- dm %>% 
   dplyr::mutate(
-    AGEGR1_t = dplyr::if_else(AGE < 65, "<65", ">=65"),                     # character
-    SAFFL_t  = dplyr::if_else(!is.na(TRTSDT), "Y", "N")                    # character flag
-  ) |> 
-  dplyr::select(USUBJID,AGE,AGEGR1_t,SAFFL_t,TRTSDT)
-```
-
-# bind rows ( set operator in SAS)
-```{r}
-# bind rows
-df_a <- data.frame(
-  id = 1:3,
-  value = c("A", "B", "C"),
-  score = c(10, 20, 30)
-)
-df_b <- data.frame(
-  id = 4:6,
-  value = c("D", "E", "F"),
-  score = c(40, 50, 60)
-)
-
-com <- dplyr::bind_rows(df_a,
-                        df_b)
-
-df_combined <- dplyr::bind_rows(df_a, df_b,df_a,.id = "source")
-
-df_combined <- dplyr::bind_rows(df_a, df_b,df_a,.id = "source")
-
-df_combined <- dplyr::bind_rows("dset1"=df_a, 
-                                "dset2"=df_b,
-                                "test"=df_a,.id = "Source_var_name")
-
-df_combined <- dplyr::bind_rows(select(df_a,id, value), 
-                                df_b)
-
-adsl_tot <- dplyr::bind_rows(adsl |> 
-                               dplyr::select(USUBJID,TRT01P,TRT01PN),
-                             
-                             adsl |> 
-                               dplyr::mutate(TRT01P="Total", TRT01PN=99) |>
-                               dplyr::select(USUBJID,TRT01P,TRT01PN)
-)
-
-```
-
-# recode (similar to PROC FORMAT in SAS)
-```{r}
-sex_fm <- c("M"="Male",
-            "F"="Female"
-)
-adsl_test1 <- adsl |> 
-      dplyr::mutate(gender=dplyr::recode(SEX,!!!sex_fm))
-
-adsl_test2 <- adsl |> 
-        dplyr::mutate(SEX=dplyr::recode(SEX,"M"="Male",
-                                            "F"="Female"))
-
-adsl_test <- adsl |>
-  dplyr::mutate(
-    gn = dplyr::if_else(SEX=="M","Male","Female")                    # character
-                ) |> 
-  dplyr::select(USUBJID,SEX,gn) |> 
-  head(5)
-```
-# factor levels
-
-```{r}
-adsl_test <- adsl |>
-  dplyr::mutate(
-    AGEGR1_f = factor(dplyr::if_else(AGE < 65, "<65", ">=65"), levels = c("<65", ">=65")),                     # factor
-    SAFFL_f  = factor(dplyr::if_else(!is.na(TRTSDT), "Y", "N"), levels = c("Y", "N"))                    # factor
-  ) |> 
-  dplyr::select(USUBJID,AGE,AGEGR1_f,SAFFL_f,TRTSDT)
-```
-
-
-# joins
-
-The dplyr package provides functions to join tables based on shared keys, such as patient IDs. The main types of joins include:
-
--   inner_join()
--   left_join()
--   right_join()
--   full_join()
--   semi_join()
--   anti_join()
-
-```{r}
-# Patient demographics data
-patients <- data.frame(
-  patient_id = c(101, 102, 103, 104),
-  age = c(34, 45, 29, 56),
-  gender = c("F", "M", "M", "F")
-)
-
-# Patient lab results data
-lab_results <- data.frame(
-  patient_id = c(103, 104, 105, 106),
-  test = c("CBC", "Lipid Panel", "Blood Glucose", "CBC"),
-  result = c("Normal", "High Cholesterol", "Elevated", "Normal")
-)
-
-# Display the data frames
-patients
-lab_results
-
-```
-
-## innter join
-
-`inner_join()`: returns only rows with matching patient IDs in both data frames.
-
-```{r}
-# Inner join on patient_id
-inner_join(patients, lab_results, by = "patient_id")
-
-```
-
-In this example, only patients with patient_ids 103 and 104 are in both tables, so only their information appears in the result.
-
-## left join
-
-`left_join()` returns all rows from the patients data frame and matches rows from lab_results where possible. Unmatched rows in lab_results are filled with `NA`.
-
-```{r}
-# Left join on patient_id
-left_join(patients, lab_results, by = "patient_id")
-
-```
-
-Here, all patients from patients are included, with `NA` for lab results where no match is found.
-
-## right join
-
-`right_join()` returns all rows from lab_results, matching rows from patients where possible. Unmatched rows in patients are filled with`NA`.
-
-```{r}
-# Right join on patient_id
-right_join(patients, lab_results, by = "patient_id")
-
-```
-
-In this example, all patients with lab results are included, with demographic data from patients where available.
-
-## Full Join
-
-`full_join()` returns all rows from both tables, with `NA` for missing matches in either table.
-
-```{r}
-# Full join on patient_id
-full_join(patients, lab_results, by = "patient_id")
-
-```
-
-## Semi Join
-
-`semi_join()` returns only the rows in patients that have a match in lab_results, without bringing in columns from lab_results.
-
-```{r}
-# Semi join on patient_id
-semi_join(patients, lab_results, by = "patient_id")
-
-```
-
-Only patients with lab results are included here (patients 103 and 104).
-
-## Anti join
-
-`anti_join()` returns only the rows in patients that do not have a match in lab_results.
-
-```{r}
-# Anti join on patient_id
-anti_join(patients, lab_results, by = "patient_id")
-
-#example
-tab_a <- data.frame(
-  id=c(001,002,003,004),
-  age=c(25,50,30,40)
-)
-
-tab_b <- data.frame(
-  id=c(001,002,004,005),
-  sex=c("M","F","M","F")
-)
-
-#inner join: 
-injointab <- dplyr::inner_join(tab_a,tab_b,by="id")
-#full join:
-fulljointab <- full_join(tab_a,tab_b,by="id")
-#left join
-leftjointab <- left_join(x=tab_a,y=tab_b,by="id")
-#right join
-righjointab <- right_join(x=tab_a,y=tab_b,by="id")
-#anti_join
-antijointab <- anti_join(x=tab_a,y=tab_b,by="id")
-antijointab1 <- anti_join(x=tab_b,y=tab_a,by="id")
-
-```
-# Reshaping data with tidyr
-```{r}
-test <- data.frame(
-  visit=c("wk0","wk2","wk4","wk6","wk12"),
-  drug_a=c(10,20,30,40,50),
-  drug_b=c(50,40,30,20,10),
-  drug_c=c(15,25,35,45,55))
-#tidyr::pivot_longer
-library(tidyr)
-test1 <- pivot_longer(data=test,
-                      cols=c(drug_a,drug_b,drug_c),
-                      names_to="drug",
-                      values_to = "dose")
-
-
-test2 <- pivot_wider(data=test1,
-                     id_cols =visit,
-                     names_prefix = "d_", # it is optional
-                     values_from = dose,
-                     names_from = drug)
-```
-
-# counting with `n()`
-When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, dplyr provides count(). For example, if we wanted to count the number of rows of data for each sex, we would do:
-```{r}
-cnt <- adsl |> 
-  dplyr::count(SEX)
-
-
-# race count by treatment
-cnt2 <- adsl |> 
-  dplyr::count(TRT01P, RACE)
-
-
-#treatment count
-cnt3 <- adsl |> 
-  dplyr::filter(!is.na(TRT01P)) |>
-  dplyr::count(TRT01P)
-
-adae <- haven::read_sas("data/adam/adae.sas7bdat") |> 
-  dplyr::mutate(dplyr::across(where(is.character),~ dplyr::na_if(.,"")))
-
-adsl <- haven::read_sas("data/adam/adsl.sas7bdat") |> 
-  dplyr::mutate(dplyr::across(where(is.character),~ dplyr::na_if(.,"")))
-
-bign <- adsl |>
-  dplyr::filter(SAFFL == "Y") |>
-  dplyr::count(TRT01AN, TRT01A) |>
-  dplyr::rename(TRTA = TRT01A, TRTAN = TRT01AN, bign = n)
-
-bign1 <- dplyr::count(adsl, TRT01AN, TRT01A) |>
-  dplyr::rename(TRTA = TRT01A, TRTAN = TRT01AN, bign = n)
-
-adae1 <- adae |> 
-   dplyr::distinct(USUBJID,AEBODSYS,AEDECOD,TRTA,TRTAN,SAFFL)
-
-ae_t <- adae1 |>
-  dplyr::filter(SAFFL == "Y") |>
-  dplyr::group_by(TRTA) |>
-  dplyr::count(AEBODSYS, AEDECOD)
-
-ae_t1 <- ae_t |>
-  dplyr::left_join(bign, by = "TRTA") |>
-  dplyr::mutate(
-    pct = paste0("(", round(n / bign * 100, 2), ")"),
-    val = paste0(n," ",pct)
+    STUDYID = "STUDY001",
+    TRT01A = ARM,
+    TRT01P = ARM,
+    TRT01AN = case_when(
+      ARM == "Placebo" ~ 0,
+      ARM == "Treatment A" ~ 1,
+      ARM == "Treatment B" ~ 2
+    ),
+    SAFFL = "Y",
+    ITTFL = "Y",
+    RANDDT = RFSTDTC
   )
 
-ae2 <- pivot_wider(
-  data = ae_t1,
-  id_cols = c(AEBODSYS, AEDECOD),
-  names_from = TRTA,
-  values_from = val,
-  values_fill = "0 (0.0)"
+# Drop individual columns
+adsl_clean <- adsl %>% 
+  dplyr::select(-c(STUDYID, RFSTDTC))
+
+# Drop column ranges
+adsl_minimal <- adsl %>% 
+  dplyr::select(-c(TRT01A: TRT01AN))
+
+# Drop by position
+adsl_no_first_col <- adsl %>% 
+  dplyr::select(-1)
+
+# Drop multiple non-consecutive columns
+adsl_focused <- adsl %>% 
+  dplyr::select(-c(1, 3, 5:7))
+
+# Drop using helper functions
+adsl_no_treatment <- adsl %>% 
+  dplyr::select(-starts_with("TRT"))
+
+adsl_no_dates <- adsl %>% 
+  dplyr::select(-ends_with("DT"))
+
+adsl_no_flags <- adsl %>% 
+  dplyr::select(-contains("FL"))
+```
+
+## 4.3 Filtering Rows - Patient Population Selection
+
+Row filtering is critical for defining analysis populations (Safety, ITT, Per-Protocol).
+
+```{r dplyr-filter}
+# Safety population (patients who received at least one dose)
+safety_population <- adsl %>% 
+  dplyr::filter(SAFFL == "Y")
+
+# Treatment group analysis
+placebo_patients <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(TRT01A == "Placebo")
+
+# Complex filtering (multiple conditions with AND)
+elderly_male_treatment <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(TRT01A == "Treatment A" & SEX == "M" & AGE >= 65)
+
+# OR conditions (either condition can be true)
+special_population <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(TRT01A == "Placebo" & (SEX == "M" | AGE >= 70))
+
+# Age range filtering
+adult_population <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(AGE >= 18 & AGE <= 65)
+
+# Multiple value selection using %in%
+active_treatments <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(TRT01A %in% c("Treatment A", "Treatment B"))
+
+# Exclusion filtering using !  (NOT operator)
+non_placebo <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(! TRT01A == "Placebo")
+
+# Excluding multiple values
+excluded_ages <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(! AGE %in% c(70, 75, 80))
+
+# Combined inclusion and exclusion
+analysis_population <- adsl %>% 
+  dplyr::select(USUBJID, TRT01A, SEX, AGE) %>% 
+  dplyr::filter(TRT01A %in% c("Treatment A", "Treatment B") & 
+                ! SEX == "F" & 
+                AGE >= 18)
+```
+
+## 4.4 Variable Renaming - Standardization
+
+```{r dplyr-rename}
+# Single variable rename
+adsl_renamed <- adsl %>% 
+  dplyr::rename(SUBJECT_ID = USUBJID)
+
+# Multiple variable renames
+adsl_standard <- adsl %>% 
+  dplyr::rename(
+    SUBJECT_ID = USUBJID,
+    TREATMENT = TRT01P,
+    PLANNED_TREATMENT = TRT01A
+  )
+
+# Converting to lowercase (common requirement)
+adsl_lower <- adsl
+names(adsl_lower) <- tolower(names(adsl_lower))
+```
+
+## 4.5 Sorting Data - Clinical Data Ordering
+
+```{r dplyr-arrange}
+# Single variable sorting
+adsl_by_age <- adsl %>% 
+  dplyr::select(USUBJID, SEX, AGE, TRT01A) %>% 
+  dplyr::arrange(AGE)
+
+# Multiple variable sorting (treatment, then age)
+adsl_trt_age <- adsl %>% 
+  dplyr::select(USUBJID, SEX, AGE, TRT01A) %>% 
+  dplyr:: arrange(TRT01A, AGE)
+
+# Descending order
+adsl_age_desc <- adsl %>% 
+  dplyr::select(USUBJID, SEX, AGE, TRT01A) %>% 
+  dplyr::arrange(desc(AGE))
+
+# Mixed ascending and descending
+adsl_mixed_sort <- adsl %>% 
+  dplyr::select(USUBJID, SEX, AGE, TRT01A) %>% 
+  dplyr::arrange(AGE, desc(TRT01A))
+```
+
+## 4.6 Creating New Variables - Derived Variables
+
+Variable creation is essential for analysis datasets, creating flags, categorizations, and derived endpoints.
+
+```{r dplyr-mutate}
+# Simple variable creation
+adsl_enhanced <- adsl %>% 
+  dplyr::mutate(STUDY_NAME = "Phase III Efficacy Study")
+
+# Conditional variable creation using if_else()
+adsl_derived <- adsl %>%
+  dplyr::mutate(
+    AGEGR1 = dplyr::if_else(AGE < 65, "<65", ">=65"),                    # Age group
+    SAFFL_DERIVED = dplyr::if_else(! is.na(RANDDT), "Y", "N"),           # Safety flag
+    SEX_FULL = dplyr::if_else(SEX == "M", "Male", "Female")             # Full gender
+  ) %>% 
+  dplyr::select(USUBJID, AGE, AGEGR1, SEX, SEX_FULL, RANDDT, SAFFL_DERIVED)
+
+# Complex conditional logic with case_when()
+adsl_complex <- adsl %>% 
+  dplyr::mutate(
+    AGE_GROUP = dplyr::case_when(
+      AGE < 18 ~ "Pediatric",
+      AGE >= 18 & AGE < 65 ~ "Adult",
+      AGE >= 65 & AGE < 75 ~ "Elderly",
+      AGE >= 75 ~ "Very Elderly",
+      TRUE ~ "Unknown"  # Default case for missing values
+    ),
+    RISK_CATEGORY = dplyr::case_when(
+      AGE >= 65 & SEX == "F" ~ "High Risk",
+      AGE >= 70 ~ "High Risk", 
+      AGE < 30 ~ "Low Risk",
+      TRUE ~ "Standard Risk"
+    )
+  ) %>% 
+  dplyr::select(USUBJID, AGE, SEX, AGE_GROUP, RISK_CATEGORY)
+```
+
+## 4.7 Data Binding - Combining Datasets
+
+```{r dplyr-bind}
+# Create sample datasets for binding examples
+dataset_a <- data.frame(
+  USUBJID = c("001", "002", "003"),
+  VISIT = c("V1", "V1", "V1"),
+  LBTEST = c("Hemoglobin", "Hemoglobin", "Hemoglobin"),
+  LBSTRESN = c(12.5, 13.2, 11.8)
 )
 
+dataset_b <- data.frame(
+  USUBJID = c("004", "005", "006"),
+  VISIT = c("V1", "V1", "V1"), 
+  LBTEST = c("Hemoglobin", "Hemoglobin", "Hemoglobin"),
+  LBSTRESN = c(14.1, 12.9, 13.5)
+)
+
+# Row binding (adding more patients/observations)
+combined_lab <- dplyr::bind_rows(dataset_a, dataset_b)
+
+# Row binding with source identification
+combined_with_source <- dplyr::bind_rows(
+  "Batch_1" = dataset_a,
+  "Batch_2" = dataset_b,
+  .id = "DATA_SOURCE"
+)
+
+# Binding with repeated datasets (useful for simulation)
+repeated_data <- dplyr::bind_rows(dataset_a, dataset_b, dataset_a, .id = "ITERATION")
+
+# Creating total rows for summary tables
+adsl_with_total <- dplyr::bind_rows(
+  adsl %>% 
+    dplyr::select(USUBJID, TRT01P, TRT01AN) %>% 
+    dplyr::slice_head(n = 10),  # First 10 for example
+  
+  adsl %>% 
+    dplyr::slice_head(n = 10) %>% 
+    dplyr::mutate(TRT01P = "Total", TRT01AN = 99) %>%
+    dplyr::select(USUBJID, TRT01P, TRT01AN)
+)
 ```
-# dplyr distinct()
-The distinct() function in dplyr is used to return unique/distinct rows from a data
-frame or tibble. It removes duplicate rows based on the values in specified columns or all columns if none are specified.
-```{r}
-# distinct
-distinct_trt <- adsl |> 
-  dplyr::distinct(TRT01P,TRT01PN)
-print(distinct_trt)
+
+## 4.8 Recoding Variables - Data Standardization
+
+```{r dplyr-recode}
+# Creating lookup table for recoding
+sex_mapping <- c("M" = "Male", "F" = "Female")
+
+# Using recode() function
+adsl_recoded <- adsl %>% 
+  dplyr::mutate(SEX_LABEL = dplyr::recode(SEX, !!!sex_mapping)) %>% 
+  dplyr::select(USUBJID, SEX, SEX_LABEL)
+
+# Direct recoding without lookup table
+adsl_direct_recode <- adsl %>% 
+  dplyr::mutate(SEX_FULL = dplyr::recode(SEX, 
+                                        "M" = "Male",
+                                        "F" = "Female")) %>% 
+  dplyr::select(USUBJID, SEX, SEX_FULL)
+
+# Alternative using if_else (often more readable)
+adsl_alternative <- adsl %>%
+  dplyr::mutate(SEX_DESC = dplyr::if_else(SEX == "M", "Male", "Female")) %>% 
+  dplyr::select(USUBJID, SEX, SEX_DESC)
 ```
-# case_when()
-The case_when() function in dplyr is a powerful tool for creating new variables based on
-multiple conditions. It allows you to specify a series of conditions and corresponding values to assign when those conditions are met.
-```{r}
-adsl1 <- adsl |> 
+
+## 4.9 Factor Creation - Categorical Data Management
+
+```{r factor-creation}
+# Creating factors with specified levels (important for analysis and reporting)
+adsl_factors <- adsl %>%
   dplyr::mutate(
-    agegrp1 = dplyr::case_when(
-      AGE < 18 ~ "Child",
-      AGE >= 18 & AGE < 65 ~ "Adult",
-      AGE >= 65 ~ "Senior",
-      TRUE ~ "Unknown"  # Default case
+    AGEGR1_FACTOR = factor(
+      dplyr::if_else(AGE < 65, "<65", ">=65"), 
+      levels = c("<65", ">=65")
+    ),
+    SEX_FACTOR = factor(SEX, levels = c("M", "F")),
+    TRT01A_FACTOR = factor(TRT01A, levels = c("Placebo", "Treatment A", "Treatment B"))
+  ) %>% 
+  dplyr:: select(USUBJID, AGE, AGEGR1_FACTOR, SEX_FACTOR, TRT01A_FACTOR)
+
+# Verify factor levels
+levels(adsl_factors$AGEGR1_FACTOR)
+levels(adsl_factors$SEX_FACTOR)
+levels(adsl_factors$TRT01A_FACTOR)
+```
+
+# Chapter 5: Advanced Data Operations
+
+## 5.1 Table Joins - Merging Clinical Datasets
+
+Joins are fundamental for combining SDTM domains or linking analysis datasets.
+
+```{r joins-demo}
+# Create realistic clinical datasets
+patients_demo <- data.frame(
+  USUBJID = paste0("STUDY001-", sprintf("%03d", 1:6)),
+  AGE = c(45, 67, 23, 55, 34, 42),
+  SEX = c("M", "F", "M", "F", "M", "F"),
+  ARM = c("Placebo", "Treatment", "Placebo", "Treatment", "Treatment", "Placebo")
+)
+
+lab_results <- data.frame(
+  USUBJID = paste0("STUDY001-", sprintf("%03d", c(2, 3, 4, 5, 7, 8))),
+  LBTEST = rep(c("Hemoglobin", "Creatinine"), each = 3),
+  LBSTRESN = c(12.5, 13.2, 11.8, 1.1, 0.9, 1.3),
+  VISITNUM = c(1, 1, 1, 1, 1, 1)
+)
+
+print("Demographics Data:")
+print(patients_demo)
+print("Laboratory Results:")
+print(lab_results)
+```
+
+### Inner Join - Only Patients with Lab Results
+
+```{r inner-join}
+# Inner join: Only patients with both demographics and lab data
+inner_result <- dplyr::inner_join(patients_demo, lab_results, by = "USUBJID")
+print("Inner Join Result (patients with lab data):")
+print(inner_result)
+```
+
+### Left Join - All Patients, Lab Data Where Available
+
+```{r left-join}
+# Left join: All patients from demographics, lab data where available
+left_result <- dplyr::left_join(patients_demo, lab_results, by = "USUBJID")
+print("Left Join Result (all patients):")
+print(left_result)
+```
+
+### Right Join - All Lab Results, Demographics Where Available
+
+```{r right-join}
+# Right join: All lab results, demographics where available
+right_result <- dplyr::right_join(patients_demo, lab_results, by = "USUBJID")
+print("Right Join Result (all lab results):")
+print(right_result)
+```
+
+### Full Join - All Records from Both Datasets
+
+```{r full-join}
+# Full join:  All records from both datasets
+full_result <- dplyr::full_join(patients_demo, lab_results, by = "USUBJID")
+print("Full Join Result (all records):")
+print(full_result)
+```
+
+### Semi Join - Patients Who Have Lab Results (No Lab Columns)
+
+```{r semi-join}
+# Semi join: Patients who have lab results (demographics only)
+semi_result <- dplyr::semi_join(patients_demo, lab_results, by = "USUBJID")
+print("Semi Join Result (patients with labs, demographics only):")
+print(semi_result)
+```
+
+### Anti Join - Patients Without Lab Results
+
+```{r anti-join}
+# Anti join: Patients without lab results
+anti_result <- dplyr::anti_join(patients_demo, lab_results, by = "USUBJID")
+print("Anti Join Result (patients without labs):")
+print(anti_result)
+
+# Reverse anti join:  Lab results without demographics
+anti_reverse <- dplyr::anti_join(lab_results, patients_demo, by = "USUBJID")
+print("Reverse Anti Join (labs without demographics):")
+print(anti_reverse)
+```
+
+## 5.2 Data Reshaping with tidyr - Wide vs.  Long Format
+
+Clinical data often needs reshaping between wide and long formats for analysis and reporting.
+
+```{r reshaping-demo}
+# Create wide-format visit data (common in clinical databases)
+visit_data_wide <- data.frame(
+  USUBJID = paste0("STUDY001-", sprintf("%03d", 1:5)),
+  BASELINE = c(95, 87, 110, 92, 88),
+  WEEK_4 = c(92, 85, 108, 89, 85),
+  WEEK_8 = c(89, 83, 105, 87, 83),
+  WEEK_12 = c(87, 81, 103, 85, 81)
+)
+
+print("Wide Format Data (one row per patient):")
+print(visit_data_wide)
+
+# Convert to long format using pivot_longer()
+visit_data_long <- visit_data_wide %>% 
+  tidyr::pivot_longer(
+    cols = c(BASELINE, WEEK_4, WEEK_8, WEEK_12),
+    names_to = "VISIT",
+    values_to = "LAB_VALUE"
+  )
+
+print("Long Format Data (one row per patient-visit):")
+print(visit_data_long)
+
+# Convert back to wide format using pivot_wider()
+visit_data_reconstructed <- visit_data_long %>% 
+  tidyr::pivot_wider(
+    id_cols = USUBJID,
+    names_from = VISIT,
+    values_from = LAB_VALUE,
+    names_prefix = "VISIT_"  # Optional prefix
+  )
+
+print("Reconstructed Wide Format:")
+print(visit_data_reconstructed)
+
+# Complex reshaping example with multiple measures
+complex_data <- data.frame(
+  USUBJID = rep(paste0("STUDY001-", sprintf("%03d", 1:3)), each = 2),
+  VISIT = rep(c("BASELINE", "WEEK_4"), 3),
+  HEMOGLOBIN = c(12.5, 12.8, 13.1, 13.3, 11.8, 12.1),
+  CREATININE = c(1.1, 1.0, 0.9, 0.9, 1.2, 1.1)
+)
+
+# Reshape to have one column per visit-test combination
+complex_wide <- complex_data %>% 
+  tidyr::pivot_wider(
+    id_cols = USUBJID,
+    names_from = VISIT,
+    values_from = c(HEMOGLOBIN, CREATININE),
+    names_sep = "_"
+  )
+
+print("Complex Wide Format:")
+print(complex_wide)
+```
+
+## 5.3 Counting and Summarizing - Clinical Summary Tables
+
+```{r counting-summarizing}
+# Simple counting for demographic tables
+treatment_counts <- adsl %>% 
+  dplyr::count(TRT01A) %>% 
+  dplyr::rename(Treatment = TRT01A, N = n)
+
+print("Treatment Allocation:")
+print(treatment_counts)
+
+# Cross-tabulation (treatment by sex)
+treatment_sex_counts <- adsl %>% 
+  dplyr::count(TRT01A, SEX) %>% 
+  dplyr:: arrange(TRT01A, SEX)
+
+print("Treatment by Sex:")
+print(treatment_sex_counts)
+
+# Filtering before counting (safety population)
+safety_counts <- adsl %>% 
+  dplyr::filter(SAFFL == "Y") %>%
+  dplyr::count(TRT01A) %>% 
+  dplyr::rename(Treatment = TRT01A, Safety_N = n)
+
+# Complex counting with adverse events
+# Note: Using simulated AE data since file may not exist
+adae_sim <- data.frame(
+  USUBJID = sample(adsl$USUBJID, 200, replace = TRUE),
+  AEBODSYS = sample(c("Nervous System", "Gastrointestinal", "Respiratory"), 200, replace = TRUE),
+  AEDECOD = sample(c("Headache", "Nausea", "Cough", "Fatigue"), 200, replace = TRUE),
+  TRTA = sample(c("Placebo", "Treatment A", "Treatment B"), 200, replace = TRUE),
+  SAFFL = "Y"
+)
+
+# Remove duplicates (one AE per patient-term combination)
+adae_unique <- adae_sim %>% 
+  dplyr::distinct(USUBJID, AEBODSYS, AEDECOD, TRTA, SAFFL)
+
+# Count AEs by treatment
+ae_summary <- adae_unique %>%
+  dplyr::filter(SAFFL == "Y") %>%
+  dplyr::group_by(TRTA) %>%
+  dplyr::count(AEBODSYS, AEDECOD) %>% 
+  dplyr::ungroup()
+
+# Add denominators for percentages
+bign <- adsl %>%
+  dplyr::filter(SAFFL == "Y") %>%
+  dplyr:: count(TRT01A) %>%
+  dplyr::rename(TRTA = TRT01A, total_n = n)
+
+# Calculate percentages
+ae_with_percent <- ae_summary %>%
+  dplyr::left_join(bign, by = "TRTA") %>%
+  dplyr::mutate(
+    percent = round(n / total_n * 100, 1),
+    display = paste0(n, " (", percent, "%)")
+  )
+
+# Reshape for reporting
+ae_table <- ae_with_percent %>% 
+  dplyr::select(AEBODSYS, AEDECOD, TRTA, display) %>% 
+  tidyr::pivot_wider(
+    id_cols = c(AEBODSYS, AEDECOD),
+    names_from = TRTA,
+    values_from = display,
+    values_fill = "0 (0.0%)"
+  )
+
+print("Adverse Events by Treatment (first 10 rows):")
+print(head(ae_table, 10))
+```
+
+## 5.4 Distinct Values and Unique Records
+
+```{r distinct-operations}
+# Get unique treatment combinations
+unique_treatments <- adsl %>% 
+  dplyr::distinct(TRT01A, TRT01AN) %>% 
+  dplyr::arrange(TRT01AN)
+
+print("Unique Treatment Codes:")
+print(unique_treatments)
+
+# Get unique patient-visit combinations (useful for verification)
+unique_patients <- adsl %>% 
+  dplyr::distinct(USUBJID) %>% 
+  dplyr::summarise(unique_patients = n())
+
+print("Number of Unique Patients:")
+print(unique_patients)
+
+# Remove duplicate records while keeping specific columns
+adae_distinct <- adae_sim %>% 
+  dplyr::distinct(USUBJID, AEDECOD, .keep_all = TRUE)  # One AE term per patient
+
+print(paste("Original AE records:", nrow(adae_sim)))
+print(paste("After removing duplicates:", nrow(adae_distinct)))
+```
+
+# Chapter 6: Best Practices and Advanced Techniques
+
+## 6.1 Efficient Pipeline Construction
+
+```{r efficient-pipelines}
+# Example of an efficient clinical programming pipeline
+analysis_ready_data <- adsl %>% 
+  # Step 1: Filter to analysis population
+  dplyr::filter(SAFFL == "Y", ! is.na(TRT01A)) %>% 
+  
+  # Step 2: Create derived variables
+  dplyr::mutate(
+    AGEGR1 = dplyr::case_when(
+      AGE < 45 ~ "<45",
+      AGE >= 45 & AGE < 65 ~ "45-64", 
+      AGE >= 65 ~ ">=65",
+      TRUE ~ "Missing"
+    ),
+    AGEGR1 = factor(AGEGR1, levels = c("<45", "45-64", ">=65")),
+    SEX_LABEL = dplyr::if_else(SEX == "M", "Male", "Female")
+  ) %>% 
+  
+  # Step 3: Select final variables
+  dplyr::select(USUBJID, TRT01A, TRT01AN, AGE, AGEGR1, SEX, SEX_LABEL) %>% 
+  
+  # Step 4: Sort for consistent output
+  dplyr::arrange(TRT01AN, USUBJID)
+
+print("Analysis Ready Dataset Structure:")
+str(analysis_ready_data)
+print(head(analysis_ready_data, 10))
+```
+
+## 6.2 Error Handling and Data Validation
+
+```{r data-validation}
+# Data validation pipeline
+validation_summary <- adsl %>% 
+  dplyr::summarise(
+    total_patients = n(),
+    missing_age = sum(is.na(AGE)),
+    missing_sex = sum(is.na(SEX)),
+    missing_treatment = sum(is.na(TRT01A)),
+    age_range = paste(min(AGE, na.rm = TRUE), "to", max(AGE, na.rm = TRUE)),
+    unique_treatments = n_distinct(TRT01A, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+print("Data Validation Summary:")
+print(validation_summary)
+
+# Check for data integrity issues
+integrity_checks <- adsl %>% 
+  dplyr::mutate(
+    age_flag = dplyr::case_when(
+      AGE < 0 | AGE > 120 ~ "Age out of range",
+      is.na(AGE) ~ "Missing age",
+      TRUE ~ "OK"
+    ),
+    sex_flag = dplyr::case_when(
+      ! SEX %in% c("M", "F") ~ "Invalid sex code",
+      is.na(SEX) ~ "Missing sex",
+      TRUE ~ "OK"
     )
-  ) |> 
-  dplyr::select(USUBJID, AGE, agegrp1) |> 
-  head(10)
-```
-# create seq no.
-```{r}
-class <- haven::read_sas("data/class.sas7bdat")
+  ) %>% 
+  dplyr::filter(age_flag != "OK" | sex_flag != "OK") %>% 
+  dplyr::select(USUBJID, AGE, age_flag, SEX, sex_flag)
 
-
-t <- dplyr::arrange(class, Age)
-# Create t1 data set with first and last records for each unique value of 'age'
-
-t1 <- class |> 
-  dplyr::arrange(Age) |>
-  dplyr::group_by(Age) |>
-     dplyr::mutate(seq = dplyr::row_number()) 
-
-t2 <- class |> 
-  dplyr::mutate(seq = dplyr::row_number(), .by = Age) |> 
-  dplyr::arrange(Age)
-
-t3 <- class |> 
-  dplyr::arrange(Age) |>
-  dplyr::group_by(Age) |>
-  dplyr::filter(dplyr::row_number() == 1 )
-
-t4 <- class |> 
-  dplyr::arrange(Age) |>
-  dplyr::group_by(Age) |>
-  dplyr::filter(dplyr::row_number() == n())
-
-t5 <- class |> 
-  dplyr::group_by(Age) |> 
-  dplyr::filter(row_number() == 1 & row_number() == n())
-
-t6 <- class |> 
-  dplyr::group_by(Age) |> 
-  dplyr::filter(row_number() == 1|row_number() == n())
-
+print("Data Integrity Issues:")
+print(integrity_checks)
 ```
 
-
-
-# Lists: `lapply`, purrr
-```{r}
-lst <- list(a=1:3, b=10:12)
-lapply(lst, mean)
-```
-
-# Exercises
-1. Using `across()`, standardize (`(x-mean)/sd`) numeric columns.
-2. Create a row-wise mean of `age` and `wt`.
-3. Split `df` by `grp` and compute group means with `lapply` or `purrr::map`.
+This comprehensive guide provides pharmaceutical programmers with the essential R skills for clinical data manipulation, from basic vector operations to advanced dplyr techniques used in SDTM and ADaM dataset creation and analysis. 

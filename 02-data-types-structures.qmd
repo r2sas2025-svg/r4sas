@@ -2,816 +2,1710 @@
 title: "Data Types & Data Structures"
 ---
 
-R has several built-in data structures to store and manipulate different types of data. These include vectors, lists, matrices, data frames, and factors. Below is an overview of each structure along with code examples.
+# Introduction
 
-# Vectors
+This comprehensive guide covers R's data types and structures with detailed explanations suitable for all skill levels. We'll explore not just *how* to use each structure, but *why* and *when* to use them effectively.
 
-Vectors are the simplest data structure in R. They store elements of the same type (numeric, character, logical, etc.).
+## Learning Objectives
+
+By the end of this chapter, you will be able to: 
+
+-   **Beginner**:  Understand basic data types and create simple data structures
+-  **Intermediate**: Master complex data manipulation and understand memory concepts
+-   **Advanced**: Optimize performance and implement advanced object-oriented concepts
+
+## R's Memory Model:  Foundation Concepts
+
+R stores all data as objects in memory.  Understanding this is crucial for efficient programming: 
+
+: :: {.callout-important}
+## Key Memory Concepts
+
+- **Copy-on-modify**: R creates copies when objects are modified
+- **Reference counting**:  R tracks how many variables point to an object
+- **Garbage collection**:  Automatic memory cleanup of unused objects
+- **Object attributes**: Metadata attached to R objects
+::: 
+
+#   Atomic Vectors:  The Building Blocks
+
+## Understanding Atomic Vectors
+
+Atomic vectors are the fundamental building blocks of R.  Every other data structure is built upon them.
+
+### The Six Atomic Types
 
 ```{r}
-# Creating numeric and character vectors
-numeric_vector <- c(1, 2, 3, 4)
-char_vector1 <- c("apple", "banana", "cherry")
-char_vector2 <- c(2, 3, 4, 5, "a")
-logical_vector <- c(TRUE, FALSE, TRUE)
+#| label: atomic-types
 
-# Accessing elements
-numeric_vector[1]  # Access the first element
+# 1. Logical (boolean)
+logical_vec <- c(TRUE, FALSE, TRUE, NA)
+cat("Logical:", typeof(logical_vec), "\n")
 
-v_logical <- c(T,F,T) # logical vector
-v_logical
-is.vector(v_logical)
-is.atomic(v_logical)
-typeof(v_logical)
+# 2. Integer (whole numbers with L suffix)
+integer_vec <- c(1L, 2L, 3L, NA_integer_)
+cat("Integer:", typeof(integer_vec), "\n")
 
-v_integer <- c(1L,2L,5L) # integer vector
-v_integer
-is.vector(v_integer)
-is.atomic(v_integer)
-typeof(v_integer)
+# 3. Double (real numbers)
+double_vec <- c(1.5, 2.7, 3.14159, NA_real_)
+cat("Double:", typeof(double_vec), "\n")
 
-v_double <- c(1.3,2.1,5.0) # double vector
-v_double
-is.vector(v_double)
-is.atomic(v_double)
-typeof(v_double)
+# 4. Character (strings)
+character_vec <- c("hello", "world", "R", NA_character_)
+cat("Character:", typeof(character_vec), "\n")
 
-v_character <- c("a", "b", "c") # character vector
-v_character
-is.vector(v_character)
-is.atomic(v_character)
-typeof(v_character)
+# 5. Complex (complex numbers)
+complex_vec <- c(1+2i, 3+4i, 5+0i, NA_complex_)
+cat("Complex:", typeof(complex_vec), "\n")
 
-v_NULL <- NULL # NULL
-v_NULL
-typeof(v_NULL)
-
-# Mix type vector (type coercion or conversion)
-v_mix <- c(T, 1L, 1.25, "a")
-v_mix # all elements converted to charatcers (based on hierarchy)
-is.vector(v_mix)
-typeof(v_mix)
-
-
-# Vector properties
-
-v <- c(1,2,3,4,5)
-
-# vector length
-length(v)
-
-# type
-typeof(v)
-class(v)
-
-# naming elements
-names(v) # without names
-vnames <- c("first", "second", "third", "fourth", "fifth") # element names
-names(v) <- vnames # naming elements
-v
-names(v) # new names
-
-
-# Create vector, access elements, modify vector
-
-# create using c()
-v <- c(1,3,5,8,0)
-
-# create using operator :
-1:100
-10:-10
-
-# using sequence seq()
-v <- seq(from = 1, to = 100, by = 1)
-v
-v <- seq(from = 0, to = 1, by = 0.01)
-v
-v <- seq(from = 0, to = 10, length.out = 5)
-v
-
-# let's create a vector for accessing vector elements
-v <- 1:10
-names(v) <- c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")
-v
-
-# access vector elements using integer vector index
-v[c(1,5,10)]
-v[1:5] # range index selection (slicing)
-v[seq(from = 1, to = 9, by = 2)]
-v[10:1] # reverse order selection
-v[c(10,1,5,3)] # mix orfer selection
-
-# access vector elements using logical vector index
-v[c(T,F,F,F,F,F,F,F,F,F)] # access first element
-v[c(F,F,F,F,F,F,F,T,T,T)] # access last three elements
-
-# access elements using names
-v[c("a","c","e")]
-v[c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j")]
-
-
-# modify vector elements
-v
-v[2] <- 20 # alter second element
-v
-v[c(1,5,10)] <- c(0,0,0) # alter multiple elements
-v
-
-# modify elements with value 0
-v
-v[v==0] # filter with condition
-v[v==0] <- 1000
-v
-
-# truncate vector to first 3 elements
-v <- v[1:3]
-v
-
-# transpose vector change row to column vector or vice versa
-v
-t(v)
-
-# delete or remove a vector
-v <- NULL
-v
-rm(v)
-
-# combine 2 different vectors
-v1 <- 1:3
-v2 <- 100:105
-v1
-v2
-v3 <- c(v1,v2) # combine vectors
-v3
-
-# repet elements of a vector
-rep(x = v1, times = 2)
-rep(x = v1, times = 100)
-rep(10,10)
-
-
-# Vector arithmetics
-
-# vector - scalar (scalar with each vector element)
-v <- 1:5
-a <- 10
-v
-a
-
-# Addition +
-v + a
-# Subtraction -
-v - a
-# Multiplication *
-v * a
-# Division /
-v / a
-# Exponent ^  **
-v^a
-# Modulus (Remainder from division) %%
-v %% 2
-# Integer Division %/%
-v %/% 2
-# Other functions on vector elements
-sqrt(v)
-log(v)
-sum(v)
-
-
-# vector - vector (vector element to element | member-by-member)
-v1 <- seq(10,30,10)
-v2 <- rep(3,3)
-
-# Addition +
-v1 + v2
-# Subtraction -
-v1 - v2
-# Multiplication *
-v1 * v2
-# Division /
-v1 / v2
-# Exponent ^  **
-v1^v2
-# Modulus (Remainder from division) %%
-v1 %% v2
-# Integer Division %/%
-v1 %/% v2
-
-# Vector-matrix style multiplication
-v1
-v2
-10*3 + 20*3 + 30*3
-t(v1) %*% v2
-v1 %*% v2
-v1 %*% t(v2)
-
-
-# Recycling rule
-v1 <- c(1,1,1)
-v2 <- 1:6
-v1
-v2
-v1 + v2
-
-
-#  Set operations
-
-v1 <- c("a", "b", "c")
-v2 <- c("c", "d", "e")
-v1
-v2
-
-union(v1,v2) # union of both sets (all unique elements)
-
-intersect(v1,v2) # intersection of both sets (elements in both sets)
-
-setdiff(v1,v2) # difference of elements (elements in v1 and not in v2)
-
-identical(v1, v2) # check if vectors are identical
-identical(c(1,2,3), c(1,2,3))
-
-
+# 6. Raw (bytes - rarely used in typical analysis)
+raw_vec <- charToRaw("Hello")
+cat("Raw:", typeof(raw_vec), "\n")
 ```
 
-# Lists
-
-A list can contain elements of different types, including other lists or vectors or data structures.
+###   Vector Properties and Inspection
 
 ```{r}
-# Creating a list
-my_list <- list(name = "John", age = 25, scores = c(90, 85, 88))
+#| label: vector-properties
 
-# Accessing elements by name
-my_list$name  # Output: "John"
+# Create a sample vector for analysis
+sample_vec <- c(10, 20, 30, 40, 50)
 
-# Create a list (and name elements)
+# Essential properties every R user should know
+length(sample_vec)    # Number of elements
+typeof(sample_vec)    # Internal storage type
+class(sample_vec)     # Object class (what R thinks it is)
+mode(sample_vec)      # Storage mode (legacy, but still used)
 
-# lets create some variables (different types)
-a <- 10
-b <- 2L
-c <- TRUE
-d <- "word"
-v <- 1:10
-names(v) <- paste("i", v, sep = "")
-M <- matrix(data = seq(10,40,by = 10), nrow = 2, dimnames = list(c("r1", "r2"), c("c1", "c2")))
-A <- array(data = 1:8, dim = c(2,2,2), dimnames = list(c("r1", "r2"), c("c1", "c2"), c("M1", "M2"))) 
-
-# create list and include all variables (elements)
-lst <- list(a, b, c, d, v, M, A)
-lst
-str(lst) # check list structure
-typeof(lst) # check type
-class(lst) # check class
-is.list(lst) # check if object is list
-
-# name each list member
-names(lst) <- c("a", "b", "c", "d", "v", "M", "A")
-lst
-
-# alternative: define names as tags when list is created
-list(a=a, b=b, c=c, d=d, v=v, M=M, A=A)
-
-
-# Access list elements
-
-# single square bracket [] (return a list)
-lst1 <-lst[1] # access first list elements (return a list)
-str(lst1)
-class(lst1)
-
-lst123 <-lst[c(1,2,3)] # access first three elements with index vector (return a list)
-lst123
-class(lst123)
-
-# double square brackets [[]] (return original member)
-ele <-lst[[5]] # extract 5th member-element (returns original element)
-ele
-is.vector(ele)
-
-# use $ operator - extract by member name (return original member)
-ele <- lst$M
-ele
-class(ele)
-
-
-#  Modify list 
-
-# remove element from a list
-lst
-lst[1] <- NULL # remove first member
-lst
-
-# add element to a list (at the end)
-length(lst)
-lst[7] <- 1000
-lst
-
-# update value of a member in alist
-lst[[7]] <- 500
-lst[7]
-
-# update value within a vector (on a list)
-lst[[4]][5] <- 5000
-lst[[4]]
-
-# convert list to a vector
-vec <- unlist(lst)
-vec
-is.vector(vec)
-
-#  Merging lists & nested lists
-
-# create another list
-lst1 <- list(el1 = c(1,5,10), el2 = TRUE)
-
-# merge both lists
-lst_merged <- c(lst, lst1)
-lst_merged
-str(lst_merged)
-names(lst_merged)
-
-
-# nested list (recursive procedure)
-list3 <- list(1, c(T,F,F)) # list sub-level 3
-list2 <- list(list3) # list sub-level 2
-list1 <- list(list2) # list sub-level 1
-
-str(list1)
-
-# extract list level 2
-list1[[1]]
-
-# extract list level 3
-list1[[1]][[1]]
-
-# extract 1st member from list level 3
-list1[[1]][[1]][[1]]
-
-# extract 2nd member from list level 3
-list1[[1]][[1]][[2]]
-
-
+# Check what kind of object we have
+is.vector(sample_vec)    # Is it a vector?
+is.atomic(sample_vec)    # Is it atomic (not a list)?
+is.numeric(sample_vec)   # Is it numeric?
+is.double(sample_vec)    # Specifically double precision?
 ```
 
-# Matrices
+**Theory**: Vectors are homogeneous - all elements must be the same type. When you mix types, R applies coercion rules.
 
-A matrix is a two-dimensional structure that contains elements of the same type (numeric, character, or logical).
+###  Type Coercion Hierarchy
 
 ```{r}
-# Creating a 3x3 numeric matrix
-my_matrix <- matrix(1:9, nrow = 3, ncol = 3)
+#| label: coercion-hierarchy
 
-# Accessing elements
-my_matrix[1, 2]  # Access the element in row 1, column 2
+# R's coercion hierarchy:  logical < integer < double < character
+# Mixing types forces coercion to the "highest" type
 
-# using matrix()
-M <- matrix(data = 1:9, nrow = 3, ncol = 3)
-M
+# Logical to integer
+logical_to_int <- c(TRUE, FALSE, 1L)
+cat("Result type:", typeof(logical_to_int), "\n")
+print(logical_to_int)
 
-M <- matrix(data = 1:9, nrow = 3, ncol = 3, byrow = T)
-M
+# Integer to double  
+int_to_double <- c(1L, 2.5)
+cat("Result type:", typeof(int_to_double), "\n")
+print(int_to_double)
 
-matrix(data = 1:6, nrow = 2, ncol = 3)
-
-# by merging multiple vectors
-v1 <- c(1,2,3)
-v2 <- c(4,5,6)
-v3 <- c(7,8,9)
-
-rbind(v1,v2,v3)
-cbind(v1,v2,v3)
-
-# by altering vector dimension
-v <- 1:9
-v
-dim(v) <- c(3,3)
-v
-
-
-# Matrix properties
-
-# rownames & colnames
-M <- matrix(1:12, nrow = 4, dimnames = list(c("r1","r2","r3", "r4"), c("c1","c2","c3")))
-M
-rownames(M)
-colnames(M)
-
-# matrix dimension
-dim(M)
-
-# get all attributes
-attributes(M)
-
-# change rownames & colnames
-rownames(M) <- paste("row ", 1:4, sep = "")
-colnames(M) <- paste("col ", 1:3, sep = "")
-attributes(M)
-M
-
-# class and type
-class(M)
-typeof(M)
-
-# check for matrix
-is.matrix(M)
-
-
-# Access matrix elements
-
-# integer vector as index
-M
-M[2,3]
-M[c(1,2),3]
-
-M[c(2,3),] # selected rows and all columns
-M[,c(2,3)] # selected columns and all rows
-
-# logical vector as index
-M[c(T,T,F,F), c(T,T,T)]
-
-# character vector as index
-M[c("row 2", "row 3"), c("col 1", "col 2")]
-
-# range of indexes (slicing rows and columns)
-M[1:3,2:3]
-
-
-# Access matrix elements
-
-# modify 1 element
-M
-M[1,1] <- 10
-M
-
-# modify more than one element
-M[2:3,3] <- 20 
-M
-
-# modify elements based on condition
-M[M>10] <- 0
-M
-
-# transpose a matrix
-t(M)
-
-# add row to matrix
-M
-rbind(M, c(0,0,0))
-
-# add column to matrix
-cbind(M, c(0,0,0, 0))
-
-# alter matrix dimensions
-dim(M)
-dim(M) <- c(3,4) # names are dropped
-M
-
-# merge 2 matrices
-M1 <- matrix(data = rep(0,4), nrow = 2, ncol = 2)
-M2 <- matrix(data = rep(1,4), nrow = 2, ncol = 2)
-M1
-M2
-
-rbind(M1,M2)
-cbind(M1,M2)
-
-
-#  Matrix arithmetics
-
-# matrix  - scalar (scalar with each vector element)
-M
-a <- 10
-
-# Addition +
-M + a
-# Subtraction -
-M - a
-# Multiplication *
-M * a
-# Division /
-M / a
-# Exponent ^  **
-M^a
-# Modulus (Remainder from division) %%
-M %% 2
-# Integer Division %/%
-M %/% 2
-# Other functions on matrix elements
-sqrt(M)
-log(M)
-sum(M)
-
-# matrix - vector (matrix element to element | member-by-member)
-M1 <- matrix(data = 1:9, nrow = 3, byrow = T)
-M2 <- matrix(data = rep(3,9), nrow = 3)
-
-# Addition +
-M1 + M2
-# Subtraction -
-M1 - M2
-# Multiplication *
-M1 * M2
-# Division /
-M1 / M2
-# Exponent ^  **
-M1^M2
-# Modulus (Remainder from division) %%
-M1 %% M2
-# Integer Division %/%
-M1 %/% M2
-
-# matrix-matrix style multiplication
-M1
-M2
-t(M1) %*% M2
-M1 %*% M2
-
-
-# matrix algebra (matrix based functions)
-M <- matrix(data = c(1,5,3,2,4,7,4,6,2), nrow = 3, byrow = T)
-
-# get diagonal elements
-diag(M)
-
-# get matrix determinant
-det(M)
-
-# get inverse of a matrix M^(-1)
-solve(M)
-
-# get eigen values
-eigen(M)
-
-# calculate sum over rows or columns
-M
-rowSums(M)
-colSums(M)
-
-# Lets solve simple matrix equation
-# A * X = B
-A <- matrix(data = c(1,2,4,5), nrow = 2, byrow = T)
-B <- matrix(data = c(5,24,17,66), nrow = 2, byrow = T)
-# X = A^(-1) * B
-X <- solve(A) %*% B
-X
-# test
-A %*% X # should get B
-
-
-# summarizing a matrix (apply)
-M
-
-# sum of rows
-apply(X = M, MARGIN = 1, FUN = sum)
-
-# sum of columns
-apply(X = M, MARGIN = 2, FUN = sum)
-
-# create matrix of random numbers
-rnorm(n = 1000, mean = 0, sd = 2)
-A <- matrix(data = rnorm(n = 1000, mean = 0, sd = 2), nrow = 100, ncol = 10)
-
-# get mean over columns
-apply(A, 2, mean)
-
-# get mean over rows
-apply(A, 1, mean)
-
-# calculate standard deviation for each column
-apply(A, 2, sd)
+# Double to character (everything becomes character)
+mixed_all <- c(TRUE, 1L, 2.5, "hello")
+cat("Result type:", typeof(mixed_all), "\n")
+print(mixed_all)
 ```
 
-# Data Frames
+::: {.callout-warning}
+## Coercion Warning
 
-A data frame is a table where each column can contain elements of different types (e.g., numbers, strings). It’s the most common structure used for data sets.
+Automatic coercion can lead to unexpected results. Always check your data types when debugging! 
+:::
+
+###  Special Values in R
 
 ```{r}
-# Creating a data frame
-my_data <- data.frame(
-  Name = c("Alice", "Bob", "Charlie"),
-  Age = c(23, 30, 25),
-  Gender = c("F", "M", "M")
+#| label: special-values
+
+# R has several special values that beginners often find confusing
+special_vals <- c(
+  normal = 42,
+  missing = NA,           # Not Available (missing value)
+  not_number = NaN,       # Not a Number (0/0)
+  positive_inf = Inf,     # Positive infinity (1/0)
+  negative_inf = -Inf,    # Negative infinity (-1/0)
+  null_length = NULL      # NULL has length 0
 )
 
-my_data
+# Functions to test for special values
+test_vec <- c(1, NA, NaN, Inf, -Inf)
+cat("Original vector:\n")
+print(test_vec)
 
-# Accessing columns
-my_data$Name  # Output: "Alice", "Bob", "Charlie"
-
-# create data frame 
-df1 <- data.frame(col1 = 1:3, 
-                  col2 = c("a", "b", "c"), 
-                  col3 = c(T, F, T), 
-                  col4 = c(as.Date("2020-01-01"), as.Date("2020-01-03"), as.Date("2020-01-03")))
-
-# create data frame - vectors
-col1 <- seq(10,100,10)
-col2 <- seq(as.Date("2020-01-01"), length = 10, by = "weeks")
-col3 <- rep("word", 10)
-
-df2 <- data.frame(num = col1,
-                  date = col2,
-                  string = col3)
-
-# check DF structure
-str(df2)
-
-
-# create data frame - matrix
-M <- matrix(data = 1:100, nrow = 10, ncol = 10, byrow = T)
-rownames(M) <- paste("row", 1:10, sep = "")
-colnames(M) <- paste("col", 1:10, sep = "")
-M
-df3 <- as.data.frame(M)
-df3
-
-# check DF dimensions
-dim(df3)
-nrow(df3)
-ncol(df3)
-
-# check DF type / class
-class(df3)
-typeof(df3)
-
-
-# Accessing DF
-
-# let's create DF - employees
-df_emp <- data.frame(id = 1:6,
-                     name = c("Max", "Jane", "John", "Tony", "Janis", "Helen"),
-                     surname = c("Gordon", "Smith", "Don", "Price", "Jett", "Dust"),
-                     age = c(55, 35, 46, 22, 60, 27),
-                     date_start_work = c(as.Date("1985-09-01"), as.Date("2010-10-01"), as.Date("1999-06-01"), as.Date("2019-03-01"), as.Date("1980-04-15"), as.Date("2015-02-20")),
-                     gender = c("M", "F", "M", "M", "F", "M"),
-                     manager_position = c(T, F, F, F, T, F)
-                     )
-
-# extract data as data frame (one column) - []
-df_extr <- df_emp["name"]
-df_extr
-class(df_extr)
-
-# extract data as vector (one column) [[]] $
-df_extr <- df_emp[["age"]]
-df_extr
-class(df_extr) # vector factor
-df_extr <- df_emp$age
-df_extr
-class(df_extr) # vector factor
-
-# extract multiple columns
-df_extr <- df_emp[c("name", "age")]
-df_extr
-
-
-# data frame slicing
-df_emp
-
-#extract second row in name column (1 cell)
-df_emp[2,2]
-df_emp[2,"name"]
-
-# extract first 4 rows of last 2 columns 
-df_emp[1:4, 6:7]
-df_emp[1:4, c("gender", "manager_position")]
-
-# extract first column (all rows)
-df_emp[,1]
-df_emp[,"id"]
-df_emp$id
-
-# extract last 2 rows (all columns) 
-df_emp[5:6,]
-cols <- colnames(df_emp)
-df_emp[5:6, cols]
-
-
-# Modifying data frame
-
-# append column 
-df_emp <- cbind(df_emp, role = c("director", "secretary", "analyst", "researcher", "CEO", "analyst"))
-df_emp$new_col <- 1
-
-# append rows 
-df_emp <- rbind(df_emp, list(7, "Mark", "Jax", 32, as.Date("2020-01-01"), "M", F, "researcher", 1))
-
-# problem with factor variables (new values not in factor levels)
-# easy solution - append new row as data frame (rbind 2 data frames)!!! 
-# will show few rows later
-
-# remove column
-df_emp$new_col <- NULL
-
-# remove row
-df_emp <- df_emp[-7,]
-
-# merge two data frames (row wise)
-df_new_emp <- data.frame(id = 7,
-                         name = "Mark",
-                         surname = "Jax",
-                         age = 32,
-                         date_start_work = as.Date("2020-01-01"),
-                         gender = "M",
-                         manager_position = F,
-                         role = "researcher")
-
-df_emp <- rbind(df_emp, df_new_emp)
-
-# merge two data frames (column wise)
-df_attr <- data.frame(eye_color = c("blue", "green", "brown", "hazel", "blue", "brown", "brown"),
-                      hair_color = c("blonde", "light brown", "black", "brown", "blonde", "dark brown", "brown"))
-df_emp <- cbind(df_emp, df_attr)
-
-
-# Tips
-
-# Df summary
-summary(df_emp)
-
-# rows subsetting
-subset(x = df_emp, gender == "M")
-subset(x = df_emp, gender == "F" & manager_position == T)
-
-rows <- which(df_emp[,"gender"] == "M")
-df_emp[rows,]
-
-rows <- which(df_emp[,"gender"] == "F" & df_emp[,"manager_position"] == T)
-df_emp[rows,]
-
-# some calculations regarding data frames
-nr_managers <- sum(df_emp$manager_position)
-mean_age <- mean(df_emp$age)
-df_emp$name_surname <- paste(df_emp$name, df_emp$surname, sep = " ") # merge name and surname
-
-# use apply to sum over columns (age, manager_position)
-apply(df_emp[,c("age", "manager_position")], 2, sum)
-
+cat("\nTesting for special values:\n")
+cat("is.na():", is.na(test_vec), "\n")         # TRUE for NA and NaN
+cat("is.nan():", is.nan(test_vec), "\n")       # TRUE only for NaN
+cat("is. infinite():", is.infinite(test_vec), "\n") # TRUE for ±Inf
+cat("is. finite():", is.finite(test_vec), "\n")     # FALSE for NA, NaN, ±Inf
 ```
 
-# Factors
+##   Vector Creation Methods
 
-Factors are used to represent categorical data. They store both the data values and the corresponding levels.
-
-```{r  eval=F}
-gender_factor <- factor(c("Male", "Female", "Male"))
-
-# Display the factor and its levels
-print(gender_factor)
-levels(gender_factor)
-
-
-# create factor variable (gender)
-gender <- factor(x = c("male", "female", "female"))
-
-# check new variable
-gender
-str(gender)
-class(gender)
-typeof(gender)
-
-# create with ordering
-gender <- factor(x = c("male", "female", "female"), ordered = T)
-is.ordered(gender)
-
-# check levels
-levels(gender) # order of levels based on variable (string alphabetic order)
-
-# we can define our own levels (custom levels order)
-gender <- factor(x = c("male", "female", "female"), levels = c("male", "female"), ordered = F)
-gender
-levels(gender)
-
-# factor properties
-levels(gender)
-is.factor(gender)
-is.ordered(gender)
-
-# create other object to factor
-strings <- c("a", "b", "a", "c")
-f_strings <- factor(strings)
-
-#f_string
-```
-
-# Arrays
-
-Arrays are similar to matrices but can have more than two dimensions.
+### Basic Creation Functions
 
 ```{r}
-# Creating a 3-dimensional array
-my_array <- array(1:24, dim = c(3, 4, 2))
+#| label: vector-creation-basic
 
-# Accessing elements
-my_array[1, 2, 1]  # Access the element in the first dimension, second row, and first slice
+# Method 1: c() function (combine/concatenate)
+basic_vec <- c(1, 2, 3, 4, 5)
 
+# Method 2: Colon operator (integer sequences)
+seq_colon <- 1:10
+reverse_seq <- 10:1
+
+# Method 3: seq() function (more flexible sequences)
+seq_by_step <- seq(from = 0, to = 100, by = 10)
+seq_by_length <- seq(from = 0, to = 1, length.out = 11)
+seq_along_other <- seq_along(c("a", "b", "c", "d"))
+
+cat("Basic vector:", basic_vec, "\n")
+cat("Colon sequence:", seq_colon, "\n") 
+cat("Sequence by step:", seq_by_step, "\n")
+cat("Sequence by length:", seq_by_length, "\n")
 ```
 
-# Summary
+###  Advanced Creation Patterns
 
--   `Vector:` One-dimensional, homogeneous.
--   `List:` One-dimensional, heterogeneous.
--   `Matrix:` Two-dimensional, homogeneous.
--   `Data Frame:` Two-dimensional, heterogeneous (columns can be different types).
--   `Factor:` Categorical data representation.
--   `Array:` Multi-dimensional, homogeneous.
+```{r}
+#| label: vector-creation-advanced
+
+# rep() function - repetition patterns
+rep_times <- rep(c(1, 2, 3), times = 3)        # Repeat entire vector
+rep_each <- rep(c(1, 2, 3), each = 3)          # Repeat each element
+rep_length_out <- rep(c(1, 2), length.out = 7) # Repeat to specific length
+
+cat("rep times:", rep_times, "\n")
+cat("rep each:", rep_each, "\n")
+cat("rep length. out:", rep_length_out, "\n")
+
+# Creating named vectors
+named_vec <- c(first = 1, second = 2, third = 3)
+print(named_vec)
+
+# Alternative way to add names
+numbers <- 1:5
+names(numbers) <- c("one", "two", "three", "four", "five")
+print(numbers)
+
+# Using paste() for systematic naming
+systematic_names <- paste0("item_", 1:5)
+cat("Systematic names:", systematic_names, "\n")
+```
+
+##  Vector Indexing and Subsetting
+
+Vector indexing in R is extremely powerful and flexible.
+
+### Positive Integer Indexing
+
+```{r}
+#| label: positive-indexing
+
+# Create a sample vector with names
+fruits <- c("apple", "banana", "cherry", "date", "elderberry", "fig")
+names(fruits) <- paste0("fruit_", 1:6)
+print(fruits)
+
+# Single element access
+cat("First fruit:", fruits[1], "\n")
+cat("Third fruit:", fruits[3], "\n")
+
+# Multiple specific elements
+selected_fruits <- fruits[c(1, 3, 5)]
+cat("Selected fruits:", selected_fruits, "\n")
+
+# Range selection (slicing)
+fruit_range <- fruits[2:4]
+cat("Fruit range (2-4):", fruit_range, "\n")
+
+# Using sequences for complex patterns
+odd_positions <- fruits[seq(1, length(fruits), by = 2)]
+cat("Odd positions:", odd_positions, "\n")
+```
+
+### Negative Integer Indexing (Exclusion)
+
+```{r}
+#| label: negative-indexing
+
+# Negative indexing excludes elements
+all_but_first <- fruits[-1]
+cat("All except first:", all_but_first, "\n")
+
+# Exclude multiple elements
+exclude_multiple <- fruits[-c(2, 4, 6)]
+cat("Excluding positions 2,4,6:", exclude_multiple, "\n")
+
+# Exclude ranges
+exclude_range <- fruits[-(2:4)]
+cat("Excluding range 2-4:", exclude_range, "\n")
+```
+
+###  Logical Indexing (Conditional Selection)
+
+```{r}
+#| label: logical-indexing
+
+# Create data for logical indexing examples
+prices <- c(1.50, 3.20, 0.80, 4.50, 2.10, 6.00)
+names(prices) <- fruits
+
+# Simple logical conditions
+expensive_items <- prices > 3.00
+cat("Expensive items (>3.00):", prices[expensive_items], "\n")
+
+# Multiple conditions with logical operators
+moderate_prices <- prices >= 1.00 & prices <= 4.00
+cat("Moderate prices (1-4):", prices[moderate_prices], "\n")
+
+# Using %in% operator for membership testing
+target_fruits <- c("apple", "cherry", "fig")
+selected_by_name <- prices[names(prices) %in% target_fruits]
+cat("Selected by name:", selected_by_name, "\n")
+
+# Complex logical expressions
+complex_condition <- (prices > 2.00) | (nchar(names(prices)) > 10)
+cat("Complex condition:", prices[complex_condition], "\n")
+```
+
+### Named Indexing
+
+```{r}
+#| label: named-indexing
+
+# Access by single name
+apple_price <- prices["fruit_1"]
+cat("Apple price:", apple_price, "\n")
+
+# Access by multiple names
+fruit_selection <- prices[c("fruit_1", "fruit_3", "fruit_6")]
+cat("Selected fruit prices:", fruit_selection, "\n")
+
+# Dynamic name creation
+dynamic_names <- paste0("fruit_", c(1, 3, 5))
+dynamic_selection <- prices[dynamic_names]
+cat("Dynamic selection:", dynamic_selection, "\n")
+```
+
+##   Vector Operations and Arithmetic
+
+### Scalar Operations (Broadcasting)
+
+```{r}
+#| label: scalar-operations
+
+# Create sample data
+values <- c(10, 20, 30, 40, 50)
+scalar <- 5
+
+# Arithmetic operations with scalars
+cat("Original values:", values, "\n")
+cat("Add 5:", values + scalar, "\n")
+cat("Multiply by 5:", values * scalar, "\n")
+cat("Divide by 5:", values / scalar, "\n")
+cat("Power of 2:", values^2, "\n")
+cat("Modulus 3:", values %% 3, "\n")
+cat("Integer division by 3:", values %/% 3, "\n")
+```
+
+### Vector-to-Vector Operations
+
+```{r}
+#| label: vector-operations
+
+# Element-wise operations between vectors of same length
+vec1 <- c(1, 2, 3, 4, 5)
+vec2 <- c(10, 20, 30, 40, 50)
+
+cat("Vector 1:", vec1, "\n")
+cat("Vector 2:", vec2, "\n")
+cat("Addition:", vec1 + vec2, "\n")
+cat("Multiplication:", vec1 * vec2, "\n")
+cat("Division:", vec2 / vec1, "\n")
+
+# Vector recycling with different lengths
+short_vec <- c(1, 2)
+long_vec <- c(10, 20, 30, 40, 50, 60)
+
+cat("\nShort vector:", short_vec, "\n")
+cat("Long vector:", long_vec, "\n")
+cat("Addition (with recycling):", short_vec + long_vec, "\n")
+```
+
+: :: {.callout-note}
+## Vector Recycling
+
+When operating on vectors of different lengths, R recycles the shorter vector.  This is powerful but can lead to unexpected results if not understood properly. 
+:::
+
+###  Mathematical Functions
+
+```{r}
+#| label: math-functions
+
+# Mathematical functions work element-wise on vectors
+x <- c(1, 4, 9, 16, 25)
+
+cat("Original values:", x, "\n")
+cat("Square root:", sqrt(x), "\n")
+cat("Natural log:", log(x), "\n")
+cat("Log base 10:", log10(x), "\n")
+cat("Exponential:", exp(c(0, 1, 2)), "\n")
+
+# Trigonometric functions
+angles <- c(0, pi/4, pi/2, pi)
+cat("Angles (radians):", round(angles, 3), "\n")
+cat("Sine:", round(sin(angles), 3), "\n")
+cat("Cosine:", round(cos(angles), 3), "\n")
+
+# Rounding functions
+messy_numbers <- c(3.14159, 2.71828, 1.41421)
+cat("Original:", messy_numbers, "\n")
+cat("Round to 2 places:", round(messy_numbers, 2), "\n")
+cat("Ceiling:", ceiling(messy_numbers), "\n")
+cat("Floor:", floor(messy_numbers), "\n")
+cat("Truncate:", trunc(messy_numbers), "\n")
+```
+
+##  Set Operations and Comparisons
+
+### Set Operations
+
+```{r}
+#| label: set-operations
+
+# Create sets for demonstration
+set_a <- c("apple", "banana", "cherry", "date")
+set_b <- c("cherry", "date", "elderberry", "fig")
+
+cat("Set A:", set_a, "\n")
+cat("Set B:", set_b, "\n")
+
+# Core set operations
+union_result <- union(set_a, set_b)
+cat("Union (A ∪ B):", union_result, "\n")
+
+intersection_result <- intersect(set_a, set_b)
+cat("Intersection (A ∩ B):", intersection_result, "\n")
+
+difference_result <- setdiff(set_a, set_b)
+cat("Difference (A - B):", difference_result, "\n")
+
+difference_reverse <- setdiff(set_b, set_a)
+cat("Difference (B - A):", difference_reverse, "\n")
+
+# Set equality and membership
+cat("Are sets equal?", setequal(set_a, set_b), "\n")
+cat("Is 'apple' in set A?", "apple" %in% set_a, "\n")
+cat("Is 'grape' in set A?", "grape" %in% set_a, "\n")
+```
+
+###  Advanced Comparison Operations
+
+```{r}
+#| label: advanced-comparisons
+
+# Comparison vectors
+scores_1 <- c(85, 92, 78, 96, 88)
+scores_2 <- c(88, 90, 78, 94, 91)
+
+cat("Scores 1:", scores_1, "\n")
+cat("Scores 2:", scores_2, "\n")
+
+# Element-wise comparisons
+cat("Equal elements:", scores_1 == scores_2, "\n")
+cat("Score 1 greater:", scores_1 > scores_2, "\n")
+cat("Score difference >= 5:", abs(scores_1 - scores_2) >= 5, "\n")
+
+# Aggregated logical operations
+cat("Any score1 > score2? ", any(scores_1 > scores_2), "\n")
+cat("All scores > 75?", all(scores_1 > 75), "\n")
+cat("How many scores1 > 85?", sum(scores_1 > 85), "\n")
+
+# Finding positions where conditions are true
+high_scores <- which(scores_1 > 90)
+cat("Positions with scores > 90:", high_scores, "\n")
+
+# Finding maximum and minimum positions
+max_position <- which.max(scores_1)
+min_position <- which.min(scores_1)
+cat("Highest score position:", max_position, "value:", scores_1[max_position], "\n")
+cat("Lowest score position:", min_position, "value:", scores_1[min_position], "\n")
+```
+
+#   Factors:  Categorical Data Excellence
+
+## Understanding Factors
+
+Factors are R's sophisticated way of handling categorical data. They're built on integers with associated labels, making them memory-efficient and statistically meaningful.
+
+###   Basic Factor Creation
+
+```{r}
+#| label: basic-factors
+
+# Create a simple factor from character data
+colors <- c("red", "blue", "green", "red", "blue", "green", "red")
+color_factor <- factor(colors)
+
+print(color_factor)
+cat("Levels:", levels(color_factor), "\n")
+cat("Number of levels:", nlevels(color_factor), "\n")
+
+# Internal representation
+cat("Internal structure (integer codes):", as.integer(color_factor), "\n")
+cat("Storage type:", typeof(color_factor), "\n")
+cat("Memory usage comparison:\n")
+cat("  Character:", object.size(colors), "bytes\n")
+cat("  Factor:", object.size(color_factor), "bytes\n")
+```
+
+###  Controlling Factor Levels
+
+```{r}
+#| label: factor-levels
+
+# Explicitly set levels and their order
+sizes <- c("small", "large", "medium", "small", "medium", "large")
+
+# Without specifying levels (alphabetical order)
+size_factor_auto <- factor(sizes)
+cat("Automatic levels:", levels(size_factor_auto), "\n")
+
+# With explicitly ordered levels
+size_factor_ordered <- factor(sizes, 
+                             levels = c("small", "medium", "large"))
+cat("Custom levels:", levels(size_factor_ordered), "\n")
+
+# Ordered factors (with ranking)
+size_factor_ranked <- factor(sizes, 
+                           levels = c("small", "medium", "large"),
+                           ordered = TRUE)
+cat("Ordered factor:", size_factor_ranked, "\n")
+cat("Is ordered? ", is.ordered(size_factor_ranked), "\n")
+
+# Comparisons work with ordered factors
+cat("small < medium? ", size_factor_ranked[1] < size_factor_ranked[3], "\n")
+```
+
+###  Factor Level Manipulation
+
+```{r}
+#| label: factor-manipulation
+
+# Create a factor for manipulation
+ratings <- factor(c("good", "bad", "excellent", "good", "fair", "bad"))
+print(ratings)
+
+# View current levels
+cat("Original levels:", levels(ratings), "\n")
+
+# Reorder levels logically
+levels(ratings) <- c("bad", "fair", "good", "excellent")
+cat("Reordered levels:", levels(ratings), "\n")
+
+# Add new levels (useful before adding new data)
+levels(ratings) <- c(levels(ratings), "outstanding")
+cat("After adding level:", levels(ratings), "\n")
+
+# Remove unused levels
+ratings_subset <- ratings[ratings != "bad"]
+cat("Before droplevels:", levels(ratings_subset), "\n")
+ratings_clean <- droplevels(ratings_subset)
+cat("After droplevels:", levels(ratings_clean), "\n")
+```
+
+###   Advanced Factor Operations with forcats
+
+```{r}
+#| label: advanced-factors
+#| message: false
+
+library(forcats)
+
+# Create sample survey data
+responses <- factor(c("Agree", "Disagree", "Strongly Agree", "Neutral", 
+                     "Agree", "Strongly Disagree", "Agree", "Neutral",
+                     "Disagree", "Strongly Agree"))
+
+# Reorder by frequency
+freq_ordered <- fct_infreq(responses)
+cat("By frequency:\n")
+print(table(freq_ordered))
+
+# Reorder by another variable
+scores <- c(4, 2, 5, 3, 4, 1, 4, 3, 2, 5)
+score_ordered <- fct_reorder(responses, scores, mean)
+cat("Ordered by mean score:\n")
+print(tapply(scores, score_ordered, mean))
+
+# Collapse rare levels
+collapsed <- fct_lump_min(responses, min = 2)
+cat("After collapsing rare levels:\n")
+print(table(collapsed))
+
+# Recode levels
+recoded <- fct_recode(responses,
+  "Positive" = "Agree",
+  "Very Positive" = "Strongly Agree", 
+  "Negative" = "Disagree",
+  "Very Negative" = "Strongly Disagree"
+)
+print(table(recoded))
+```
+
+#   Lists: The Swiss Army Knife
+
+## Understanding Lists
+
+Lists are recursive data structures - they can contain any R object, including other lists. This makes them incredibly flexible for complex data structures.
+
+###   Basic List Creation and Structure
+
+```{r}
+#| label: basic-lists
+
+# Create a heterogeneous list
+student_record <- list(
+  name = "Alice Johnson",
+  student_id = 12345,
+  grades = c(85, 92, 78, 96, 88),
+  courses = c("Math", "Science", "English", "History", "Art"),
+  is_honors = TRUE,
+  graduation_date = as.Date("2024-06-15")
+)
+
+print(student_record)
+
+# Examine list structure
+cat("\nList structure:\n")
+str(student_record)
+
+# List properties
+cat("Length (number of elements):", length(student_record), "\n")
+cat("Names of elements:", names(student_record), "\n")
+cat("Is it a list?", is.list(student_record), "\n")
+```
+
+###  List Indexing Methods
+
+Understanding the difference between `[`, `[[`, and `$` is crucial for list manipulation.
+
+```{r}
+#| label:  list-indexing
+
+# Method 1: Single bracket [ ] - returns a list
+subset_list <- student_record[1]  # Returns list containing first element
+cat("Using [1] - class:", class(subset_list), "\n")
+print(subset_list)
+
+# Multiple elements with single bracket
+multiple_elements <- student_record[c("name", "student_id")]
+print(multiple_elements)
+
+# Method 2: Double bracket [[ ]] - returns the actual element
+actual_name <- student_record[[1]]  # Returns the character vector
+cat("Using [[1]] - class:", class(actual_name), "\n")
+print(actual_name)
+
+# Access by name with double bracket
+grades <- student_record[["grades"]]
+cat("Grades class:", class(grades), "\n")
+print(grades)
+
+# Method 3: Dollar sign $ - convenient for named elements
+student_name <- student_record$name
+cat("Using $ - class:", class(student_name), "\n")
+print(student_name)
+```
+
+::: {.callout-tip}
+## List Indexing Memory Aid
+
+- `my_list[1]` → Returns a list (like a box containing the item)
+- `my_list[[1]]` → Returns the actual item (takes item out of box)
+- `my_list$name` → Convenient shortcut for `my_list[["name"]]`
+:::
+
+###  List Modification and Manipulation
+
+```{r}
+#| label: list-modification
+
+student_record <- list(
+  name = "Alice Johnson",
+  student_id = 12345,
+  grades = c(85, 92, 78, 96, 88),
+  courses = c("Math", "Science", "English", "History", "Art"),
+  is_honors = TRUE,
+  graduation_date = as.Date("2024-06-15")
+)
+# Start with a copy for modification
+student_copy <- student_record
+
+# Add new elements
+student_copy$gpa <- mean(student_copy$grades) / 100 * 4  # Simple GPA calculation
+student_copy$advisor <- "Dr. Smith"
+student_copy$extracurricular <- c("Drama Club", "Science Olympics")
+
+# Modify existing elements
+student_copy$grades[1] <- 90  # Change first grade
+student_copy$is_honors <- FALSE
+
+# Remove elements (set to NULL)
+student_copy$advisor <- NULL
+
+cat("Modified list structure:\n")
+str(student_copy)
+
+# Adding nested structure
+student_copy$contact_info <- list(
+  email = "alice. johnson@school.edu",
+  phone = "555-0123",
+  address = list(
+    street = "123 Main St",
+    city = "Academic City",
+    zip = "12345"
+  )
+)
+
+cat("After adding nested structure:\n")
+str(student_copy, max.level = 2)  # Limit depth for readability
+```
+
+###  List Apply Functions
+
+The apply family of functions is essential for working with lists efficiently.
+
+```{r}
+#| label: list-apply
+
+# Create a list of numeric vectors for demonstration
+data_list <- list(
+  dataset_1 = c(23, 45, 67, 89, 12),
+  dataset_2 = c(34, 56, 78, 90, 23, 45),
+  dataset_3 = c(12, 34, 56, 78, 90, 12, 34)
+)
+
+# lapply - returns a list
+means_list <- lapply(data_list, mean)
+cat("lapply result (list):\n")
+print(means_list)
+
+# sapply - simplifies to vector when possible
+means_vector <- sapply(data_list, mean)
+cat("sapply result (vector):", means_vector, "\n")
+
+# mapply - multivariate apply
+weights <- c(0.3, 0.5, 0.2)
+weighted_means <- mapply(function(x, w) sum(x * w), data_list, weights)
+cat("Weighted means:", weighted_means, "\n")
+
+# vapply - like sapply but with type checking (safer)
+lengths_safe <- vapply(data_list, length, integer(1))
+cat("Lengths (vapply):", lengths_safe, "\n")
+```
+
+###   Advanced List Operations with purrr
+
+```{r}
+#| label: advanced-list-purrr
+#| message: false
+
+library(purrr)
+
+# Modern functional programming with purrr
+# map family - consistent and predictable
+data_list <- list(
+  dataset_1 = c(23, 45, 67, 89, 12),
+  dataset_2 = c(34, 56, 78, 90, 23, 45),
+  dataset_3 = c(12, 34, 56, 78, 90, 12, 34)
+)
+# map returns a list
+summary_stats <- map(data_list, summary)
+print(summary_stats[[1]])
+
+# map_dbl returns numeric vector
+means_purrr <- map_dbl(data_list, mean)
+cat("Means with map_dbl:", means_purrr, "\n")
+
+# map_chr returns character vector  
+length_descriptions <- map_chr(data_list, ~ paste("Length:", length(.x)))
+cat("Descriptions:", length_descriptions, "\n")
+
+
+# map2 for working with two lists simultaneously
+multipliers <- c(2, 3, 4)
+scaled_data <- map2(data_list, multipliers, ~ .x * .y)
+cat("First scaled dataset:", scaled_data[[1]], "\n")
+
+# Complex transformations with map
+complex_stats <- data_list |>
+  map(~ list(
+    mean = mean(.x),
+    sd = sd(.x),
+    min = min(.x),
+    max = max(.x),
+    n = length(.x)
+  ))
+
+print(complex_stats$dataset_1)
+```
+
+#   Matrices: Linear Algebra Powerhouse
+
+## Understanding Matrices
+
+Matrices are 2-dimensional, homogeneous data structures.  They're essentially vectors with a dimension attribute, making them perfect for mathematical operations.
+
+###   Matrix Creation Methods
+
+```{r}
+#| label: matrix-creation
+
+# Method 1: matrix() function
+basic_matrix <- matrix(1:12, nrow = 3, ncol = 4)
+cat("Basic matrix (filled by columns):\n")
+print(basic_matrix)
+
+# Fill by rows instead
+by_rows <- matrix(1:12, nrow = 3, ncol = 4, byrow = TRUE)
+cat("Matrix filled by rows:\n")
+print(by_rows)
+
+# Method 2: Combining vectors
+row_1 <- c(1, 2, 3, 4)
+row_2 <- c(5, 6, 7, 8)
+row_3 <- c(9, 10, 11, 12)
+
+# Row binding
+matrix_rbind <- rbind(row_1, row_2, row_3)
+cat("Matrix from row binding:\n")
+print(matrix_rbind)
+
+# Column binding
+col_matrix <- cbind(c(1, 5, 9), c(2, 6, 10), c(3, 7, 11), c(4, 8, 12))
+cat("Matrix from column binding:\n")
+print(col_matrix)
+
+# Method 3: Adding dimensions to a vector
+vector_to_matrix <- 1:12
+dim(vector_to_matrix) <- c(3, 4)
+cat("Vector converted to matrix:\n")
+print(vector_to_matrix)
+```
+
+###  Matrix Properties and Attributes
+
+```{r}
+#| label: matrix-properties
+
+# Create a named matrix for demonstration
+sales_matrix <- matrix(
+  c(100, 150, 120, 200, 
+    110, 160, 130, 210,
+    105, 155, 125, 195),
+  nrow = 3,
+  byrow = TRUE,
+  dimnames = list(
+    quarters = c("Q1", "Q2", "Q3"),
+    products = c("Product_A", "Product_B", "Product_C", "Product_D")
+  )
+)
+
+print(sales_matrix)
+
+# Matrix properties
+cat("Dimensions:", dim(sales_matrix), "\n")
+cat("Number of rows:", nrow(sales_matrix), "\n")
+cat("Number of columns:", ncol(sales_matrix), "\n")
+cat("Total elements:", length(sales_matrix), "\n")
+
+# Dimension names
+cat("Row names:", rownames(sales_matrix), "\n")
+cat("Column names:", colnames(sales_matrix), "\n")
+
+# Matrix type information
+cat("Class:", class(sales_matrix), "\n")
+cat("Type:", typeof(sales_matrix), "\n")
+cat("Is matrix?", is.matrix(sales_matrix), "\n")
+cat("Is array?", is.array(sales_matrix), "\n")  # Matrices are also arrays
+```
+
+###  Matrix Indexing and Subsetting
+
+```{r}
+#| label: matrix-indexing
+
+# Single element access
+cat("Element [2,3]:", sales_matrix[2, 3], "\n")
+cat("Q2 Product_C:", sales_matrix["Q2", "Product_C"], "\n")
+
+# Row access (returns vector)
+q1_sales <- sales_matrix[1, ]
+cat("Q1 sales:", q1_sales, "\n")
+cat("Class of row:", class(q1_sales), "\n")  # Note: becomes vector
+
+# Column access
+product_a_sales <- sales_matrix[, 1]
+cat("Product A sales:", product_a_sales, "\n")
+
+# Multiple rows/columns (returns matrix)
+multi_quarters <- sales_matrix[1:2, ]
+cat("Q1-Q2 sales:\n")
+print(multi_quarters)
+
+multi_products <- sales_matrix[, 2:4]
+cat("Products B-D:\n")
+print(multi_products)
+
+# Submatrix
+submatrix <- sales_matrix[1:2, 2:3]
+cat("Submatrix Q1-Q2, Products B-C:\n")
+print(submatrix)
+
+# Logical indexing
+high_sales <- sales_matrix > 150
+cat("High sales (>150):\n")
+print(sales_matrix[high_sales])  # Returns as vector
+```
+
+###   Matrix Arithmetic Operations
+
+```{r}
+#| label: matrix-arithmetic
+
+# Create matrices for operations
+A <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+B <- matrix(c(5, 6, 7, 8), nrow = 2, ncol = 2)
+
+cat("Matrix A:\n"); print(A)
+cat("Matrix B:\n"); print(B)
+
+# Element-wise operations
+cat("A + B (element-wise addition):\n")
+print(A + B)
+
+cat("A * B (element-wise multiplication):\n")
+print(A * B)
+
+# Matrix multiplication (linear algebra)
+cat("A %*% B (matrix multiplication):\n")
+print(A %*% B)
+
+# Scalar operations
+cat("A * 3 (scalar multiplication):\n")
+print(A * 3)
+
+# Matrix powers
+cat("A^2 (element-wise squaring):\n")
+print(A^2)
+```
+
+###  Advanced Matrix Operations
+
+```{r}
+#| label: advanced-matrix
+
+# Create a square matrix for advanced operations
+square_matrix <- matrix(c(4, 7, 2, 6), nrow = 2, ncol = 2)
+cat("Square matrix:\n"); print(square_matrix)
+
+# Linear algebra operations
+cat("Transpose:\n"); print(t(square_matrix))
+cat("Determinant:", det(square_matrix), "\n")
+
+# Matrix inverse
+inverse_matrix <- solve(square_matrix)
+cat("Inverse matrix:\n"); print(inverse_matrix)
+
+# Verify inverse:  A * A^(-1) = I
+identity_check <- square_matrix %*% inverse_matrix
+cat("A * A^(-1) (should be identity):\n")
+print(round(identity_check, 10))  # Round to handle floating point errors
+
+# Eigenvalues and eigenvectors
+eigen_result <- eigen(square_matrix)
+cat("Eigenvalues:", eigen_result$values, "\n")
+cat("Eigenvectors:\n"); print(eigen_result$vectors)
+
+# Matrix decomposition
+qr_decomp <- qr(square_matrix)
+cat("QR decomposition Q:\n"); print(qr.Q(qr_decomp))
+cat("QR decomposition R:\n"); print(qr.R(qr_decomp))
+```
+
+###   Matrix Apply Operations
+
+```{r}
+#| label: matrix-apply
+
+# Create a larger matrix for demonstration
+test_matrix <- matrix(rnorm(20, mean = 10, sd = 3), nrow = 4, ncol = 5)
+rownames(test_matrix) <- paste("Row", 1:4)
+colnames(test_matrix) <- paste("Col", 1:5)
+
+cat("Test matrix:\n")
+print(round(test_matrix, 2))
+
+# Apply functions across margins
+# MARGIN = 1 for rows, MARGIN = 2 for columns
+
+# Row operations
+row_sums <- apply(test_matrix, 1, sum)
+row_means <- apply(test_matrix, 1, mean)
+row_ranges <- apply(test_matrix, 1, function(x) max(x) - min(x))
+
+cat("Row sums:", round(row_sums, 2), "\n")
+cat("Row means:", round(row_means, 2), "\n")
+cat("Row ranges:", round(row_ranges, 2), "\n")
+
+# Column operations  
+col_sums <- apply(test_matrix, 2, sum)
+col_sds <- apply(test_matrix, 2, sd)
+
+cat("Column sums:", round(col_sums, 2), "\n")
+cat("Column standard deviations:", round(col_sds, 2), "\n")
+
+# Built-in functions (faster than apply for simple operations)
+cat("rowSums() result:", round(rowSums(test_matrix), 2), "\n")
+cat("colMeans() result:", round(colMeans(test_matrix), 2), "\n")
+```
+
+#   Data Frames: The Data Analysis Workhorse
+
+## Understanding Data Frames
+
+Data frames are the most important data structure for data analysis.  They're like matrices but allow different data types in different columns, making them perfect for real-world datasets.
+
+###   Data Frame Creation
+
+```{r}
+#| label: dataframe-creation
+
+# Basic data frame creation
+employee_df <- data.frame(
+  employee_id = 1:6,
+  first_name = c("Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"),
+  last_name = c("Johnson", "Smith", "Brown", "Davis", "Wilson", "Miller"),
+  department = c("IT", "Sales", "IT", "HR", "Sales", "IT"),
+  salary = c(75000, 65000, 80000, 70000, 68000, 82000),
+  start_date = as.Date(c("2020-01-15", "2019-06-01", "2021-03-10", 
+                        "2020-08-20", "2019-11-05", "2022-02-01")),
+  is_manager = c(FALSE, TRUE, FALSE, TRUE, FALSE, TRUE),
+  performance_rating = factor(c("Excellent", "Good", "Excellent", 
+                               "Good", "Fair", "Excellent"),
+                             levels = c("Poor", "Fair", "Good", "Excellent"),
+                             ordered = TRUE),
+  stringsAsFactors = FALSE  # Keep strings as characters
+)
+
+print(employee_df)
+```
+
+###  Data Frame Properties and Inspection
+
+```{r}
+#| label: dataframe-properties
+
+# Basic properties
+cat("Dimensions:", dim(employee_df), "\n")
+cat("Number of rows:", nrow(employee_df), "\n")
+cat("Number of columns:", ncol(employee_df), "\n")
+cat("Column names:", names(employee_df), "\n")
+
+# Data structure overview
+cat("Data frame structure:\n")
+str(employee_df)
+
+# Summary statistics
+cat("Summary statistics:\n")
+summary(employee_df)
+
+# Data types of each column
+column_types <- sapply(employee_df, class)
+cat("Column types:\n")
+print(column_types)
+
+# Check for missing values
+missing_values <- colSums(is.na(employee_df))
+cat("Missing values per column:\n")
+print(missing_values)
+```
+
+###   Data Frame Indexing and Access
+
+```{r}
+#| label: dataframe-indexing
+
+# Column access methods
+cat("First names (using $):", employee_df$first_name, "\n")
+cat("First names (using [[]]):", employee_df[["first_name"]], "\n")
+cat("Class of extracted column:", class(employee_df$salary), "\n")
+
+# Single bracket returns data frame
+first_name_df <- employee_df["first_name"]
+cat("Class of [column]:", class(first_name_df), "\n")
+
+# Multiple column selection
+name_salary <- employee_df[c("first_name", "last_name", "salary")]
+cat("Multiple columns:\n")
+print(head(name_salary, 3))
+
+# Row access
+first_employee <- employee_df[1, ]
+cat("First employee:\n")
+print(first_employee)
+
+# Specific cell access
+alice_salary <- employee_df[1, "salary"]
+cat("Alice's salary:", alice_salary, "\n")
+
+# Range selection
+first_three <- employee_df[1:3, c("first_name", "department", "salary")]
+cat("First three employees (selected columns):\n")
+print(first_three)
+```
+
+###  Data Frame Filtering and Subsetting
+
+```{r}
+#| label: dataframe-filtering
+employee_df <- data.frame(
+  employee_id = 1:6,
+  first_name = c("Alice", "Bob", "Charlie", "Diana", "Eve", "Frank"),
+  last_name = c("Johnson", "Smith", "Brown", "Davis", "Wilson", "Miller"),
+  department = c("IT", "Sales", "IT", "HR", "Sales", "IT"),
+  salary = c(75000, 65000, 80000, 70000, 68000, 82000),
+  start_date = as.Date(c("2020-01-15", "2019-06-01", "2021-03-10", 
+                        "2020-08-20", "2019-11-05", "2022-02-01")),
+  is_manager = c(FALSE, TRUE, FALSE, TRUE, FALSE, TRUE),
+  performance_rating = factor(c("Excellent", "Good", "Excellent", 
+                               "Good", "Fair", "Excellent"),
+                             levels = c("Poor", "Fair", "Good", "Excellent"),
+                             ordered = TRUE),
+  stringsAsFactors = FALSE
+)
+# Simple filtering
+it_employees <- employee_df[employee_df$department == "IT", ]
+cat("IT employees:\n")
+print(it_employees[, c("first_name", "last_name", "salary")])
+
+# Multiple conditions with logical operators
+high_earners_it <- employee_df[employee_df$department == "IT" & 
+                              employee_df$salary > 75000, ]
+cat("High-earning IT employees:\n")
+print(high_earners_it[, c("first_name", "salary")])
+
+# Using subset() function (more readable)
+managers_subset <- subset(employee_df, 
+                         is_manager == TRUE,
+                         select = c("first_name", "last_name", "department", "salary"))
+cat("Managers (using subset):\n")
+print(managers_subset)
+
+# Complex filtering with %in%
+target_departments <- c("IT", "Sales")
+it_or_sales <- employee_df[employee_df$department %in% target_departments, ]
+cat("IT or Sales employees:\n")
+print(it_or_sales[, c("first_name", "department", "salary")])
+
+# Filtering with date conditions
+recent_hires <- employee_df[employee_df$start_date > as.Date("2020-01-01"), ]
+cat("Recent hires (after 2020-01-01):\n")
+print(recent_hires[, c("first_name", "start_date")])
+```
+
+###  Data Frame Modification
+
+```{r}
+#| label: dataframe-modification
+
+# Create a working copy
+df_work <- employee_df
+
+# Add new columns
+df_work$full_name <- paste(df_work$first_name, df_work$last_name)
+df_work$years_employed <- as.numeric(Sys.Date() - df_work$start_date) / 365.25
+df_work$salary_category <- ifelse(df_work$salary > 75000, "High", "Standard")
+
+# Conditional column creation
+df_work$bonus_eligible <- with(df_work, 
+  (years_employed > 2) & (performance_rating %in% c("Good", "Excellent"))
+)
+
+# Calculate bonus amount based on conditions
+df_work$bonus <- ifelse(df_work$bonus_eligible,
+                       df_work$salary * 0.1,  # 10% bonus
+                       0)
+
+cat("Modified data frame with new columns:\n")
+print(df_work[, c("full_name", "years_employed", "salary_category", "bonus")])
+
+# Modify existing values
+df_work$salary[df_work$first_name == "Alice"] <- 78000  # Give Alice a raise
+df_work$is_manager[df_work$first_name == "Charlie"] <- TRUE  # Promote Charlie
+
+# Add new rows
+new_employee <- data.frame(
+  employee_id = 7,
+  first_name = "Grace",
+  last_name = "Lee",
+  department = "HR",
+  salary = 72000,
+  start_date = as.Date("2023-01-15"),
+  is_manager = FALSE,
+  performance_rating = factor("Good", levels = levels(df_work$performance_rating)),
+  full_name = "Grace Lee",
+  years_employed = 1.0,
+  salary_category = "Standard",
+  bonus_eligible = FALSE,
+  bonus = 0
+)
+
+df_work <- rbind(df_work, new_employee)
+cat("After adding new employee:", nrow(df_work), "total employees\n")
+```
+
+###   Advanced Data Frame Operations
+
+```{r}
+#| label: advanced-dataframe
+#| message: false
+
+# Using dplyr for modern data manipulation
+library(dplyr)
+
+# Modern data manipulation with pipes
+summary_stats <- employee_df |>
+  mutate(
+    full_name = paste(first_name, last_name),
+    years_employed = as.numeric(Sys.Date() - start_date) / 365.25,
+    salary_k = salary / 1000  # Convert to thousands
+  ) |>
+  filter(department %in% c("IT", "Sales")) |>
+  group_by(department, is_manager) |>
+  summarise(
+    count = n(),
+    avg_salary = mean(salary),
+    avg_years = mean(years_employed),
+    .groups = "drop"
+  ) |>
+  arrange(department, desc(is_manager))
+
+cat("Summary statistics by department and management status:\n")
+print(summary_stats)
+
+# Advanced filtering with case_when
+employee_df_enhanced <- employee_df |>
+  mutate(
+    experience_level = case_when(
+      as.numeric(Sys.Date() - start_date) / 365.25 < 2 ~ "Junior",
+      as.numeric(Sys.Date() - start_date) / 365.25 < 4 ~ "Mid-level", 
+      TRUE ~ "Senior"
+    ),
+    compensation_tier = case_when(
+      salary < 70000 ~ "Tier 1",
+      salary < 80000 ~ "Tier 2",
+      TRUE ~ "Tier 3"
+    )
+  )
+
+cat("Enhanced employee data with calculated fields:\n")
+print(employee_df_enhanced |> 
+       select(first_name, department, experience_level, compensation_tier))
+```
+
+###  Data Frame Aggregation and Grouping
+
+```{r}
+#| label: dataframe-aggregation
+
+# Base R aggregation
+dept_summary <- aggregate(salary ~ department, data = employee_df, 
+                         FUN = function(x) c(mean = mean(x), 
+                                           median = median(x), 
+                                           count = length(x)))
+cat("Department salary summary:\n")
+print(dept_summary)
+
+# Multiple grouping variables
+dept_mgr_summary <- aggregate(salary ~ department + is_manager, 
+                             data = employee_df, 
+                             FUN = mean)
+cat("Average salary by department and management status:\n")
+print(dept_mgr_summary)
+
+# Using by() function for more complex operations
+performance_by_dept <- by(employee_df$performance_rating, 
+                         employee_df$department, 
+                         table)
+cat("Performance ratings by department:\n")
+print(performance_by_dept)
+
+# Table operations for cross-tabulation
+dept_performance_table <- table(employee_df$department, 
+                               employee_df$performance_rating)
+cat("Department vs Performance cross-table:\n")
+print(dept_performance_table)
+
+# Proportional tables
+dept_performance_prop <- prop.table(dept_performance_table, margin = 1)
+cat("Performance distribution within each department:\n")
+print(round(dept_performance_prop, 3))
+```
+
+#  Arrays: Multi-Dimensional Data
+
+## Understanding Arrays
+
+Arrays extend matrices to more than two dimensions.  They're useful for storing multi-dimensional scientific or business data.
+
+###  Array Creation and Structure
+
+```{r}
+#| label: array-creation
+
+# Create a 3-dimensional array (think:  multiple matrices stacked)
+# Dimensions: 4 quarters × 3 products × 2 years
+sales_array <- array(
+  data = c(100, 120, 110, 130,    # Q1-Q4 for Product A, Year 1
+           150, 160, 140, 170,    # Q1-Q4 for Product B, Year 1  
+           200, 210, 190, 220,    # Q1-Q4 for Product C, Year 1
+           110, 130, 120, 140,    # Q1-Q4 for Product A, Year 2
+           160, 170, 150, 180,    # Q1-Q4 for Product B, Year 2
+           210, 220, 200, 230),   # Q1-Q4 for Product C, Year 2
+  dim = c(4, 3, 2),  # 4 quarters, 3 products, 2 years
+  dimnames = list(
+    quarters = paste0("Q", 1:4),
+    products = c("Product_A", "Product_B", "Product_C"), 
+    years = c("2022", "2023")
+  )
+)
+
+print(sales_array)
+
+# Array properties
+cat("Array dimensions:", dim(sales_array), "\n")
+cat("Dimension names:\n")
+print(dimnames(sales_array))
+cat("Total elements:", length(sales_array), "\n")
+```
+
+###  Array Indexing and Slicing
+
+```{r}
+#| label:  array-indexing
+
+# Single element access
+q2_productb_2022 <- sales_array["Q2", "Product_B", "2022"]
+cat("Q2 Product B 2022 sales:", q2_productb_2022, "\n")
+
+# Slice operations
+# All quarters and products for 2022
+sales_2022 <- sales_array[, , "2022"]
+cat("All 2022 sales:\n"); print(sales_2022)
+
+# Product A sales across all quarters and years
+product_a_sales <- sales_array[, "Product_A", ]
+cat("Product A sales across time:\n"); print(product_a_sales)
+
+# Q1 sales for all products and years
+q1_sales <- sales_array["Q1", , ]
+cat("Q1 sales across products and years:\n"); print(q1_sales)
+
+# Multiple quarters for specific product and year
+q1_q2_productc_2023 <- sales_array[c("Q1", "Q2"), "Product_C", "2023"]
+cat("Q1-Q2 Product C 2023:", q1_q2_productc_2023, "\n")
+```
+
+###   Array Operations with Apply
+
+```{r}
+#| label: array-apply
+
+# Apply operations across different dimensions
+# MARGIN = 1: across quarters
+# MARGIN = 2: across products  
+# MARGIN = 3: across years
+
+# Total sales by quarter (sum across products and years)
+quarterly_totals <- apply(sales_array, 1, sum)
+cat("Quarterly totals:", quarterly_totals, "\n")
+
+# Total sales by product (sum across quarters and years)
+product_totals <- apply(sales_array, 2, sum)
+cat("Product totals:", product_totals, "\n")
+
+# Total sales by year (sum across quarters and products)
+yearly_totals <- apply(sales_array, 3, sum)
+cat("Yearly totals:", yearly_totals, "\n")
+
+# Average sales by quarter and product (across years)
+avg_by_quarter_product <- apply(sales_array, c(1, 2), mean)
+cat("Average sales by quarter and product (across years):\n")
+print(avg_by_quarter_product)
+
+# Growth rates between years for each quarter-product combination
+growth_rates <- apply(sales_array, c(1, 2), function(x) (x[2] - x[1]) / x[1] * 100)
+cat("Growth rates (2022 to 2023) by quarter and product:\n")
+print(round(growth_rates, 1))
+```
+
+#   Advanced Data Structures and Concepts
+
+## Environments:  R's Scoping System
+
+```{r}
+#| label:  environments
+
+# Environments store object-name bindings
+current_env <- environment()
+global_env <- .GlobalEnv
+
+# Create a new environment
+my_env <- new.env()
+my_env$x <- 10
+my_env$y <- 20
+my_env$calculate <- function(a, b) a + b
+
+# List objects in environment
+cat("Objects in my_env:", ls(my_env), "\n")
+
+# Access environment objects
+cat("x from my_env:", my_env$x, "\n")
+cat("Calculation result:", my_env$calculate(my_env$x, my_env$y), "\n")
+
+# Environment hierarchy
+cat("Current environment:", environmentName(current_env), "\n")
+cat("Parent environment:", environmentName(parent.env(current_env)), "\n")
+
+# Search path for R objects
+search_path <- search()
+cat("R search path:\n")
+print(search_path)
+```
+
+## Object-Oriented Programming:  S3 Classes
+
+```{r}
+#| label: s3-classes
+
+# Create an S3 object (simple object-oriented programming)
+create_bank_account <- function(owner, balance = 0) {
+  account <- list(
+    owner = owner,
+    balance = balance,
+    transactions = data.frame(
+      date = as.Date(character(0)),
+      type = character(0),
+      amount = numeric(0),
+      stringsAsFactors = FALSE
+    )
+  )
+  class(account) <- "bank_account"
+  return(account)
+}
+
+# Create methods for our class
+print.bank_account <- function(x) {
+  cat("Bank Account\n")
+  cat("Owner:", x$owner, "\n")
+  cat("Balance:  $", x$balance, "\n")
+  cat("Transactions:", nrow(x$transactions), "\n")
+}
+
+deposit.bank_account <- function(account, amount) {
+  if (amount <= 0) {
+    stop("Deposit amount must be positive")
+  }
+  account$balance <- account$balance + amount
+  new_transaction <- data.frame(
+    date = Sys.Date(),
+    type = "deposit",
+    amount = amount
+  )
+  account$transactions <- rbind(account$transactions, new_transaction)
+  return(account)
+}
+
+withdraw.bank_account <- function(account, amount) {
+  if (amount <= 0) {
+    stop("Withdrawal amount must be positive")
+  }
+  if (amount > account$balance) {
+    stop("Insufficient funds")
+  }
+  account$balance <- account$balance - amount
+  new_transaction <- data.frame(
+    date = Sys.Date(),
+    type = "withdrawal", 
+    amount = -amount
+  )
+  account$transactions <- rbind(account$transactions, new_transaction)
+  return(account)
+}
+
+# Use our S3 class
+my_account <- create_bank_account("John Doe", 1000)
+print(my_account)
+
+my_account <- deposit.bank_account(my_account, 500)
+my_account <- withdraw.bank_account(my_account, 200)
+print(my_account)
+```
+
+#   Performance Optimization and Best Practices
+
+## Memory Efficiency and Performance
+
+### Pre-allocation vs Growing Objects
+
+```{r}
+#| label: performance-preallocation
+
+# Demonstrate the performance difference
+n <- 10000
+
+# BAD: Growing objects (very slow)
+system.time({
+  bad_vector <- numeric(0)
+  for (i in 1:n) {
+    bad_vector <- c(bad_vector, i^2)
+  }
+})
+
+# GOOD: Pre-allocation (much faster)
+system.time({
+  good_vector <- numeric(n)
+  for (i in 1:n) {
+    good_vector[i] <- i^2
+  }
+})
+
+# BEST: Vectorized operations (fastest)
+system.time({
+  best_vector <- (1:n)^2
+})
+
+# Verify all methods give same result
+cat("All methods equivalent:", 
+    identical(bad_vector, good_vector) && identical(good_vector, best_vector), "\n")
+```
+
+### Data Structure Selection for Performance
+
+```{r}
+#| label: performance-structures
+#| message: false
+
+library(microbenchmark)
+
+# Create test data
+n_rows <- 1000
+test_matrix <- matrix(rnorm(n_rows * 10), nrow = n_rows)
+test_df <- as.data.frame(test_matrix)
+
+# Compare performance for column operations
+performance_test <- microbenchmark(
+  matrix_colsums = colSums(test_matrix),
+  df_apply = apply(test_df, 2, sum),
+  df_sapply = sapply(test_df, sum),
+  times = 100
+)
+
+print(performance_test)
+
+# Memory usage comparison
+cat("Matrix memory:", as.numeric(object.size(test_matrix)), "bytes\n")
+cat("Data frame memory:", as.numeric(object.size(test_df)), "bytes\n")
+```
+
+### Factors vs Characters for Memory
+
+```{r}
+#| label: memory-factors
+
+# Compare memory usage:  factors vs characters for categorical data
+n_observations <- 100000
+categories <- c("Category_A", "Category_B", "Category_C", "Category_D")
+
+# Create character vector
+char_vector <- sample(categories, n_observations, replace = TRUE)
+
+# Create factor
+factor_vector <- factor(char_vector)
+
+# Memory comparison
+char_size <- as.numeric(object.size(char_vector))
+factor_size <- as.numeric(object.size(factor_vector))
+
+cat("Character vector memory:", char_size, "bytes\n")
+cat("Factor memory:", factor_size, "bytes\n")
+cat("Factor saves:", round((char_size - factor_size) / char_size * 100, 1), "% memory\n")
+
+# Performance comparison for operations
+cat("\nPerformance comparison for table operations:\n")
+performance_categorical <- microbenchmark(
+  character_table = table(char_vector),
+  factor_table = table(factor_vector),
+  times = 50
+)
+print(performance_categorical)
+```
+
+## Best Practices Summary
+
+### 1. Data Structure Selection Guide
+
+```{r}
+#| label: selection-guide
+
+# Function to recommend data structure
+recommend_structure <- function(data_description) {
+  cat("Data Structure Recommendation Guide\n")
+  cat("===================================\n\n")
+  
+  recommendations <- list(
+    "Homogeneous numeric data, mathematical operations" = "Matrix or Numeric Vector",
+    "Heterogeneous tabular data" = "Data Frame or Tibble", 
+    "Categorical data with known levels" = "Factor",
+    "Hierarchical or nested data" = "List",
+    "Mixed-type collection of objects" = "List",
+    "Multi-dimensional scientific data" = "Array",
+    "Simple sequence of same-type values" = "Atomic Vector"
+  )
+  
+  for (i in seq_along(recommendations)) {
+    cat("•", names(recommendations)[i], "\n")
+    cat("  →", recommendations[[i]], "\n\n")
+  }
+}
+
+recommend_structure()
+```
+
+### 2. Common Pitfalls and Solutions
+
+```{r}
+#| label: pitfalls
+
+# Common pitfall demonstrations and solutions
+
+cat("PITFALL 1: Automatic type coercion\n")
+mixed_data <- c(1, 2, 3, "four")
+cat("Result type:", typeof(mixed_data), "\n")
+cat("Solution: Use lists for mixed types\n\n")
+
+cat("PITFALL 2: Factor level surprises\n")
+original_factor <- factor(c("low", "medium", "high"))
+cat("Original levels:", levels(original_factor), "\n")
+# Adding new level without updating factor
+# new_factor <- c(original_factor, "very_high")  # This would cause issues
+cat("Solution: Update levels before adding new data\n\n")
+
+cat("PITFALL 3: Ignoring missing values\n")
+data_with_na <- c(1, 2, NA, 4, 5)
+cat("Mean without na. rm:", mean(data_with_na), "\n")
+cat("Mean with na.rm=TRUE:", mean(data_with_na, na.rm = TRUE), "\n\n")
+
+cat("PITFALL 4: Matrix vs data frame confusion\n")
+test_matrix <- matrix(1:6, nrow = 2)
+test_df <- data.frame(x = 1:2, y = 3:4, z = 5:6)
+cat("Matrix column access returns:", class(test_matrix[, 1]), "\n")
+cat("Data frame column access returns:", class(test_df[, 1]), "\n")
+cat("Solution: Use drop=FALSE to maintain structure\n")
+cat("Matrix with drop=FALSE:", class(test_matrix[, 1, drop = FALSE]), "\n")
+```
+
+### 3. Debugging and Validation Functions
+
+```{r}
+#| label: debugging-functions
+
+# Utility functions for data structure debugging
+debug_structure <- function(obj, name = deparse(substitute(obj))) {
+  cat("=== Debug Info for", name, "===\n")
+  cat("Class:", class(obj), "\n")
+  cat("Type:", typeof(obj), "\n")
+  cat("Length/Dimensions:", 
+      if(is.null(dim(obj))) length(obj) else paste(dim(obj), collapse = "×"), "\n")
+  
+  if (is.factor(obj)) {
+    cat("Factor levels:", nlevels(obj), "\n")
+    cat("Ordered:", is.ordered(obj), "\n")
+  }
+  
+  if (any(is.na(obj))) {
+    cat("Missing values:", sum(is.na(obj)), "\n")
+  }
+  
+  cat("Memory usage:", as.numeric(object.size(obj)), "bytes\n")
+  cat("========================\n\n")
+}
+
+# Validate data frame structure
+validate_dataframe <- function(df, required_cols = NULL) {
+  cat("Data Frame Validation\n")
+  cat("====================\n")
+  
+  # Basic structure
+  cat("Dimensions:", paste(dim(df), collapse = " × "), "\n")
+  cat("Complete cases:", sum(complete.cases(df)), "/", nrow(df), "\n")
+  
+  # Check required columns
+  if (!is.null(required_cols)) {
+    missing_cols <- required_cols[!required_cols %in% names(df)]
+    if (length(missing_cols) > 0) {
+      cat("⚠️  Missing required columns:", paste(missing_cols, collapse = ", "), "\n")
+    } else {
+      cat("✅ All required columns present\n")
+    }
+  }
+  
+  # Data type summary
+  cat("\nColumn types:\n")
+  col_types <- sapply(df, function(x) paste(class(x), collapse = "/"))
+  for (i in seq_along(col_types)) {
+    cat("  ", names(col_types)[i], ":", col_types[i], "\n")
+  }
+  
+  cat("====================\n\n")
+}
+
+# Example usage
+debug_structure(employee_df)
+validate_dataframe(employee_df, required_cols = c("employee_id", "first_name", "salary"))
+```
+
+# Summary and Quick Reference
+
+## Data Structure Comparison Table
+
+| Structure | Dimensions | Homogeneous | Best Use Cases | Memory Efficiency |
+|-----------|------------|-------------|----------------|-------------------|
+| **Vector** | 1D | ✅ Yes | Mathematical operations, sequences | ⭐⭐⭐⭐⭐ |
+| **Factor** | 1D | ✅ Yes | Categorical data, statistical modeling | ⭐⭐⭐⭐⭐ |
+| **Matrix** | 2D | ✅ Yes | Linear algebra, image data | ⭐⭐⭐⭐ |
+| **Array** | ND | ✅ Yes | Multi-dimensional scientific data | ⭐⭐⭐⭐ |
+| **List** | 1D | ❌ No | Complex nested structures | ⭐⭐⭐ |
+| **Data Frame** | 2D | ❌ No | Data analysis, mixed-type tables | ⭐⭐⭐ |
+
+## Key Takeaways
+
+###   For Beginners
+- **Start with vectors and data frames** - they cover 80% of use cases
+- **Understand indexing** - mastering `$`, `[]`, and `[[]]` is crucial
+- **Use factors for categorical data** - they save memory and improve performance
+###  For Intermediate Users
+- **Leverage lists for complex data** - they allow nesting and mixed types
+- **Master apply functions** - they enable efficient operations across data structures
+- **Choose the right structure** - consider data type, operations, and memory needs
+###   For Advanced Users
+- **Optimize performance** - pre-allocate objects and prefer vectorized operations
+- **Utilize S3 classes** - for custom object-oriented programming
+- **Debug and validate** - use custom functions to ensure data integrity and structure

@@ -322,6 +322,260 @@ xportr_write(adsl, "./adsl.xpt")
 ```
 > Note: Real ADSL creation must follow **ADaM IG** (derive flags, dates, imputations, populations). This example is educational only.
 
+# ADVS program
+```{r , eval=FALSE}
+# ADVS Dataset Creation Program
+# Analysis Dataset for Vital Signs
+# Following CDISC ADaM Standards
+
+# Load required libraries
+library(dplyr)
+library(lubridate)
+library(haven)
+
+# Function to create ADVS dataset
+create_advs <- function(vs_data, adsl_data) {
+  
+  # Step 1: Start with VS domain and merge with ADSL
+  advs <- vs_data %>%
+    # Filter for vital signs records
+    filter(! is.na(vsstresn) | !is.na(vsstresc)) %>%
+    # Merge with ADSL to get treatment information
+    left_join(adsl_data, by = c("studyid" = "STUDYID", "usubjid" = "USUBJID"))
+  
+  # Step 2: Create basic variables
+  advs <- advs %>%
+    mutate(
+      # Study and subject identifiers
+      STUDYID = studyid,
+      USUBJID = usubjid,
+      
+      # Treatment variables from ADSL
+      TRTP = TRT01P,
+      TRTPN = TRT01PN,
+      TRTA = TRT01A,
+      TRTAN = TRT01AN,
+      
+      # Parameter information
+      PARAM = case_when(
+        vstestcd == "SYSBP" ~ "Systolic Blood Pressure (mmHg)",
+        vstestcd == "DIABP" ~ "Diastolic Blood Pressure (mmHg)",
+        vstestcd == "PULSE" ~ "Pulse Rate (beats/min)",
+        vstestcd == "RESP" ~ "Respiratory Rate (breaths/min)",
+        vstestcd == "TEMP" ~ "Body Temperature (C)",
+        vstestcd == "WEIGHT" ~ "Weight (kg)",
+        vstestcd == "HEIGHT" ~ "Height (cm)",
+        TRUE ~ vstest
+      ),
+      PARAMCD = vstestcd,
+      PARAMN = case_when(
+        vstestcd == "SYSBP" ~ 1,
+        vstestcd == "DIABP" ~ 2,
+        vstestcd == "PULSE" ~ 3,
+        vstestcd == "RESP" ~ 4,
+        vstestcd == "TEMP" ~ 5,
+        vstestcd == "WEIGHT" ~ 6,
+        vstestcd == "HEIGHT" ~ 7,
+        TRUE ~ as.numeric(NA)
+      ),
+      
+      # Analysis value
+      AVAL = as.numeric(vsstresn),
+      
+      # Date/time variables
+      ADT = as.Date(substr(vsdtc, 1, 10)),
+      ADY = as.numeric(ADT - as.Date(TRTSDT) + (ADT >= as.Date(TRTSDT))),
+      
+      # Visit information
+      VISIT = visit,
+      ATPT = vstpt,
+      ATPTN = vstptnum
+    ) %>%
+    # Filter to keep only records with non-missing AVAL
+    filter(! is.na(AVAL))
+  
+  # Step 3: Create analysis visit windows (this would typically come from a separate mapping)
+  # For demonstration, creating basic visit windows
+  advs <- advs %>%
+    mutate(
+      AVISIT = case_when(
+        grepl("SCREENING|SCREEN", toupper(VISIT)) ~ "Screening",
+        grepl("BASELINE|DAY 1", toupper(VISIT)) ~ "Baseline",
+        grepl("WEEK 2|DAY 14", toupper(VISIT)) ~ "Week 2",
+        grepl("WEEK 4|DAY 28", toupper(VISIT)) ~ "Week 4",
+        grepl("WEEK 8|DAY 56", toupper(VISIT)) ~ "Week 8",
+        grepl("WEEK 12|DAY 84", toupper(VISIT)) ~ "Week 12",
+        grepl("FOLLOW", toupper(VISIT)) ~ "Follow-up",
+        TRUE ~ VISIT
+      ),
+      AVISITN = case_when(
+        AVISIT == "Screening" ~ -1,
+        AVISIT == "Baseline" ~ 0,
+        AVISIT == "Week 2" ~ 2,
+        AVISIT == "Week 4" ~ 4,
+        AVISIT == "Week 8" ~ 8,
+        AVISIT == "Week 12" ~ 12,
+        AVISIT == "Follow-up" ~ 99,
+        TRUE ~ as.numeric(NA)
+      ),
+      
+      # Analysis window variables (example values)
+      AWTARGET = AVISITN * 7, # Target day
+      AWU = "DAYS",
+      AWLO = AWTARGET - 3, # 3-day window
+      AWHI = AWTARGET + 3,
+      AWTDIFF = abs(ADY - AWTARGET)
+    )
+  
+  # Step 4:  Determine baseline records
+  advs <- advs %>%
+    group_by(USUBJID, PARAMCD) %>%
+    mutate(
+      # Baseline flag - last assessment on or before treatment start date
+      baseline_candidate = case_when(
+        ADT <= as.Date(TRTSDT) ~ ADT,
+        TRUE ~ as.Date(NA)
+      )
+    ) %>%
+    group_by(USUBJID, PARAMCD) %>%
+    mutate(
+      max_baseline_date = max(baseline_candidate, na.rm = TRUE),
+      ABLFL = case_when(
+        ! is.na(baseline_candidate) & baseline_candidate == max_baseline_date ~ "Y",
+        TRUE ~ ""
+      )
+    ) %>%
+    ungroup()
+  
+  # Step 5: Create BASE, CHG, and PCHG
+  advs <- advs %>%
+    group_by(USUBJID, PARAMCD) %>%
+    mutate(
+      BASE = case_when(
+        any(ABLFL == "Y") ~ AVAL[ABLFL == "Y"][1],
+        TRUE ~ as. numeric(NA)
+      ),
+      CHG = case_when(
+        ! is.na(BASE) & ADT > as.Date(TRTSDT) ~ AVAL - BASE,
+        TRUE ~ as. numeric(NA)
+      ),
+      PCHG = case_when(
+        !is.na(BASE) & BASE != 0 & ADT > as. Date(TRTSDT) ~ ((AVAL - BASE) / BASE) * 100,
+        TRUE ~ as.numeric(NA)
+      )
+    ) %>%
+    ungroup()
+  
+  # Step 6: Create analysis flags
+  advs <- advs %>%
+    mutate(
+      # ANL01FL - Analysis Flag 01 (include all valid records)
+      ANL01FL = "Y",
+      
+      # DTYPE - Derivation Type (empty for observed values)
+      DTYPE = ""
+    ) %>%
+    group_by(USUBJID, PARAMCD, AVISIT) %>%
+    mutate(
+      # ANL02FL - One record per visit per parameter
+      visit_rank = rank(AWTDIFF, ties.method = "first"),
+      ANL02FL = case_when(
+        ANL01FL == "Y" & visit_rank == 1 ~ "Y",
+        TRUE ~ ""
+      )
+    ) %>%
+    ungroup()
+  
+  # Step 7: Create criterion variables for blood pressure parameters
+  advs <- advs %>%
+    mutate(
+      # Criterion 1: Low BP
+      CRIT1 = case_when(
+        PARAMCD == "SYSBP" ~ "SYSBP <= 90 mmHg",
+        PARAMCD == "DIABP" ~ "DIABP <= 60 mmHg",
+        TRUE ~ ""
+      ),
+      CRIT1FL = case_when(
+        PARAMCD == "SYSBP" & AVAL <= 90 ~ "Y",
+        PARAMCD == "DIABP" & AVAL <= 60 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") ~ "",
+        TRUE ~ ""
+      ),
+      
+      # Criterion 2: High BP
+      CRIT2 = case_when(
+        PARAMCD == "SYSBP" ~ "SYSBP >= 140 mmHg",
+        PARAMCD == "DIABP" ~ "DIABP >= 90 mmHg",
+        TRUE ~ ""
+      ),
+      CRIT2FL = case_when(
+        PARAMCD == "SYSBP" & AVAL >= 140 ~ "Y",
+        PARAMCD == "DIABP" & AVAL >= 90 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") ~ "",
+        TRUE ~ ""
+      ),
+      
+      # Criterion 3: >20% increase from baseline
+      CRIT3 = case_when(
+        PARAMCD == "SYSBP" ~ "SYSBP change from baseline > 20% increase",
+        PARAMCD == "DIABP" ~ "DIABP change from baseline > 20% increase",
+        TRUE ~ ""
+      ),
+      CRIT3FL = case_when(
+        PARAMCD == "SYSBP" & ! is.na(PCHG) & PCHG > 20 ~ "Y",
+        PARAMCD == "DIABP" & !is.na(PCHG) & PCHG > 20 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") & !is.na(PCHG) ~ "",
+        TRUE ~ ""
+      ),
+      
+      # Criterion 4: >20% decrease from baseline
+      CRIT4 = case_when(
+        PARAMCD == "SYSBP" ~ "SYSBP change from baseline > 20% decrease",
+        PARAMCD == "DIABP" ~ "DIABP change from baseline > 20% decrease",
+        TRUE ~ ""
+      ),
+      CRIT4FL = case_when(
+        PARAMCD == "SYSBP" & !is.na(PCHG) & PCHG < -20 ~ "Y",
+        PARAMCD == "DIABP" & !is. na(PCHG) & PCHG < -20 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") & !is.na(PCHG) ~ "",
+        TRUE ~ ""
+      )
+    )
+  
+  # Step 8: Select final variables in correct order
+  advs_final <- advs %>%
+    select(
+      STUDYID, USUBJID, TRTP, TRTPN, TRTA, TRTAN,
+      PARAM, PARAMCD, PARAMN, AVAL, BASE, CHG, PCHG,
+      DTYPE, ADT, ADY, AVISIT, AVISITN, AWTARGET, AWTDIFF,
+      AWLO, AWHI, AWU, VISIT, ATPT, ATPTN,
+      ABLFL, ANL01FL, ANL02FL,
+      CRIT1, CRIT1FL, CRIT2, CRIT2FL, CRIT3, CRIT3FL, CRIT4, CRIT4FL,
+      # Include core ADSL variables
+      AGE, AGEU, AGEGR1, AGEGR1N, SEX, RACE, RACEN, SAFFL, ITTFL
+    ) %>%
+    arrange(STUDYID, USUBJID, PARAMN, ADT, ATPTN)
+  
+  return(advs_final)
+}
+
+# Example usage: 
+# Load your data
+# vs <- read_sas("path/to/vs.sas7bdat")
+# adsl <- read_sas("path/to/adsl. sas7bdat")
+
+# Create ADVS dataset
+# advs <- create_advs(vs, adsl)
+
+# Write to file
+# write_sas(advs, "path/to/advs.sas7bdat")
+
+# Print summary
+# cat("ADVS dataset created with", nrow(advs), "records\n")
+# cat("Parameters included:", paste(unique(advs$PARAMCD), collapse = ", "), "\n")
+# cat("Subjects included:", length(unique(advs$USUBJID)), "\n")
+```
+
 **Exercises**
 1. Add analysis populations (e.g., `SAFFL`, `FASFL`) based on simple rules.
 2. Derive `AGEGR1` as `<65 / ≥65` and use ordered factor.
