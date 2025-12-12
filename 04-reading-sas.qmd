@@ -1,60 +1,493 @@
----
-title: "Reading SAS Datasets (+ Cleaning)"
----
+# Reading SAS Datasets and Working with XPT Files
+
+## Introduction
+
+When working with SAS datasets in R, you'll often need to read various SAS file formats, write XPT (transport) files for regulatory submissions, and manage dataset and variable attributes. This chapter covers the essential tools and techniques for these tasks.
+
+## Required Packages
 
 ```{r}
-library(haven)
-library(dplyr)
-library(labelled)
+#| label: setup
+#| message: false
+#| warning: false
+
+library(haven)      # For reading/writing SAS files
+library(dplyr)      # For data manipulation
+library(labelled)   # For working with labels
+library(sjlabelled) # Additional label functions
+library(foreign)    # Alternative for XPT files
+library(SASxport)   # Specialized XPT handling
 ```
 
-We try to read a SAS dataset (e.g., SDTM DM). If not present, we **synthesize** an example.
+## Reading SAS Datasets
+
+### Reading SAS7BDAT Files
+
+The `haven` package is the most reliable way to read modern SAS datasets:
 
 ```{r}
-dm_path <- "data/sdtm/dm.sas7bdat"
+#| label: read-sas7bdat
+#| eval: false
 
-if (file.exists(dm_path)) {
-  dm <- read_sas(dm_path)
-} else {
-  dm <- tibble::tibble(
-    STUDYID = "XYZ123",
-    USUBJID = sprintf("XYZ-%03d", 1:10),
-    ARM = rep(c("Placebo","Active"), length.out=10),
-    AGE = c(55, 62, 47, 50, 71, 66, 45, 59, 53, 68),
-    SEX = rep(c("M","F"), length.out=10)
+# Read a SAS dataset
+data <- read_sas("path/to/dataset.sas7bdat")
+
+# Read with specific encoding
+data <- read_sas("path/to/dataset.sas7bdat", encoding = "latin1")
+
+# Read and specify column types
+data <- read_sas("path/to/dataset.sas7bdat", 
+                 col_types = cols(
+                   subjid = col_character(),
+                   age = col_double(),
+                   visit = col_factor()
+                 ))
+```
+
+### Reading XPT (Transport) Files
+
+XPT files are commonly used in pharmaceutical submissions:
+
+```{r}
+#| label: read-xpt
+#| eval: false
+
+# Using haven (recommended)
+data <- read_xpt("path/to/dataset.xpt")
+
+# Using foreign package
+data <- read.xport("path/to/dataset.xpt")
+
+# Using SASxport package for more control
+data <- read.xport("path/to/dataset.xpt", verbose = TRUE)
+```
+
+### Handling Different SAS Formats
+
+```{r}
+#| label: read-formats
+#| eval: false
+
+# Read dataset with format catalog
+data <- read_sas("dataset.sas7bdat", 
+                 catalog = "formats.sas7bcat")
+
+# Read older SAS transport files
+data <- read_xpt("old_dataset.xpt")
+
+# Handle missing values properly
+data <- read_sas("dataset.sas7bdat", 
+                 user_na = c(".", "", " "))
+```
+
+## Working with Labels and Attributes
+
+### Understanding SAS Labels in R
+
+When reading SAS datasets, labels are preserved as attributes:
+
+```{r}
+#| label: examine-labels
+#| eval: false
+
+# Check if data has labels
+has_labels(data)
+
+# View all variable labels
+var_label(data)
+
+# View label for specific variable
+var_label(data$age)
+
+# View dataset label
+attr(data, "label")
+```
+
+### Adding and Modifying Labels
+
+```{r}
+#| label: add-labels
+#| eval: false
+
+# Add variable labels
+data <- data %>%
+  set_variable_labels(
+    subjid = "Subject Identifier",
+    age = "Age at Baseline (years)",
+    sex = "Gender",
+    visit = "Study Visit",
+    weight = "Body Weight (kg)",
+    height = "Height (cm)"
   )
-  message("Synthesized `dm` since data/sdtm/dm.sas7bdat was not found.")
-}
-str(dm)
+
+# Add dataset label
+attr(data, "label") <- "Demographics Dataset"
+
+# Alternative using labelled package
+data$age <- labelled(data$age, label = "Age at Baseline (years)")
+
+# Add value labels (for categorical variables)
+data$sex <- labelled(data$sex,
+                     labels = c("Male" = "M", "Female" = "F"),
+                     label = "Gender")
 ```
 
-## Handling Labels & Missing
+### Working with Formats
+
 ```{r}
-# Example: Convert blank strings "" to NA for character columns
-convert_blanks_to_na <- function(x) {
-  if (is.character(x)) x[x == ""] <- NA_character_
-  x
+#| label: formats
+#| eval: false
+
+# Apply format to a variable
+data$visit <- factor(data$visit, 
+                     levels = c(1, 2, 3, 4),
+                     labels = c("Screening", "Baseline", "Week 12", "Follow-up"))
+
+# Create custom format function
+format_visit <- function(x) {
+  case_when(
+    x == 1 ~ "Screening",
+    x == 2 ~ "Baseline", 
+    x == 3 ~ "Week 12",
+    x == 4 ~ "Follow-up",
+    TRUE ~ as.character(x)
+  )
 }
-dm <- dm |> mutate(across(where(is.character), convert_blanks_to_na))
+
+data$visit_formatted <- format_visit(data$visit)
 ```
 
-## Labelled to Factor (if needed)
+## Writing XPT Files
+
+### Basic XPT File Creation
+
 ```{r}
-if (inherits(dm$SEX, "labelled")) {
-  dm <- dm |> mutate(SEX = to_factor(SEX))
-}
+#| label: write-xpt-basic
+#| eval: false
+
+# Write XPT file using haven
+write_xpt(data, "output_dataset.xpt")
+
+# Write with specific options
+write_xpt(data, "output_dataset.xpt", 
+          version = 8,  # SAS version
+          name = "DEMOG") # Dataset name in XPT
+
+# Write multiple datasets to separate XPT files
+datasets <- list(
+  demog = demographics,
+  vital = vital_signs,
+  lab = laboratory
+)
+
+iwalk(datasets, ~write_xpt(.x, paste0(.y, ".xpt")))
 ```
 
-## Common Cleaning
+### Advanced XPT Writing with SASxport
+
 ```{r}
-dm <- dm |>
+#| label: write-xpt-advanced
+#| eval: false
+
+# Prepare data for XPT with proper formatting
+data_for_xpt <- data %>%
+  # Ensure character variables are properly sized
   mutate(
-    AGEGR1 = cut(AGE, breaks=c(-Inf, 50, 65, Inf),
-                 labels=c("<50","50-65", "65+"))
+    subjid = str_pad(subjid, width = 10, side = "right"),
+    sex = str_pad(sex, width = 1, side = "right")
+  ) %>%
+  # Convert dates to SAS date format
+  mutate(
+    randdt = as.numeric(as.Date(randdt) - as.Date("1960-01-01"))
   )
+
+# Write with SASxport package for more control
+write.xport(list(DEMOG = data_for_xpt), 
+            file = "demog.xpt",
+            verbose = TRUE,
+            sasVer = "7.00",
+            osType = "WIN_PRO")
 ```
 
-# Exercises
-1. Read another SAS dataset (e.g., `sv.sas7bdat`) if available. If not, create a synthetic tibble.
-2. Write a function to trim character whitespace for all character columns.
-3. Make a clean factor for `ARM` with levels `Placebo < Active`.
+### Handling Variable Names and Lengths
+
+```{r}
+#| label: xpt-constraints
+#| eval: false
+
+# Ensure variable names comply with SAS naming rules
+prepare_for_xpt <- function(data) {
+  data %>%
+    # Rename variables to meet SAS constraints
+    rename_with(~str_to_upper(.)) %>%  # Uppercase
+    rename_with(~str_sub(., 1, 8)) %>%  # Max 8 characters
+    rename_with(~str_replace_all(., "[^A-Z0-9_]", "")) %>%  # Valid characters only
+    # Ensure character variables are not too long
+    mutate(across(where(is.character), ~str_trunc(., width = 200)))
+}
+
+data_xpt_ready <- prepare_for_xpt(data)
+write_xpt(data_xpt_ready, "dataset.xpt")
+```
+
+## Adding Dataset Attributes
+
+### Dataset-Level Attributes
+
+```{r}
+#| label: dataset-attributes
+#| eval: false
+
+# Add comprehensive dataset attributes
+add_dataset_attributes <- function(data, 
+                                   label = NULL, 
+                                   creation_date = Sys.Date(),
+                                   creator = Sys.info()["user"],
+                                   description = NULL) {
+  
+  # Add standard attributes
+  attr(data, "label") <- label
+  attr(data, "creation.date") <- as.character(creation_date)
+  attr(data, "created.by") <- creator
+  attr(data, "description") <- description
+  
+  # Add CDISC-style attributes for regulatory compliance
+  attr(data, "SAS.dataset.label") <- label
+  attr(data, "SAS.dataset.name") <- deparse(substitute(data))
+  
+  return(data)
+}
+
+# Apply dataset attributes
+demographics <- add_dataset_attributes(
+  demographics,
+  label = "Subject Demographics",
+  description = "Baseline demographic and background characteristics",
+  creator = "Clinical Data Management"
+)
+```
+
+### Variable-Level Attributes
+
+```{r}
+#| label: variable-attributes
+#| eval: false
+
+# Function to add comprehensive variable attributes
+add_variable_attributes <- function(data, var_specs) {
+  
+  for (var_name in names(var_specs)) {
+    if (var_name %in% names(data)) {
+      
+      spec <- var_specs[[var_name]]
+      
+      # Add label
+      if (!is.null(spec$label)) {
+        attr(data[[var_name]], "label") <- spec$label
+      }
+      
+      # Add format
+      if (!is.null(spec$format)) {
+        attr(data[[var_name]], "format.sas") <- spec$format
+      }
+      
+      # Add derivation comment
+      if (!is.null(spec$derivation)) {
+        attr(data[[var_name]], "derivation") <- spec$derivation
+      }
+      
+      # Add value labels for categorical variables
+      if (!is.null(spec$values)) {
+        data[[var_name]] <- labelled(data[[var_name]], 
+                                     labels = spec$values,
+                                     label = spec$label)
+      }
+    }
+  }
+  
+  return(data)
+}
+
+# Define variable specifications
+demog_specs <- list(
+  SUBJID = list(
+    label = "Subject Identifier",
+    format = "$10."
+  ),
+  AGE = list(
+    label = "Age at Randomization",
+    format = "3.",
+    derivation = "Calculated from birth date and randomization date"
+  ),
+  SEX = list(
+    label = "Gender", 
+    format = "$1.",
+    values = c("Male" = "M", "Female" = "F")
+  ),
+  RACE = list(
+    label = "Race",
+    format = "$20.",
+    values = c(
+      "White" = "WHITE",
+      "Black or African American" = "BLACK", 
+      "Asian" = "ASIAN",
+      "Other" = "OTHER"
+    )
+  )
+)
+
+# Apply variable attributes
+demographics <- add_variable_attributes(demographics, demog_specs)
+```
+
+## Quality Checks and Validation
+
+### Validating XPT Files
+
+```{r}
+#| label: validate-xpt
+#| eval: false
+
+# Function to validate XPT file compliance
+validate_xpt_compliance <- function(data) {
+  
+  issues <- list()
+  
+  # Check variable names
+  var_names <- names(data)
+  invalid_names <- var_names[!str_detect(var_names, "^[A-Z][A-Z0-9_]{0,7}$")]
+  if (length(invalid_names) > 0) {
+    issues$invalid_names <- invalid_names
+  }
+  
+  # Check character variable lengths
+  char_vars <- data %>% select(where(is.character))
+  long_vars <- char_vars %>%
+    summarise(across(everything(), ~max(nchar(.x), na.rm = TRUE))) %>%
+    pivot_longer(everything(), names_to = "variable", values_to = "max_length") %>%
+    filter(max_length > 200)
+  
+  if (nrow(long_vars) > 0) {
+    issues$long_character_vars <- long_vars
+  }
+  
+  # Check for missing labels
+  unlabeled_vars <- var_names[sapply(data, function(x) is.null(attr(x, "label")))]
+  if (length(unlabeled_vars) > 0) {
+    issues$unlabeled_vars <- unlabeled_vars
+  }
+  
+  return(issues)
+}
+
+# Validate before writing
+validation_issues <- validate_xpt_compliance(demographics)
+if (length(validation_issues) == 0) {
+  cat("Dataset passes XPT compliance checks\n")
+  write_xpt(demographics, "demographics.xpt")
+} else {
+  cat("Validation issues found:\n")
+  print(validation_issues)
+}
+```
+
+### Creating a Data Dictionary
+
+```{r}
+#| label: data-dictionary
+#| eval: false
+
+# Function to create a data dictionary
+create_data_dictionary <- function(data) {
+  
+  dict <- data.frame(
+    Variable = names(data),
+    Label = sapply(data, function(x) attr(x, "label") %||% ""),
+    Type = sapply(data, class),
+    Length = sapply(data, function(x) {
+      if (is.character(x)) max(nchar(x), na.rm = TRUE) else NA
+    }),
+    Format = sapply(data, function(x) attr(x, "format.sas") %||% ""),
+    stringsAsFactors = FALSE
+  )
+  
+  # Add value labels for categorical variables
+  dict$Values <- sapply(names(data), function(var) {
+    x <- data[[var]]
+    if (is.labelled(x)) {
+      labels <- attr(x, "labels")
+      if (!is.null(labels)) {
+        paste0(names(labels), "=", labels, collapse = "; ")
+      } else ""
+    } else ""
+  })
+  
+  return(dict)
+}
+
+# Create and export data dictionary
+data_dict <- create_data_dictionary(demographics)
+write.csv(data_dict, "demographics_dictionary.csv", row.names = FALSE)
+```
+
+## Best Practices
+
+### Recommended Workflow
+
+1. **Read SAS data** with appropriate encoding and column types
+2. **Validate data integrity** after reading
+3. **Add comprehensive labels** for variables and datasets
+4. **Apply proper formatting** for categorical variables
+5. **Validate XPT compliance** before writing
+6. **Create documentation** (data dictionary)
+7. **Write XPT files** with proper attributes
+
+### Performance Tips
+
+```{r}
+#| label: performance-tips
+#| eval: false
+
+# For large datasets, read in chunks
+read_large_sas <- function(file_path, chunk_size = 10000) {
+  # Use data.table for faster processing
+  library(data.table)
+  
+  # Read metadata first
+  meta <- read_sas(file_path, n_max = 1)
+  
+  # Process in chunks
+  results <- list()
+  skip <- 0
+  
+  repeat {
+    chunk <- read_sas(file_path, skip = skip, n_max = chunk_size)
+    if (nrow(chunk) == 0) break
+    
+    # Process chunk here
+    results[[length(results) + 1]] <- chunk
+    skip <- skip + chunk_size
+  }
+  
+  # Combine results
+  do.call(rbind, results)
+}
+
+# Use fst format for intermediate storage (faster than SAS)
+library(fst)
+write_fst(data, "intermediate_data.fst")
+data <- read_fst("intermediate_data.fst")
+```
+
+## Summary
+
+This chapter covered:
+
+- Reading various SAS file formats (SAS7BDAT, XPT)
+- Working with variable and dataset labels
+- Adding comprehensive attributes for regulatory compliance
+- Writing XPT files with proper formatting
+- Validation and quality checks
+- Best practices for performance and documentation
+
+These techniques form the foundation for working with SAS datasets in R, particularly in regulated environments where proper documentation and file formats are critical.
