@@ -251,17 +251,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#r-as-a-calculator" id="toc-r-as-a-calculator" class="nav-link active" data-scroll-target="#r-as-a-calculator"><span class="header-section-number">3</span> R as a Calculator</a></li>
   <li><a href="#objects-assignment" id="toc-objects-assignment" class="nav-link" data-scroll-target="#objects-assignment"><span class="header-section-number">4</span> Objects &amp; Assignment</a></li>
-  <li><a href="#object-naming-rules" id="toc-object-naming-rules" class="nav-link" data-scroll-target="#object-naming-rules"><span class="header-section-number">5</span> object naming rules</a></li>
+  <li><a href="#object-naming-rules" id="toc-object-naming-rules" class="nav-link" data-scroll-target="#object-naming-rules"><span class="header-section-number">5</span> Object Naming Rules</a></li>
   <li><a href="#basic-operations-in-r" id="toc-basic-operations-in-r" class="nav-link" data-scroll-target="#basic-operations-in-r"><span class="header-section-number">6</span> Basic Operations in R</a></li>
   <li><a href="#comments-in-r" id="toc-comments-in-r" class="nav-link" data-scroll-target="#comments-in-r"><span class="header-section-number">7</span> Comments in R</a></li>
   <li><a href="#getting-help-in-r" id="toc-getting-help-in-r" class="nav-link" data-scroll-target="#getting-help-in-r"><span class="header-section-number">8</span> Getting Help in R</a></li>
-  <li><a href="#installing-and-loading-packages-in-r" id="toc-installing-and-loading-packages-in-r" class="nav-link" data-scroll-target="#installing-and-loading-packages-in-r"><span class="header-section-number">9</span> Installing and Loading Packages in R</a>
-  <ul class="collapse">
-  <li><a href="#saving-and-loading-workspaces-in-r" id="toc-saving-and-loading-workspaces-in-r" class="nav-link" data-scroll-target="#saving-and-loading-workspaces-in-r"><span class="header-section-number">9.0.1</span> Saving and Loading Workspaces in R</a></li>
-  </ul></li>
-  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory"><span class="header-section-number">10</span> Working Directory</a></li>
-  <li><a href="#vectors-atomic" id="toc-vectors-atomic" class="nav-link" data-scroll-target="#vectors-atomic"><span class="header-section-number">11</span> Vectors (Atomic)</a></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">12</span> Exercises</a></li>
+  <li><a href="#installing-and-loading-packages-in-r" id="toc-installing-and-loading-packages-in-r" class="nav-link" data-scroll-target="#installing-and-loading-packages-in-r"><span class="header-section-number">9</span> Installing and Loading Packages in R</a></li>
+  <li><a href="#saving-and-loading-workspaces-in-r" id="toc-saving-and-loading-workspaces-in-r" class="nav-link" data-scroll-target="#saving-and-loading-workspaces-in-r"><span class="header-section-number">10</span> Saving and Loading Workspaces in R</a></li>
+  <li><a href="#working-directory" id="toc-working-directory" class="nav-link" data-scroll-target="#working-directory"><span class="header-section-number">11</span> Working Directory</a></li>
+  <li><a href="#vectors-atomic" id="toc-vectors-atomic" class="nav-link" data-scroll-target="#vectors-atomic"><span class="header-section-number">12</span> Vectors (Atomic)</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">13</span> Exercises</a></li>
   </ul>
 </nav>
     </div>
@@ -312,29 +310,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 <section id="object-naming-rules" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> object naming rules</h1>
+<h1 data-number="5"><span class="header-section-number">5</span> Object Naming Rules</h1>
 <ul>
-<li>R variable names can contain letters, numbers, periods, and underscores. However, they cannot start with a number or underscore. R is case-sensitive, so <code>age</code>, <code>Age</code>, and <code>AGE</code> would be considered different variables.</li>
+<li>R variable names can contain letters, numbers, periods, and underscores. However, they cannot start with a number or underscore. R is case-sensitive, so <code>age</code>, <code>Age</code>, and <code>AGE</code> would be considered three different variables.</li>
 <li>R variable names should be descriptive and meaningful. Avoid using reserved words or function names as variable names.</li>
 <li>A variable can have a short name (like x and y) or a more descriptive name (age, carname, total_volume). Rules for R variables are:</li>
 <li>A variable name must start with a letter and can be a combination of letters, digits, period(.) and underscore(_). If it starts with period(.), it cannot be followed by a digit.</li>
-<li>A variable name cannot start with a number or underscore (_) Variable names are case-sensitive (age, Age and AGE are three different variables) Reserved words cannot be used as variables (TRUE, FALSE, NULL, if…)</li>
+<li>A variable name cannot start with a number or underscore (_). Variable names are case-sensitive (age, Age and AGE are three different variables). Reserved words cannot be used as variables (TRUE, FALSE, NULL, etc.).</li>
 <li>Variable names should not contain spaces. Use underscore (_) or period (.) to separate words in a variable name.</li>
 <li>Variable names should be meaningful and descriptive. Avoid using single-letter variable names except for temporary variables in loops or functions.</li>
 </ul>
 </section>
 <section id="basic-operations-in-r" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Basic Operations in R</h1>
-<p>R supports various basic operations, including: * Arithmetic Operations: Addition (<code>+</code>), subtraction (<code>-</code>), multiplication (<code>*</code>), division (<code>/</code>), and exponentiation (<code>^</code>). Example:</p>
+<p>R supports various basic operations, including:</p>
+<ul>
+<li><strong>Arithmetic Operations</strong>: Addition (<code>+</code>), subtraction (<code>-</code>), multiplication (<code>*</code>), division (<code>/</code>), and exponentiation (<code>^</code>). Example:</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">10</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> a <span class="sc">+</span> b</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>my_sum <span class="ot">&lt;-</span> a <span class="sc">+</span> b</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>diff <span class="ot">&lt;-</span> a <span class="sc">-</span> b</span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>prod <span class="ot">&lt;-</span> a <span class="sc">*</span> b</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>quot <span class="ot">&lt;-</span> a <span class="sc">/</span> b</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>exp <span class="ot">&lt;-</span> a <span class="sc">^</span> b</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>sum; diff; prod; quot; exp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> a <span class="sc">^</span> b</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>my_sum; diff; prod; quot; power</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15</code></pre>
 </div>
@@ -352,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Comparison Operations: Equal to (<code>==</code>), not equal to (<code>!=</code>), greater than (<code>&gt;</code>), less than (<code>&lt;</code>), greater than or equal to (<code>&gt;=</code>), and less than or equal to (<code>&lt;=</code>). Example:</li>
+<li><strong>Comparison Operations</strong>: Equal to (<code>==</code>), not equal to (<code>!=</code>), greater than (<code>&gt;</code>), less than (<code>&lt;</code>), greater than or equal to (<code>&gt;=</code>), and less than or equal to (<code>&lt;=</code>). Example:</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span></span>
@@ -384,15 +385,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <ul>
-<li>Logical Operations: AND (<code>&amp;</code>), OR (<code>|</code>), and NOT (<code>!</code>). Example:</li>
+<li><strong>Logical Operations</strong>: AND (<code>&amp;</code>), OR (<code>|</code>), and NOT (<code>!</code>). Example:</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>q <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>and <span class="ot">&lt;-</span> p <span class="sc">&amp;</span> q</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>or <span class="ot">&lt;-</span> p <span class="sc">|</span> q</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>not <span class="ot">&lt;-</span> <span class="sc">!</span>p</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>and; or; not</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>and_result <span class="ot">&lt;-</span> p <span class="sc">&amp;</span> q</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>or_result <span class="ot">&lt;-</span> p <span class="sc">|</span> q</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>not_result <span class="ot">&lt;-</span> <span class="sc">!</span>p</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>and_result; or_result; not_result</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] FALSE</code></pre>
 </div>
@@ -411,8 +412,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a comment</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">10</span>  <span class="co"># Assigning value to x</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="dv">5</span>   <span class="co"># Assigning value to y</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>sum <span class="ot">&lt;-</span> x <span class="sc">+</span> y  <span class="co"># Calculating the sum of x and y</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sum  <span class="co"># Output the sum</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>total <span class="ot">&lt;-</span> x <span class="sc">+</span> y  <span class="co"># Calculating the sum of x and y</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>total  <span class="co"># Output the sum</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 15</code></pre>
 </div>
@@ -420,7 +421,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="getting-help-in-r" class="level1" data-number="8">
 <h1 data-number="8"><span class="header-section-number">8</span> Getting Help in R</h1>
-<p>R provides several ways to get help and documentation for functions and packages: * <code>?function_name</code>: Displays the documentation for a specific function. Example:</p>
+<p>R provides several ways to get help and documentation for functions and packages:</p>
+<ul>
+<li><code>?function_name</code>: Displays the documentation for a specific function. Example:</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>?mean</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -461,7 +465,7 @@ mean&gt; c(xm, mean(x, trim = 0.10))
 </div>
 </div>
 <ul>
-<li><code>??keyword</code>: Searches for help topics related to a specific keyword (similar to <code>help .search</code>). Example:</li>
+<li><code>??keyword</code>: Searches for help topics related to a specific keyword (similar to <code>help.search</code>). Example:</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>??regression</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -469,34 +473,40 @@ mean&gt; c(xm, mean(x, trim = 0.10))
 </section>
 <section id="installing-and-loading-packages-in-r" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> Installing and Loading Packages in R</h1>
-<p>R has a vast ecosystem of packages that extend its functionality. To use a package, you need to install it first and then load it into your R session. * Installing a Package: Use the <code>install.packages("package_name")</code> function to install a package from CRAN. Example:</p>
+<p>R has a vast ecosystem of packages that extend its functionality. To use a package, you need to install it first and then load it into your R session.</p>
+<ul>
+<li><strong>Installing a Package</strong>: Use the <code>install.packages("package_name")</code> function to install a package from CRAN. Example:</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ggplot2"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Loading a Package: Use the <code>library(package_name)</code> function to load an installed package into your R session. Example:</li>
+<li><strong>Loading a Package</strong>: Use the <code>library(package_name)</code> function to load an installed package into your R session. Example:</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Now you can use functions from the ggplot2 package</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<section id="saving-and-loading-workspaces-in-r" class="level3" data-number="9.0.1">
-<h3 data-number="9.0.1" class="anchored" data-anchor-id="saving-and-loading-workspaces-in-r"><span class="header-section-number">9.0.1</span> Saving and Loading Workspaces in R</h3>
-<p>You can save your R workspace (all objects in memory) to a file and load it later * Saving Workspace: Use the <code>save.image("file_name.RData")</code> function to save the entire workspace to a file. Example:</p>
+</section>
+<section id="saving-and-loading-workspaces-in-r" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Saving and Loading Workspaces in R</h1>
+<p>You can save your R workspace (all objects in memory) to a file and load it later:</p>
+<ul>
+<li><strong>Saving Workspace</strong>: Use the <code>save.image("file_name.RData")</code> function to save the entire workspace to a file. Example:</li>
+</ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save.image</span>(<span class="st">"my_workspace.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Loading Workspace: Use the <code>load("file_name.RData")</code> function to load a saved workspace from a file. Example:</li>
+<li><strong>Loading Workspace</strong>: Use the <code>load("file_name.RData")</code> function to load a saved workspace from a file. Example:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"my_workspace.RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="st">"my_workspace. RData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-</section>
-<section id="working-directory" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Working Directory</h1>
+<section id="working-directory" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Working Directory</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -505,8 +515,8 @@ mean&gt; c(xm, mean(x, trim = 0.10))
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># setwd("/path/you/want") # avoid in reproducible code; prefer here::here() for projects</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="vectors-atomic" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Vectors (Atomic)</h1>
+<section id="vectors-atomic" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Vectors (Atomic)</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>nums <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>chars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)</span>
@@ -523,8 +533,8 @@ mean&gt; c(xm, mean(x, trim = 0.10))
 </div>
 </div>
 </section>
-<section id="exercises" class="level1" data-number="12">
-<h1 data-number="12"><span class="header-section-number">12</span> Exercises</h1>
+<section id="exercises" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Exercises</h1>
 <ol type="1">
 <li>Create an object <code>z</code> that stores <code>(5^2 + 7)/3</code>.</li>
 <li>Use <code>?seq</code> and create a sequence from 0 to 1 by 0.1.</li>
