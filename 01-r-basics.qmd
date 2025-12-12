@@ -1,173 +1,477 @@
 ---
-title: "R Basics"
+title: "Base R Functions & Apply Family"
 ---
 
-# R as a Calculator
-```{r}
-1 + 1
-3 * (4 + 5)
-```
+# Introduction
 
-# Objects & Assignment
-```{r}
-x <- 10
-y <- 3.5
-x + y
-```
+Base R provides a rich set of built-in functions for data manipulation, statistical calculations, and programming. The apply family of functions is particularly powerful for applying operations across different dimensions of data structures.  This chapter covers essential base R functions and the apply family in detail.
 
-# Object Naming Rules
+# Common Utility Functions
 
-- R variable names can contain letters, numbers, periods, and underscores.  However, they cannot start with a number or underscore.  R is case-sensitive, so `age`, `Age`, and `AGE` would be considered three different variables.
-- R variable names should be descriptive and meaningful.  Avoid using reserved words or function names as variable names.
-- A variable can have a short name (like x and y) or a more descriptive name (age, carname, total_volume). Rules for R variables are: 
-- A variable name must start with a letter and can be a combination of letters, digits, period(.) and underscore(_). If it starts with period(.), it cannot be followed by a digit.
-- A variable name cannot start with a number or underscore (_). Variable names are case-sensitive (age, Age and AGE are three different variables). Reserved words cannot be used as variables (TRUE, FALSE, NULL, etc.).
-- Variable names should not contain spaces. Use underscore (_) or period (.) to separate words in a variable name.
-- Variable names should be meaningful and descriptive. Avoid using single-letter variable names except for temporary variables in loops or functions.
+Base R includes numerous utility functions for statistical calculations, data generation, and manipulation. 
 
-# Basic Operations in R
-
-R supports various basic operations, including: 
-
-- **Arithmetic Operations**: Addition (`+`), subtraction (`-`), multiplication (`*`), division (`/`), and exponentiation (`^`). Example: 
+## Statistical Functions
 
 ```{r}
-a <- 10
-b <- 5
-my_sum <- a + b
-diff <- a - b
-prod <- a * b
-quot <- a / b
-power <- a ^ b
-my_sum; diff; prod; quot; power
+# Create sample data
+x <- 1:10
+print(x)
+
+# Basic statistical functions
+sum(x)        # Sum of all elements
+mean(x)       # Arithmetic mean
+median(x)     # Median value
+sd(x)         # Standard deviation
+var(x)        # Variance
+min(x)        # Minimum value
+max(x)        # Maximum value
+range(x)      # Returns min and max
+length(x)     # Number of elements
 ```
 
-- **Comparison Operations**: Equal to (`==`), not equal to (`!=`), greater than (`>`), less than (`<`), greater than or equal to (`>=`), and less than or equal to (`<=`). Example:
+## Quantile Function
+
+The `quantile()` function calculates sample quantiles corresponding to given probabilities: 
 
 ```{r}
-x <- 10
-y <- 5
-eq <- x == y
-neq <- x != y
-gt <- x > y
-lt <- x < y
-gte <- x >= y
-lte <- x <= y
-eq; neq; gt; lt; gte; lte
+x <- 1:10
+quantile(x)                    # Default quartiles (0%, 25%, 50%, 75%, 100%)
+quantile(x, probs = 0.9)       # 90th percentile
+quantile(x, probs = c(0.1, 0.5, 0.9))  # Custom percentiles
 ```
 
-- **Logical Operations**: AND (`&`), OR (`|`), and NOT (`!`). Example:
+## Sequence and Repetition Functions
+
+### seq() - Generate Sequences
+
+The `seq()` function creates sequences of numbers:
 
 ```{r}
-p <- TRUE
-q <- FALSE
-and_result <- p & q
-or_result <- p | q
-not_result <- !p
-and_result; or_result; not_result
+# Different ways to create sequences
+seq(0, 1, by = 0.1)           # From 0 to 1, increment by 0.1
+seq(0, 1, length.out = 11)    # From 0 to 1, 11 equally spaced values
+seq(from = 5, to = 50, by = 5) # From 5 to 50, increment by 5
+seq_along(letters[1:5])        # Sequence along the length of an object
 ```
 
-# Comments in R
+### rep() - Repeat Values
 
-Comments in R are created using the `#` symbol. Anything following the `#` on the same line is considered a comment and is ignored by R during execution. Example:
+The `rep()` function repeats values:
 
 ```{r}
-# This is a comment
-x <- 10  # Assigning value to x
-y <- 5   # Assigning value to y
-total <- x + y  # Calculating the sum of x and y
-total  # Output the sum
+# Different repetition patterns
+rep(5, times = 3)              # Repeat 5 three times
+rep(c(1, 2), times = 3)        # Repeat vector three times
+rep(c(1, 2), each = 3)         # Repeat each element three times
+rep(1:3, length.out = 10)      # Repeat to reach specified length
 ```
 
-# Getting Help in R
+# The Apply Family of Functions
 
-R provides several ways to get help and documentation for functions and packages:
+The apply family provides efficient ways to apply functions across different dimensions of data structures. These functions are alternatives to writing explicit loops.
 
-- `?function_name`: Displays the documentation for a specific function. Example:
+## apply() - For Matrices and Arrays
+
+The `apply()` function applies a function over the margins of an array or matrix. 
+
+**Syntax**:  `apply(X, MARGIN, FUN, ... )`
+- `X`: Array or matrix
+- `MARGIN`: 1 = rows, 2 = columns, c(1,2) = both
+- `FUN`: Function to apply
+- `...`: Additional arguments to FUN
 
 ```{r}
-?mean
+# Create a sample matrix
+m <- matrix(1:12, nrow = 3, ncol = 4)
+print(m)
+
+# Apply functions across rows (MARGIN = 1)
+apply(m, 1, sum)      # Row sums
+apply(m, 1, mean)     # Row means
+apply(m, 1, max)      # Row maxima
+
+# Apply functions across columns (MARGIN = 2)
+apply(m, 2, sum)      # Column sums
+apply(m, 2, mean)     # Column means
+apply(m, 2, sd)       # Column standard deviations
+
+# Using built-in optimized functions (when available)
+rowSums(m)            # Equivalent to apply(m, 1, sum) but faster
+colSums(m)            # Equivalent to apply(m, 2, sum) but faster
+rowMeans(m)           # Equivalent to apply(m, 1, mean) but faster
+colMeans(m)           # Equivalent to apply(m, 2, mean) but faster
 ```
 
-- `help(function_name)`: Another way to access the documentation for a function. Example:
+## lapply() - For Lists and Vectors
+
+The `lapply()` function applies a function to each element of a list or vector and returns a list. 
+
+**Syntax**: `lapply(X, FUN, ...)`
 
 ```{r}
-help(mean)
+# Create sample data
+lst <- list(a = 1:5, b = 6:10, c = 11:15)
+print(lst)
+
+# Apply function to each list element
+lapply(lst, sum)      # Sum of each element
+lapply(lst, mean)     # Mean of each element
+lapply(lst, length)   # Length of each element
+
+# Using lapply with custom functions
+lapply(lst, function(x) x^2)              # Square each element
+lapply(lst, function(x) x[x > 8])         # Filter elements > 8
 ```
 
-- `help.search("keyword")`: Searches for help topics related to a specific keyword. Example:
+## sapply() - Simplified lapply()
+
+The `sapply()` function is similar to `lapply()` but attempts to simplify the result to a vector or matrix when possible.
 
 ```{r}
-help.search("regression")
+# Same data as above
+lst <- list(a = 1:5, b = 6:10, c = 11:15)
+
+# sapply returns simplified results
+sapply(lst, sum)      # Returns named vector instead of list
+sapply(lst, mean)     # Returns named vector
+sapply(lst, range)    # Returns matrix when each result has same length
+
+# Compare lapply vs sapply
+result_lapply <- lapply(lst, mean)
+result_sapply <- sapply(lst, mean)
+class(result_lapply)  # List
+class(result_sapply)  # Named numeric vector
 ```
 
-- `example(function_name)`: Shows examples of how to use a specific function.  Example:
+## vapply() - Type-Safe sapply()
+
+The `vapply()` function is like `sapply()` but with explicit specification of the return type, making it safer and faster.
+
+**Syntax**: `vapply(X, FUN, FUN.VALUE, ...)`
 
 ```{r}
-example(mean)
+# vapply with explicit return type specification
+lst <- list(a = 1:5, b = 6:10, c = 11:15)
+
+# Specify that each function call returns a single numeric value
+vapply(lst, mean, FUN.VALUE = numeric(1))
+
+# Specify that each function call returns two numeric values
+vapply(lst, range, FUN.VALUE = numeric(2))
+
+# This would throw an error if the function doesn't return the expected type
+# vapply(lst, mean, FUN.VALUE = character(1))  # Error!
 ```
 
-- `vignette("package_name")`: Opens the vignette (detailed documentation) for a specific package.  Example:
+## mapply() - Multivariate Apply
+
+The `mapply()` function applies a function to multiple arguments element-wise.
+
+**Syntax**:  `mapply(FUN, ..., MoreArgs = NULL, SIMPLIFY = TRUE)`
 
 ```{r}
-vignette("dplyr")
+# Apply function to multiple vectors element-wise
+vec1 <- 1:3
+vec2 <- 10:12
+vec3 <- 100:102
+
+# Add corresponding elements from two vectors
+mapply(sum, vec1, vec2)
+# Equivalent to:  c(sum(1, 10), sum(2, 11), sum(3, 12))
+
+# Add corresponding elements from three vectors
+mapply(sum, vec1, vec2, vec3)
+
+# Using mapply with custom functions
+mapply(function(x, y) x^y, vec1, c(2, 3, 4))
+
+# mapply with lists
+list1 <- list(a = 1:3, b = 4:6)
+list2 <- list(x = 7:9, y = 10:12)
+mapply(function(a, b) sum(a) + sum(b), list1, list2)
 ```
 
-- `??keyword`: Searches for help topics related to a specific keyword (similar to `help.search`). Example:
+## tapply() - Apply by Groups
+
+The `tapply()` function applies a function to subsets of a vector based on grouping factors.
+
+**Syntax**:  `tapply(X, INDEX, FUN, ...)`
 
 ```{r}
-??regression
+# Sample data with grouping
+values <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+groups <- c("A", "B", "A", "B", "A", "B", "A", "B", "A", "B")
+
+# Apply function by groups
+tapply(values, groups, mean)    # Mean by group
+tapply(values, groups, sum)     # Sum by group
+tapply(values, groups, length)  # Count by group
+
+# Using tapply with built-in datasets
+tapply(mtcars$mpg, mtcars$cyl, mean)    # Mean mpg by cylinder count
+tapply(mtcars$hp, mtcars$gear, median)  # Median horsepower by gear count
 ```
 
-# Installing and Loading Packages in R
+# Data Subsetting and Indexing
 
-R has a vast ecosystem of packages that extend its functionality. To use a package, you need to install it first and then load it into your R session. 
+R provides powerful subsetting capabilities for extracting specific elements from data structures.
 
-- **Installing a Package**: Use the `install.packages("package_name")` function to install a package from CRAN.  Example:
-
-```{r eval=FALSE}
-install.packages("ggplot2")
-```
-
-- **Loading a Package**: Use the `library(package_name)` function to load an installed package into your R session. Example:
+## Vector Subsetting
 
 ```{r}
-library(ggplot2)
+# Create sample vector
+x <- c(10, 20, 30, 40, 50)
+names(x) <- letters[1:5]
 
-# Now you can use functions from the ggplot2 package
+# Subsetting by position
+x[1]              # First element
+x[c(1, 3, 5)]     # Elements 1, 3, and 5
+x[-2]             # All except second element
+x[1:3]            # First three elements
+
+# Subsetting by name
+x["a"]            # Element named 'a'
+x[c("a", "c")]    # Elements named 'a' and 'c'
+
+# Logical subsetting
+x[x > 25]         # Elements greater than 25
+x[x %in% c(20, 40)]  # Elements equal to 20 or 40
 ```
 
-# Saving and Loading Workspaces in R
+## Data Frame Subsetting
 
-You can save your R workspace (all objects in memory) to a file and load it later: 
-
-- **Saving Workspace**:  Use the `save.image("file_name.RData")` function to save the entire workspace to a file. Example:
-
-```{r eval=FALSE}
-save.image("my_workspace.RData")
-```
-
-- **Loading Workspace**: Use the `load("file_name.RData")` function to load a saved workspace from a file. Example:
-
-```{r eval=FALSE}
-load("my_workspace. RData")
-```
-
-# Working Directory
 ```{r}
-getwd()
-# setwd("/path/you/want") # avoid in reproducible code; prefer here::here() for projects
+# Create sample data frame
+df <- data.frame(
+  id = 1:5,
+  name = c("Alice", "Bob", "Charlie", "Diana", "Eve"),
+  age = c(25, 30, 35, 28, 32),
+  salary = c(50000, 60000, 70000, 55000, 65000)
+)
+print(df)
+
+# Subsetting columns
+df$name           # Single column by name (returns vector)
+df["name"]        # Single column by name (returns data frame)
+df[c("name", "age")]  # Multiple columns
+
+# Subsetting rows
+df[1, ]           # First row
+df[c(1, 3), ]     # Rows 1 and 3
+df[df$age > 30, ] # Rows where age > 30
+
+# Subsetting specific elements
+df[1, "name"]     # Specific cell
+df[2, 3]          # Row 2, column 3
+df[df$salary > 60000, c("name", "salary")]  # Conditional row and column selection
 ```
 
-# Vectors (Atomic)
+## Matrix Subsetting
+
 ```{r}
-nums <- c(1, 2, 3, 4)
-chars <- c("a", "b", "c")
-logical <- c(TRUE, FALSE, TRUE)
-typeof(nums); typeof(chars); typeof(logical)
+# Create sample matrix
+m <- matrix(1:20, nrow = 4, ncol = 5)
+rownames(m) <- paste0("row", 1:4)
+colnames(m) <- paste0("col", 1:5)
+print(m)
+
+# Subsetting by position
+m[1, 2]           # Element in row 1, column 2
+m[1, ]            # Entire first row
+m[, 3]            # Entire third column
+m[1:2, 3:4]       # Submatrix:  rows 1-2, columns 3-4
+
+# Subsetting by name
+m["row1", "col3"] # Element by row and column names
+m[c("row1", "row3"), ] # Specific rows by name
+```
+
+# Advanced Function Applications
+
+## Custom Functions with Apply
+
+```{r}
+# Define custom functions for use with apply family
+# Function to calculate coefficient of variation
+cv <- function(x) {
+  sd(x) / mean(x) * 100
+}
+
+# Function to calculate range
+my_range <- function(x) {
+  max(x) - min(x)
+}
+
+# Apply custom functions
+sample_data <- matrix(rnorm(20), nrow = 4)
+apply(sample_data, 2, cv)        # CV for each column
+apply(sample_data, 1, my_range)  # Range for each row
+```
+
+## Nested Apply Operations
+
+```{r}
+# Create nested list structure
+nested_list <- list(
+  group1 = list(a = 1:5, b = 6:10),
+  group2 = list(c = 11:15, d = 16:20)
+)
+
+# Apply function to nested structure
+lapply(nested_list, function(group) {
+  sapply(group, mean)
+})
+
+# Alternative using nested apply
+lapply(nested_list, function(group) {
+  lapply(group, summary)
+})
+```
+
+# Performance Considerations
+
+## Vectorization vs Apply vs Loops
+
+```{r}
+# Create large dataset for performance comparison
+n <- 10000
+x <- rnorm(n)
+m <- matrix(rnorm(n * 100), nrow = n)
+
+# Timing different approaches (conceptual - actual timing may vary)
+# Vectorized (fastest)
+result1 <- colMeans(m)
+
+# Apply family (fast)
+result2 <- apply(m, 2, mean)
+
+# Explicit loop (slowest)
+result3 <- numeric(ncol(m))
+for(i in 1:ncol(m)) {
+  result3[i] <- mean(m[, i])
+}
+
+# All results should be equivalent
+all.equal(result1, result2)
+all.equal(result1, result3)
+```
+
+# Practical Examples
+
+## Data Analysis with Base R Functions
+
+```{r}
+# Using mtcars dataset for practical examples
+data(mtcars)
+head(mtcars)
+
+# Summary statistics by group using tapply
+tapply(mtcars$mpg, mtcars$cyl, summary)
+
+# Multiple statistics using sapply
+stats_list <- list(
+  mean_mpg = mean(mtcars$mpg),
+  median_hp = median(mtcars$hp),
+  sd_wt = sd(mtcars$wt)
+)
+sapply(stats_list, round, digits = 2)
+
+# Apply functions to multiple columns
+numeric_cols <- sapply(mtcars, is.numeric)
+sapply(mtcars[numeric_cols], function(x) c(mean = mean(x), sd = sd(x)))
 ```
 
 # Exercises
-1. Create an object `z` that stores `(5^2 + 7)/3`.
-2. Use `?seq` and create a sequence from 0 to 1 by 0.1.
-3. Inspect `typeof()` for a few objects you create.
+
+## Exercise 1: Matrix Operations
+Create a 4x6 matrix of random numbers and use `apply()` to:
+1. Calculate the maximum value in each row
+2. Calculate the standard deviation of each column
+3. Find the median of each row
+
+```{r}
+# Solution template: 
+# set.seed(123)
+# m <- matrix(rnorm(24), nrow = 4)
+# apply(m, 1, max)      # Row maxima
+# apply(m, 2, sd)       # Column standard deviations  
+# apply(m, 1, median)   # Row medians
+```
+
+## Exercise 2: IQR Calculation
+Write a base R snippet to compute the Interquartile Range (IQR) for each numeric column of the `mtcars` dataset.
+
+```{r}
+# Solution template: 
+# sapply(mtcars, IQR)
+# # or
+# apply(mtcars, 2, IQR)
+```
+
+## Exercise 3: lapply vs sapply Comparison
+Create a list with mixed data types and compare the behavior of `lapply()` vs `sapply()`.
+
+```{r}
+# Solution template: 
+# mixed_list <- list(
+#   numbers = 1:5,
+#   characters = letters[1:3],
+#   logicals = c(TRUE, FALSE, TRUE),
+#   matrix = matrix(1:4, nrow = 2)
+# )
+# 
+# lapply(mixed_list, class)  # Returns list
+# sapply(mixed_list, class)  # Returns character vector
+# 
+# lapply(mixed_list, length) # Returns list
+# sapply(mixed_list, length) # Returns named numeric vector
+```
+
+## Exercise 4: Custom Function with mapply
+Use `mapply()` to calculate the area of rectangles given vectors of lengths and widths.
+
+```{r}
+# Solution template:
+# lengths <- c(2, 4, 6, 8)
+# widths <- c(3, 5, 7, 9)
+# mapply(function(l, w) l * w, lengths, widths)
+# # or simply: 
+# mapply(`*`, lengths, widths)
+```
+
+## Exercise 5: Data Filtering and Aggregation
+Using the built-in `iris` dataset:
+1. Filter rows where Sepal.Length > 6
+2. Calculate mean values for each numeric column by Species
+3. Find the species with the highest average Petal.Width
+
+```{r}
+# Solution template:
+# # 1. Filter
+# filtered_iris <- iris[iris$Sepal.Length > 6, ]
+# 
+# # 2. Mean by species
+# numeric_vars <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal. Width")
+# species_means <- sapply(numeric_vars, function(var) {
+#   tapply(iris[[var]], iris$Species, mean)
+# })
+# 
+# # 3. Species with highest average Petal.Width
+# petal_means <- tapply(iris$Petal. Width, iris$Species, mean)
+# names(petal_means)[which.max(petal_means)]
+```
+
+# Summary
+
+Base R functions and the apply family provide powerful tools for data manipulation and analysis: 
+
+- **Utility functions** like `sum()`, `mean()`, `seq()`, and `rep()` form the foundation of data analysis
+- **apply()** works on matrices and arrays across specified dimensions
+- **lapply()** applies functions to lists, returning lists
+- **sapply()** simplifies lapply results when possible
+- **vapply()** provides type-safe apply operations
+- **mapply()** handles multiple arguments element-wise
+- **tapply()** applies functions by groups
+- **Subsetting** allows precise data extraction using various indexing methods
+
+Understanding these functions is crucial for efficient R programming and forms the basis for more advanced data manipulation techniques. 
