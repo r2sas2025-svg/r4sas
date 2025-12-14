@@ -15,6 +15,7 @@ book:
     - 04-reading-sas.qmd
     - 05-base-functions.qmd
     - 06-custom-functions-validation.qmd
+    - loops.qmd
     - 07-package-development.qmd
     - 08-git-rstudio.qmd
     - 09-adam-adsl.qmd
