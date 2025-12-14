@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./07-package-development.html" rel="next">
+<link href="./loops.html" rel="next">
 <link href="./05-base-functions.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -199,44 +199,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./loops.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">loops</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./07-package-development.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-git-rstudio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-adam-adsl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-tlf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10.1-graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-capstone.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
   </div>
 </li>
     </ul>
@@ -1041,10 +1047,10 @@ Operation attempted for invalid_op </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(analysis_results<span class="sc">$</span>descriptive)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       variable   n   mean median     sd    min     max
-age         age  97 41.029 41.898 10.984 14.712  63.858
-weight   weight  98 73.923 73.689 14.713 35.138 110.708
-height   height 100  1.692  1.686  0.116  1.362   1.959</code></pre>
+<pre><code>       variable   n   mean median     sd    min    max
+age         age  97 41.561 41.801 10.861 11.874 70.110
+weight   weight  98 69.967 68.289 13.825 41.523 99.657
+height   height 100  1.693  1.689  0.092  1.471  1.945</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Correlation Matrix:"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1053,9 +1059,9 @@ height   height 100  1.692  1.686  0.116  1.362   1.959</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(analysis_results<span class="sc">$</span>correlation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         age weight height
-age    1.000  0.055  0.035
-weight 0.055  1.000  0.133
-height 0.035  0.133  1.000</code></pre>
+age    1.000  0.159  0.019
+weight 0.159  1.000  0.017
+height 0.019  0.017  1.000</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Group Analysis (first few rows):"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1064,12 +1070,12 @@ height 0.035  0.133  1.000</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(analysis_results<span class="sc">$</span>group_analysis))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         variable group  n   mean median     sd
-B.age         age     B 34 41.162 41.010 11.559
-B.weight   weight     B 35 75.371 75.390 15.086
-B.height   height     B 36  1.711  1.686  0.110
-A.age         age     A 28 43.222 42.898  7.928
-A.weight   weight     A 28 72.767 74.852 15.844
-A.height   height     A 29  1.689  1.689  0.113</code></pre>
+C.age         age     C 27 40.587 40.817 12.183
+C.weight   weight     C 27 69.815 68.661 12.583
+C.height   height     C 27  1.695  1.686  0.082
+A.age         age     A 39 41.490 41.329 10.558
+A.weight   weight     A 40 72.134 70.899 13.430
+A.height   height     A 40  1.698  1.698  0.087</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Data Quality Report:"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1161,8 +1167,8 @@ Attaching package: 'dplyr'</code></pre>
 <pre><code># A tibble: 2 × 5
   group     n  mean median    sd
   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 A        50  9.78   9.49  1.88
-2 B        50 10.3   10.2   1.97</code></pre>
+1 A        50  9.79   9.70  2.05
+2 B        50  9.57   9.68  1.84</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>result2 <span class="ot">&lt;-</span> <span class="fu">summarize_variable_unquote</span>(test_df, <span class="st">"group"</span>, <span class="st">"value1"</span>)</span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1170,19 +1176,19 @@ Attaching package: 'dplyr'</code></pre>
 <pre><code># A tibble: 2 × 5
   group     n  mean median    sd
   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 A        50  9.78   9.49  1.88
-2 B        50 10.3   10.2   1.97</code></pre>
+1 A        50  9.79   9.70  2.05
+2 B        50  9.57   9.68  1.84</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> <span class="fu">select_multiple_vars</span>(test_df, <span class="st">"id"</span>, <span class="st">"group"</span>, <span class="st">"value1"</span>)</span>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(selected_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id group    value1
-1  1     A 11.649465
-2  2     A  8.701971
-3  3     A  8.918914
-4  4     A 10.649515
-5  5     A 11.516880
-6  6     A  7.020818</code></pre>
+1  1     A  8.965652
+2  2     A 10.624673
+3  3     A  7.941748
+4  4     A 12.223206
+5  5     A  9.256424
+6  6     A 11.610850</code></pre>
 </div>
 </div>
 </section>
@@ -1401,7 +1407,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-      0       0       0 </code></pre>
+  0.000   0.000   0.001 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(result3 <span class="ot">&lt;-</span> <span class="fu">fast_calculation</span>(<span class="dv">2000</span>))  <span class="co"># New argument - slow again</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1409,7 +1415,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.002   0.000   1.003 </code></pre>
+  0.002   0.000   1.002 </code></pre>
 </div>
 </div>
 </section>
@@ -1724,9 +1730,9 @@ Numeric variables: 2 </code></pre>
 <span id="cb150-28"><a href="#cb150-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(benchmark_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-       expr    min     lq     mean  median     uq      max neval
-       loop 58.278 59.937 91.95305 60.8690 61.610 3113.247   100
- vectorized  3.817  4.343  4.67974  4.5785  4.849    8.777   100</code></pre>
+       expr    min      lq     mean median      uq      max neval
+       loop 53.022 54.2600 84.45582 54.722 55.1675 2980.562   100
+ vectorized  3.914  4.4575  4.95698  4.813  5.1785   11.229   100</code></pre>
 </div>
 </div>
 </section>
@@ -1984,7 +1990,7 @@ $response_distribution
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result_success<span class="sc">$</span>message)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Successfully processed 5 rows from file29d3e388561.csv"</code></pre>
+<pre><code>[1] "Successfully processed 5 rows from file29f44c6c9962.csv"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Error case - missing columns</span></span>
 <span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>result_error <span class="ot">&lt;-</span> <span class="fu">robust_file_processor</span>(temp_file, <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>))</span>
@@ -2780,8 +2786,8 @@ lower.2.5%1    0.685</code></pre>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./07-package-development.html" class="pagination-link" aria-label="R Package Development">
-        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./loops.html" class="pagination-link" aria-label="loops">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">loops</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

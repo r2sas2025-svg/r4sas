@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>14&nbsp; ggplot2 in R with CDISC ADaM Examples – R Course: Beginner to Expert </title>
+<title>15&nbsp; ggplot2 in R with CDISC ADaM Examples – R Course: Beginner to Expert </title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10.1-graphs.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./10.1-graphs.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -199,44 +199,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./loops.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">loops</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./07-package-development.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-git-rstudio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-adam-adsl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-tlf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10.1-graphs.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-capstone.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
   </div>
 </li>
     </ul>
@@ -249,97 +255,97 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">15</span> Introduction</a></li>
-  <li><a href="#creating-simulated-adam-style-data" id="toc-creating-simulated-adam-style-data" class="nav-link" data-scroll-target="#creating-simulated-adam-style-data"><span class="header-section-number">16</span> Creating Simulated ADaM-Style Data</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">16</span> Introduction</a></li>
+  <li><a href="#creating-simulated-adam-style-data" id="toc-creating-simulated-adam-style-data" class="nav-link" data-scroll-target="#creating-simulated-adam-style-data"><span class="header-section-number">17</span> Creating Simulated ADaM-Style Data</a>
   <ul class="collapse">
-  <li><a href="#adsl-subject-level-data" id="toc-adsl-subject-level-data" class="nav-link" data-scroll-target="#adsl-subject-level-data"><span class="header-section-number">16.1</span> ADSL: Subject-Level Data</a></li>
-  <li><a href="#adlb-laboratory-data-e.g.-alt" id="toc-adlb-laboratory-data-e.g.-alt" class="nav-link" data-scroll-target="#adlb-laboratory-data-e.g.-alt"><span class="header-section-number">16.2</span> ADLB: Laboratory Data (e.g.&nbsp;ALT)</a></li>
-  <li><a href="#adtte-time-to-event-data-e.g.-pfs" id="toc-adtte-time-to-event-data-e.g.-pfs" class="nav-link" data-scroll-target="#adtte-time-to-event-data-e.g.-pfs"><span class="header-section-number">16.3</span> ADTTE: Time-to-Event Data (e.g.&nbsp;PFS)</a></li>
+  <li><a href="#adsl-subject-level-data" id="toc-adsl-subject-level-data" class="nav-link" data-scroll-target="#adsl-subject-level-data"><span class="header-section-number">17.1</span> ADSL: Subject-Level Data</a></li>
+  <li><a href="#adlb-laboratory-data-e.g.-alt" id="toc-adlb-laboratory-data-e.g.-alt" class="nav-link" data-scroll-target="#adlb-laboratory-data-e.g.-alt"><span class="header-section-number">17.2</span> ADLB: Laboratory Data (e.g.&nbsp;ALT)</a></li>
+  <li><a href="#adtte-time-to-event-data-e.g.-pfs" id="toc-adtte-time-to-event-data-e.g.-pfs" class="nav-link" data-scroll-target="#adtte-time-to-event-data-e.g.-pfs"><span class="header-section-number">17.3</span> ADTTE: Time-to-Event Data (e.g.&nbsp;PFS)</a></li>
   </ul></li>
-  <li><a href="#grammar-of-graphics-with-adam" id="toc-grammar-of-graphics-with-adam" class="nav-link" data-scroll-target="#grammar-of-graphics-with-adam"><span class="header-section-number">17</span> Grammar of Graphics with ADaM</a></li>
-  <li><a href="#basic-plots-from-adsl-beginner-level" id="toc-basic-plots-from-adsl-beginner-level" class="nav-link" data-scroll-target="#basic-plots-from-adsl-beginner-level"><span class="header-section-number">18</span> Basic Plots from ADSL (Beginner Level)</a>
+  <li><a href="#grammar-of-graphics-with-adam" id="toc-grammar-of-graphics-with-adam" class="nav-link" data-scroll-target="#grammar-of-graphics-with-adam"><span class="header-section-number">18</span> Grammar of Graphics with ADaM</a></li>
+  <li><a href="#basic-plots-from-adsl-beginner-level" id="toc-basic-plots-from-adsl-beginner-level" class="nav-link" data-scroll-target="#basic-plots-from-adsl-beginner-level"><span class="header-section-number">19</span> Basic Plots from ADSL (Beginner Level)</a>
   <ul class="collapse">
-  <li><a href="#scatterplot-age-vs-bmibl" id="toc-scatterplot-age-vs-bmibl" class="nav-link" data-scroll-target="#scatterplot-age-vs-bmibl"><span class="header-section-number">18.1</span> Scatterplot: AGE vs BMIBL</a>
+  <li><a href="#scatterplot-age-vs-bmibl" id="toc-scatterplot-age-vs-bmibl" class="nav-link" data-scroll-target="#scatterplot-age-vs-bmibl"><span class="header-section-number">19.1</span> Scatterplot: AGE vs BMIBL</a>
   <ul class="collapse">
-  <li><a href="#mapping-vs-setting-aesthetics" id="toc-mapping-vs-setting-aesthetics" class="nav-link" data-scroll-target="#mapping-vs-setting-aesthetics"><span class="header-section-number">18.1.1</span> Mapping vs Setting Aesthetics</a></li>
+  <li><a href="#mapping-vs-setting-aesthetics" id="toc-mapping-vs-setting-aesthetics" class="nav-link" data-scroll-target="#mapping-vs-setting-aesthetics"><span class="header-section-number">19.1.1</span> Mapping vs Setting Aesthetics</a></li>
   </ul></li>
-  <li><a href="#bar-plot-subject-counts-per-arm" id="toc-bar-plot-subject-counts-per-arm" class="nav-link" data-scroll-target="#bar-plot-subject-counts-per-arm"><span class="header-section-number">18.2</span> Bar Plot: Subject Counts per Arm</a></li>
-  <li><a href="#histogram-and-density-age-distribution" id="toc-histogram-and-density-age-distribution" class="nav-link" data-scroll-target="#histogram-and-density-age-distribution"><span class="header-section-number">18.3</span> Histogram and Density: Age Distribution</a></li>
-  <li><a href="#boxplot-bmibl-by-arm" id="toc-boxplot-bmibl-by-arm" class="nav-link" data-scroll-target="#boxplot-bmibl-by-arm"><span class="header-section-number">18.4</span> Boxplot: BMIBL by ARM</a></li>
+  <li><a href="#bar-plot-subject-counts-per-arm" id="toc-bar-plot-subject-counts-per-arm" class="nav-link" data-scroll-target="#bar-plot-subject-counts-per-arm"><span class="header-section-number">19.2</span> Bar Plot: Subject Counts per Arm</a></li>
+  <li><a href="#histogram-and-density-age-distribution" id="toc-histogram-and-density-age-distribution" class="nav-link" data-scroll-target="#histogram-and-density-age-distribution"><span class="header-section-number">19.3</span> Histogram and Density: Age Distribution</a></li>
+  <li><a href="#boxplot-bmibl-by-arm" id="toc-boxplot-bmibl-by-arm" class="nav-link" data-scroll-target="#boxplot-bmibl-by-arm"><span class="header-section-number">19.4</span> Boxplot: BMIBL by ARM</a></li>
   </ul></li>
-  <li><a href="#longitudinal-plots-from-adlb-intermediate" id="toc-longitudinal-plots-from-adlb-intermediate" class="nav-link" data-scroll-target="#longitudinal-plots-from-adlb-intermediate"><span class="header-section-number">19</span> Longitudinal Plots from ADLB (Intermediate)</a>
+  <li><a href="#longitudinal-plots-from-adlb-intermediate" id="toc-longitudinal-plots-from-adlb-intermediate" class="nav-link" data-scroll-target="#longitudinal-plots-from-adlb-intermediate"><span class="header-section-number">20</span> Longitudinal Plots from ADLB (Intermediate)</a>
   <ul class="collapse">
-  <li><a href="#line-plot-mean-alt-over-time-by-arm" id="toc-line-plot-mean-alt-over-time-by-arm" class="nav-link" data-scroll-target="#line-plot-mean-alt-over-time-by-arm"><span class="header-section-number">19.1</span> Line Plot: Mean ALT Over Time by ARM</a></li>
-  <li><a href="#individual-profiles-spaghetti-plot" id="toc-individual-profiles-spaghetti-plot" class="nav-link" data-scroll-target="#individual-profiles-spaghetti-plot"><span class="header-section-number">19.2</span> Individual Profiles (Spaghetti Plot)</a></li>
+  <li><a href="#line-plot-mean-alt-over-time-by-arm" id="toc-line-plot-mean-alt-over-time-by-arm" class="nav-link" data-scroll-target="#line-plot-mean-alt-over-time-by-arm"><span class="header-section-number">20.1</span> Line Plot: Mean ALT Over Time by ARM</a></li>
+  <li><a href="#individual-profiles-spaghetti-plot" id="toc-individual-profiles-spaghetti-plot" class="nav-link" data-scroll-target="#individual-profiles-spaghetti-plot"><span class="header-section-number">20.2</span> Individual Profiles (Spaghetti Plot)</a></li>
   </ul></li>
-  <li><a href="#faceting-with-adam-data" id="toc-faceting-with-adam-data" class="nav-link" data-scroll-target="#faceting-with-adam-data"><span class="header-section-number">20</span> Faceting with ADaM Data</a>
+  <li><a href="#faceting-with-adam-data" id="toc-faceting-with-adam-data" class="nav-link" data-scroll-target="#faceting-with-adam-data"><span class="header-section-number">21</span> Faceting with ADaM Data</a>
   <ul class="collapse">
-  <li><a href="#example-facet-alt-by-sex" id="toc-example-facet-alt-by-sex" class="nav-link" data-scroll-target="#example-facet-alt-by-sex"><span class="header-section-number">20.1</span> Example: Facet ALT by Sex</a></li>
+  <li><a href="#example-facet-alt-by-sex" id="toc-example-facet-alt-by-sex" class="nav-link" data-scroll-target="#example-facet-alt-by-sex"><span class="header-section-number">21.1</span> Example: Facet ALT by Sex</a></li>
   </ul></li>
-  <li><a href="#scales-labels-and-themes-in-adam-context" id="toc-scales-labels-and-themes-in-adam-context" class="nav-link" data-scroll-target="#scales-labels-and-themes-in-adam-context"><span class="header-section-number">21</span> Scales, Labels, and Themes in ADaM Context</a>
+  <li><a href="#scales-labels-and-themes-in-adam-context" id="toc-scales-labels-and-themes-in-adam-context" class="nav-link" data-scroll-target="#scales-labels-and-themes-in-adam-context"><span class="header-section-number">22</span> Scales, Labels, and Themes in ADaM Context</a>
   <ul class="collapse">
-  <li><a href="#changing-axis-labels-and-titles" id="toc-changing-axis-labels-and-titles" class="nav-link" data-scroll-target="#changing-axis-labels-and-titles"><span class="header-section-number">21.1</span> Changing Axis Labels and Titles</a></li>
-  <li><a href="#controlling-color-scales" id="toc-controlling-color-scales" class="nav-link" data-scroll-target="#controlling-color-scales"><span class="header-section-number">21.2</span> Controlling Color Scales</a></li>
-  <li><a href="#transforming-scales-e.g.-log10-alt" id="toc-transforming-scales-e.g.-log10-alt" class="nav-link" data-scroll-target="#transforming-scales-e.g.-log10-alt"><span class="header-section-number">21.3</span> Transforming Scales (e.g., log10 ALT)</a></li>
+  <li><a href="#changing-axis-labels-and-titles" id="toc-changing-axis-labels-and-titles" class="nav-link" data-scroll-target="#changing-axis-labels-and-titles"><span class="header-section-number">22.1</span> Changing Axis Labels and Titles</a></li>
+  <li><a href="#controlling-color-scales" id="toc-controlling-color-scales" class="nav-link" data-scroll-target="#controlling-color-scales"><span class="header-section-number">22.2</span> Controlling Color Scales</a></li>
+  <li><a href="#transforming-scales-e.g.-log10-alt" id="toc-transforming-scales-e.g.-log10-alt" class="nav-link" data-scroll-target="#transforming-scales-e.g.-log10-alt"><span class="header-section-number">22.3</span> Transforming Scales (e.g., log10 ALT)</a></li>
   </ul></li>
-  <li><a href="#themes-and-publication-style-graphics" id="toc-themes-and-publication-style-graphics" class="nav-link" data-scroll-target="#themes-and-publication-style-graphics"><span class="header-section-number">22</span> Themes and Publication-Style Graphics</a>
+  <li><a href="#themes-and-publication-style-graphics" id="toc-themes-and-publication-style-graphics" class="nav-link" data-scroll-target="#themes-and-publication-style-graphics"><span class="header-section-number">23</span> Themes and Publication-Style Graphics</a>
   <ul class="collapse">
-  <li><a href="#using-built-in-themes" id="toc-using-built-in-themes" class="nav-link" data-scroll-target="#using-built-in-themes"><span class="header-section-number">22.1</span> Using Built-In Themes</a></li>
-  <li><a href="#custom-theme-for-clinical-reports" id="toc-custom-theme-for-clinical-reports" class="nav-link" data-scroll-target="#custom-theme-for-clinical-reports"><span class="header-section-number">22.2</span> Custom Theme for Clinical Reports</a></li>
+  <li><a href="#using-built-in-themes" id="toc-using-built-in-themes" class="nav-link" data-scroll-target="#using-built-in-themes"><span class="header-section-number">23.1</span> Using Built-In Themes</a></li>
+  <li><a href="#custom-theme-for-clinical-reports" id="toc-custom-theme-for-clinical-reports" class="nav-link" data-scroll-target="#custom-theme-for-clinical-reports"><span class="header-section-number">23.2</span> Custom Theme for Clinical Reports</a></li>
   </ul></li>
-  <li><a href="#coordinates-and-positions" id="toc-coordinates-and-positions" class="nav-link" data-scroll-target="#coordinates-and-positions"><span class="header-section-number">23</span> Coordinates and Positions</a>
+  <li><a href="#coordinates-and-positions" id="toc-coordinates-and-positions" class="nav-link" data-scroll-target="#coordinates-and-positions"><span class="header-section-number">24</span> Coordinates and Positions</a>
   <ul class="collapse">
-  <li><a href="#flipping-coordinates-boxplot-of-bmi-by-sex" id="toc-flipping-coordinates-boxplot-of-bmi-by-sex" class="nav-link" data-scroll-target="#flipping-coordinates-boxplot-of-bmi-by-sex"><span class="header-section-number">23.1</span> Flipping Coordinates: Boxplot of BMI by Sex</a></li>
-  <li><a href="#stacked-vs-dodged-bar-plots-trta-by-sex" id="toc-stacked-vs-dodged-bar-plots-trta-by-sex" class="nav-link" data-scroll-target="#stacked-vs-dodged-bar-plots-trta-by-sex"><span class="header-section-number">23.2</span> Stacked vs Dodged Bar Plots: TRTA by SEX</a></li>
+  <li><a href="#flipping-coordinates-boxplot-of-bmi-by-sex" id="toc-flipping-coordinates-boxplot-of-bmi-by-sex" class="nav-link" data-scroll-target="#flipping-coordinates-boxplot-of-bmi-by-sex"><span class="header-section-number">24.1</span> Flipping Coordinates: Boxplot of BMI by Sex</a></li>
+  <li><a href="#stacked-vs-dodged-bar-plots-trta-by-sex" id="toc-stacked-vs-dodged-bar-plots-trta-by-sex" class="nav-link" data-scroll-target="#stacked-vs-dodged-bar-plots-trta-by-sex"><span class="header-section-number">24.2</span> Stacked vs Dodged Bar Plots: TRTA by SEX</a></li>
   </ul></li>
-  <li><a href="#adding-statistical-layers" id="toc-adding-statistical-layers" class="nav-link" data-scroll-target="#adding-statistical-layers"><span class="header-section-number">24</span> Adding Statistical Layers</a>
+  <li><a href="#adding-statistical-layers" id="toc-adding-statistical-layers" class="nav-link" data-scroll-target="#adding-statistical-layers"><span class="header-section-number">25</span> Adding Statistical Layers</a>
   <ul class="collapse">
-  <li><a href="#linear-regression-bmibl-vs-age" id="toc-linear-regression-bmibl-vs-age" class="nav-link" data-scroll-target="#linear-regression-bmibl-vs-age"><span class="header-section-number">24.1</span> Linear Regression: BMIBL vs AGE</a></li>
-  <li><a href="#summaries-mean-alt-sd-per-visit-and-trta" id="toc-summaries-mean-alt-sd-per-visit-and-trta" class="nav-link" data-scroll-target="#summaries-mean-alt-sd-per-visit-and-trta"><span class="header-section-number">24.2</span> Summaries: Mean ALT ± SD per Visit and TRTA</a></li>
+  <li><a href="#linear-regression-bmibl-vs-age" id="toc-linear-regression-bmibl-vs-age" class="nav-link" data-scroll-target="#linear-regression-bmibl-vs-age"><span class="header-section-number">25.1</span> Linear Regression: BMIBL vs AGE</a></li>
+  <li><a href="#summaries-mean-alt-sd-per-visit-and-trta" id="toc-summaries-mean-alt-sd-per-visit-and-trta" class="nav-link" data-scroll-target="#summaries-mean-alt-sd-per-visit-and-trta"><span class="header-section-number">25.2</span> Summaries: Mean ALT ± SD per Visit and TRTA</a></li>
   </ul></li>
-  <li><a href="#tidy-workflow-dplyr-ggplot2-with-adam" id="toc-tidy-workflow-dplyr-ggplot2-with-adam" class="nav-link" data-scroll-target="#tidy-workflow-dplyr-ggplot2-with-adam"><span class="header-section-number">25</span> Tidy Workflow: dplyr + ggplot2 with ADaM</a></li>
-  <li><a href="#advanced-simple-kaplanmeier-plot-from-adtte" id="toc-advanced-simple-kaplanmeier-plot-from-adtte" class="nav-link" data-scroll-target="#advanced-simple-kaplanmeier-plot-from-adtte"><span class="header-section-number">26</span> Advanced: Simple Kaplan–Meier Plot from ADTTE</a></li>
-  <li><a href="#advanced-annotations-and-secondary-axes" id="toc-advanced-annotations-and-secondary-axes" class="nav-link" data-scroll-target="#advanced-annotations-and-secondary-axes"><span class="header-section-number">27</span> Advanced: Annotations and Secondary Axes</a>
+  <li><a href="#tidy-workflow-dplyr-ggplot2-with-adam" id="toc-tidy-workflow-dplyr-ggplot2-with-adam" class="nav-link" data-scroll-target="#tidy-workflow-dplyr-ggplot2-with-adam"><span class="header-section-number">26</span> Tidy Workflow: dplyr + ggplot2 with ADaM</a></li>
+  <li><a href="#advanced-simple-kaplanmeier-plot-from-adtte" id="toc-advanced-simple-kaplanmeier-plot-from-adtte" class="nav-link" data-scroll-target="#advanced-simple-kaplanmeier-plot-from-adtte"><span class="header-section-number">27</span> Advanced: Simple Kaplan–Meier Plot from ADTTE</a></li>
+  <li><a href="#advanced-annotations-and-secondary-axes" id="toc-advanced-annotations-and-secondary-axes" class="nav-link" data-scroll-target="#advanced-annotations-and-secondary-axes"><span class="header-section-number">28</span> Advanced: Annotations and Secondary Axes</a>
   <ul class="collapse">
-  <li><a href="#annotations-on-an-adam-plot" id="toc-annotations-on-an-adam-plot" class="nav-link" data-scroll-target="#annotations-on-an-adam-plot"><span class="header-section-number">27.1</span> Annotations on an ADaM Plot</a></li>
-  <li><a href="#secondary-axis-use-with-care" id="toc-secondary-axis-use-with-care" class="nav-link" data-scroll-target="#secondary-axis-use-with-care"><span class="header-section-number">27.2</span> Secondary Axis (Use with Care)</a></li>
+  <li><a href="#annotations-on-an-adam-plot" id="toc-annotations-on-an-adam-plot" class="nav-link" data-scroll-target="#annotations-on-an-adam-plot"><span class="header-section-number">28.1</span> Annotations on an ADaM Plot</a></li>
+  <li><a href="#secondary-axis-use-with-care" id="toc-secondary-axis-use-with-care" class="nav-link" data-scroll-target="#secondary-axis-use-with-care"><span class="header-section-number">28.2</span> Secondary Axis (Use with Care)</a></li>
   </ul></li>
-  <li><a href="#writing-reusable-plot-functions-for-adam" id="toc-writing-reusable-plot-functions-for-adam" class="nav-link" data-scroll-target="#writing-reusable-plot-functions-for-adam"><span class="header-section-number">28</span> Writing Reusable Plot Functions for ADaM</a></li>
-  <li><a href="#saving-plots-for-reports" id="toc-saving-plots-for-reports" class="nav-link" data-scroll-target="#saving-plots-for-reports"><span class="header-section-number">29</span> Saving Plots for Reports</a></li>
-  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">30</span> Introduction</a></li>
-  <li><a href="#figure-1-bar-graph-with-individual-lesion-lines" id="toc-figure-1-bar-graph-with-individual-lesion-lines" class="nav-link" data-scroll-target="#figure-1-bar-graph-with-individual-lesion-lines"><span class="header-section-number">31</span> Figure 1 – Bar Graph with Individual Lesion Lines</a>
+  <li><a href="#writing-reusable-plot-functions-for-adam" id="toc-writing-reusable-plot-functions-for-adam" class="nav-link" data-scroll-target="#writing-reusable-plot-functions-for-adam"><span class="header-section-number">29</span> Writing Reusable Plot Functions for ADaM</a></li>
+  <li><a href="#saving-plots-for-reports" id="toc-saving-plots-for-reports" class="nav-link" data-scroll-target="#saving-plots-for-reports"><span class="header-section-number">30</span> Saving Plots for Reports</a></li>
+  <li><a href="#introduction-1" id="toc-introduction-1" class="nav-link" data-scroll-target="#introduction-1"><span class="header-section-number">31</span> Introduction</a></li>
+  <li><a href="#figure-1-bar-graph-with-individual-lesion-lines" id="toc-figure-1-bar-graph-with-individual-lesion-lines" class="nav-link" data-scroll-target="#figure-1-bar-graph-with-individual-lesion-lines"><span class="header-section-number">32</span> Figure 1 – Bar Graph with Individual Lesion Lines</a>
   <ul class="collapse">
-  <li><a href="#create-bar-graph-data" id="toc-create-bar-graph-data" class="nav-link" data-scroll-target="#create-bar-graph-data"><span class="header-section-number">31.1</span> 1.1 Create bar-graph data</a></li>
-  <li><a href="#reshape-to-long-format-for-lines" id="toc-reshape-to-long-format-for-lines" class="nav-link" data-scroll-target="#reshape-to-long-format-for-lines"><span class="header-section-number">31.2</span> 1.2 Reshape to long format for lines</a></li>
-  <li><a href="#build-the-bar-line-plot" id="toc-build-the-bar-line-plot" class="nav-link" data-scroll-target="#build-the-bar-line-plot"><span class="header-section-number">31.3</span> 1.3 Build the bar + line plot</a></li>
+  <li><a href="#create-bar-graph-data" id="toc-create-bar-graph-data" class="nav-link" data-scroll-target="#create-bar-graph-data"><span class="header-section-number">32.1</span> 1.1 Create bar-graph data</a></li>
+  <li><a href="#reshape-to-long-format-for-lines" id="toc-reshape-to-long-format-for-lines" class="nav-link" data-scroll-target="#reshape-to-long-format-for-lines"><span class="header-section-number">32.2</span> 1.2 Reshape to long format for lines</a></li>
+  <li><a href="#build-the-bar-line-plot" id="toc-build-the-bar-line-plot" class="nav-link" data-scroll-target="#build-the-bar-line-plot"><span class="header-section-number">32.3</span> 1.3 Build the bar + line plot</a></li>
   </ul></li>
-  <li><a href="#figure-2-waterfall-plot-of-best-percentage-change-from-baseline" id="toc-figure-2-waterfall-plot-of-best-percentage-change-from-baseline" class="nav-link" data-scroll-target="#figure-2-waterfall-plot-of-best-percentage-change-from-baseline"><span class="header-section-number">32</span> Figure 2 – Waterfall Plot of Best Percentage Change from Baseline</a>
+  <li><a href="#figure-2-waterfall-plot-of-best-percentage-change-from-baseline" id="toc-figure-2-waterfall-plot-of-best-percentage-change-from-baseline" class="nav-link" data-scroll-target="#figure-2-waterfall-plot-of-best-percentage-change-from-baseline"><span class="header-section-number">33</span> Figure 2 – Waterfall Plot of Best Percentage Change from Baseline</a>
   <ul class="collapse">
-  <li><a href="#create-waterfall-data" id="toc-create-waterfall-data" class="nav-link" data-scroll-target="#create-waterfall-data"><span class="header-section-number">32.1</span> 2.1 Create waterfall data</a></li>
-  <li><a href="#sort-patients-by-change" id="toc-sort-patients-by-change" class="nav-link" data-scroll-target="#sort-patients-by-change"><span class="header-section-number">32.2</span> 2.2 Sort patients by change</a></li>
-  <li><a href="#build-the-waterfall-plot" id="toc-build-the-waterfall-plot" class="nav-link" data-scroll-target="#build-the-waterfall-plot"><span class="header-section-number">32.3</span> 2.3 Build the waterfall plot</a></li>
+  <li><a href="#create-waterfall-data" id="toc-create-waterfall-data" class="nav-link" data-scroll-target="#create-waterfall-data"><span class="header-section-number">33.1</span> 2.1 Create waterfall data</a></li>
+  <li><a href="#sort-patients-by-change" id="toc-sort-patients-by-change" class="nav-link" data-scroll-target="#sort-patients-by-change"><span class="header-section-number">33.2</span> 2.2 Sort patients by change</a></li>
+  <li><a href="#build-the-waterfall-plot" id="toc-build-the-waterfall-plot" class="nav-link" data-scroll-target="#build-the-waterfall-plot"><span class="header-section-number">33.3</span> 2.3 Build the waterfall plot</a></li>
   </ul></li>
-  <li><a href="#figure-3-swimmer-plot-duration-of-response" id="toc-figure-3-swimmer-plot-duration-of-response" class="nav-link" data-scroll-target="#figure-3-swimmer-plot-duration-of-response"><span class="header-section-number">33</span> Figure 3 – Swimmer Plot: Duration of Response</a>
+  <li><a href="#figure-3-swimmer-plot-duration-of-response" id="toc-figure-3-swimmer-plot-duration-of-response" class="nav-link" data-scroll-target="#figure-3-swimmer-plot-duration-of-response"><span class="header-section-number">34</span> Figure 3 – Swimmer Plot: Duration of Response</a>
   <ul class="collapse">
-  <li><a href="#create-swimmer-data" id="toc-create-swimmer-data" class="nav-link" data-scroll-target="#create-swimmer-data"><span class="header-section-number">33.1</span> 3.1 Create swimmer data</a></li>
-  <li><a href="#build-the-swimmer-plot" id="toc-build-the-swimmer-plot" class="nav-link" data-scroll-target="#build-the-swimmer-plot"><span class="header-section-number">33.2</span> 3.2 Build the swimmer plot</a></li>
+  <li><a href="#create-swimmer-data" id="toc-create-swimmer-data" class="nav-link" data-scroll-target="#create-swimmer-data"><span class="header-section-number">34.1</span> 3.1 Create swimmer data</a></li>
+  <li><a href="#build-the-swimmer-plot" id="toc-build-the-swimmer-plot" class="nav-link" data-scroll-target="#build-the-swimmer-plot"><span class="header-section-number">34.2</span> 3.2 Build the swimmer plot</a></li>
   </ul></li>
-  <li><a href="#figure-4-spider-plot-tumor-trajectories-over-time" id="toc-figure-4-spider-plot-tumor-trajectories-over-time" class="nav-link" data-scroll-target="#figure-4-spider-plot-tumor-trajectories-over-time"><span class="header-section-number">34</span> Figure 4 – Spider Plot: Tumor Trajectories Over Time</a>
+  <li><a href="#figure-4-spider-plot-tumor-trajectories-over-time" id="toc-figure-4-spider-plot-tumor-trajectories-over-time" class="nav-link" data-scroll-target="#figure-4-spider-plot-tumor-trajectories-over-time"><span class="header-section-number">35</span> Figure 4 – Spider Plot: Tumor Trajectories Over Time</a>
   <ul class="collapse">
-  <li><a href="#create-spider-data" id="toc-create-spider-data" class="nav-link" data-scroll-target="#create-spider-data"><span class="header-section-number">34.1</span> 4.1 Create spider data</a></li>
-  <li><a href="#build-the-spider-plot" id="toc-build-the-spider-plot" class="nav-link" data-scroll-target="#build-the-spider-plot"><span class="header-section-number">34.2</span> 4.2 Build the spider plot</a></li>
+  <li><a href="#create-spider-data" id="toc-create-spider-data" class="nav-link" data-scroll-target="#create-spider-data"><span class="header-section-number">35.1</span> 4.1 Create spider data</a></li>
+  <li><a href="#build-the-spider-plot" id="toc-build-the-spider-plot" class="nav-link" data-scroll-target="#build-the-spider-plot"><span class="header-section-number">35.2</span> 4.2 Build the spider plot</a></li>
   </ul></li>
-  <li><a href="#figure-5-kaplanmeier-survival-curve" id="toc-figure-5-kaplanmeier-survival-curve" class="nav-link" data-scroll-target="#figure-5-kaplanmeier-survival-curve"><span class="header-section-number">35</span> Figure 5 – Kaplan–Meier Survival Curve</a>
+  <li><a href="#figure-5-kaplanmeier-survival-curve" id="toc-figure-5-kaplanmeier-survival-curve" class="nav-link" data-scroll-target="#figure-5-kaplanmeier-survival-curve"><span class="header-section-number">36</span> Figure 5 – Kaplan–Meier Survival Curve</a>
   <ul class="collapse">
-  <li><a href="#create-km-data" id="toc-create-km-data" class="nav-link" data-scroll-target="#create-km-data"><span class="header-section-number">35.1</span> 5.1 Create KM data</a></li>
-  <li><a href="#fit-the-km-model-and-plot" id="toc-fit-the-km-model-and-plot" class="nav-link" data-scroll-target="#fit-the-km-model-and-plot"><span class="header-section-number">35.2</span> 5.2 Fit the KM model and plot</a></li>
+  <li><a href="#create-km-data" id="toc-create-km-data" class="nav-link" data-scroll-target="#create-km-data"><span class="header-section-number">36.1</span> 5.1 Create KM data</a></li>
+  <li><a href="#fit-the-km-model-and-plot" id="toc-fit-the-km-model-and-plot" class="nav-link" data-scroll-target="#fit-the-km-model-and-plot"><span class="header-section-number">36.2</span> 5.2 Fit the KM model and plot</a></li>
   </ul></li>
-  <li><a href="#figure-6-forest-plot-for-subgroup-hazard-ratios" id="toc-figure-6-forest-plot-for-subgroup-hazard-ratios" class="nav-link" data-scroll-target="#figure-6-forest-plot-for-subgroup-hazard-ratios"><span class="header-section-number">36</span> Figure 6 – Forest Plot for Subgroup Hazard Ratios</a>
+  <li><a href="#figure-6-forest-plot-for-subgroup-hazard-ratios" id="toc-figure-6-forest-plot-for-subgroup-hazard-ratios" class="nav-link" data-scroll-target="#figure-6-forest-plot-for-subgroup-hazard-ratios"><span class="header-section-number">37</span> Figure 6 – Forest Plot for Subgroup Hazard Ratios</a>
   <ul class="collapse">
-  <li><a href="#load-example-data-and-prepare" id="toc-load-example-data-and-prepare" class="nav-link" data-scroll-target="#load-example-data-and-prepare"><span class="header-section-number">36.1</span> 6.1 Load example data and prepare</a></li>
-  <li><a href="#define-forest-theme-and-build-the-plot" id="toc-define-forest-theme-and-build-the-plot" class="nav-link" data-scroll-target="#define-forest-theme-and-build-the-plot"><span class="header-section-number">36.2</span> 6.2 Define forest theme and build the plot</a></li>
+  <li><a href="#load-example-data-and-prepare" id="toc-load-example-data-and-prepare" class="nav-link" data-scroll-target="#load-example-data-and-prepare"><span class="header-section-number">37.1</span> 6.1 Load example data and prepare</a></li>
+  <li><a href="#define-forest-theme-and-build-the-plot" id="toc-define-forest-theme-and-build-the-plot" class="nav-link" data-scroll-target="#define-forest-theme-and-build-the-plot"><span class="header-section-number">37.2</span> 6.2 Define forest theme and build the plot</a></li>
   </ul></li>
-  <li><a href="#summary-and-next-steps" id="toc-summary-and-next-steps" class="nav-link" data-scroll-target="#summary-and-next-steps"><span class="header-section-number">37</span> Summary and Next Steps</a></li>
+  <li><a href="#summary-and-next-steps" id="toc-summary-and-next-steps" class="nav-link" data-scroll-target="#summary-and-next-steps"><span class="header-section-number">38</span> Summary and Next Steps</a></li>
   </ul>
 </nav>
     </div>
@@ -348,7 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></h1>
 </div>
 
 
@@ -365,8 +371,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level1" data-number="15">
-<h1 data-number="15"><span class="header-section-number">15</span> Introduction</h1>
+<section id="introduction" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> Introduction</h1>
 <p>This tutorial is a <strong>step-by-step guide to ggplot2</strong> in R, designed to take you from <strong>beginner to advanced</strong>, using <strong>CDISC ADaM-style datasets</strong> throughout.</p>
 <ul>
 <li><code>ADSL</code>: Subject-level data</li>
@@ -390,11 +396,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <hr>
 </section>
-<section id="creating-simulated-adam-style-data" class="level1" data-number="16">
-<h1 data-number="16"><span class="header-section-number">16</span> Creating Simulated ADaM-Style Data</h1>
+<section id="creating-simulated-adam-style-data" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> Creating Simulated ADaM-Style Data</h1>
 <p>In this section we create small ADaM-like datasets entirely in R so the tutorial is self-contained.</p>
-<section id="adsl-subject-level-data" class="level2" data-number="16.1">
-<h2 data-number="16.1" class="anchored" data-anchor-id="adsl-subject-level-data"><span class="header-section-number">16.1</span> ADSL: Subject-Level Data</h2>
+<section id="adsl-subject-level-data" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="adsl-subject-level-data"><span class="header-section-number">17.1</span> ADSL: Subject-Level Data</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ADSL <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sas</span>(<span class="st">"./data/adam/adsl.sas7bdat"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -402,16 +408,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>       dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">TRTA=</span>ARM)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="adlb-laboratory-data-e.g.-alt" class="level2" data-number="16.2">
-<h2 data-number="16.2" class="anchored" data-anchor-id="adlb-laboratory-data-e.g.-alt"><span class="header-section-number">16.2</span> ADLB: Laboratory Data (e.g.&nbsp;ALT)</h2>
+<section id="adlb-laboratory-data-e.g.-alt" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="adlb-laboratory-data-e.g.-alt"><span class="header-section-number">17.2</span> ADLB: Laboratory Data (e.g.&nbsp;ALT)</h2>
 <p>We simulate longitudinal ALT values (<code>PARAMCD = "ALT"</code>) at multiple visits:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ADLB <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_sas</span>(<span class="st">"./data/adam/adlbhy.sas7bdat"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>              dplyr<span class="sc">::</span><span class="fu">filter</span>(PARAMCD <span class="sc">==</span> <span class="st">"ALT"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="adtte-time-to-event-data-e.g.-pfs" class="level2" data-number="16.3">
-<h2 data-number="16.3" class="anchored" data-anchor-id="adtte-time-to-event-data-e.g.-pfs"><span class="header-section-number">16.3</span> ADTTE: Time-to-Event Data (e.g.&nbsp;PFS)</h2>
+<section id="adtte-time-to-event-data-e.g.-pfs" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="adtte-time-to-event-data-e.g.-pfs"><span class="header-section-number">17.3</span> ADTTE: Time-to-Event Data (e.g.&nbsp;PFS)</h2>
 <p>We simulate a simple ADTTE:</p>
 <ul>
 <li><code>PARAMCD = "PFS"</code></li>
@@ -453,8 +459,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="grammar-of-graphics-with-adam" class="level1" data-number="17">
-<h1 data-number="17"><span class="header-section-number">17</span> Grammar of Graphics with ADaM</h1>
+<section id="grammar-of-graphics-with-adam" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> Grammar of Graphics with ADaM</h1>
 <p>The basic idea of ggplot2 (Grammar of Graphics):</p>
 <ul>
 <li><strong>Data</strong>: ADSL / ADLB / ADTTE</li>
@@ -471,10 +477,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We will start with subject-level plots from <strong>ADSL</strong>, then move to longitudinal labs from <strong>ADLB</strong>, and finally to <strong>ADTTE</strong>.</p>
 <hr>
 </section>
-<section id="basic-plots-from-adsl-beginner-level" class="level1" data-number="18">
-<h1 data-number="18"><span class="header-section-number">18</span> Basic Plots from ADSL (Beginner Level)</h1>
-<section id="scatterplot-age-vs-bmibl" class="level2" data-number="18.1">
-<h2 data-number="18.1" class="anchored" data-anchor-id="scatterplot-age-vs-bmibl"><span class="header-section-number">18.1</span> Scatterplot: AGE vs BMIBL</h2>
+<section id="basic-plots-from-adsl-beginner-level" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> Basic Plots from ADSL (Beginner Level)</h1>
+<section id="scatterplot-age-vs-bmibl" class="level2" data-number="19.1">
+<h2 data-number="19.1" class="anchored" data-anchor-id="scatterplot-age-vs-bmibl"><span class="header-section-number">19.1</span> Scatterplot: AGE vs BMIBL</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL)) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
@@ -491,8 +497,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<section id="mapping-vs-setting-aesthetics" class="level3" data-number="18.1.1">
-<h3 data-number="18.1.1" class="anchored" data-anchor-id="mapping-vs-setting-aesthetics"><span class="header-section-number">18.1.1</span> Mapping vs Setting Aesthetics</h3>
+<section id="mapping-vs-setting-aesthetics" class="level3" data-number="19.1.1">
+<h3 data-number="19.1.1" class="anchored" data-anchor-id="mapping-vs-setting-aesthetics"><span class="header-section-number">19.1.1</span> Mapping vs Setting Aesthetics</h3>
 <ul>
 <li><strong>Mapping</strong> (inside <code>aes()</code>): color/shape/size depend on data (e.g.&nbsp;<code>ARM</code>).</li>
 <li><strong>Setting</strong> (outside <code>aes()</code>): fixed values.</li>
@@ -535,8 +541,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="bar-plot-subject-counts-per-arm" class="level2" data-number="18.2">
-<h2 data-number="18.2" class="anchored" data-anchor-id="bar-plot-subject-counts-per-arm"><span class="header-section-number">18.2</span> Bar Plot: Subject Counts per Arm</h2>
+<section id="bar-plot-subject-counts-per-arm" class="level2" data-number="19.2">
+<h2 data-number="19.2" class="anchored" data-anchor-id="bar-plot-subject-counts-per-arm"><span class="header-section-number">19.2</span> Bar Plot: Subject Counts per Arm</h2>
 <p>Using <code>ADSL</code>, we can show how many subjects per arm:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> TRT01A)) <span class="sc">+</span></span>
@@ -587,8 +593,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="histogram-and-density-age-distribution" class="level2" data-number="18.3">
-<h2 data-number="18.3" class="anchored" data-anchor-id="histogram-and-density-age-distribution"><span class="header-section-number">18.3</span> Histogram and Density: Age Distribution</h2>
+<section id="histogram-and-density-age-distribution" class="level2" data-number="19.3">
+<h2 data-number="19.3" class="anchored" data-anchor-id="histogram-and-density-age-distribution"><span class="header-section-number">19.3</span> Histogram and Density: Age Distribution</h2>
 <p>Histogram of <code>AGE</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE)) <span class="sc">+</span></span>
@@ -625,8 +631,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="boxplot-bmibl-by-arm" class="level2" data-number="18.4">
-<h2 data-number="18.4" class="anchored" data-anchor-id="boxplot-bmibl-by-arm"><span class="header-section-number">18.4</span> Boxplot: BMIBL by ARM</h2>
+<section id="boxplot-bmibl-by-arm" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="boxplot-bmibl-by-arm"><span class="header-section-number">19.4</span> Boxplot: BMIBL by ARM</h2>
 <p>Boxplots are useful in CSR or listings to compare distributions across arms.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> TRT01A, <span class="at">y =</span> BMIBL)) <span class="sc">+</span></span>
@@ -665,11 +671,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="longitudinal-plots-from-adlb-intermediate" class="level1" data-number="19">
-<h1 data-number="19"><span class="header-section-number">19</span> Longitudinal Plots from ADLB (Intermediate)</h1>
+<section id="longitudinal-plots-from-adlb-intermediate" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> Longitudinal Plots from ADLB (Intermediate)</h1>
 <p>Now we use <strong>ADLB</strong> to illustrate time course plots, which are common in clinical reports.</p>
-<section id="line-plot-mean-alt-over-time-by-arm" class="level2" data-number="19.1">
-<h2 data-number="19.1" class="anchored" data-anchor-id="line-plot-mean-alt-over-time-by-arm"><span class="header-section-number">19.1</span> Line Plot: Mean ALT Over Time by ARM</h2>
+<section id="line-plot-mean-alt-over-time-by-arm" class="level2" data-number="20.1">
+<h2 data-number="20.1" class="anchored" data-anchor-id="line-plot-mean-alt-over-time-by-arm"><span class="header-section-number">20.1</span> Line Plot: Mean ALT Over Time by ARM</h2>
 <p>First summarise ADLB:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adlb_alt_summary <span class="ot">&lt;-</span> ADLB <span class="sc">%&gt;%</span></span>
@@ -728,8 +734,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="individual-profiles-spaghetti-plot" class="level2" data-number="19.2">
-<h2 data-number="19.2" class="anchored" data-anchor-id="individual-profiles-spaghetti-plot"><span class="header-section-number">19.2</span> Individual Profiles (Spaghetti Plot)</h2>
+<section id="individual-profiles-spaghetti-plot" class="level2" data-number="20.2">
+<h2 data-number="20.2" class="anchored" data-anchor-id="individual-profiles-spaghetti-plot"><span class="header-section-number">20.2</span> Individual Profiles (Spaghetti Plot)</h2>
 <p>To see variability, we can plot individual patients (subset to avoid overcrowding):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ADLB_sub <span class="ot">&lt;-</span> ADLB <span class="sc">|&gt;</span> </span>
@@ -758,12 +764,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="faceting-with-adam-data" class="level1" data-number="20">
-<h1 data-number="20"><span class="header-section-number">20</span> Faceting with ADaM Data</h1>
+<section id="faceting-with-adam-data" class="level1" data-number="21">
+<h1 data-number="21"><span class="header-section-number">21</span> Faceting with ADaM Data</h1>
 <p>Faceting is useful when splitting results by subgroups, lab parameters, or regions.</p>
 <p>Here we only have <code>PARAMCD = "ALT"</code>, but we can pretend we have multiple parameters.</p>
-<section id="example-facet-alt-by-sex" class="level2" data-number="20.1">
-<h2 data-number="20.1" class="anchored" data-anchor-id="example-facet-alt-by-sex"><span class="header-section-number">20.1</span> Example: Facet ALT by Sex</h2>
+<section id="example-facet-alt-by-sex" class="level2" data-number="21.1">
+<h2 data-number="21.1" class="anchored" data-anchor-id="example-facet-alt-by-sex"><span class="header-section-number">21.1</span> Example: Facet ALT by Sex</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(adlb_alt_summary,</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> AVISIT, <span class="at">y =</span> mean_ALT, <span class="at">group =</span> TRTA, <span class="at">color =</span> TRTA)) <span class="sc">+</span></span>
@@ -789,10 +795,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="scales-labels-and-themes-in-adam-context" class="level1" data-number="21">
-<h1 data-number="21"><span class="header-section-number">21</span> Scales, Labels, and Themes in ADaM Context</h1>
-<section id="changing-axis-labels-and-titles" class="level2" data-number="21.1">
-<h2 data-number="21.1" class="anchored" data-anchor-id="changing-axis-labels-and-titles"><span class="header-section-number">21.1</span> Changing Axis Labels and Titles</h2>
+<section id="scales-labels-and-themes-in-adam-context" class="level1" data-number="22">
+<h1 data-number="22"><span class="header-section-number">22</span> Scales, Labels, and Themes in ADaM Context</h1>
+<section id="changing-axis-labels-and-titles" class="level2" data-number="22.1">
+<h2 data-number="22.1" class="anchored" data-anchor-id="changing-axis-labels-and-titles"><span class="header-section-number">22.1</span> Changing Axis Labels and Titles</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL, <span class="at">color =</span> TRT01A)) <span class="sc">+</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
@@ -812,8 +818,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="controlling-color-scales" class="level2" data-number="21.2">
-<h2 data-number="21.2" class="anchored" data-anchor-id="controlling-color-scales"><span class="header-section-number">21.2</span> Controlling Color Scales</h2>
+<section id="controlling-color-scales" class="level2" data-number="22.2">
+<h2 data-number="22.2" class="anchored" data-anchor-id="controlling-color-scales"><span class="header-section-number">22.2</span> Controlling Color Scales</h2>
 <p>For discrete <code>TRTA</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL, <span class="at">color =</span> TRT01A)) <span class="sc">+</span></span>
@@ -853,8 +859,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="transforming-scales-e.g.-log10-alt" class="level2" data-number="21.3">
-<h2 data-number="21.3" class="anchored" data-anchor-id="transforming-scales-e.g.-log10-alt"><span class="header-section-number">21.3</span> Transforming Scales (e.g., log10 ALT)</h2>
+<section id="transforming-scales-e.g.-log10-alt" class="level2" data-number="22.3">
+<h2 data-number="22.3" class="anchored" data-anchor-id="transforming-scales-e.g.-log10-alt"><span class="header-section-number">22.3</span> Transforming Scales (e.g., log10 ALT)</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADLB, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> AVAL, <span class="at">color =</span> TRTA)) <span class="sc">+</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
@@ -877,10 +883,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="themes-and-publication-style-graphics" class="level1" data-number="22">
-<h1 data-number="22"><span class="header-section-number">22</span> Themes and Publication-Style Graphics</h1>
-<section id="using-built-in-themes" class="level2" data-number="22.1">
-<h2 data-number="22.1" class="anchored" data-anchor-id="using-built-in-themes"><span class="header-section-number">22.1</span> Using Built-In Themes</h2>
+<section id="themes-and-publication-style-graphics" class="level1" data-number="23">
+<h1 data-number="23"><span class="header-section-number">23</span> Themes and Publication-Style Graphics</h1>
+<section id="using-built-in-themes" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="using-built-in-themes"><span class="header-section-number">23.1</span> Using Built-In Themes</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p_base <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL, <span class="at">color =</span> TRT01A)) <span class="sc">+</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.2</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
@@ -920,8 +926,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="custom-theme-for-clinical-reports" class="level2" data-number="22.2">
-<h2 data-number="22.2" class="anchored" data-anchor-id="custom-theme-for-clinical-reports"><span class="header-section-number">22.2</span> Custom Theme for Clinical Reports</h2>
+<section id="custom-theme-for-clinical-reports" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="custom-theme-for-clinical-reports"><span class="header-section-number">23.2</span> Custom Theme for Clinical Reports</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>theme_adam_pub <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">11</span>) <span class="sc">+</span></span>
@@ -956,10 +962,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="coordinates-and-positions" class="level1" data-number="23">
-<h1 data-number="23"><span class="header-section-number">23</span> Coordinates and Positions</h1>
-<section id="flipping-coordinates-boxplot-of-bmi-by-sex" class="level2" data-number="23.1">
-<h2 data-number="23.1" class="anchored" data-anchor-id="flipping-coordinates-boxplot-of-bmi-by-sex"><span class="header-section-number">23.1</span> Flipping Coordinates: Boxplot of BMI by Sex</h2>
+<section id="coordinates-and-positions" class="level1" data-number="24">
+<h1 data-number="24"><span class="header-section-number">24</span> Coordinates and Positions</h1>
+<section id="flipping-coordinates-boxplot-of-bmi-by-sex" class="level2" data-number="24.1">
+<h2 data-number="24.1" class="anchored" data-anchor-id="flipping-coordinates-boxplot-of-bmi-by-sex"><span class="header-section-number">24.1</span> Flipping Coordinates: Boxplot of BMI by Sex</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> SEX, <span class="at">y =</span> BMIBL)) <span class="sc">+</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"lightblue"</span>) <span class="sc">+</span></span>
@@ -978,8 +984,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="stacked-vs-dodged-bar-plots-trta-by-sex" class="level2" data-number="23.2">
-<h2 data-number="23.2" class="anchored" data-anchor-id="stacked-vs-dodged-bar-plots-trta-by-sex"><span class="header-section-number">23.2</span> Stacked vs Dodged Bar Plots: TRTA by SEX</h2>
+<section id="stacked-vs-dodged-bar-plots-trta-by-sex" class="level2" data-number="24.2">
+<h2 data-number="24.2" class="anchored" data-anchor-id="stacked-vs-dodged-bar-plots-trta-by-sex"><span class="header-section-number">24.2</span> Stacked vs Dodged Bar Plots: TRTA by SEX</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> TRTA, <span class="at">fill =</span> SEX)) <span class="sc">+</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"stack"</span>) <span class="sc">+</span></span>
@@ -1017,10 +1023,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="adding-statistical-layers" class="level1" data-number="24">
-<h1 data-number="24"><span class="header-section-number">24</span> Adding Statistical Layers</h1>
-<section id="linear-regression-bmibl-vs-age" class="level2" data-number="24.1">
-<h2 data-number="24.1" class="anchored" data-anchor-id="linear-regression-bmibl-vs-age"><span class="header-section-number">24.1</span> Linear Regression: BMIBL vs AGE</h2>
+<section id="adding-statistical-layers" class="level1" data-number="25">
+<h1 data-number="25"><span class="header-section-number">25</span> Adding Statistical Layers</h1>
+<section id="linear-regression-bmibl-vs-age" class="level2" data-number="25.1">
+<h2 data-number="25.1" class="anchored" data-anchor-id="linear-regression-bmibl-vs-age"><span class="header-section-number">25.1</span> Linear Regression: BMIBL vs AGE</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL)) <span class="sc">+</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
@@ -1040,8 +1046,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="summaries-mean-alt-sd-per-visit-and-trta" class="level2" data-number="24.2">
-<h2 data-number="24.2" class="anchored" data-anchor-id="summaries-mean-alt-sd-per-visit-and-trta"><span class="header-section-number">24.2</span> Summaries: Mean ALT ± SD per Visit and TRTA</h2>
+<section id="summaries-mean-alt-sd-per-visit-and-trta" class="level2" data-number="25.2">
+<h2 data-number="25.2" class="anchored" data-anchor-id="summaries-mean-alt-sd-per-visit-and-trta"><span class="header-section-number">25.2</span> Summaries: Mean ALT ± SD per Visit and TRTA</h2>
 <p>We already computed <code>adlb_alt_summary</code>. Plot mean ± SD:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(adlb_alt_summary,</span>
@@ -1070,8 +1076,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="tidy-workflow-dplyr-ggplot2-with-adam" class="level1" data-number="25">
-<h1 data-number="25"><span class="header-section-number">25</span> Tidy Workflow: dplyr + ggplot2 with ADaM</h1>
+<section id="tidy-workflow-dplyr-ggplot2-with-adam" class="level1" data-number="26">
+<h1 data-number="26"><span class="header-section-number">26</span> Tidy Workflow: dplyr + ggplot2 with ADaM</h1>
 <p>A very common pattern in clinical reporting:</p>
 <ol type="1">
 <li>Start from ADaM dataset</li>
@@ -1112,8 +1118,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <hr>
 </section>
-<section id="advanced-simple-kaplanmeier-plot-from-adtte" class="level1" data-number="26">
-<h1 data-number="26"><span class="header-section-number">26</span> Advanced: Simple Kaplan–Meier Plot from ADTTE</h1>
+<section id="advanced-simple-kaplanmeier-plot-from-adtte" class="level1" data-number="27">
+<h1 data-number="27"><span class="header-section-number">27</span> Advanced: Simple Kaplan–Meier Plot from ADTTE</h1>
 <p>In ADaM, <strong>ADTTE</strong> contains time-to-event information (e.g.&nbsp;PFS, OS).</p>
 <p>Here we show a simple KM plot using <code>survminer::ggsurvplot()</code> which uses ggplot2 under the hood.</p>
 <div class="cell">
@@ -1148,10 +1154,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For a <strong>pure ggplot2</strong> approach, you could extract the <code>survfit</code> summary into a data frame and use <code>geom_step()</code> manually, but <code>ggsurvplot()</code> is convenient and still fully compatible with ggplot theming.</p>
 <hr>
 </section>
-<section id="advanced-annotations-and-secondary-axes" class="level1" data-number="27">
-<h1 data-number="27"><span class="header-section-number">27</span> Advanced: Annotations and Secondary Axes</h1>
-<section id="annotations-on-an-adam-plot" class="level2" data-number="27.1">
-<h2 data-number="27.1" class="anchored" data-anchor-id="annotations-on-an-adam-plot"><span class="header-section-number">27.1</span> Annotations on an ADaM Plot</h2>
+<section id="advanced-annotations-and-secondary-axes" class="level1" data-number="28">
+<h1 data-number="28"><span class="header-section-number">28</span> Advanced: Annotations and Secondary Axes</h1>
+<section id="annotations-on-an-adam-plot" class="level2" data-number="28.1">
+<h2 data-number="28.1" class="anchored" data-anchor-id="annotations-on-an-adam-plot"><span class="header-section-number">28.1</span> Annotations on an ADaM Plot</h2>
 <p>Example: highlight older patients with high BMI:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL)) <span class="sc">+</span></span>
@@ -1182,8 +1188,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="secondary-axis-use-with-care" class="level2" data-number="27.2">
-<h2 data-number="27.2" class="anchored" data-anchor-id="secondary-axis-use-with-care"><span class="header-section-number">27.2</span> Secondary Axis (Use with Care)</h2>
+<section id="secondary-axis-use-with-care" class="level2" data-number="28.2">
+<h2 data-number="28.2" class="anchored" data-anchor-id="secondary-axis-use-with-care"><span class="header-section-number">28.2</span> Secondary Axis (Use with Care)</h2>
 <p>ggplot2 allows secondary axes only if they are a simple transformation of the primary axis.</p>
 <p>Example (purely illustrative) converting ALT to approximate multiple:</p>
 <div class="cell">
@@ -1214,8 +1220,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="writing-reusable-plot-functions-for-adam" class="level1" data-number="28">
-<h1 data-number="28"><span class="header-section-number">28</span> Writing Reusable Plot Functions for ADaM</h1>
+<section id="writing-reusable-plot-functions-for-adam" class="level1" data-number="29">
+<h1 data-number="29"><span class="header-section-number">29</span> Writing Reusable Plot Functions for ADaM</h1>
 <p>You can encapsulate standard plots (e.g., lab time course by TRTA) into functions.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>plot_lab_timecourse <span class="ot">&lt;-</span> <span class="cf">function</span>(adlb_df, <span class="at">paramcd =</span> <span class="st">"ALT"</span>) {</span>
@@ -1256,8 +1262,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This approach is very powerful for building <strong>standardized plotting utilities</strong> for your ADaM pipeline.</p>
 <hr>
 </section>
-<section id="saving-plots-for-reports" class="level1" data-number="29">
-<h1 data-number="29"><span class="header-section-number">29</span> Saving Plots for Reports</h1>
+<section id="saving-plots-for-reports" class="level1" data-number="30">
+<h1 data-number="30"><span class="header-section-number">30</span> Saving Plots for Reports</h1>
 <p>Use <code>ggsave()</code> to save plots for use in RTF, Word, or PowerPoint.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ADSL, <span class="fu">aes</span>(<span class="at">x =</span> AGE, <span class="at">y =</span> BMIBL, <span class="at">color =</span> TRTA)) <span class="sc">+</span></span>
@@ -1276,8 +1282,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"bmi_vs_age_by_TRTA.pdf"</span>, <span class="at">plot =</span> p, <span class="at">width =</span> <span class="dv">6</span>, <span class="at">height =</span> <span class="dv">4</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="introduction-1" class="level1" data-number="30">
-<h1 data-number="30"><span class="header-section-number">30</span> Introduction</h1>
+<section id="introduction-1" class="level1" data-number="31">
+<h1 data-number="31"><span class="header-section-number">31</span> Introduction</h1>
 <p>This document walks through <strong>six common oncology graphs</strong> step by step, using the exact code you provided:</p>
 <ol type="1">
 <li>Bar graph of <strong>sum of lesion diameters</strong> plus individual lesions<br>
@@ -1301,8 +1307,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>In a real clinical project, you would replace the toy data here with your ADaM datasets, but the plotting logic stays the same.</p>
 <hr>
 </section>
-<section id="figure-1-bar-graph-with-individual-lesion-lines" class="level1" data-number="31">
-<h1 data-number="31"><span class="header-section-number">31</span> Figure 1 – Bar Graph with Individual Lesion Lines</h1>
+<section id="figure-1-bar-graph-with-individual-lesion-lines" class="level1" data-number="32">
+<h1 data-number="32"><span class="header-section-number">32</span> Figure 1 – Bar Graph with Individual Lesion Lines</h1>
 <p>This plot shows, for a single subject:</p>
 <ul>
 <li>Bars: <strong>Sum of Lesion Diameters (SUMLD)</strong> at each visit<br>
@@ -1310,8 +1316,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Lines/points: each <strong>individual lesion</strong> (tumor) over time</li>
 </ul>
 <p>Clinically, this helps you see how the total tumor burden and individual lesions evolve across visits.</p>
-<section id="create-bar-graph-data" class="level2" data-number="31.1">
-<h2 data-number="31.1" class="anchored" data-anchor-id="create-bar-graph-data"><span class="header-section-number">31.1</span> 1.1 Create bar-graph data</h2>
+<section id="create-bar-graph-data" class="level2" data-number="32.1">
+<h2 data-number="32.1" class="anchored" data-anchor-id="create-bar-graph-data"><span class="header-section-number">32.1</span> 1.1 Create bar-graph data</h2>
 <p>We first build a small dataset with:</p>
 <ul>
 <li><code>visit</code>: visit label</li>
@@ -1344,8 +1350,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>trstresn_tumorX</code> are separate lesions (often separate rows in ADTR; here we keep them as columns for simplicity).</li>
 </ul>
 </section>
-<section id="reshape-to-long-format-for-lines" class="level2" data-number="31.2">
-<h2 data-number="31.2" class="anchored" data-anchor-id="reshape-to-long-format-for-lines"><span class="header-section-number">31.2</span> 1.2 Reshape to long format for lines</h2>
+<section id="reshape-to-long-format-for-lines" class="level2" data-number="32.2">
+<h2 data-number="32.2" class="anchored" data-anchor-id="reshape-to-long-format-for-lines"><span class="header-section-number">32.2</span> 1.2 Reshape to long format for lines</h2>
 <p>To draw multiple lesions as separate lines, we reshape the wide columns (<code>trstresn_tumor1/2/3</code>) into a long format using <code>pivot_longer()</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>bar_data_long <span class="ot">&lt;-</span> bar_data <span class="sc">%&gt;%</span></span>
@@ -1383,8 +1389,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>trstresn</code> holds the lesion diameter for each visit–lesion combination.</li>
 </ul>
 </section>
-<section id="build-the-bar-line-plot" class="level2" data-number="31.3">
-<h2 data-number="31.3" class="anchored" data-anchor-id="build-the-bar-line-plot"><span class="header-section-number">31.3</span> 1.3 Build the bar + line plot</h2>
+<section id="build-the-bar-line-plot" class="level2" data-number="32.3">
+<h2 data-number="32.3" class="anchored" data-anchor-id="build-the-bar-line-plot"><span class="header-section-number">32.3</span> 1.3 Build the bar + line plot</h2>
 <p>Now we combine:</p>
 <ul>
 <li><code>geom_col()</code> for SUMLD (bars)</li>
@@ -1454,12 +1460,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <hr>
 </section>
 </section>
-<section id="figure-2-waterfall-plot-of-best-percentage-change-from-baseline" class="level1" data-number="32">
-<h1 data-number="32"><span class="header-section-number">32</span> Figure 2 – Waterfall Plot of Best Percentage Change from Baseline</h1>
+<section id="figure-2-waterfall-plot-of-best-percentage-change-from-baseline" class="level1" data-number="33">
+<h1 data-number="33"><span class="header-section-number">33</span> Figure 2 – Waterfall Plot of Best Percentage Change from Baseline</h1>
 <p>Waterfall plots show each patient’s <strong>best % change from baseline</strong> in tumor size.<br>
 They’re very common in oncology to visualize response categories like CR/PR/SD/PD.</p>
-<section id="create-waterfall-data" class="level2" data-number="32.1">
-<h2 data-number="32.1" class="anchored" data-anchor-id="create-waterfall-data"><span class="header-section-number">32.1</span> 2.1 Create waterfall data</h2>
+<section id="create-waterfall-data" class="level2" data-number="33.1">
+<h2 data-number="33.1" class="anchored" data-anchor-id="create-waterfall-data"><span class="header-section-number">33.1</span> 2.1 Create waterfall data</h2>
 <p>We simulate:</p>
 <ul>
 <li><code>patientid</code>: patient identifier</li>
@@ -1511,8 +1517,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </div>
 </div>
 </section>
-<section id="sort-patients-by-change" class="level2" data-number="32.2">
-<h2 data-number="32.2" class="anchored" data-anchor-id="sort-patients-by-change"><span class="header-section-number">32.2</span> 2.2 Sort patients by change</h2>
+<section id="sort-patients-by-change" class="level2" data-number="33.2">
+<h2 data-number="33.2" class="anchored" data-anchor-id="sort-patients-by-change"><span class="header-section-number">33.2</span> 2.2 Sort patients by change</h2>
 <p>To get the typical waterfall shape (bars sorted from best to worst response), we sort by <code>pchg</code> and then set factor levels:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>waterfall_data <span class="ot">&lt;-</span> waterfall_data <span class="sc">%&gt;%</span></span>
@@ -1562,8 +1568,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </div>
 </div>
 </section>
-<section id="build-the-waterfall-plot" class="level2" data-number="32.3">
-<h2 data-number="32.3" class="anchored" data-anchor-id="build-the-waterfall-plot"><span class="header-section-number">32.3</span> 2.3 Build the waterfall plot</h2>
+<section id="build-the-waterfall-plot" class="level2" data-number="33.3">
+<h2 data-number="33.3" class="anchored" data-anchor-id="build-the-waterfall-plot"><span class="header-section-number">33.3</span> 2.3 Build the waterfall plot</h2>
 <ul>
 <li><code>geom_col()</code> for bars<br>
 </li>
@@ -1615,8 +1621,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <hr>
 </section>
 </section>
-<section id="figure-3-swimmer-plot-duration-of-response" class="level1" data-number="33">
-<h1 data-number="33"><span class="header-section-number">33</span> Figure 3 – Swimmer Plot: Duration of Response</h1>
+<section id="figure-3-swimmer-plot-duration-of-response" class="level1" data-number="34">
+<h1 data-number="34"><span class="header-section-number">34</span> Figure 3 – Swimmer Plot: Duration of Response</h1>
 <p>Swimmer plots show <strong>time on treatment / response</strong> for each patient:</p>
 <ul>
 <li>Horizontal bar per patient: <strong>treatment duration</strong><br>
@@ -1625,8 +1631,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </li>
 <li>Symbols/markers: progression, death, etc.</li>
 </ul>
-<section id="create-swimmer-data" class="level2" data-number="33.1">
-<h2 data-number="33.1" class="anchored" data-anchor-id="create-swimmer-data"><span class="header-section-number">33.1</span> 3.1 Create swimmer data</h2>
+<section id="create-swimmer-data" class="level2" data-number="34.1">
+<h2 data-number="34.1" class="anchored" data-anchor-id="create-swimmer-data"><span class="header-section-number">34.1</span> 3.1 Create swimmer data</h2>
 <p>We simulate:</p>
 <ul>
 <li><code>start_time</code> / <code>end_time</code>: treatment/response duration (months)</li>
@@ -1679,8 +1685,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </div>
 </div>
 </section>
-<section id="build-the-swimmer-plot" class="level2" data-number="33.2">
-<h2 data-number="33.2" class="anchored" data-anchor-id="build-the-swimmer-plot"><span class="header-section-number">33.2</span> 3.2 Build the swimmer plot</h2>
+<section id="build-the-swimmer-plot" class="level2" data-number="34.2">
+<h2 data-number="34.2" class="anchored" data-anchor-id="build-the-swimmer-plot"><span class="header-section-number">34.2</span> 3.2 Build the swimmer plot</h2>
 <ul>
 <li><code>geom_segment()</code> draws horizontal bars<br>
 </li>
@@ -1747,8 +1753,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <hr>
 </section>
 </section>
-<section id="figure-4-spider-plot-tumor-trajectories-over-time" class="level1" data-number="34">
-<h1 data-number="34"><span class="header-section-number">34</span> Figure 4 – Spider Plot: Tumor Trajectories Over Time</h1>
+<section id="figure-4-spider-plot-tumor-trajectories-over-time" class="level1" data-number="35">
+<h1 data-number="35"><span class="header-section-number">35</span> Figure 4 – Spider Plot: Tumor Trajectories Over Time</h1>
 <p>Spider plots show multiple <strong>patients’ tumor trajectories</strong> on the same axes:</p>
 <ul>
 <li>x-axis: time (e.g.&nbsp;months from baseline scan)<br>
@@ -1756,8 +1762,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <li>y-axis: relative tumor size (ratio vs baseline)</li>
 </ul>
 <p>Each line represents one patient.</p>
-<section id="create-spider-data" class="level2" data-number="34.1">
-<h2 data-number="34.1" class="anchored" data-anchor-id="create-spider-data"><span class="header-section-number">34.1</span> 4.1 Create spider data</h2>
+<section id="create-spider-data" class="level2" data-number="35.1">
+<h2 data-number="35.1" class="anchored" data-anchor-id="create-spider-data"><span class="header-section-number">35.1</span> 4.1 Create spider data</h2>
 <p>We create data for 15 patients, with tumor size values over time:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
@@ -1797,8 +1803,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <li>Later timepoints can go up (&gt; 1) or down (&lt; 1).</li>
 </ul>
 </section>
-<section id="build-the-spider-plot" class="level2" data-number="34.2">
-<h2 data-number="34.2" class="anchored" data-anchor-id="build-the-spider-plot"><span class="header-section-number">34.2</span> 4.2 Build the spider plot</h2>
+<section id="build-the-spider-plot" class="level2" data-number="35.2">
+<h2 data-number="35.2" class="anchored" data-anchor-id="build-the-spider-plot"><span class="header-section-number">35.2</span> 4.2 Build the spider plot</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>  spider_data, </span>
@@ -1844,8 +1850,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <hr>
 </section>
 </section>
-<section id="figure-5-kaplanmeier-survival-curve" class="level1" data-number="35">
-<h1 data-number="35"><span class="header-section-number">35</span> Figure 5 – Kaplan–Meier Survival Curve</h1>
+<section id="figure-5-kaplanmeier-survival-curve" class="level1" data-number="36">
+<h1 data-number="36"><span class="header-section-number">36</span> Figure 5 – Kaplan–Meier Survival Curve</h1>
 <p>Kaplan–Meier (KM) plots visualize <strong>time-to-event endpoints</strong> like PFS or OS:</p>
 <ul>
 <li>Step function for survival probability over time<br>
@@ -1854,8 +1860,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </li>
 <li>Optionally: confidence intervals and number-at-risk table</li>
 </ul>
-<section id="create-km-data" class="level2" data-number="35.1">
-<h2 data-number="35.1" class="anchored" data-anchor-id="create-km-data"><span class="header-section-number">35.1</span> 5.1 Create KM data</h2>
+<section id="create-km-data" class="level2" data-number="36.1">
+<h2 data-number="36.1" class="anchored" data-anchor-id="create-km-data"><span class="header-section-number">36.1</span> 5.1 Create KM data</h2>
 <p>We simulate:</p>
 <ul>
 <li><code>time</code>: event/censoring time<br>
@@ -1885,8 +1891,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </div>
 </div>
 </section>
-<section id="fit-the-km-model-and-plot" class="level2" data-number="35.2">
-<h2 data-number="35.2" class="anchored" data-anchor-id="fit-the-km-model-and-plot"><span class="header-section-number">35.2</span> 5.2 Fit the KM model and plot</h2>
+<section id="fit-the-km-model-and-plot" class="level2" data-number="36.2">
+<h2 data-number="36.2" class="anchored" data-anchor-id="fit-the-km-model-and-plot"><span class="header-section-number">36.2</span> 5.2 Fit the KM model and plot</h2>
 <p>We use <code>survival::survfit()</code> and <code>survminer::ggsurvplot()</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>km_fit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(<span class="fu">Surv</span>(time, status) <span class="sc">~</span> treatment, <span class="at">data =</span> km_data)</span>
@@ -1928,8 +1934,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <hr>
 </section>
 </section>
-<section id="figure-6-forest-plot-for-subgroup-hazard-ratios" class="level1" data-number="36">
-<h1 data-number="36"><span class="header-section-number">36</span> Figure 6 – Forest Plot for Subgroup Hazard Ratios</h1>
+<section id="figure-6-forest-plot-for-subgroup-hazard-ratios" class="level1" data-number="37">
+<h1 data-number="37"><span class="header-section-number">37</span> Figure 6 – Forest Plot for Subgroup Hazard Ratios</h1>
 <p>Forest plots summarize <strong>effect estimates (e.g.&nbsp;hazard ratios)</strong> across subgroups:</p>
 <ul>
 <li>Each row: one subgroup<br>
@@ -1941,8 +1947,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <li>Vertical reference line at HR = 1</li>
 </ul>
 <p>Here we use the <code>forestploter</code> package and its example data.</p>
-<section id="load-example-data-and-prepare" class="level2" data-number="36.1">
-<h2 data-number="36.1" class="anchored" data-anchor-id="load-example-data-and-prepare"><span class="header-section-number">36.1</span> 6.1 Load example data and prepare</h2>
+<section id="load-example-data-and-prepare" class="level2" data-number="37.1">
+<h2 data-number="37.1" class="anchored" data-anchor-id="load-example-data-and-prepare"><span class="header-section-number">37.1</span> 6.1 Load example data and prepare</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"example_data.csv"</span>, <span class="at">package =</span> <span class="st">"forestploter"</span>))</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2040,8 +2046,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 </div>
 </div>
 </section>
-<section id="define-forest-theme-and-build-the-plot" class="level2" data-number="36.2">
-<h2 data-number="36.2" class="anchored" data-anchor-id="define-forest-theme-and-build-the-plot"><span class="header-section-number">36.2</span> 6.2 Define forest theme and build the plot</h2>
+<section id="define-forest-theme-and-build-the-plot" class="level2" data-number="37.2">
+<h2 data-number="37.2" class="anchored" data-anchor-id="define-forest-theme-and-build-the-plot"><span class="header-section-number">37.2</span> 6.2 Define forest theme and build the plot</h2>
 <p>We define a theme (fonts, refline color, arrow labels) and then call <code>forest()</code>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>tm <span class="ot">&lt;-</span> <span class="fu">forest_theme</span>(</span>
@@ -2086,8 +2092,8 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <hr>
 </section>
 </section>
-<section id="summary-and-next-steps" class="level1" data-number="37">
-<h1 data-number="37"><span class="header-section-number">37</span> Summary and Next Steps</h1>
+<section id="summary-and-next-steps" class="level1" data-number="38">
+<h1 data-number="38"><span class="header-section-number">38</span> Summary and Next Steps</h1>
 <p>In this tutorial, you:</p>
 <ul>
 <li>Learned the <strong>ggplot2 grammar of graphics</strong> using <strong>ADSL, ADLB, and ADTTE</strong> style data</li>
@@ -2517,12 +2523,12 @@ They’re very common in oncology to visualize response categories like CR/PR/SD
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./10-tlf.html" class="pagination-link" aria-label="TLFs: Table, Figure, Listing">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./11-capstone.html" class="pagination-link" aria-label="Capstone: End-to-End Mini Workflow">
-        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

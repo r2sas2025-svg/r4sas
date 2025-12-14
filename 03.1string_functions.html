@@ -199,44 +199,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./loops.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">loops</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./07-package-development.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-git-rstudio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-adam-adsl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-tlf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10.1-graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-capstone.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
   </div>
 </li>
     </ul>
@@ -1162,7 +1168,7 @@ Standardized: Allergic ReactionHives</code></pre>
 <span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Time taken: %s seconds</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time taken: 0.0011 seconds</code></pre>
+<pre><code>Time taken: 0.001 seconds</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb124"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Avoid loops for simple operations</span></span>
 <span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Less efficient approach - loop-based:</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1178,7 +1184,7 @@ Less efficient approach - loop-based:</code></pre>
 <span id="cb126-6"><a href="#cb126-6" aria-hidden="true" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
 <span id="cb126-7"><a href="#cb126-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"Time taken: %s seconds</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">4</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time taken: 0.0095 seconds</code></pre>
+<pre><code>Time taken: 0.0093 seconds</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb128"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb128-1"><a href="#cb128-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">First 5 results are identical:"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1384,23 +1390,23 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
 <span id="cb142-36"><a href="#cb142-36" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">fmt_markdown</span>(<span class="at">columns =</span> <span class="fu">everything</span>()) <span class="sc">|&gt;</span> </span>
 <span id="cb142-37"><a href="#cb142-37" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">tab_options</span>(<span class="at">column_labels.font.weight =</span> <span class="st">"bold"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div id="lsgcljamye" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#lsgcljamye table {
+<div id="hronykqgty" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hronykqgty table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#lsgcljamye thead, #lsgcljamye tbody, #lsgcljamye tfoot, #lsgcljamye tr, #lsgcljamye td, #lsgcljamye th {
+#hronykqgty thead, #hronykqgty tbody, #hronykqgty tfoot, #hronykqgty tr, #hronykqgty td, #hronykqgty th {
   border-style: none;
 }
 
-#lsgcljamye p {
+#hronykqgty p {
   margin: 0;
   padding: 0;
 }
 
-#lsgcljamye .gt_table {
+#hronykqgty .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1426,12 +1432,12 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_caption {
+#hronykqgty .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#lsgcljamye .gt_title {
+#hronykqgty .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1443,7 +1449,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-width: 0;
 }
 
-#lsgcljamye .gt_subtitle {
+#hronykqgty .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1455,7 +1461,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-top-width: 0;
 }
 
-#lsgcljamye .gt_heading {
+#hronykqgty .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1467,13 +1473,13 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_bottom_border {
+#hronykqgty .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_col_headings {
+#hronykqgty .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1488,7 +1494,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_col_heading {
+#hronykqgty .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1508,7 +1514,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   overflow-x: hidden;
 }
 
-#lsgcljamye .gt_column_spanner_outer {
+#hronykqgty .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1520,15 +1526,15 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 4px;
 }
 
-#lsgcljamye .gt_column_spanner_outer:first-child {
+#hronykqgty .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lsgcljamye .gt_column_spanner_outer:last-child {
+#hronykqgty .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lsgcljamye .gt_column_spanner {
+#hronykqgty .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1540,11 +1546,11 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   width: 100%;
 }
 
-#lsgcljamye .gt_spanner_row {
+#hronykqgty .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#lsgcljamye .gt_group_heading {
+#hronykqgty .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1570,7 +1576,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   text-align: left;
 }
 
-#lsgcljamye .gt_empty_group_heading {
+#hronykqgty .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1585,15 +1591,15 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   vertical-align: middle;
 }
 
-#lsgcljamye .gt_from_md > :first-child {
+#hronykqgty .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lsgcljamye .gt_from_md > :last-child {
+#hronykqgty .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lsgcljamye .gt_row {
+#hronykqgty .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1612,7 +1618,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   overflow-x: hidden;
 }
 
-#lsgcljamye .gt_stub {
+#hronykqgty .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1625,7 +1631,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#lsgcljamye .gt_stub_row_group {
+#hronykqgty .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1639,15 +1645,15 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   vertical-align: top;
 }
 
-#lsgcljamye .gt_row_group_first td {
+#hronykqgty .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#lsgcljamye .gt_row_group_first th {
+#hronykqgty .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#lsgcljamye .gt_summary_row {
+#hronykqgty .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1657,16 +1663,16 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#lsgcljamye .gt_first_summary_row {
+#hronykqgty .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_first_summary_row.thick {
+#hronykqgty .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#lsgcljamye .gt_last_summary_row {
+#hronykqgty .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1676,7 +1682,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_grand_summary_row {
+#hronykqgty .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1686,7 +1692,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#lsgcljamye .gt_first_grand_summary_row {
+#hronykqgty .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1696,7 +1702,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_last_grand_summary_row_top {
+#hronykqgty .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1706,11 +1712,11 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_striped {
+#hronykqgty .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lsgcljamye .gt_table_body {
+#hronykqgty .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1719,7 +1725,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_footnotes {
+#hronykqgty .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1733,7 +1739,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_footnote {
+#hronykqgty .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1742,7 +1748,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#lsgcljamye .gt_sourcenotes {
+#hronykqgty .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1756,7 +1762,7 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#lsgcljamye .gt_sourcenote {
+#hronykqgty .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1764,72 +1770,72 @@ Input: '' -&gt; Output: 'No dosage found'</code></pre>
   padding-right: 5px;
 }
 
-#lsgcljamye .gt_left {
+#hronykqgty .gt_left {
   text-align: left;
 }
 
-#lsgcljamye .gt_center {
+#hronykqgty .gt_center {
   text-align: center;
 }
 
-#lsgcljamye .gt_right {
+#hronykqgty .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lsgcljamye .gt_font_normal {
+#hronykqgty .gt_font_normal {
   font-weight: normal;
 }
 
-#lsgcljamye .gt_font_bold {
+#hronykqgty .gt_font_bold {
   font-weight: bold;
 }
 
-#lsgcljamye .gt_font_italic {
+#hronykqgty .gt_font_italic {
   font-style: italic;
 }
 
-#lsgcljamye .gt_super {
+#hronykqgty .gt_super {
   font-size: 65%;
 }
 
-#lsgcljamye .gt_footnote_marks {
+#hronykqgty .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#lsgcljamye .gt_asterisk {
+#hronykqgty .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#lsgcljamye .gt_indent_1 {
+#hronykqgty .gt_indent_1 {
   text-indent: 5px;
 }
 
-#lsgcljamye .gt_indent_2 {
+#hronykqgty .gt_indent_2 {
   text-indent: 10px;
 }
 
-#lsgcljamye .gt_indent_3 {
+#hronykqgty .gt_indent_3 {
   text-indent: 15px;
 }
 
-#lsgcljamye .gt_indent_4 {
+#hronykqgty .gt_indent_4 {
   text-indent: 20px;
 }
 
-#lsgcljamye .gt_indent_5 {
+#hronykqgty .gt_indent_5 {
   text-indent: 25px;
 }
 
-#lsgcljamye .katex-display {
+#hronykqgty .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#lsgcljamye div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hronykqgty div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

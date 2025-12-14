@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>10&nbsp; R Package Development – R Course: Beginner to Expert </title>
+<title>11&nbsp; R Package Development – R Course: Beginner to Expert </title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -66,7 +66,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./08-git-rstudio.html" rel="next">
-<link href="./06-custom-functions-validation.html" rel="prev">
+<link href="./loops.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -118,7 +118,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-package-development.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./07-package-development.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">R Package Development</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -199,44 +199,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./loops.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">loops</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./07-package-development.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">R Package Development</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./08-git-rstudio.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./09-adam-adsl.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Creating ADaM: ADSL from SDTM-like Inputs</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10-tlf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">TLFs: Table, Figure, Listing</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./10.1-graphs.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">ggplot2 in R with CDISC ADaM Examples</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./11-capstone.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Capstone: End-to-End Mini Workflow</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./12-appendix.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Appendix: Tips, Profiles, .libPaths</span></span></a>
   </div>
 </li>
     </ul>
@@ -249,32 +255,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">10.1</span> 1. Prerequisites</a></li>
-  <li><a href="#create-the-package-skeleton" id="toc-create-the-package-skeleton" class="nav-link" data-scroll-target="#create-the-package-skeleton"><span class="header-section-number">10.2</span> 2. Create the Package Skeleton</a>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">11.1</span> 1. Prerequisites</a></li>
+  <li><a href="#create-the-package-skeleton" id="toc-create-the-package-skeleton" class="nav-link" data-scroll-target="#create-the-package-skeleton"><span class="header-section-number">11.2</span> 2. Create the Package Skeleton</a>
   <ul class="collapse">
-  <li><a href="#create-a-new-package-directory" id="toc-create-a-new-package-directory" class="nav-link" data-scroll-target="#create-a-new-package-directory"><span class="header-section-number">10.2.1</span> 2.1 Create a new package directory</a></li>
-  <li><a href="#initialize-git-and-a-readme" id="toc-initialize-git-and-a-readme" class="nav-link" data-scroll-target="#initialize-git-and-a-readme"><span class="header-section-number">10.2.2</span> 2.2 Initialize Git and a README</a></li>
-  <li><a href="#the-minimal-structure-what-you-get" id="toc-the-minimal-structure-what-you-get" class="nav-link" data-scroll-target="#the-minimal-structure-what-you-get"><span class="header-section-number">10.2.3</span> 2.3 The minimal structure (what you get)</a></li>
+  <li><a href="#create-a-new-package-directory" id="toc-create-a-new-package-directory" class="nav-link" data-scroll-target="#create-a-new-package-directory"><span class="header-section-number">11.2.1</span> 2.1 Create a new package directory</a></li>
+  <li><a href="#initialize-git-and-a-readme" id="toc-initialize-git-and-a-readme" class="nav-link" data-scroll-target="#initialize-git-and-a-readme"><span class="header-section-number">11.2.2</span> 2.2 Initialize Git and a README</a></li>
+  <li><a href="#the-minimal-structure-what-you-get" id="toc-the-minimal-structure-what-you-get" class="nav-link" data-scroll-target="#the-minimal-structure-what-you-get"><span class="header-section-number">11.2.3</span> 2.3 The minimal structure (what you get)</a></li>
   </ul></li>
-  <li><a href="#description-package-metadata" id="toc-description-package-metadata" class="nav-link" data-scroll-target="#description-package-metadata"><span class="header-section-number">10.3</span> 3. DESCRIPTION: Package Metadata</a></li>
-  <li><a href="#namespace-exports-and-imports-autogenerated" id="toc-namespace-exports-and-imports-autogenerated" class="nav-link" data-scroll-target="#namespace-exports-and-imports-autogenerated"><span class="header-section-number">10.4</span> 4. NAMESPACE: Exports and Imports (auto‑generated)</a></li>
-  <li><a href="#write-functions-roxygen2-headers" id="toc-write-functions-roxygen2-headers" class="nav-link" data-scroll-target="#write-functions-roxygen2-headers"><span class="header-section-number">10.5</span> 5. Write Functions + roxygen2 Headers</a></li>
-  <li><a href="#generate-documentation" id="toc-generate-documentation" class="nav-link" data-scroll-target="#generate-documentation"><span class="header-section-number">10.6</span> 6. Generate Documentation</a></li>
-  <li><a href="#add-data-vignettes-tests-optional-but-recommended" id="toc-add-data-vignettes-tests-optional-but-recommended" class="nav-link" data-scroll-target="#add-data-vignettes-tests-optional-but-recommended"><span class="header-section-number">10.7</span> 7. Add Data, Vignettes, Tests (Optional but Recommended)</a>
+  <li><a href="#description-package-metadata" id="toc-description-package-metadata" class="nav-link" data-scroll-target="#description-package-metadata"><span class="header-section-number">11.3</span> 3. DESCRIPTION: Package Metadata</a></li>
+  <li><a href="#namespace-exports-and-imports-autogenerated" id="toc-namespace-exports-and-imports-autogenerated" class="nav-link" data-scroll-target="#namespace-exports-and-imports-autogenerated"><span class="header-section-number">11.4</span> 4. NAMESPACE: Exports and Imports (auto‑generated)</a></li>
+  <li><a href="#write-functions-roxygen2-headers" id="toc-write-functions-roxygen2-headers" class="nav-link" data-scroll-target="#write-functions-roxygen2-headers"><span class="header-section-number">11.5</span> 5. Write Functions + roxygen2 Headers</a></li>
+  <li><a href="#generate-documentation" id="toc-generate-documentation" class="nav-link" data-scroll-target="#generate-documentation"><span class="header-section-number">11.6</span> 6. Generate Documentation</a></li>
+  <li><a href="#add-data-vignettes-tests-optional-but-recommended" id="toc-add-data-vignettes-tests-optional-but-recommended" class="nav-link" data-scroll-target="#add-data-vignettes-tests-optional-but-recommended"><span class="header-section-number">11.7</span> 7. Add Data, Vignettes, Tests (Optional but Recommended)</a>
   <ul class="collapse">
-  <li><a href="#package-data" id="toc-package-data" class="nav-link" data-scroll-target="#package-data"><span class="header-section-number">10.7.1</span> 7.1 Package data</a></li>
-  <li><a href="#vignettes" id="toc-vignettes" class="nav-link" data-scroll-target="#vignettes"><span class="header-section-number">10.7.2</span> 7.2 Vignettes</a></li>
-  <li><a href="#tests-with-testthat" id="toc-tests-with-testthat" class="nav-link" data-scroll-target="#tests-with-testthat"><span class="header-section-number">10.7.3</span> 7.3 Tests with testthat</a></li>
+  <li><a href="#package-data" id="toc-package-data" class="nav-link" data-scroll-target="#package-data"><span class="header-section-number">11.7.1</span> 7.1 Package data</a></li>
+  <li><a href="#vignettes" id="toc-vignettes" class="nav-link" data-scroll-target="#vignettes"><span class="header-section-number">11.7.2</span> 7.2 Vignettes</a></li>
+  <li><a href="#tests-with-testthat" id="toc-tests-with-testthat" class="nav-link" data-scroll-target="#tests-with-testthat"><span class="header-section-number">11.7.3</span> 7.3 Tests with testthat</a></li>
   </ul></li>
-  <li><a href="#manage-dependencies" id="toc-manage-dependencies" class="nav-link" data-scroll-target="#manage-dependencies"><span class="header-section-number">10.8</span> 8. Manage Dependencies</a></li>
-  <li><a href="#check-your-package-thoroughly" id="toc-check-your-package-thoroughly" class="nav-link" data-scroll-target="#check-your-package-thoroughly"><span class="header-section-number">10.9</span> 9. Check Your Package Thoroughly</a></li>
-  <li><a href="#build-install-locally" id="toc-build-install-locally" class="nav-link" data-scroll-target="#build-install-locally"><span class="header-section-number">10.10</span> 10. Build &amp; Install Locally</a></li>
-  <li><a href="#continuous-integration-optional" id="toc-continuous-integration-optional" class="nav-link" data-scroll-target="#continuous-integration-optional"><span class="header-section-number">10.11</span> 11. Continuous Integration (optional)</a></li>
-  <li><a href="#package-website-optional" id="toc-package-website-optional" class="nav-link" data-scroll-target="#package-website-optional"><span class="header-section-number">10.12</span> 12. Package Website (optional)</a></li>
-  <li><a href="#release-checklist" id="toc-release-checklist" class="nav-link" data-scroll-target="#release-checklist"><span class="header-section-number">10.13</span> 13. Release Checklist</a>
+  <li><a href="#manage-dependencies" id="toc-manage-dependencies" class="nav-link" data-scroll-target="#manage-dependencies"><span class="header-section-number">11.8</span> 8. Manage Dependencies</a></li>
+  <li><a href="#check-your-package-thoroughly" id="toc-check-your-package-thoroughly" class="nav-link" data-scroll-target="#check-your-package-thoroughly"><span class="header-section-number">11.9</span> 9. Check Your Package Thoroughly</a></li>
+  <li><a href="#build-install-locally" id="toc-build-install-locally" class="nav-link" data-scroll-target="#build-install-locally"><span class="header-section-number">11.10</span> 10. Build &amp; Install Locally</a></li>
+  <li><a href="#continuous-integration-optional" id="toc-continuous-integration-optional" class="nav-link" data-scroll-target="#continuous-integration-optional"><span class="header-section-number">11.11</span> 11. Continuous Integration (optional)</a></li>
+  <li><a href="#package-website-optional" id="toc-package-website-optional" class="nav-link" data-scroll-target="#package-website-optional"><span class="header-section-number">11.12</span> 12. Package Website (optional)</a></li>
+  <li><a href="#release-checklist" id="toc-release-checklist" class="nav-link" data-scroll-target="#release-checklist"><span class="header-section-number">11.13</span> 13. Release Checklist</a>
   <ul class="collapse">
-  <li><a href="#appendix-a-common-files-at-a-glance" id="toc-appendix-a-common-files-at-a-glance" class="nav-link" data-scroll-target="#appendix-a-common-files-at-a-glance"><span class="header-section-number">10.13.1</span> Appendix A — Common Files (at a glance)</a></li>
-  <li><a href="#appendix-b-troubleshooting-snippets" id="toc-appendix-b-troubleshooting-snippets" class="nav-link" data-scroll-target="#appendix-b-troubleshooting-snippets"><span class="header-section-number">10.13.2</span> Appendix B — Troubleshooting Snippets</a></li>
+  <li><a href="#appendix-a-common-files-at-a-glance" id="toc-appendix-a-common-files-at-a-glance" class="nav-link" data-scroll-target="#appendix-a-common-files-at-a-glance"><span class="header-section-number">11.13.1</span> Appendix A — Common Files (at a glance)</a></li>
+  <li><a href="#appendix-b-troubleshooting-snippets" id="toc-appendix-b-troubleshooting-snippets" class="nav-link" data-scroll-target="#appendix-b-troubleshooting-snippets"><span class="header-section-number">11.13.2</span> Appendix B — Troubleshooting Snippets</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -284,7 +290,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">R Package Development</span></h1>
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">R Package Development</span></h1>
 </div>
 
 
@@ -304,8 +310,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>A practical, end-to-end cookbook for building robust <strong>R packages</strong> with <strong>devtools</strong>, <strong>roxygen2</strong>, and <strong>testthat</strong>. Written for day‑to‑day use, from scaffolding to checks and tests.</p>
 </blockquote>
-<section id="prerequisites" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">10.1</span> 1. Prerequisites</h2>
+<section id="prerequisites" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">11.1</span> 1. Prerequisites</h2>
 <ul>
 <li>R (≥ 4.1 recommended so you have the base pipe <code>|&gt;</code>)</li>
 <li>RTools (Windows) / Xcode command line tools (macOS) for compilation</li>
@@ -323,10 +329,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(usethis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="create-the-package-skeleton" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="create-the-package-skeleton"><span class="header-section-number">10.2</span> 2. Create the Package Skeleton</h2>
-<section id="create-a-new-package-directory" class="level3" data-number="10.2.1">
-<h3 data-number="10.2.1" class="anchored" data-anchor-id="create-a-new-package-directory"><span class="header-section-number">10.2.1</span> 2.1 Create a new package directory</h3>
+<section id="create-the-package-skeleton" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="create-the-package-skeleton"><span class="header-section-number">11.2</span> 2. Create the Package Skeleton</h2>
+<section id="create-a-new-package-directory" class="level3" data-number="11.2.1">
+<h3 data-number="11.2.1" class="anchored" data-anchor-id="create-a-new-package-directory"><span class="header-section-number">11.2.1</span> 2.1 Create a new package directory</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates simutils with DESCRIPTION, NAMESPACE placeholder, R/ etc.</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#usethis::create_package("simutils")</span></span>
@@ -334,15 +340,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># usethis::create_package(getwd())</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="initialize-git-and-a-readme" class="level3" data-number="10.2.2">
-<h3 data-number="10.2.2" class="anchored" data-anchor-id="initialize-git-and-a-readme"><span class="header-section-number">10.2.2</span> 2.2 Initialize Git and a README</h3>
+<section id="initialize-git-and-a-readme" class="level3" data-number="11.2.2">
+<h3 data-number="11.2.2" class="anchored" data-anchor-id="initialize-git-and-a-readme"><span class="header-section-number">11.2.2</span> 2.2 Initialize Git and a README</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_git</span>()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_readme_rmd</span>()  <span class="co"># README.Rmd + badge placeholders</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="the-minimal-structure-what-you-get" class="level3" data-number="10.2.3">
-<h3 data-number="10.2.3" class="anchored" data-anchor-id="the-minimal-structure-what-you-get"><span class="header-section-number">10.2.3</span> 2.3 The minimal structure (what you get)</h3>
+<section id="the-minimal-structure-what-you-get" class="level3" data-number="11.2.3">
+<h3 data-number="11.2.3" class="anchored" data-anchor-id="the-minimal-structure-what-you-get"><span class="header-section-number">11.2.3</span> 2.3 The minimal structure (what you get)</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>simutils<span class="sc">/</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  DESCRIPTION</span>
@@ -355,8 +361,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </blockquote>
 </section>
 </section>
-<section id="description-package-metadata" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="description-package-metadata"><span class="header-section-number">10.3</span> 3. DESCRIPTION: Package Metadata</h2>
+<section id="description-package-metadata" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="description-package-metadata"><span class="header-section-number">11.3</span> 3. DESCRIPTION: Package Metadata</h2>
 <p>Run helpers and then edit as needed.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_description</span>(<span class="at">fields =</span> <span class="fu">list</span>(</span>
@@ -376,8 +382,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>Depends</code>, <code>Imports</code>, <code>Suggests</code> (use helpers below)</li>
 </ul>
 </section>
-<section id="namespace-exports-and-imports-autogenerated" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="namespace-exports-and-imports-autogenerated"><span class="header-section-number">10.4</span> 4. NAMESPACE: Exports and Imports (auto‑generated)</h2>
+<section id="namespace-exports-and-imports-autogenerated" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="namespace-exports-and-imports-autogenerated"><span class="header-section-number">11.4</span> 4. NAMESPACE: Exports and Imports (auto‑generated)</h2>
 <blockquote class="blockquote">
 <p>You generally <strong>do not edit NAMESPACE by hand</strong>. It’s generated from your roxygen tags in code.</p>
 </blockquote>
@@ -387,8 +393,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>You’ll generate it with <code>devtools::document()</code>.</p>
 </section>
-<section id="write-functions-roxygen2-headers" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="write-functions-roxygen2-headers"><span class="header-section-number">10.5</span> 5. Write Functions + roxygen2 Headers</h2>
+<section id="write-functions-roxygen2-headers" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="write-functions-roxygen2-headers"><span class="header-section-number">11.5</span> 5. Write Functions + roxygen2 Headers</h2>
 <p>Create your first R file:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># File: R/na.R</span></span>
@@ -445,18 +451,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="generate-documentation" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="generate-documentation"><span class="header-section-number">10.6</span> 6. Generate Documentation</h2>
+<section id="generate-documentation" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="generate-documentation"><span class="header-section-number">11.6</span> 6. Generate Documentation</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Parses roxygen headers -&gt; creates/updates NAMESPACE and man/*.Rd</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">document</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>This will populate <code>man/</code> with help files and refresh <code>NAMESPACE</code>.</p>
 </section>
-<section id="add-data-vignettes-tests-optional-but-recommended" class="level2" data-number="10.7">
-<h2 data-number="10.7" class="anchored" data-anchor-id="add-data-vignettes-tests-optional-but-recommended"><span class="header-section-number">10.7</span> 7. Add Data, Vignettes, Tests (Optional but Recommended)</h2>
-<section id="package-data" class="level3" data-number="10.7.1">
-<h3 data-number="10.7.1" class="anchored" data-anchor-id="package-data"><span class="header-section-number">10.7.1</span> 7.1 Package data</h3>
+<section id="add-data-vignettes-tests-optional-but-recommended" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="add-data-vignettes-tests-optional-but-recommended"><span class="header-section-number">11.7</span> 7. Add Data, Vignettes, Tests (Optional but Recommended)</h2>
+<section id="package-data" class="level3" data-number="11.7.1">
+<h3 data-number="11.7.1" class="anchored" data-anchor-id="package-data"><span class="header-section-number">11.7.1</span> 7.1 Package data</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create example data</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sim_dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
@@ -468,16 +474,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_data</span>(sim_dat, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="vignettes" class="level3" data-number="10.7.2">
-<h3 data-number="10.7.2" class="anchored" data-anchor-id="vignettes"><span class="header-section-number">10.7.2</span> 7.2 Vignettes</h3>
+<section id="vignettes" class="level3" data-number="11.7.2">
+<h3 data-number="11.7.2" class="anchored" data-anchor-id="vignettes"><span class="header-section-number">11.7.2</span> 7.2 Vignettes</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_vignette</span>(<span class="st">"getting-started"</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Edit vignettes/getting-started.Rmd, then:</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">build_vignettes</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="tests-with-testthat" class="level3" data-number="10.7.3">
-<h3 data-number="10.7.3" class="anchored" data-anchor-id="tests-with-testthat"><span class="header-section-number">10.7.3</span> 7.3 Tests with testthat</h3>
+<section id="tests-with-testthat" class="level3" data-number="11.7.3">
+<h3 data-number="11.7.3" class="anchored" data-anchor-id="tests-with-testthat"><span class="header-section-number">11.7.3</span> 7.3 Tests with testthat</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_testthat</span>()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Creates tests/testthat.R and tests/testthat/ directory</span></span>
@@ -515,8 +521,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </section>
 </section>
-<section id="manage-dependencies" class="level2" data-number="10.8">
-<h2 data-number="10.8" class="anchored" data-anchor-id="manage-dependencies"><span class="header-section-number">10.8</span> 8. Manage Dependencies</h2>
+<section id="manage-dependencies" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="manage-dependencies"><span class="header-section-number">11.8</span> 8. Manage Dependencies</h2>
 <p>Use helpers to declare dependencies in <code>DESCRIPTION</code> (rather than editing by hand):</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_package</span>(<span class="st">"dplyr"</span>)                <span class="co"># add to Imports</span></span>
@@ -529,8 +535,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Depends</strong>: rarely needed; if used, it attaches packages for users (discouraged).</li>
 </ul>
 </section>
-<section id="check-your-package-thoroughly" class="level2" data-number="10.9">
-<h2 data-number="10.9" class="anchored" data-anchor-id="check-your-package-thoroughly"><span class="header-section-number">10.9</span> 9. Check Your Package Thoroughly</h2>
+<section id="check-your-package-thoroughly" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="check-your-package-thoroughly"><span class="header-section-number">11.9</span> 9. Check Your Package Thoroughly</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Full check like CRAN does; read 00check.log for details</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>rc <span class="ot">&lt;-</span> devtools<span class="sc">::</span><span class="fu">check</span>()</span>
@@ -545,8 +551,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Failing tests</strong> → run <code>devtools::test()</code>; update your code or expectations.</li>
 </ul>
 </section>
-<section id="build-install-locally" class="level2" data-number="10.10">
-<h2 data-number="10.10" class="anchored" data-anchor-id="build-install-locally"><span class="header-section-number">10.10</span> 10. Build &amp; Install Locally</h2>
+<section id="build-install-locally" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="build-install-locally"><span class="header-section-number">11.10</span> 10. Build &amp; Install Locally</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build source tarball</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">build</span>()</span>
@@ -559,8 +565,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">na_counter</span>(airquality)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="continuous-integration-optional" class="level2" data-number="10.11">
-<h2 data-number="10.11" class="anchored" data-anchor-id="continuous-integration-optional"><span class="header-section-number">10.11</span> 11. Continuous Integration (optional)</h2>
+<section id="continuous-integration-optional" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="continuous-integration-optional"><span class="header-section-number">11.11</span> 11. Continuous Integration (optional)</h2>
 <p>You can wire up CI so checks run automatically on each commit. (Any provider works; pick what your org supports.)</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: set up a CI service config (adjust per provider)</span></span>
@@ -568,15 +574,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># or legacy: usethis::use_travis()</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="package-website-optional" class="level2" data-number="10.12">
-<h2 data-number="10.12" class="anchored" data-anchor-id="package-website-optional"><span class="header-section-number">10.12</span> 12. Package Website (optional)</h2>
+<section id="package-website-optional" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="package-website-optional"><span class="header-section-number">11.12</span> 12. Package Website (optional)</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_pkgdown</span>()</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>pkgdown<span class="sc">::</span><span class="fu">build_site</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="release-checklist" class="level2" data-number="10.13">
-<h2 data-number="10.13" class="anchored" data-anchor-id="release-checklist"><span class="header-section-number">10.13</span> 13. Release Checklist</h2>
+<section id="release-checklist" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="release-checklist"><span class="header-section-number">11.13</span> 13. Release Checklist</h2>
 <ul class="task-list">
 <li><label><input type="checkbox"><code>R CMD check</code> passes locally with <strong>0 errors, 0 warnings, 0 notes</strong></label></li>
 <li><label><input type="checkbox">All exported functions documented with examples</label></li>
@@ -586,8 +592,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><label><input type="checkbox">License added and included</label></li>
 </ul>
 <hr>
-<section id="appendix-a-common-files-at-a-glance" class="level3" data-number="10.13.1">
-<h3 data-number="10.13.1" class="anchored" data-anchor-id="appendix-a-common-files-at-a-glance"><span class="header-section-number">10.13.1</span> Appendix A — Common Files (at a glance)</h3>
+<section id="appendix-a-common-files-at-a-glance" class="level3" data-number="11.13.1">
+<h3 data-number="11.13.1" class="anchored" data-anchor-id="appendix-a-common-files-at-a-glance"><span class="header-section-number">11.13.1</span> Appendix A — Common Files (at a glance)</h3>
 <ul>
 <li><code>DESCRIPTION</code>: metadata &amp; dependencies</li>
 <li><code>NAMESPACE</code>: auto‑generated exports/imports</li>
@@ -598,8 +604,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>data/</code> &amp; <code>R/sysdata.rda</code>: package data</li>
 </ul>
 </section>
-<section id="appendix-b-troubleshooting-snippets" class="level3" data-number="10.13.2">
-<h3 data-number="10.13.2" class="anchored" data-anchor-id="appendix-b-troubleshooting-snippets"><span class="header-section-number">10.13.2</span> Appendix B — Troubleshooting Snippets</h3>
+<section id="appendix-b-troubleshooting-snippets" class="level3" data-number="11.13.2">
+<h3 data-number="11.13.2" class="anchored" data-anchor-id="appendix-b-troubleshooting-snippets"><span class="header-section-number">11.13.2</span> Appendix B — Troubleshooting Snippets</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Missing License in check</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>usethis<span class="sc">::</span><span class="fu">use_mit_license</span>(<span class="st">"Your Name"</span>)</span>
@@ -1029,13 +1035,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./06-custom-functions-validation.html" class="pagination-link" aria-label="Custom Functions &amp; Validation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Custom Functions &amp; Validation</span></span>
+      <a href="./loops.html" class="pagination-link" aria-label="loops">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">loops</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./08-git-rstudio.html" class="pagination-link" aria-label="Git in RStudio (Setup &amp; Auth)">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Git in RStudio (Setup &amp; Auth)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
