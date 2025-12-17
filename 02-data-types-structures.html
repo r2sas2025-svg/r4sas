@@ -2030,10 +2030,10 @@ quarters Product_B Product_C
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb435"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb435-1"><a href="#cb435-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">round</span>(test_matrix, <span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Col 1 Col 2 Col 3 Col 4 Col 5
-Row 1 10.08  9.34 10.29 14.26 10.25
-Row 2  8.56  8.12 13.48 10.16 10.00
-Row 3  7.45  7.46 10.53 13.46 12.27
-Row 4 11.26  6.54 16.79  7.13 10.14</code></pre>
+Row 1  9.81 10.26 16.38 11.74 11.75
+Row 2  8.34  4.48 12.53  6.07 16.25
+Row 3  8.73 13.14 13.60  9.74  4.97
+Row 4 14.09  7.82  9.99  9.66  5.32</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb437"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb437-1"><a href="#cb437-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply functions across margins</span></span>
 <span id="cb437-2"><a href="#cb437-2" aria-hidden="true" tabindex="-1"></a><span class="co"># MARGIN = 1 for rows, MARGIN = 2 for columns</span></span>
@@ -2045,15 +2045,15 @@ Row 4 11.26  6.54 16.79  7.13 10.14</code></pre>
 <span id="cb437-8"><a href="#cb437-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb437-9"><a href="#cb437-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Row sums:"</span>, <span class="fu">round</span>(row_sums, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Row sums: 54.23 50.32 51.17 51.86 </code></pre>
+<pre><code>Row sums: 59.95 47.68 50.18 46.88 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb439"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb439-1"><a href="#cb439-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Row means:"</span>, <span class="fu">round</span>(row_means, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Row means: 10.85 10.06 10.23 10.37 </code></pre>
+<pre><code>Row means: 11.99 9.54 10.04 9.38 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb441"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb441-1"><a href="#cb441-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Row ranges:"</span>, <span class="fu">round</span>(row_ranges, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Row ranges: 4.92 5.37 6.02 10.25 </code></pre>
+<pre><code>Row ranges: 6.57 11.76 8.63 8.77 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb443"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb443-1"><a href="#cb443-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Column operations  </span></span>
 <span id="cb443-2"><a href="#cb443-2" aria-hidden="true" tabindex="-1"></a>col_sums <span class="ot">&lt;-</span> <span class="fu">apply</span>(test_matrix, <span class="dv">2</span>, sum)</span>
@@ -2061,20 +2061,20 @@ Row 4 11.26  6.54 16.79  7.13 10.14</code></pre>
 <span id="cb443-4"><a href="#cb443-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb443-5"><a href="#cb443-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Column sums:"</span>, <span class="fu">round</span>(col_sums, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Column sums: 37.35 31.46 51.09 45.02 42.66 </code></pre>
+<pre><code>Column sums: 40.97 35.71 52.5 37.21 38.29 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb445"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb445-1"><a href="#cb445-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Column standard deviations:"</span>, <span class="fu">round</span>(col_sds, <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Column standard deviations: 1.68 1.18 3.04 3.27 1.07 </code></pre>
+<pre><code>Column standard deviations: 2.64 3.67 2.65 2.36 5.43 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb447"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb447-1"><a href="#cb447-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Built-in functions (faster than apply for simple operations)</span></span>
 <span id="cb447-2"><a href="#cb447-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"rowSums() result:"</span>, <span class="fu">round</span>(<span class="fu">rowSums</span>(test_matrix), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>rowSums() result: 54.23 50.32 51.17 51.86 </code></pre>
+<pre><code>rowSums() result: 59.95 47.68 50.18 46.88 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb449"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb449-1"><a href="#cb449-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"colMeans() result:"</span>, <span class="fu">round</span>(<span class="fu">colMeans</span>(test_matrix), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>colMeans() result: 9.34 7.86 12.77 11.25 10.66 </code></pre>
+<pre><code>colMeans() result: 10.24 8.93 13.13 9.3 9.57 </code></pre>
 </div>
 </div>
 </section>
@@ -2418,12 +2418,12 @@ $performance_rating
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb521"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb521-1"><a href="#cb521-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(df_work[, <span class="fu">c</span>(<span class="st">"full_name"</span>, <span class="st">"years_employed"</span>, <span class="st">"salary_category"</span>, <span class="st">"bonus"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      full_name years_employed salary_category bonus
-1 Alice Johnson       5.913758        Standard  7500
-2     Bob Smith       6.537988        Standard  6500
-3 Charlie Brown       4.763860            High  8000
-4   Diana Davis       5.316906        Standard  7000
-5    Eve Wilson       6.108145        Standard     0
-6  Frank Miller       3.865845            High  8200</code></pre>
+1 Alice Johnson       5.921971        Standard  7500
+2     Bob Smith       6.546201        Standard  6500
+3 Charlie Brown       4.772074            High  8000
+4   Diana Davis       5.325120        Standard  7000
+5    Eve Wilson       6.116359        Standard     0
+6  Frank Miller       3.874059            High  8200</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb523"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb523-1"><a href="#cb523-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify existing values</span></span>
 <span id="cb523-2"><a href="#cb523-2" aria-hidden="true" tabindex="-1"></a>df_work<span class="sc">$</span>salary[df_work<span class="sc">$</span>first_name <span class="sc">==</span> <span class="st">"Alice"</span>] <span class="ot">&lt;-</span> <span class="dv">78000</span>  <span class="co"># Give Alice a raise</span></span>
@@ -2486,9 +2486,9 @@ $performance_rating
   department is_manager count avg_salary avg_years
   &lt;chr&gt;      &lt;lgl&gt;      &lt;int&gt;      &lt;dbl&gt;     &lt;dbl&gt;
 1 IT         TRUE           1      82000      3.87
-2 IT         FALSE          2      77500      5.34
-3 Sales      TRUE           1      65000      6.54
-4 Sales      FALSE          1      68000      6.11</code></pre>
+2 IT         FALSE          2      77500      5.35
+3 Sales      TRUE           1      65000      6.55
+4 Sales      FALSE          1      68000      6.12</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb529"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb529-1"><a href="#cb529-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Advanced filtering with case_when</span></span>
 <span id="cb529-2"><a href="#cb529-2" aria-hidden="true" tabindex="-1"></a>employee_df_enhanced <span class="ot">&lt;-</span> employee_df <span class="sc">|&gt;</span></span>
@@ -2957,7 +2957,7 @@ Transactions: 2 </code></pre>
 <span id="cb608-10"><a href="#cb608-10" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.110   0.012   0.124 </code></pre>
+  0.111   0.015   0.126 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb610"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb610-1"><a href="#cb610-1" aria-hidden="true" tabindex="-1"></a><span class="co"># GOOD: Pre-allocation (much faster)</span></span>
 <span id="cb610-2"><a href="#cb610-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
@@ -2968,7 +2968,7 @@ Transactions: 2 </code></pre>
 <span id="cb610-7"><a href="#cb610-7" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.003   0.001   0.002 </code></pre>
+  0.003   0.000   0.002 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb612"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb612-1"><a href="#cb612-1" aria-hidden="true" tabindex="-1"></a><span class="co"># BEST: Vectorized operations (fastest)</span></span>
 <span id="cb612-2"><a href="#cb612-2" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>({</span>
@@ -3008,9 +3008,9 @@ Transactions: 2 </code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
            expr     min       lq      mean   median       uq     max neval
- matrix_colsums  11.257  11.8875  13.29639  12.6780  13.9970  32.253   100
-       df_apply 149.034 157.6800 180.98417 162.7295 204.0270 260.687   100
-      df_sapply  23.308  25.0470  27.24893  26.6080  28.4945  48.332   100</code></pre>
+ matrix_colsums  11.400  12.0295  13.31633  12.7575  14.0065  25.938   100
+       df_apply 147.240 155.8440 181.98039 164.7900 208.6390 254.757   100
+      df_sapply  23.237  24.7990  27.22466  26.2545  28.5240  66.505   100</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb618"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb618-1"><a href="#cb618-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Memory usage comparison</span></span>
 <span id="cb618-2"><a href="#cb618-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Matrix memory:"</span>, <span class="fu">as.numeric</span>(<span class="fu">object.size</span>(test_matrix)), <span class="st">"bytes</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -3067,8 +3067,8 @@ Performance comparison for table operations:</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: milliseconds
             expr      min       lq     mean   median       uq      max neval
- character_table 3.389684 3.440342 3.750927 3.455951 3.517871 5.737029    50
-    factor_table 1.379477 1.390739 1.693772 1.403145 1.427342 3.929495    50</code></pre>
+ character_table 3.063221 3.113143 3.689165 3.138797 4.567353 6.940484    50
+    factor_table 1.389336 1.405627 1.630792 1.416196 1.435122 3.761770    50</code></pre>
 </div>
 </div>
 </section>

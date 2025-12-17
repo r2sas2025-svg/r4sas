@@ -1048,9 +1048,9 @@ Operation attempted for invalid_op </code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(analysis_results<span class="sc">$</span>descriptive)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       variable   n   mean median     sd    min    max
-age         age  97 41.561 41.801 10.861 11.874 70.110
-weight   weight  98 69.967 68.289 13.825 41.523 99.657
-height   height 100  1.693  1.689  0.092  1.471  1.945</code></pre>
+age         age  97 39.734 39.361  9.927 14.988 64.394
+weight   weight  98 69.823 72.179 15.539 18.772 95.347
+height   height 100  1.712  1.714  0.101  1.484  1.995</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Correlation Matrix:"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1059,9 +1059,9 @@ height   height 100  1.693  1.689  0.092  1.471  1.945</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(analysis_results<span class="sc">$</span>correlation)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         age weight height
-age    1.000  0.159  0.019
-weight 0.159  1.000  0.017
-height 0.019  0.017  1.000</code></pre>
+age    1.000  0.086  0.040
+weight 0.086  1.000  0.141
+height 0.040  0.141  1.000</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Group Analysis (first few rows):"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1070,12 +1070,12 @@ height 0.019  0.017  1.000</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(analysis_results<span class="sc">$</span>group_analysis))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         variable group  n   mean median     sd
-C.age         age     C 27 40.587 40.817 12.183
-C.weight   weight     C 27 69.815 68.661 12.583
-C.height   height     C 27  1.695  1.686  0.082
-A.age         age     A 39 41.490 41.329 10.558
-A.weight   weight     A 40 72.134 70.899 13.430
-A.height   height     A 40  1.698  1.698  0.087</code></pre>
+A.age         age     A 44 40.523 42.264  8.845
+A.weight   weight     A 45 66.844 69.067 15.064
+A.height   height     A 45  1.717  1.721  0.103
+C.age         age     C 31 39.350 37.386 12.969
+C.weight   weight     C 31 72.805 73.251 16.111
+C.height   height     C 33  1.704  1.709  0.104</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Data Quality Report:"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1167,8 +1167,8 @@ Attaching package: 'dplyr'</code></pre>
 <pre><code># A tibble: 2 × 5
   group     n  mean median    sd
   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 A        50  9.79   9.70  2.05
-2 B        50  9.57   9.68  1.84</code></pre>
+1 A        50  9.98   9.86  1.68
+2 B        50  9.50   9.47  2.01</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a>result2 <span class="ot">&lt;-</span> <span class="fu">summarize_variable_unquote</span>(test_df, <span class="st">"group"</span>, <span class="st">"value1"</span>)</span>
 <span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1176,19 +1176,19 @@ Attaching package: 'dplyr'</code></pre>
 <pre><code># A tibble: 2 × 5
   group     n  mean median    sd
   &lt;chr&gt; &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
-1 A        50  9.79   9.70  2.05
-2 B        50  9.57   9.68  1.84</code></pre>
+1 A        50  9.98   9.86  1.68
+2 B        50  9.50   9.47  2.01</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb119"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb119-1"><a href="#cb119-1" aria-hidden="true" tabindex="-1"></a>selected_data <span class="ot">&lt;-</span> <span class="fu">select_multiple_vars</span>(test_df, <span class="st">"id"</span>, <span class="st">"group"</span>, <span class="st">"value1"</span>)</span>
 <span id="cb119-2"><a href="#cb119-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">head</span>(selected_data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  id group    value1
-1  1     A  8.965652
-2  2     A 10.624673
-3  3     A  7.941748
-4  4     A 12.223206
-5  5     A  9.256424
-6  6     A 11.610850</code></pre>
+1  1     A  8.352444
+2  2     A 13.114336
+3  3     A  9.251214
+4  4     A  8.104537
+5  5     A 10.072736
+6  6     A  9.815127</code></pre>
 </div>
 </div>
 </section>
@@ -1407,7 +1407,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.000   0.000   0.001 </code></pre>
+      0       0       0 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">system.time</span>(result3 <span class="ot">&lt;-</span> <span class="fu">fast_calculation</span>(<span class="dv">2000</span>))  <span class="co"># New argument - slow again</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1415,7 +1415,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   user  system elapsed 
-  0.002   0.000   1.002 </code></pre>
+  0.002   0.000   1.003 </code></pre>
 </div>
 </div>
 </section>
@@ -1730,9 +1730,9 @@ Numeric variables: 2 </code></pre>
 <span id="cb150-28"><a href="#cb150-28" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(benchmark_results)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Unit: microseconds
-       expr    min      lq     mean median      uq      max neval
-       loop 53.022 54.2600 84.45582 54.722 55.1675 2980.562   100
- vectorized  3.914  4.4575  4.95698  4.813  5.1785   11.229   100</code></pre>
+       expr    min      lq     mean  median      uq      max neval
+       loop 53.793 54.5095 84.60384 54.8845 55.5855 2965.374   100
+ vectorized  3.971  4.5005  5.04722  4.8210  5.2240   12.025   100</code></pre>
 </div>
 </div>
 </section>
@@ -1990,7 +1990,7 @@ $response_distribution
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(result_success<span class="sc">$</span>message)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Successfully processed 5 rows from file29f44c6c9962.csv"</code></pre>
+<pre><code>[1] "Successfully processed 5 rows from file31123e0e3eb6.csv"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Error case - missing columns</span></span>
 <span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>result_error <span class="ot">&lt;-</span> <span class="fu">robust_file_processor</span>(temp_file, <span class="fu">c</span>(<span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"z"</span>))</span>
