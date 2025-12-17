@@ -26,7 +26,7 @@ By the end of this course, you will be able to:
 - **Getting Started**
   - R and RStudio installation and setup
   - Understanding the R environment vs SAS environment
-  - Package management (CRAN vs SAS procedures)
+  - Package management 
   
 - **Basic R Syntax**
   - R syntax compared to SAS syntax
@@ -35,16 +35,11 @@ By the end of this course, you will be able to:
   - Functions and help system
 
 ### Module 2: Data Import and Export
-- **Reading Data**
-  - CSV, Excel, and database connections
-  - SAS dataset import (`haven` package)
-  - Data import best practices
+  - CSV, Excel and text files (`readr`, `readxl` packages)
+  - SAS dataset import (`haven` package) and export xpt files
+  - other formats (JSON, XML)
   
-- **Data Export**
-  - Writing to various formats
-  - Creating SAS-compatible datasets
-
-### Module 3: Data Manipulation - The dplyr Way
+### Module 3: Data Manipulation - dplyr 
 - **Core dplyr Functions**
   - `select()` vs `KEEP/DROP` statements
   - `filter()` vs `WHERE` clause
@@ -53,23 +48,39 @@ By the end of this course, you will be able to:
   - `group_by()` vs `BY` statement
 
 - **Advanced Data Manipulation**
-  - Joins equivalent to `PROC SQL` joins
+  - Joins equivalent to `PROC SQL` joins  
   - Reshaping data (`tidyr` vs `PROC TRANSPOSE`)
   - String manipulation (`stringr` vs SAS string functions)
+  
+### Module 4: Creation of ADSL dataset
+- **ADSL and ADVS Dataset Creation**
+  - Creating analysis variables
+  - Handling missing data and derivations
+  - creating ADSL xpt dataset
 
-### Module 4: Statistical Analysis
+### Module 5: Statistical Analysis
 - **Descriptive Statistics**
   - Summary statistics (equivalent to `PROC UNIVARIATE`)
   - Frequency tables (equivalent to `PROC FREQ`)
   - Cross-tabulations and chi-square tests
+  - creation of tables like DM and AE outputs
 
 - **Statistical Modeling**
   - Linear regression (equivalent to `PROC REG`)
   - Logistic regression (equivalent to `PROC LOGISTIC`)
   - ANOVA (equivalent to `PROC ANOVA`)
   - Mixed models and advanced techniques
+  
+### Module 6: Package Develpment and testing
+- **Creating R Packages**
+  - Package structure and essential files
+  - Documenting functions with `roxygen2`
+  - Building and installing packages
+- **Testing with testthat**
+  - Writing unit tests for R functions
+  - Running tests and interpreting results
 
-### Module 5: Data Visualization
+### Module 7: Data Visualization
 - **Base R Graphics**
   - Basic plots and customization
   - Comparison with SAS/GRAPH
@@ -79,7 +90,7 @@ By the end of this course, you will be able to:
   - Creating publication-ready plots
   - Advanced visualization techniques
 
-### Module 6: Reporting and Documentation
+### Module 8: Reporting and Documentation
 - **R Markdown and Quarto**
   - Creating dynamic reports (equivalent to ODS output)
   - Integrating code, results, and narrative
